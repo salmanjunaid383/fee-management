@@ -43,8 +43,9 @@ const Discounted = () => {
   const [studentdata, setStudentdata]= useState([]);
   const [studentid, setStudentid]= useState();
   const [discount, setDiscount]= useState();
+  const school_id = localStorage.getItem("school_id")
   useEffect(() => {
-    axios.get(`http://fee-management-api.nastechltd.co/api/student`)
+    axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
     .then(response => {
         console.log(response);
         setStudentdata(response.data);
@@ -52,21 +53,7 @@ const Discounted = () => {
     .catch(error => (console.log(error)))
 
 },[])
-console.log(studentid)
 
-
-    const options = [
-        { value: studentdata.map((val,i)=>val.id), label: studentdata.map((val,i)=> `${val.first_name} ${val.id}`)},
-        // { value: 'strawberry', label: 'Haider' },
-        // { value: 'vanilla', label: 'Mubeen' }
-    ]
-    // const classes = useStyles();
-    // const [schoolid, setSchoolid]= useState();
-    // const [issue, setIssue]= useState();
-    // const [due, setDue]= useState();
-    // const [generate, setGenerate]= useState();
-    // const [bank, setBank]= useState();
-    // const [latefee, setLatefee]= useState();
 
     const data = {
         student_id : 1,
@@ -102,12 +89,6 @@ console.log(studentid)
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
                             
-                            {/* <div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-school"></i>
-                                </div>
-                                <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
-                            </div> */}
                             <Link  class="nav-link"to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>

@@ -40,6 +40,34 @@ const Fee = () => {
     const [descriptionyear, setDescriptionyear]= useState();
     const [chargesyear, setChargesyear]= useState();
     const school_id = localStorage.getItem("school_id")
+    const [inputList,setInputList]=useState([
+        {Description : "",Charges :""}
+    ]
+    );
+    
+    const handleChange = (e,index) => {
+        const {name,value} = e.target;
+        const list = [...inputList];
+        list[index][name]= value;
+        setInputList(list);
+    }
+    const handleAdd = () => {
+        setInputList([...inputList,{Description:"", Charges:""}]);   
+    }
+    const [inputListYear,setInputListYear]=useState([
+        {DescriptionYear : "",ChargesYear :""}
+    ]
+    );
+    
+    const handleChangeY = (e,index) => {
+        const {name,value} = e.target;
+        const list = [...inputListYear];
+        list[index][name]= value;
+        setInputListYear(list);
+    }
+    const handleAddY = () => {
+        setInputListYear([...inputListYear,{DescriptionYear:"", ChargesYear:""}]);   
+    }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
@@ -49,12 +77,33 @@ const Fee = () => {
             .catch(error => console.log(error))
 
     }, [])
+    const sendCharges= () => {
+        axios.post(`http://fee-management-api.nastechltd.co/api/fee_structure`,
+        {
+            monthlyCharges : inputList,
+            monthly_charges : 0,
+            yearlyCharges : inputListYear,
+            yearly_charges : 0,
+            class_id : 2,
+            school_id : school_id,
+            description : "tyui"
+
+
+        })
+        .then(response => {
+            console.log(response)
+
+
+        })
+        .catch(error => console.log(error) )
+        // console.log(inputListYear)
+        // console.log(inputList)
+    }
     const sendAdmission = () =>{
         axios.post(`http://fee-management-api.nastechltd.co/api/admission_charges`,
         {
-            discription : descriptionadmission,
-            charges : chargesadmission,
-            class_id : classid
+
+            class_id : 1
 
         })
         .then(response => {
@@ -102,7 +151,7 @@ const Fee = () => {
     };
 
 
-
+console.log(inputList)
     
     return(
         <>
@@ -263,34 +312,50 @@ const Fee = () => {
                             <div class="monthly-charges">
                                 <h4 class="text-center">Monthly Charges</h4>
                                 <hr class="new-hr"/>
-                                <div  class="row mb-2">
-                                    <div class="col-3">
-                                        <input type="text" id="tax" name="Description" onChange={(e) => setDescription(e.target.value)} value={description} placeholder="Description" class="inline select"/>
-                                    </div>
-                                    <div class="col-5">
-                                        <input type="text" id="tax" name="Charges" onChange={(e) => setCharges(e.target.value)} value={charges} placeholder="Charges" class="inline select"/>
-                                    </div>
-                                    <div class="col-2">
-                                        <button type="button" onClick={sendMonthly}  class="btn btn-primary mt-1">Add </button>
-                                    </div>
-                                </div>
+                                { inputList.map ((item, i) => {
+                       return (
+                        <div key={i} class="row mb-2">
+                       <div class="col-5">
+                   <input type="text" id="tax" name="Description" onChange={(e) => handleChange (e,i)} value={item.Description} placeholder="Description" class="inline select"/>
+                   </div>
+                   <div class="col-5">
+                   <input type="text" id="tax" name="Charges" onChange={(e) => handleChange (e,i)} value={item.Charges} placeholder="Charges" class="inline select"/>
+
+                   </div>
+                   <div class="col-2">
+                       {inputList.length -1 === i &&
+                       <button type="button" onClick={handleAdd}  class="btn btn-primary mt-1">Add More</button>
+                    }
+                       
+                   </div>
+               </div>
+                       )
+                   })}
                             </div>
                             <div class="monthly-charges">
                                 <hr class="new-hr"/>
                                 <h4 class="text-center">Yearly Charges</h4>
                                 <hr class="new-hr"/>
-                                <div  class="row mb-2">
-                                    <div class="col-5">
-                                        <input type="text" id="tax" name="DescriptionYear" value={descriptionyear} onChange={e => setDescriptionyear(e.target.value)} placeholder="Description" class="inline select"/>
-                                    </div>
-                                    <div class="col-5">
-                                        <input type="text" id="tax" name="ChargesYear" value={chargesyear} onChange={e => setChargesyear(e.target.value)} placeholder="Charges" class="inline select"/>
-                                    </div>
-                                    <div class="col-2">
-                                        <button type="button" onClick={sendYearly} class="btn btn-primary mt-1">Add </button>
-                                    </div>
-                                </div>
+                                {inputListYear.map((item,i)=>{
+                                return (
+                                <div key={i} class="row mb-2">
+                                <div class="col-5">
+                            <input type="text" id="tax" name="DescriptionYear" value={item.Description} onChange={e => handleChangeY(e,i)} placeholder="Description" class="inline select"/>
                             </div>
+                            <div class="col-5">
+                            <input type="text" id="tax" name="ChargesYear" value={item.Charges} onChange={e => handleChangeY(e,i)} placeholder="Charges" class="inline select"/>
+
+                            </div>
+                            <div class="col-2">
+                                {inputListYear.length -1 === i && 
+                                <button type="button" onClick={handleAddY} class="btn btn-primary mt-1">Add More</button>
+                                }
+                            </div>
+                        </div>)
+                                
+                                })}
+                            </div>
+                            <div class="text-center mt-4">  <button onClick={sendCharges} class="btn btn-generate btn-success">Generate</button></div>
 
                         </div>
                     </div>

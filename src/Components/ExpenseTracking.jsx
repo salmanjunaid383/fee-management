@@ -48,8 +48,9 @@ const MyExpense = () => {
     const [studentid, setStudentid]= useState('');
     const [charges, setCharges]= useState();
     const [description, setDescription]= useState();
+    const school_id = localStorage.getItem("school_id")
     useEffect(() => {
-      axios.get(`http://fee-management-api.nastechltd.co/api/student`)
+      axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
       .then(response => {
           console.log(response);
           setStudentdata(response.data);
@@ -72,15 +73,16 @@ const MyExpense = () => {
   
 
 
+    
+    
     const data = {
         student_id : studentid,
         charges : charges,
         description : description,
-        name : studentname
+        name : studentname,
+        paid : 0
     }
-
-
-const sendData = () => {
+ const sendData = () => {
     axios.post(`http://fee-management-api.nastechltd.co/api/expense_tracking`,data)
     .then (response => {
         console.log(response);
@@ -151,13 +153,6 @@ const sendData = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-                            
-                            {/* <div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-school"></i>
-                                </div>
-                                <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
-                            </div> */}
                             <Link  class="nav-link"to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>

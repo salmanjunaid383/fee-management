@@ -47,8 +47,9 @@ const Term = () => {
   const [endingdate, setEndingdate]=useState();
   const [description, setDescription]=useState();
   const [classid, setClassid]= useState();
+  const school_id = localStorage.getItem("school_id")
   useEffect(() => {
-    axios.get(`http://fee-management-api.nastechltd.co/api/schools_class`)
+    axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
     .then(response => {
         console.log(response.data)
         setClassdata(response.data)
@@ -57,7 +58,7 @@ const Term = () => {
 
 },[])
   useEffect(() => {
-    axios.get(`http://fee-management-api.nastechltd.co/api/student`)
+    axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
     .then(response => {
         console.log(response);
         setStudentdata(response.data);
@@ -65,16 +66,6 @@ const Term = () => {
     .catch(error => (console.log(error)))
 
 },[])
-
-    
-    // const classes = useStyles();
-    // const [schoolid, setSchoolid]= useState();
-    // const [billing, setBilling]= useState();
-    // const [issue, setIssue]= useState();
-    // const [due, setDue]= useState();
-    // const [generate, setGenerate]= useState();
-    // const [bank, setBank]= useState();
-    // const [latefee, setLatefee]= useState();
 
     const data = {
      start_date : startingdate,
