@@ -1,0 +1,114 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    /* font-family: sans-serif; */
+}
+.main{
+    height: 100% !important;
+    width: 100% !important;
+    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.5)),url('./superlogin.png') !important;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.gender-icon{
+    margin-top:10px;
+}
+.form-box{
+ height: auto;
+ width: 480px;
+ /* background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.5)),url('./super2.png') !important; */
+ /* background-repeat: no-repeat !important; */
+ /* background-position: center;
+ background-size: cover; */
+display: flex;
+justify-content:center;
+border-radius: 5px;
+ /* position: relative;
+ margin: 15% auto; */
+background: #fff;
+padding:25px;
+/* overflow: hidden; */
+}
+
+
+ 
+.login{
+    /* top: 180px;
+    position: absolute; */
+    width: 280px;
+    /* transition:0.5s; */
+    /* left: 50px; */
+
+}
+.input-field:focus {
+    border-color: dodgerblue !important;
+    border-bottom: 2px solid;
+}
+.input-field{
+    width: 100%;
+    /* padding:10px 0; */
+    margin-top: 15px;
+
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid #999;
+    /* outline: none; */
+    background: transparent;
+}
+.submit-btn{
+    width: 85%;
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 15px;
+    background: linear-gradient(90deg, #0277bd 0%,rgba(22, 4, 104, 0.507) 100%);
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+
+
+}
+h3{
+    text-align: center;
+}
+.chk-box{
+    margin: 10px 10px 3px 0;
+
+}
+span{
+    margin-top: 10px;
+    color:#777;
+    font-size: 12px;
+    /* bottom: 68px;
+    position:absolute; */
+}
+/* #login{
+    left: 50px;
+
+} */
+
+.input-icons i { 
+    position: absolute; 
+    float: right;
+} 
+  
+.input-icons { 
+    width: 100%; 
+    margin-bottom: 10px; 
+} 
+  
+.icon { 
+    padding: 10px; 
+    min-width: 40px; 
+} 
+  
+/* .input-field { 
+    width: 100%; 
+    padding: 10px; 
+    text-align: center; 
+}  */
