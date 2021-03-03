@@ -4,10 +4,9 @@ import './FeeVoucher.css';
 const FeeVoucher = () => {
     return (
         <>
-            <div class="voucher-main">
-                
-                <div class="voucher-left border border-dark">
-                    <div class="voucher-school ">
+            <div class="fee-voucher-main">
+                <div class="fee-voucher-left">
+                    <div class="voucher-school">
                         <p class="text-center mt-3 text-bolder voucher-text">Wonderland Grammar Secondary School</p>
                         <p class="text-center voucher-text">(Society For Advancement Of Learning in Pakistan)</p>
                         <p class="text-center text-bolder voucher-text">Bank Al Habib Ltd</p>
@@ -64,43 +63,57 @@ const FeeVoucher = () => {
                                 <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-left text-bolder">January,2021</p>
                                 <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-right text-bolder">1575</p>
                             </div>
-                            <div class="col-12 voucher-box-bottom">
-                                <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
-                                <span class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
-                                <p class="absolute-left text-bolder voucher-box-left">Discount Fee</p>
-                                <p class=" absolute-right text-bolder flex-left voucher-box-right">1175</p>
+
+                            <div class="fix-bottom">
+                                <div class="col-12 voucher-box-bottom">
+                                    <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
+                                    <span
+                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
+                                </div>
+                                <div class="col-12 pos-rel">
+                                    <span class="voucher-box-font text-bolder voucher-box-left">Discount Fee</span>
+                                    <span class="pos-ab text-bolder">1175</span>
+                                </div>
                             </div>
                         </div>
                         <div class="row border border-dark">
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="voucher-box-left">Fee Payable before Due Date</p>
-                                <p class="voucher-box-right">1575</p>
+                                <p class="voucher-box-left mt-2">Fee Payable before Due Date</p>
+                                <p class="voucher-box-right text-bolder mt-2">1575</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="voucher-box-left">Fee Payable after Due Date(with charity)</p>
-                                <p class="voucher-box-right">1675</p>
+                                <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>
+                                <p class="voucher-box-right mt-1 text-bolder">1675</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="text-small">The additional amount collected after due date will be donated for charitable purpose</p>
+                                <p class="text-smaller mt-1">The additional amount collected after due date will be donated for
+                            charitable purpose</p>
                             </div>
                         </div>
                         <div class="row border border-dark">
                             <div class="col-12">
-                                <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump Branch,Karachi </p>
-                                <p class="line-2 text-bolder">Campus-| Ph:(021) 36360737,36804081,36378276</p>
+                                <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society
+                                for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump
+                                Branch,Karachi
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <p class="line-2 text-bolder">Campus-|Ph:(021)36360737,36804081,36378276</p>
+                            </div>
+                            <div class="col-12">
                                 <p class="line-2 text-bolder">Campus-|| Ph:(021) 369608211,36944261</p>
                             </div>
+
                         </div>
-                    </div>
-                    <div class="row">
-                        <div className="col">
-                        <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
-                        <p class="voucher-box-inline text-bolder voucher-box-right">Bank Copy</p>
+                        <div className="col-12">
+                            <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
+                            <p class="voucher-box-inline text-bolder voucher-box-right">Bank Copy</p>
                         </div>
+
                     </div>
                 </div>
-                <div class="voucher-left border border-dark">
-                    <div class="voucher-school ">
+                <div class="fee-voucher-left">
+                    <div class="voucher-school">
                         <p class="text-center mt-3 text-bolder voucher-text">Wonderland Grammar Secondary School</p>
                         <p class="text-center voucher-text">(Society For Advancement Of Learning in Pakistan)</p>
                         <p class="text-center text-bolder voucher-text">Bank Al Habib Ltd</p>
@@ -157,43 +170,56 @@ const FeeVoucher = () => {
                                 <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-left text-bolder">January,2021</p>
                                 <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-right text-bolder">1575</p>
                             </div>
-                            <div class="col-12 voucher-box-bottom">
-                                <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
-                                <span class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
-                                <p class="absolute-left text-bolder voucher-box-left">Discount Fee</p>
-                                <p class=" absolute-right text-bolder flex-left voucher-box-right">1175</p>
+
+                            <div class="fix-bottom">
+                                <div class="col-12 voucher-box-bottom">
+                                    <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
+                                    <span
+                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
+                                </div>
+                                <div class="col-12 pos-rel">
+                                    <span class="voucher-box-font text-bolder voucher-box-left">Discount Fee</span>
+                                    <span class="pos-ab text-bolder">1175</span>
+                                </div>
                             </div>
                         </div>
                         <div class="row border border-dark">
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="voucher-box-left">Fee Payable before Due Date</p>
-                                <p class="voucher-box-right">1575</p>
+                                <p class="voucher-box-left mt-2">Fee Payable before Due Date</p>
+                                <p class="voucher-box-right text-bolder mt-2">1575</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="voucher-box-left">Fee Payable after Due Date(with charity)</p>
-                                <p class="voucher-box-right">1675</p>
+                                <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>
+                                <p class="voucher-box-right mt-1 text-bolder">1675</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="text-small">The additional amount collected after due date will be donated for charitable purpose</p>
+                                <p class="text-smaller mt-1">The additional amount collected after due date will be donated for
+                            charitable purpose</p>
                             </div>
                         </div>
                         <div class="row border border-dark">
                             <div class="col-12">
-                                <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump Branch,Karachi </p>
-                                <p class="line-2 text-bolder">Campus-| Ph:(021) 36360737,36804081,36378276</p>
+                                <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society
+                                for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump
+                                Branch,Karachi
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <p class="line-2 text-bolder">Campus-|Ph:(021)36360737,36804081,36378276</p>
+                            </div>
+                            <div class="col-12">
                                 <p class="line-2 text-bolder">Campus-|| Ph:(021) 369608211,36944261</p>
                             </div>
+
                         </div>
-                    </div>
-                    <div class="row">
-                        <div className="col">
-                        <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
-                        <p class="voucher-box-inline text-bolder voucher-box-right">School Copy</p>
+                        <div className="col-12">
+                            <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
+                            <p class="voucher-box-inline text-bolder voucher-box-right">School Copy</p>
                         </div>
+
                     </div>
-                </div>
-                <div class="voucher-left border border-dark">
-                    <div class="voucher-school ">
+                </div>                <div class="fee-voucher-left">
+                    <div class="voucher-school">
                         <p class="text-center mt-3 text-bolder voucher-text">Wonderland Grammar Secondary School</p>
                         <p class="text-center voucher-text">(Society For Advancement Of Learning in Pakistan)</p>
                         <p class="text-center text-bolder voucher-text">Bank Al Habib Ltd</p>
@@ -250,45 +276,61 @@ const FeeVoucher = () => {
                                 <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-left text-bolder">January,2021</p>
                                 <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-right text-bolder">1575</p>
                             </div>
-                            <div class="col-12 voucher-box-bottom">
-                                <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
-                                <span class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
-                                <p class="absolute-left text-bolder voucher-box-left">Discount Fee</p>
-                                <p class=" absolute-right text-bolder flex-left voucher-box-right">1175</p>
+
+                            <div class="fix-bottom">
+                                <div class="col-12 voucher-box-bottom">
+                                    <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
+                                    <span
+                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
+                                </div>
+                                <div class="col-12 pos-rel">
+                                    <span class="voucher-box-font text-bolder voucher-box-left">Discount Fee</span>
+                                    <span class="pos-ab text-bolder">1175</span>
+                                </div>
                             </div>
                         </div>
                         <div class="row border border-dark">
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="voucher-box-left">Fee Payable before Due Date</p>
-                                <p class="voucher-box-right">1575</p>
+                                <p class="voucher-box-left mt-2">Fee Payable before Due Date</p>
+                                <p class="voucher-box-right text-bolder mt-2">1575</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="voucher-box-left">Fee Payable after Due Date(with charity)</p>
-                                <p class="voucher-box-right">1675</p>
+                                <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>
+                                <p class="voucher-box-right mt-1 text-bolder">1675</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
-                                <p class="text-small">The additional amount collected after due date will be donated for charitable purpose</p>
+                                <p class="text-smaller mt-1">The additional amount collected after due date will be donated for
+                            charitable purpose</p>
                             </div>
                         </div>
                         <div class="row border border-dark">
                             <div class="col-12">
-                                <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump Branch,Karachi </p>
-                                <p class="line-2 text-bolder">Campus-| Ph:(021) 36360737,36804081,36378276</p>
+                                <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society
+                                for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump
+                                Branch,Karachi
+                                </p>
+                            </div>
+                            <div class="col-12">
+                                <p class="line-2 text-bolder">Campus-|Ph:(021)36360737,36804081,36378276</p>
+                            </div>
+                            <div class="col-12">
                                 <p class="line-2 text-bolder">Campus-|| Ph:(021) 369608211,36944261</p>
                             </div>
+
                         </div>
-                    </div>
-                    <div class="row">
-                        <div className="col">
-                        <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
-                        <p class="voucher-box-inline text-bolder voucher-box-right">Student Copy</p>
+                        <div className="col-12">
+                            <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
+                            <p class="voucher-box-inline text-bolder voucher-box-right">Student Copy</p>
                         </div>
+
                     </div>
                 </div>
-         <button class="btn btn-success" onClick={window.print}>Print</button>       
             </div>
 
-                
+
+
+
+
 
 
 

@@ -44,7 +44,7 @@ return (
             <div class="form-box">
 
                 <form id="login" onSubmit={(e) => e.preventDefault()} class="login">
-                    <h3>Login</h3>
+                    <h3 class="login-heading">Login</h3>
                     <div class="input-icons">
                         <input type="text" class="input-field" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required autoFocus />
                         <input type="password" class="input-field" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />

@@ -1,109 +1,124 @@
-.voucher-main{
-    width:100%;
-    
-    margin: 10px 10px 10px 10px;
-    display: flex;
-    overflow: auto;
-  }
-  .voucher-left, .voucher-middle {
-    height: 100vh;
-    width: 33%;
-    /* border-right: 2px dotted black; */
-  }
-  .voucher-right{
-    height: 100vh;
-    width: 34%;
-  }
-  .voucher-text{
-    line-height: 4px !important;
-  }
-  .voucher-text1{
-    line-height: 5px !important;
-  }
-  .voucher-info{
-    margin-top: 20px !important;
-    display: flex;
-    justify-content: space-around;
-  }
-  
-  .voucher-table-inner{
-    border-collapse: collapse !important;
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #3e5569; 
-  }
-  .voucher-table-inner th,.voucher-table-inner td {
-    padding: 3px;
-    vertical-align: top;
-    border-top: 1px solid #e9ecef;
+.fee-voucher-main{
+  width: 1754px;
+  display: flex;
 }
-  .voucher-table{
-    margin-top: 30px !important;
-    width: 100% !important;
-    height: 230px;
-    border: 3px solid gainsboro;
-  }
-  .voucher-table-inner thead th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #e9ecef;
- }
- .voucher-table-inner tbody + tbody {
-    border-top: 2px solid #e9ecef;
- }
- .voucher-table-inner tfoot tr{
-   margin-top: 50px !important;
- }
- .voucher-bank{
-   display: flex;
-   justify-content: space-around !important;
- }
- 
- .text-bold{
-   font-weight: bold !important;
- }
- .text-bolder{
-   font-weight: bolder !important;
- }
- .voucher-box-inline{
-   display: inline;
- }
+.fee-voucher-middle,.fee-voucher-left,.fee-voucher-right{
+  width: 490px;
+  border: 2px solid black;
+
+}
+
+.voucher-text{
+  line-height: 4px !important;
+}
+.voucher-text1{
+  line-height: 5px !important;
+}
+.voucher-info{
+  margin-top: 20px !important;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* .voucher-table-inner{
+  border-collapse: collapse !important;
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #3e5569; 
+}
+.voucher-table-inner th,.voucher-table-inner td {
+  padding: 3px;
+  vertical-align: top;
+  border-top: 1px solid #e9ecef;
+} */
+/* .voucher-table{
+  margin-top: 30px !important;
+  width: 100% !important;
+  height: 230px;
+  border: 3px solid gainsboro;
+}
+.voucher-table-inner thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #e9ecef;
+}
+.voucher-table-inner tbody + tbody {
+  border-top: 2px solid #e9ecef;
+}
+.voucher-table-inner tfoot tr{
+ margin-top: 50px !important;
+} */
+.voucher-bank{
+ display: flex;
+ justify-content: space-around !important;
+}
+
+.text-bold{
+ font-weight: bold !important;
+}
+.text-bolder{
+ font-weight: bolder !important;
+}
+.voucher-box-inline{
+ display: inline;
+}
 .voucher-box-right{
-  float: right !important;
-  
+float: right !important;
+
 }
 .voucher-box-left{
-  float: left !important;
+float: left !important;
 
 }
 .voucher-box{
-  height: 250px !important;
+height: 350px !important;
+position: relative;
 }
 .voucher-box-font{
-  font-size: 16px;
-  color: black;
+font-size: 16px;
+color: black;
 }
 .voucher-box-bottom{
-  display: flex;
-  align-items: flex-end;
-  position: relative;
+display: flex;
+align-items: flex-end;
+position: relative;
 }
 .absolute-right{
+position: absolute;
+right: 10px;
+}
+.absolute-left{
+position: absolute;
+left: 15px;
+}
+.block{
+display: block !important;
+}
+.voucher-box-small{
+height: 39px !important;
+}
+.text-small{
+font-size: 15px;
+color: black;
+font-weight: 500 !important;
+}
+.text-smaller{
+  font-size: 12px;
+  color: black;
+  font-weight: bolder !important;
+  line-height: 13px;
+}
+.line-2{
+line-height: 5px !important;
+}
+.pos-rel{
+  position: relative;
+}
+.pos-ab{
   position: absolute;
   right: 10px;
 }
-.absolute-left{
+.fix-bottom{
   position: absolute;
-  left: 15px;
-}
-.block{
-  display: block !important;
-}
-.voucher-box-small{
-  height: 20px !important;
-}
-.text-small{
-  font-size: 10px;
-}
-.line-2{
-  line-height: 5px !important;
+  height: 50px;
+  bottom: 0px;
 }

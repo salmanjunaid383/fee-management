@@ -16,8 +16,11 @@ import axios from 'axios';
 
 const SuperAdmin = () => {
     const [show, setShow] = useState(false);
+    const [show1, setShow1] = useState(false);
     const handleClose = () => setShow(false);
+    const handleClose1 = () => setShow1(false);
     const handleShow = () => setShow(true);
+    const handleShow1 = () => setShow1(true);
     const [email,setEmail] = useState();
     const [fname,setFname] = useState();
     const [lname,setLname] = useState();
@@ -105,9 +108,53 @@ const SuperAdmin = () => {
             console.log(error)
             alert("First Delete the Child Components");
         })
+    }
+    const update = (id) =>{
+        handleShow1();
+        axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
+        .then(response => {
+                console.log(response.data)
+                localStorage.setItem("id",response.data.id)
+                localStorage.setItem("fname",response.data.first_name)
+                localStorage.setItem("lname",response.data.last_name)
+                localStorage.setItem("email",response.data.email)
+                localStorage.setItem("contact",response.data.contact)
+                localStorage.setItem("address",response.data.address)
+                setAddress(response.data.address)
+                setFname(response.data.first_name)
+                setLname(response.data.last_name)
+                setContact(response.data.contact)
+                setEmail(response.data.email)
+        })
+        .catch(error => console.log(error) )
+    }
+     
+    const sendUpdated = () => {
+        axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
+            first_name: fname,
+            last_name: lname,
+            email: email,
+            contact: contact,
+            address : address
+
+        })
+        .then (response => 
+            {console.log(response);
+                localStorage.removeItem("id")
+                localStorage.removeItem("fname")
+                localStorage.removeItem("lname")
+                localStorage.removeItem("email")
+                localStorage.removeItem("contact")
+                localStorage.removeItem("address")
+            reload();
+            handleClose1();
+            
+        })
+        .catch (error => console.log(error))
+    }
+
         
     
-    }
     return(
         <>
         <div class="dashboard">
@@ -182,7 +229,7 @@ const SuperAdmin = () => {
                                             <Modal.Body>
                                             <div class="row billing-main">
                                                 <div class="col-6 billing-box">
-                                                    <TextField className="pb-3 bg-white" type="text"  onChange={(e)=>setFname(e.target.value)} label="First Name" variant="filled" />
+                                                    <TextField className="pb-3 bg-white" type="text" onChange={(e)=>setFname(e.target.value)} label="First Name" variant="filled" />
                                                     <TextField className="pb-3 bg-white" type="number"  onChange={(e)=>setContact(e.target.value)} label="Contact No." variant="filled" />
                                                     <TextField className="pb-3 bg-white" type="password"  onChange={(e)=>setPassword(e.target.value)} label="Password" variant="filled" />
                                                     <TextField  className="TextField" onChange={(e)=>setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled"/>
@@ -202,6 +249,33 @@ const SuperAdmin = () => {
                                                 Close
                                             </button>
                                             <button onClick={sendData} className="btn btn-primary">Create</button>
+                                            </Modal.Footer>
+                                        </Modal>
+                                        <Modal show={show1} onHide={handleClose1}>
+                                            <Modal.Header closeButton>
+                                            <Modal.Title>Update School Administrator</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                            <div class="row billing-main">
+                                                <div class="col-6 billing-box">
+                                                    <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("fname")} onChange={(e)=>setFname(e.target.value)} label="First Name" variant="filled" />
+                                                    <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("contact")}  onChange={(e)=>setContact(e.target.value)} label="Contact No." variant="filled" />
+                                                    <TextField  className="TextField" defaultValue={localStorage.getItem("address")} onChange={(e)=>setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled"/>
+                                                    
+                                                </div>
+                                                
+                                                <div class="col-6 billing-box">
+                                                    <TextField className="pb-3" type="text" defaultValue={localStorage.getItem("lname")}  onChange={(e)=>setLname(e.target.value)} label="Last Name" variant="filled" />
+                                                    <TextField className="pb-3" type="email" defaultValue={localStorage.getItem("email")}  onChange={(e)=>setEmail(e.target.value)} label="Email" variant="filled" />
+                                                </div>
+                    
+                                            </div>
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                            <button class="btn btn-secondary" onClick={handleClose1}>
+                                                Close
+                                            </button>
+                                            <button onClick={sendUpdated} className="btn btn-primary">Update</button>
                                             </Modal.Footer>
                                         </Modal>
                             <table class="table no-wrap">
@@ -229,7 +303,7 @@ const SuperAdmin = () => {
                                                 <td class="txt-oflo">{val.email}</td>
                                                 <td>
                                             <ButtonGroup disableElevation variant="contained" color="primary">
-      <Button className="student-btn-up"  ><UpdateIcon className="text-white"/></Button>
+      <Button className="student-btn-up" onClick={()=>update(val.id)}  ><UpdateIcon  className="text-white"/></Button>
       <Button className="student-btn-del" onClick={()=>deleteAdministrator(val.id)} ><DeleteIcon className="text-white"/></Button>
     </ButtonGroup>
                                             </td>                                            
