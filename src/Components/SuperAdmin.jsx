@@ -110,8 +110,7 @@ const SuperAdmin = () => {
         })
     }
     const update = (id) =>{
-        handleShow1();
-        axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
+      axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
         .then(response => {
                 console.log(response.data)
                 localStorage.setItem("id",response.data.id)
@@ -125,10 +124,10 @@ const SuperAdmin = () => {
                 setLname(response.data.last_name)
                 setContact(response.data.contact)
                 setEmail(response.data.email)
+                handleShow1();
         })
         .catch(error => console.log(error) )
     }
-     
     const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
             first_name: fname,
@@ -152,6 +151,10 @@ const SuperAdmin = () => {
         })
         .catch (error => console.log(error))
     }
+        
+
+        
+     
 
         
     

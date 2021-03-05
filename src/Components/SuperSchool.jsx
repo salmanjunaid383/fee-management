@@ -37,8 +37,11 @@ const SuperSchool = () => {
     const [schooldata, setSchooldata] = useState([]);
     const history = useHistory();
     const [show, setShow] = useState(false);
+    const [show1, setShow1] = useState(false);
     const handleClose = () => setShow(false);
+    const handleClose1 = () => setShow1(false);
     const handleShow = () => setShow(true);
+    const handleShow1 = () => setShow1(true);
     const [schoolName, setSchoolName]= useState();
     const [phone, setPhone]= useState();
     const [address, setAddress]= useState();
@@ -122,9 +125,47 @@ const SuperSchool = () => {
             console.log(error)
             alert("First Delete the Classes");
         })
+    }
+    const update = (id) =>{
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${id}`)
+          .then(response => {
+                  console.log(response.data)
+                  localStorage.setItem("id",response.data.id)
+                  localStorage.setItem("name",response.data.name)
+                  localStorage.setItem("email",response.data.email)
+                  localStorage.setItem("phone",response.data.contact)
+                  localStorage.setItem("address",response.data.address)
+                  setAddress(response.data.address)
+                  setSchoolName(response.data.name)
+                  setPhone(response.data.contact)
+                  setEmail(response.data.email)
+                  handleShow1();
+          })
+          .catch(error => console.log(error) )
+    }
+    const sendUpdated = () => {
+        axios.put(`http://fee-management-api.nastechltd.co/api/schools/${localStorage.getItem("id")}`, {
+            name : schoolName,
+            email: email,
+            contact: phone,
+            address : address
+
+        })
+        .then (response => 
+            {console.log(response);
+                localStorage.removeItem("id")
+                localStorage.removeItem("name")
+                localStorage.removeItem("email")
+                localStorage.removeItem("contact")
+                localStorage.removeItem("address")
+            reload();
+            handleClose1();
+            
+        })
+        .catch (error => console.log(error))
+    }
         
     
-    }
 
       
     return (
@@ -211,6 +252,32 @@ const SuperSchool = () => {
                                         <button onClick={sendData} className="btn btn-primary">Create</button>
                                         </Modal.Footer>
                                     </Modal>
+                                    <Modal show={show1} onHide={handleClose1}>
+                                        <Modal.Header closeButton>
+                                        <Modal.Title className="text-center"> Update School</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                        <div class="row billing-main">
+                                            <div class="col-6 billing-box">
+                                            
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("name")} onChange={(e)=>setSchoolName(e.target.value)} label="School Name" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("phone")}  onChange={(e)=>setPhone(e.target.value)} label="Contact No." variant="filled" />
+                                            </div>
+                                            
+                                            <div class="col-6 billing-box">
+                                                <TextField className="pb-3" type="email" defaultValue={localStorage.getItem("email")}  onChange={(e)=>setEmail(e.target.value)} label="Email" variant="filled" />
+                                                <TextField  className="pb-3" defaultValue={localStorage.getItem("address")} onChange={(e)=>setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled"/>
+                                            </div>
+                                            
+                                        </div>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={handleClose1}>
+                                            Close
+                                        </button>
+                                        <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                        </Modal.Footer>
+                                    </Modal>
                         <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
@@ -234,7 +301,7 @@ const SuperSchool = () => {
                                             {/* <td><Link to="campusdashboard"><button onClick={()=>localStorage.setItem("school_id", val.id)} class="btn btn-primary">Enter School</button></Link></td> */}
                                             <td>
                                             <ButtonGroup disableElevation variant="contained" color="primary">
-      <Button className="student-btn-up" onClick={()=>history.push(`/schoolupdate/${val.id}`)}  ><UpdateIcon className="text-white"/></Button>
+      <Button className="student-btn-up" onClick={()=>update(val.id)}  ><UpdateIcon className="text-white"/></Button>
       <Button className="student-btn-del" onClick={()=>deleteSchool(val.id)} ><DeleteIcon className="text-white"/></Button>
     </ButtonGroup>
                                             </td>

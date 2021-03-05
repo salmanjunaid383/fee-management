@@ -1,4 +1,4 @@
-import React from 'react';
+import  {React, useEffect} from 'react';
 import './dashboard.css';
 import { Link } from 'react-router-dom';
 import UpdateIcon from '@material-ui/icons/Update';
@@ -7,9 +7,18 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import logo from './jb1.png'
-
+import { useState } from 'react';
+import axios from 'axios'
 
 const Structure = () => {
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/fee_structure/3`)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => console.log(error))
+
+    }, [])
     return (
         <>
             <div class="dashboard">

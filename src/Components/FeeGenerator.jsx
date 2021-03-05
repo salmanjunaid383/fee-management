@@ -41,7 +41,7 @@ const Fee = () => {
     const [chargesyear, setChargesyear]= useState();
     const school_id = localStorage.getItem("school_id")
     const [inputList,setInputList]=useState([
-        {Description : "",Charges :""}
+        {description : "",charges :""}
     ]
     );
     
@@ -52,10 +52,10 @@ const Fee = () => {
         setInputList(list);
     }
     const handleAdd = () => {
-        setInputList([...inputList,{Description:"", Charges:""}]);   
+        setInputList([...inputList,{description:"", charges:""}]);   
     }
     const [inputListYear,setInputListYear]=useState([
-        {DescriptionYear : "",ChargesYear :""}
+        {description : "",charges :""}
     ]
     );
     
@@ -66,7 +66,7 @@ const Fee = () => {
         setInputListYear(list);
     }
     const handleAddY = () => {
-        setInputListYear([...inputListYear,{DescriptionYear:"", ChargesYear:""}]);   
+        setInputListYear([...inputListYear,{description:"", charges:""}]);   
     }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -84,7 +84,7 @@ const Fee = () => {
             monthly_charges : 0,
             yearlyCharges : inputListYear,
             yearly_charges : 0,
-            class_id : 2,
+            class_id : 1,
             school_id : school_id,
             description : "tyui"
 
@@ -92,8 +92,6 @@ const Fee = () => {
         })
         .then(response => {
             console.log(response)
-
-
         })
         .catch(error => console.log(error) )
         // console.log(inputListYear)
@@ -316,10 +314,10 @@ console.log(inputList)
                        return (
                         <div key={i} class="row mb-2">
                        <div class="col-5">
-                   <input type="text" id="tax" name="Description" onChange={(e) => handleChange (e,i)} value={item.Description} placeholder="Description" class="inline select"/>
+                   <input type="text" id="tax" name="description" onChange={(e) => handleChange (e,i)} value={item.description} placeholder="Description" class="inline select"/>
                    </div>
                    <div class="col-5">
-                   <input type="text" id="tax" name="Charges" onChange={(e) => handleChange (e,i)} value={item.Charges} placeholder="Charges" class="inline select"/>
+                   <input type="text" id="tax" name="charges" onChange={(e) => handleChange (e,i)} value={item.charges} placeholder="Charges" class="inline select"/>
 
                    </div>
                    <div class="col-2">
@@ -340,10 +338,10 @@ console.log(inputList)
                                 return (
                                 <div key={i} class="row mb-2">
                                 <div class="col-5">
-                            <input type="text" id="tax" name="DescriptionYear" value={item.Description} onChange={e => handleChangeY(e,i)} placeholder="Description" class="inline select"/>
+                            <input type="text" id="tax" name="description" value={item.description} onChange={e => handleChangeY(e,i)} placeholder="Description" class="inline select"/>
                             </div>
                             <div class="col-5">
-                            <input type="text" id="tax" name="ChargesYear" value={item.Charges} onChange={e => handleChangeY(e,i)} placeholder="Charges" class="inline select"/>
+                            <input type="text" id="tax" name="charges" value={item.charges} onChange={e => handleChangeY(e,i)} placeholder="Charges" class="inline select"/>
 
                             </div>
                             <div class="col-2">

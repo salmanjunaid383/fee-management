@@ -14,13 +14,13 @@ import TextField from '@material-ui/core/TextField';
 
 const MyClass = () => {
     const [schoolClass, setSchoolClass] = useState();
-    const [section, setSection] = useState();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [show1, setShow1] = useState(false);
+    const handleClose1 = () => setShow1(false);
+    const handleShow1 = () => setShow1(true);
     const [classdata, setClassdata] = useState([]);
-    const [sectiondata, setSectiondata] = useState([]);
-    const final_data = [];
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
     const [sections, setSections] = useState([
@@ -44,14 +44,7 @@ const MyClass = () => {
             })
             .catch(error => console.log(error))
     }, [])
-
     
-    
-
-
-    // console.log(classdata)
-    // console.log(sectiondata)
-
     const data = {
         name: schoolClass,
         school_id: localStorage.getItem("school_id"),
@@ -62,7 +55,7 @@ const MyClass = () => {
             .then(response => {
                 console.log(response)
                 console.log(response.data.id)
-                setSections([{ name: "" }]);
+                // setSections([{ name: "" }]);
                 handleClose();
                 reload();
 
@@ -70,21 +63,6 @@ const MyClass = () => {
             })
             .catch(error => console.log(error))
     }
-
-
-
-
-
-    // useEffect(() => {
-    //     axios.get(`http://fee-management-api.nastechltd.co/api/section`)
-    //     .then(response => {
-    //         console.log(response.data)
-    //         setSectiondata(response.data)
-    //     })
-    //     .catch(error => console.log(error) )
-
-    // },[]) 
-
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
         .then(response => {
@@ -94,7 +72,7 @@ const MyClass = () => {
         .catch(error => console.log(error) )
 
     }
-    const deleteSchool = (id) =>{
+    const deleteClass = (id) =>{
         axios.delete(`http://fee-management-api.nastechltd.co/api/schools_class/${id}`)
         .then (response => {
             console.log(response)
@@ -104,7 +82,32 @@ const MyClass = () => {
             console.log(error)
             alert("First Delete Students Of This Class")
         })
+    }
 
+    const update = (id) =>{
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_class/${id}`)
+          .then(response => {
+                  console.log(response.data)
+                  localStorage.setItem("id",response.data.id)
+                  localStorage.setItem("name",response.data.name)
+                  setSchoolClass(response.data.name)
+                  handleShow1();
+          })
+          .catch(error => console.log(error) )
+    }
+    const sendUpdated = () => {
+        axios.put(`http://fee-management-api.nastechltd.co/api/schools_class/${localStorage.getItem("id")}`, {
+            name : schoolClass
+
+        })
+        .then (response => 
+            {console.log(response);
+                localStorage.removeItem("id")
+                localStorage.removeItem("name")
+                reload();
+                handleClose1();
+            })
+        .catch (error => console.log(error))
     }
 
 
@@ -126,13 +129,6 @@ const MyClass = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
-                            {/* <div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-school"></i>
-                                </div>
-                                <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
-                            </div> */}
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate active"></i>
@@ -214,7 +210,6 @@ const MyClass = () => {
                         <div class="message">
                             <div class="add-student">
                                 <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Class</button>
-
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Add Class</Modal.Title>
@@ -252,6 +247,27 @@ const MyClass = () => {
                                         <button onClick={sendData} className="btn btn-primary">Create</button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal show={show1} onHide={handleClose1}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Update Class</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div class="row billing-main">
+                                            <div class="col-6 billing-box">
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("name")} onChange={(e) => setSchoolClass(e.target.value)} label="Class" variant="filled" />
+                                            </div>
+                                        </div>
+                                        
+
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={handleClose1}>
+                                            Close
+                                            </button>
+                                        <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                    </Modal.Footer>
+                                </Modal>
+
 
                             </div>
                             <div class="table-responsive">
@@ -273,13 +289,13 @@ const MyClass = () => {
                                                         <td>{i+1}</td>
                                                         <td class="txt-oflo">{val.name}</td>
 
-                                                        <td><Link to="/section"><button class="btn" onClick={()=>localStorage.setItem("class_id",val.id)}><LaunchIcon/></button></Link></td>
+                                                        <td><Link to="/section"><button class="btn" onClick={()=>{localStorage.setItem("class_id",val.id);localStorage.setItem("class_name",val.name)}}><LaunchIcon/></button></Link></td>
                                                             
                                                         <td>{val.created_at.slice(0, 10)}</td>
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
-                                                                <Button className="student-btn-up" onClick={() => history.push(`/classupdate/${val.id}`)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={()=>deleteSchool(val.id)} ><DeleteIcon className="text-white"/></Button>
+                                                                <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={()=>deleteClass(val.id)} ><DeleteIcon className="text-white"/></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>
