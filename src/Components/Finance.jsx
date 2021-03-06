@@ -210,12 +210,7 @@ const Finance = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            <Link class="nav-link" to="/ledger"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Student Ledger</div>
-                            </div></Link>
+                            
 
 
                         </div>
@@ -340,27 +335,35 @@ const Finance = () => {
                                             <th class="border-top-0">NAME</th>
                                             <th class="border-top-0">Gender</th>
                                             <th class="border-top-0">Phone</th>
+                                            <th class="border-top-0">Email</th>
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {employeedata.map((val, i) => {
-                                            return (
-                                                <tr>
-                                                    <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
-                                                    <td>{val.gender}</td>
-                                                    <td>{val.contact}</td>
-                                                    <td>
-                                                        <ButtonGroup disableElevation variant="contained" color="primary">
-                                                            <Button className="student-btn-up" onClick={() => update(val.id)}><UpdateIcon className="text-white" /></Button>
-                                                            <Button className="student-btn-del" onClick={() => deleteData(val.id)}><DeleteIcon className="text-white" /></Button>
-                                                        </ButtonGroup>
-                                                    </td>
-                                                </tr>
-
-                                            )
-                                        })}
+                                    { employeedata.map ((val, i)=> {
+                                        return (
+                                            <>
+                                       { 
+                                          (val.type).slice(11,40) == "Finance" ?
+                                           <tr key={i}>
+                                                <td>{val.id}</td>
+                                                <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
+                                                <td>{val.contact}</td>
+                                                <td>{val.address}</td>
+                                                <td class="txt-oflo">{val.email}</td>
+                                                <td>
+                                            <ButtonGroup disableElevation variant="contained" color="primary">
+      <Button className="student-btn-up" onClick={()=>update(val.id)}  ><UpdateIcon  className="text-white"/></Button>
+      <Button className="student-btn-del" onClick={()=>deleteData(val.id)} ><DeleteIcon className="text-white"/></Button>
+    </ButtonGroup>
+                                            </td>                                            
+                                            </tr>
+                                          :
+                                          null
+                                            }
+                                            </>
+                                                )
+                                            })}
 
 
 

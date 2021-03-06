@@ -38,6 +38,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 const StudentLedger = () => {
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger`)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => console.log(error))
+
+    }, [])
     // const [show, setShow] = useState(false);
     // const [expensedata, setExpensedata] = useState([]);
     // const handleClose = () => setShow(false);
@@ -60,78 +68,18 @@ const StudentLedger = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
-                                <div class="icon1">
-                                    <i class="fas  fa-columns"></i>
-                                </div>
-                                <div class="icon-name1 ">Dashboard</div>
-                            </div></Link>
 
-                            {/* <div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-school"></i>
-                                </div>
-                                <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
-                            </div> */}
-                            <Link class="nav-link" to="/class"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Class</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/students"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Students</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/finance"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Finance Employee</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/fee"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Generation</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Period</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/structure"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Structure</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/discounted"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Discounted</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/term"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Term</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/expense"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Expense Tracking</div>
-                            </div></Link>
                             <Link class="nav-link" to="/ledger"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet active"></i>
                                 </div>
                                 <div class="icon-name active">Student Ledger</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/feevoucher"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Fee Voucher</div>
                             </div></Link>
 
 
@@ -152,7 +100,7 @@ const StudentLedger = () => {
                     <div class="right-body">
 
                         <div class="message">
-                            
+
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>

@@ -54,7 +54,7 @@ const MyExpense = () => {
     const [description, setDescription] = useState();
     const school_id = localStorage.getItem("school_id")
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
@@ -256,12 +256,7 @@ const MyExpense = () => {
                                 </div>
                                 <div class="icon-name active">Expense Tracking</div>
                             </div></Link>
-                            <Link class="nav-link" to="/ledger"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Student Ledger</div>
-                            </div></Link>
+                            
 
 
                         </div>
@@ -301,7 +296,14 @@ const MyExpense = () => {
 
                                                         {studentdata.map((val, i) => {
                                                             return (
-                                                                <MenuItem value={val.id}>{`${val.first_name} ${val.last_name}`}</MenuItem>
+                                                                <>
+                                                                {
+                                                                    (val.type).slice(11,40) == "StudentLogin" ?
+                                                                    <MenuItem value={val.id}>{`${val.first_name} ${val.last_name}`}</MenuItem>
+                                                                    :
+                                                                    null
+                                                                }
+                                                                </>
                                                             )
 
                                                         })}
@@ -365,6 +367,7 @@ const MyExpense = () => {
                                         {expensedata.map((val, i) => {
                                             return (
                                                 <>
+
                                                     <tr key={i}>
                                                         <td>{val.id}</td>
                                                         <td class="txt-oflo">{val.name}</td>

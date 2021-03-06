@@ -133,12 +133,7 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            <Link class="nav-link" to="/ledger"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Student Ledger</div>
-                            </div></Link>
+                            
 
 
                         </div>

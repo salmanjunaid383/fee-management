@@ -101,7 +101,9 @@ const Fee = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/admission_charges`,
         {
 
-            class_id : 1
+            class_id : classid,
+            discription : descriptionadmission,
+            charges : chargesadmission
 
         })
         .then(response => {
@@ -149,7 +151,6 @@ const Fee = () => {
     };
 
 
-console.log(inputList)
     
     return(
         <>
@@ -227,12 +228,7 @@ console.log(inputList)
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            <Link class="nav-link" to="/ledger"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Student Ledger</div>
-                            </div></Link>
+                            
                         </div>
                     </div>
                 </div>

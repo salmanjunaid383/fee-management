@@ -63,8 +63,50 @@ const Mystudents = () => {
     const [contact, setContact] = useState();
     const [address, setAddress] = useState();
     const [gender, setGender] = useState();
+    const [userdata, setUserdata] = useState([]);
+    var mydata = [];
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
+
+    if ((studentdata.length > 0) && (userdata.length > 0)) {
+        for (var i = 0; i < studentdata.length; i++) {
+            for (var j = 0; j < userdata.length; j++) {
+                var dd = {
+                    contact: `${studentdata[i].contact}`,
+                    address: `${studentdata[i].address}`,
+                    gender: `${studentdata[i].gender}`,
+                    id: `${studentdata[i].id}`,
+                    name: "",
+                    email: ""
+                };
+                if (studentdata[i].user_id === userdata[j].id) {
+                    dd.name = `${userdata[j].first_name} ${userdata[j].last_name}`;
+                    dd.email = `${userdata[j].email}`
+                }
+            }
+            mydata.push(dd)
+        }
+    }
+
+
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setStudentdata(response.data);
+            })
+            .catch(error => (console.log(error)))
+
+    }, [])
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setUserdata(response.data)
+                // setStudentdata(response.data);
+            })
+            .catch(error => (console.log(error)))
+    }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
@@ -75,15 +117,10 @@ const Mystudents = () => {
 
     }, [])
 
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
-            .then(response => {
-                console.log(response);
-                setStudentdata(response.data);
-            })
-            .catch(error => (console.log(error)))
 
-    }, [])
+
+
+
 
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
@@ -93,7 +130,16 @@ const Mystudents = () => {
             })
             .catch(error => (console.log(error)))
 
+        axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setUserdata(response.data)
+            })
+            .catch(error => (console.log(error)))
+
     }
+
+
 
     const deleteData = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/student/${id}`)
@@ -120,48 +166,51 @@ const Mystudents = () => {
         }
         else {
             axios.post('http://fee-management-api.nastechltd.co/api/student', data)
-                .then(response => {
-                    console.log(response);
-                    console.log(response.data.id);
-                    handleClose();
-                    reload()
-                })
-                .catch(error => console.log(error))
+            .then(response => {
+                handleClose();
+                reload();
+            })
+            .catch(error => console.log(error))
         }
     }
-    const update = (id) =>{
+    const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_student/${id}`)
-          .then(response => {
-                  console.log(response.data)
-                  localStorage.setItem("id",response.data.id)
-                  localStorage.setItem("fname",response.data.first_name)
-                  localStorage.setItem("lname",response.data.last_name)
-                  localStorage.setItem("email",response.data.email)
-                  localStorage.setItem("contact",response.data.contact)
-                  localStorage.setItem("address",response.data.address)
-                  localStorage.setItem("gender",response.data.gender)
-                  setAddress(response.data.address)
-                  setFname(response.data.first_name)
-                  setLname(response.data.last_name)
-                  setContact(response.data.contact)
-                  setEmail(response.data.email)
-                  setGender(response.data.gender)
-                  handleShow1();
-          })
-          .catch(error => console.log(error) )
-      }
-      const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/student/${localStorage.getItem("id")}`, {
+            .then(response => {
+                axios.get(`http://fee-management-api.nastechltd.co/api/finance/${response.data.user_id}`)
+                .then(response => {
+                    localStorage.setItem("fname", response.data.first_name)
+                    localStorage.setItem("lname", response.data.last_name)
+                    localStorage.setItem("email", response.data.email)
+                    setFname(response.data.first_name)
+                    setLname(response.data.last_name)
+                    setEmail(response.data.email)
+                })
+                .catch(error => console.log(error))
+
+                console.log(response.data)
+                localStorage.setItem("id", response.data.id)
+                localStorage.setItem("contact", response.data.contact)
+                localStorage.setItem("address", response.data.address)
+                localStorage.setItem("gender", response.data.gender)
+                setAddress(response.data.address)
+                setContact(response.data.contact)
+                setGender(response.data.gender)
+                handleShow1();
+            })
+            .catch(error => console.log(error))
+    }
+    const sendUpdated = () => {
+        axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
             first_name: fname,
             last_name: lname,
             email: email,
             contact: contact,
-            address : address,
-            gender : gender
+            address: address,
+            gender: gender
 
         })
-        .then (response => 
-            {console.log(response);
+            .then(response => {
+                console.log(response);
                 localStorage.removeItem("id")
                 localStorage.removeItem("fname")
                 localStorage.removeItem("lname")
@@ -169,11 +218,11 @@ const Mystudents = () => {
                 localStorage.removeItem("contact")
                 localStorage.removeItem("address")
                 localStorage.removeItem("gender")
-            reload();
-            handleClose1();
-            
-        })
-        .catch (error => console.log(error))
+                reload();
+                handleClose1();
+
+            })
+            .catch(error => console.log(error))
     }
 
     return (
@@ -249,12 +298,7 @@ const Mystudents = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            <Link class="nav-link" to="/ledger"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Student Ledger</div>
-                            </div></Link>
+
 
 
                         </div>
@@ -338,7 +382,7 @@ const Mystudents = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
-                                        <div class="col-6 billing-box">
+                                            <div class="col-6 billing-box">
                                                 <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("fname")} onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
                                                 <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("contact")} onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
                                                 <TextField className="TextField" defaultValue={localStorage.getItem("address")} onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
@@ -348,10 +392,10 @@ const Mystudents = () => {
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3" type="text" defaultValue={localStorage.getItem("lname")} onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
                                                 <TextField className="pb-3" type="email" defaultValue={localStorage.getItem("email")} onChange={(e) => setEmail(e.target.value)} label="Email" variant="filled" />
-                                                
+
                                             </div>
                                             {
-                                                    gender == "male" ?
+                                                gender == "male" ?
                                                     <div className="mt-2">
                                                         <FormLabel component="legend">Gender</FormLabel>
                                                         <div class="form-check form-check-inline">
@@ -367,7 +411,7 @@ const Mystudents = () => {
                                                     <div className="mt-2">
                                                         <FormLabel component="legend">Gender</FormLabel>
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"  id="inlineRadio1" onChange={(e) => setGender(e.target.value)} value="male" />
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" onChange={(e) => setGender(e.target.value)} value="male" />
                                                             <label class="form-check-label" for="inlineRadio1">Male</label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
@@ -375,7 +419,7 @@ const Mystudents = () => {
                                                             <label class="form-check-label" for="inlineRadio2">Female</label>
                                                         </div>
                                                     </div>
-                                                }
+                                            }
                                         </div>
                                     </Modal.Body>
                                     <Modal.Footer>
@@ -392,19 +436,17 @@ const Mystudents = () => {
                                         <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">NAME</th>
-                                            <th class="border-top-0">FATHER</th>
                                             <th class="border-top-0">GENDER</th>
                                             <th class="border-top-0">Details</th>
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {studentdata.map((val, i) => {
+                                        {mydata.map((val, i) => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
-                                                    <td>{val.father_name}</td>
+                                                    <td class="txt-oflo">{`${val.name}`}</td>
                                                     <td>{val.gender}</td>
                                                     <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td>
 
@@ -415,10 +457,8 @@ const Mystudents = () => {
                                                         </ButtonGroup>
                                                     </td>
                                                 </tr>
-
                                             )
                                         })}
-
                                     </tbody>
                                 </table>
                             </div>
@@ -428,6 +468,7 @@ const Mystudents = () => {
             </div>
         </>
     );
-
 };
 export default Mystudents;
+
+

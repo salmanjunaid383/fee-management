@@ -10,8 +10,6 @@ const Login = () => {
     const history = useHistory();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    console.log(email);
-    console.log(password);
     const data = {
         email: email,
         password: password
@@ -29,6 +27,12 @@ const Login = () => {
                 else if(decoded.role == 'Administrator'){
                     localStorage.setItem("admin_id",decoded.sub)
                     history.push("/dashboard")
+                }
+                else if (decoded.role == 'Student')
+                {
+                    history.push("/ledger")
+                    localStorage.setItem("student_id",decoded.sub)
+
                 }
 
             })
