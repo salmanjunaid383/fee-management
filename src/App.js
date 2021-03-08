@@ -23,7 +23,7 @@ import StudentUpdate from './Components/StudentUpdate';
 import ClassUpdate from './Components/ClassUpdate';
 import SchoolUpdate from './Components/SchoolUpdate';
 import SchoolEntry from './Components/SchoolEntry';
-import EmployeeEntry from './Components/EmployeeEntry';
+import AdmissionCharges from './Components/AdmissionCharges';
 import EmployeeUpdate from './Components/EmployeeUpdate';
 import SchoolClass from './Components/ClassEntry';
 import Fee from './Components/FeeGenerator';
@@ -68,6 +68,7 @@ const App = () => {
             <Route path="/feeperiod" component={FeePeriod} />
             <Route path="/feevoucher" component={FeeVoucher} />
             <Route path="/structure" component={Structure} />
+            <Route path="/admission" component={AdmissionCharges} />
             <Route path="/discounted" component={Discounted} />
             <Route path="/term" component={Term} />
             <Route path="/super" component={SuperAdmin} />

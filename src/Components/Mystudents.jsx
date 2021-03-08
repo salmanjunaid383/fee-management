@@ -142,7 +142,7 @@ const Mystudents = () => {
 
 
     const deleteData = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/student/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/user/${id}`)
             .then(response => {
                 console.log(response)
                 reload();
@@ -160,6 +160,7 @@ const Mystudents = () => {
         gender: gender,
         class_id: classid
     };
+    // console.log(contact)
     const sendData = () => {
         if (password != confirmpassword) {
             alert("Incorrect Password");
@@ -172,33 +173,31 @@ const Mystudents = () => {
             })
             .catch(error => console.log(error))
         }
+        // console.log(data)
     }
     const update = (id) => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_student/${id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
             .then(response => {
-                axios.get(`http://fee-management-api.nastechltd.co/api/finance/${response.data.user_id}`)
-                .then(response => {
-                    localStorage.setItem("fname", response.data.first_name)
-                    localStorage.setItem("lname", response.data.last_name)
-                    localStorage.setItem("email", response.data.email)
-                    setFname(response.data.first_name)
-                    setLname(response.data.last_name)
-                    setEmail(response.data.email)
-                })
-                .catch(error => console.log(error))
-
-                console.log(response.data)
+                
+                localStorage.setItem("fname", response.data.first_name)
+                localStorage.setItem("lname", response.data.last_name)
+                localStorage.setItem("email", response.data.email)
                 localStorage.setItem("id", response.data.id)
                 localStorage.setItem("contact", response.data.contact)
                 localStorage.setItem("address", response.data.address)
                 localStorage.setItem("gender", response.data.gender)
+                setFname(response.data.first_name)
+                setLname(response.data.last_name)
+                setEmail(response.data.email)
                 setAddress(response.data.address)
                 setContact(response.data.contact)
                 setGender(response.data.gender)
                 handleShow1();
+                console.log(response.data)
             })
             .catch(error => console.log(error))
     }
+    console.log(fname)
     const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
             first_name: fname,
@@ -442,11 +441,11 @@ const Mystudents = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {mydata.map((val, i) => {
+                                        {studentdata.map((val, i) => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.name}`}</td>
+                                                    <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
                                                     <td>{val.gender}</td>
                                                     <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td>
 

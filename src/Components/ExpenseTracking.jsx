@@ -57,6 +57,16 @@ const MyExpense = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
             .then(response => {
                 console.log(response);
+                // setStudentdata(response.data);
+
+            })
+            .catch(error => (console.log(error)))
+
+    }, [])
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+            .then(response => {
+                console.log(response);
                 setStudentdata(response.data);
 
             })
@@ -66,7 +76,7 @@ const MyExpense = () => {
 
 
     if (studentid.length != 0) {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_student/${studentid}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
             .then(response => {
                 setStudentname(`${response.data.first_name} ${response.data.last_name}`);
 
@@ -79,8 +89,8 @@ const MyExpense = () => {
 
 
     const data = {
-        school_id : school_id,
-        student_id: studentid,
+        school_id: school_id,
+        student_id: 2,
         charges: charges,
         description: description,
         name: studentname,
@@ -154,11 +164,11 @@ const MyExpense = () => {
     }
     const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem("id")}`, {
-         charges : charges,
-         description : description,
-         name : studentname,
-         paid : paid,
-         student_id : studentid
+            charges: charges,
+            description: description,
+            name: studentname,
+            paid: paid,
+            student_id: studentid
         })
             .then(response => {
                 console.log(response);
@@ -256,7 +266,7 @@ const MyExpense = () => {
                                 </div>
                                 <div class="icon-name active">Expense Tracking</div>
                             </div></Link>
-                            
+
 
 
                         </div>
@@ -289,21 +299,13 @@ const MyExpense = () => {
                                                     <InputLabel id="demo-simple-select-label">Student</InputLabel>
                                                     <Select
                                                         labelId="demo-simple-select-label"
-                                                        value={studentid}
+                                                        id="demo-simple-select"
+                                                        // value={id}
                                                         onChange={(e) => setStudentid(e.target.value)}
                                                     >
-
-
                                                         {studentdata.map((val, i) => {
                                                             return (
-                                                                <>
-                                                                {
-                                                                    (val.type).slice(11,40) == "StudentLogin" ?
-                                                                    <MenuItem value={val.id}>{`${val.first_name} ${val.last_name}`}</MenuItem>
-                                                                    :
-                                                                    null
-                                                                }
-                                                                </>
+                                                                <MenuItem value={val.id}>{`${val.first_name} ${val.last_name}`}</MenuItem>
                                                             )
 
                                                         })}

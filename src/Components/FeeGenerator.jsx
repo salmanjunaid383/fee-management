@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import logo from "./jb1.png";
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(0),
-          width: '20ch',
+        width: '20ch',
         // minWidth: 120,
     },
     selectEmpty: {
@@ -31,42 +31,40 @@ const useStyles = makeStyles((theme) => ({
 
 const Fee = () => {
     const classes = useStyles();
-    const [classid, setClassid]= useState();
-    const [classdata, setClassdata]= useState([]);
-    const [description, setDescription]= useState();
-    const [charges, setCharges]= useState();
-    const [descriptionadmission, setDescriptionadmission]= useState();
-    const [chargesadmission, setChargesadmission]= useState();
-    const [descriptionyear, setDescriptionyear]= useState();
-    const [chargesyear, setChargesyear]= useState();
+    const [classid, setClassid] = useState();
+    const [tax, setTax] = useState();
+    const [classdata, setClassdata] = useState([]);
+    const [description, setDescription] = useState();
+    const history = useHistory();
     const school_id = localStorage.getItem("school_id")
-    const [inputList,setInputList]=useState([
-        {description : "",charges :""}
+    const [inputList, setInputList] = useState([
+        { description: "", charges: "" }
     ]
     );
-    
-    const handleChange = (e,index) => {
-        const {name,value} = e.target;
+
+    const handleChange = (e, index) => {
+        const { name, value } = e.target;
         const list = [...inputList];
-        list[index][name]= value;
+        list[index][name] = value;
         setInputList(list);
     }
     const handleAdd = () => {
-        setInputList([...inputList,{description:"", charges:""}]);   
+        setInputList([...inputList, { description: "", charges: "" }]);
     }
-    const [inputListYear,setInputListYear]=useState([
-        {description : "",charges :""}
+    const [inputListYear, setInputListYear] = useState([
+        { description: "", charges: "" }
     ]
     );
-    
-    const handleChangeY = (e,index) => {
-        const {name,value} = e.target;
+    console.log(classid)
+
+    const handleChangeY = (e, index) => {
+        const { name, value } = e.target;
         const list = [...inputListYear];
-        list[index][name]= value;
+        list[index][name] = value;
         setInputListYear(list);
     }
     const handleAddY = () => {
-        setInputListYear([...inputListYear,{description:"", charges:""}]);   
+        setInputListYear([...inputListYear, { description: "", charges: "" }]);
     }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -77,82 +75,37 @@ const Fee = () => {
             .catch(error => console.log(error))
 
     }, [])
-    const sendCharges= () => {
+    const sendCharges = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/fee_structure`,
-        {
-            monthlyCharges : inputList,
-            monthly_charges : 0,
-            yearlyCharges : inputListYear,
-            yearly_charges : 0,
-            class_id : 1,
-            school_id : school_id,
-            description : "tyui"
+            {
+                monthlyCharges: inputList,
+                monthly_charges: 0,
+                yearlyCharges: inputListYear,
+                yearly_charges: 0,
+                class_id: classid,
+                school_id: school_id,
+                description: description,
+                tax : tax
 
 
-        })
-        .then(response => {
-            console.log(response)
-        })
-        .catch(error => console.log(error) )
+            })
+            .then(response => {
+                console.log(response)
+                history.push("/structure")
+            })
+            .catch(error => console.log(error))
         // console.log(inputListYear)
         // console.log(inputList)
     }
-    const sendAdmission = () =>{
-        axios.post(`http://fee-management-api.nastechltd.co/api/admission_charges`,
-        {
 
-            class_id : classid,
-            discription : descriptionadmission,
-            charges : chargesadmission
-
-        })
-        .then(response => {
-            console.log(response)
-            setDescriptionadmission('');
-            setChargesadmission('');
-
-        })
-        .catch(error => console.log(error) )
-
-    };
-    const sendMonthly = () =>{
-        axios.post(`http://fee-management-api.nastechltd.co/api/monthly_charges`,
-        {
-            description : description,
-            charges : charges,
-            fee_structure_id :1
-        })
-        .then(response => {
- 
-            console.log(response)
-            setDescription('');
-            setCharges('');
-        })
-        .catch(error => console.log(error) )
-    };
-
-
-    const sendYearly = () =>{
-        axios.post(`http://fee-management-api.nastechltd.co/api/yearly_charges`,
-        {
-            description : descriptionyear,
-            charges : chargesyear,
-            // fee_structure_id: 1  
-            // description : "tuition",
-            // charges : 344,
-            // fee_structure_id: 8  
-        })
-        .then(response => {
-            console.log(response)
-            setDescriptionyear('');
-            setChargesyear('');
-        })        
-        .catch(error => console.log(error) )
-    };
+    
 
 
     
-    return(
+
+
+
+    return (
         <>
             <div class="dashboard">
                 <div class="left">
@@ -167,68 +120,68 @@ const Fee = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-                            
+
                             {/* <div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-school"></i>
                                 </div>
                                 <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
                             </div> */}
-                            <Link  class="nav-link"to="/class"><div class="folder-icons">
+                            <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            <Link  class="nav-link"to="/students"><div class="folder-icons">
+                            <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
                                 </div>
                                 <div class="icon-name">Students</div>
                             </div></Link>
-                            <Link  class="nav-link"to="/finance"><div class="folder-icons">
+                            <Link class="nav-link" to="/finance"><div class="folder-icons">
                                 <div class="icon1">
-                                <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            <Link  class="nav-link"to="/fee"><div class="folder-icons">
+                            <Link class="nav-link" to="/fee"><div class="folder-icons">
                                 <div class="icon1">
-                                <i class="fas fa-wallet active"></i>
+                                    <i class="fas fa-wallet active"></i>
                                 </div>
                                 <div class="icon-name active">Fee Generation</div>
                             </div></Link>
-                            <Link  class="nav-link"to="/feeperiod"><div class="folder-icons">
+                            <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
-                                <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Fee Period</div>
                             </div></Link>
-                            <Link  class="nav-link"to="/structure"><div class="folder-icons">
+                            <Link class="nav-link" to="/structure"><div class="folder-icons">
                                 <div class="icon1">
-                                <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
                             </div></Link>
-                            <Link  class="nav-link"to="/discounted"><div class="folder-icons">
+                            <Link class="nav-link" to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
-                                <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Discounted</div>
                             </div></Link>
-                            <Link  class="nav-link"to="/term"><div class="folder-icons">
+                            <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
-                                <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Term</div>
                             </div></Link>
-                            <Link  class="nav-link"to="/expense"><div class="folder-icons">
+                            <Link class="nav-link" to="/expense"><div class="folder-icons">
                                 <div class="icon1">
-                                <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -245,108 +198,77 @@ const Fee = () => {
                     </div>
                     <div class="right-body">
                         <div class="message">
-                            <h2 class="text-center secondary">Fee Generation</h2>
-                            {/* <hr class="new-hr1 secondary" /> */}
-                            {/* <div class="row">
-                                <div class="col-5"> */}
-                                    {/* <input class="inline select" name="class" onChange={(e)=> setSchoolclass(e.target.value)} aria-label="Default select example"/> */}
-                                {/* <label for="select-class" class="inline" >Class:</label>     
-                                    <select class="inline select" id="select-class" aria-label="Default select example">
-                                        <option selected disabled>Select Class</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                </select>  
-                                </div>
-                                <div class="col-5">
-                                    <label for="tax">Tax:</label>
-                                    <input type="text" id="tax" name="tax" onChange={(e)=> setTax(e.target.value)} placeholder="Enter Tax" class="inline select"/>
-                                </div>
-                                <div className="col-2">
-                                    <button className="btn btn-primary" onClick={sendTax}>Submit</button>
-                                </div>
-                            </div> */}
+                            <h2 class="text-center secondary">Fee Structure</h2>
                             <div class="monthly-charges">
-                                <hr class="new-hr"/>
-                                <h4 class="text-center">Admission Charges</h4>
-                                <hr class="new-hr"/>
-                                <div  class="row mb-2">
-                                    <div class="col-3">
-                                     <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-simple-select-label">Class</InputLabel>
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        variant="filled"
+                                <div class="row">
+                                    <div class="col-2">
+                                        <select class="inline select" id="select-class" onChange={(e) => setClassid(e.target.value)}>
+                                            <option selected disabled>Class</option>
+                                            {classdata.map ((val,i)=>{
+                                                return(
+                                                    <>
+                                            <option value={val.id}>{val.name}</option>
+                                                    </>
+                                                )
+                                            })}
 
-                                                        onChange={(e) => setClassid(e.target.value)}
-                                                    >
-                                                        {classdata.map((val, i) => {
-                                                            return (
-                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
-                                                            )
-
-                                                        })}
-                                                    </Select>
-                                                </FormControl>
-                                    </div>   
-                                    <div class="col-3">
-                                        <input type="text" id="tax" name="DescriptionAdmission" value={descriptionadmission} onChange={e => setDescriptionadmission(e.target.value)} placeholder="Description" class="inline select"/>
+                                        </select>
                                     </div>
-                                                
-                                    <div class="col-3">
-                                        <input type="text" id="tax" name="ChargesAdmission" value={chargesadmission} onChange={e => setChargesadmission(e.target.value)} placeholder="Charges" class="inline select"/>
+                                    <div class="col-5">
+                                        <input type="text" id="tax" name="tax" onChange={(e) => setDescription(e.target.value)} placeholder="Description" class="inline select" />
                                     </div>
-                                    <div class="col-3">
-                                        <button type="button" onClick={sendAdmission} class="btn btn-primary mt-1">Add </button>
+                                    <div class="col-5">
+                                        <input type="text" id="tax" name="tax" onChange={(e) => setTax(e.target.value)} placeholder="Enter Tax" class="inline select" />
                                     </div>
                                 </div>
+
                             </div>
-                            <hr class="new-hr"/>
+
+                            <hr class="new-hr" />
                             <div class="monthly-charges">
                                 <h4 class="text-center">Monthly Charges</h4>
-                                <hr class="new-hr"/>
-                                { inputList.map ((item, i) => {
-                       return (
-                        <div key={i} class="row mb-2">
-                       <div class="col-5">
-                   <input type="text" id="tax" name="description" onChange={(e) => handleChange (e,i)} value={item.description} placeholder="Description" class="inline select"/>
-                   </div>
-                   <div class="col-5">
-                   <input type="text" id="tax" name="charges" onChange={(e) => handleChange (e,i)} value={item.charges} placeholder="Charges" class="inline select"/>
+                                <hr class="new-hr" />
+                                {inputList.map((item, i) => {
+                                    return (
+                                        <div key={i} class="row mb-2">
+                                            <div class="col-5">
+                                                <input type="text" id="tax" name="description" onChange={(e) => handleChange(e, i)} value={item.description} placeholder="Description" class="inline select" />
+                                            </div>
+                                            <div class="col-5">
+                                                <input type="text" id="tax" name="charges" onChange={(e) => handleChange(e, i)} value={item.charges} placeholder="Charges" class="inline select" />
 
-                   </div>
-                   <div class="col-2">
-                       {inputList.length -1 === i &&
-                       <button type="button" onClick={handleAdd}  class="btn btn-primary mt-1">Add More</button>
-                    }
-                       
-                   </div>
-               </div>
-                       )
-                   })}
+                                            </div>
+                                            <div class="col-2">
+                                                {inputList.length - 1 === i &&
+                                                    <button type="button" onClick={handleAdd} class="btn btn-primary mt-1">Add More</button>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    )
+                                })}
                             </div>
                             <div class="monthly-charges">
-                                <hr class="new-hr"/>
+                                <hr class="new-hr" />
                                 <h4 class="text-center">Yearly Charges</h4>
-                                <hr class="new-hr"/>
-                                {inputListYear.map((item,i)=>{
-                                return (
-                                <div key={i} class="row mb-2">
-                                <div class="col-5">
-                            <input type="text" id="tax" name="description" value={item.description} onChange={e => handleChangeY(e,i)} placeholder="Description" class="inline select"/>
-                            </div>
-                            <div class="col-5">
-                            <input type="text" id="tax" name="charges" value={item.charges} onChange={e => handleChangeY(e,i)} placeholder="Charges" class="inline select"/>
+                                <hr class="new-hr" />
+                                {inputListYear.map((item, i) => {
+                                    return (
+                                        <div key={i} class="row mb-2">
+                                            <div class="col-5">
+                                                <input type="text" id="tax" name="description" value={item.description} onChange={e => handleChangeY(e, i)} placeholder="Description" class="inline select" />
+                                            </div>
+                                            <div class="col-5">
+                                                <input type="text" id="tax" name="charges" value={item.charges} onChange={e => handleChangeY(e, i)} placeholder="Charges" class="inline select" />
 
-                            </div>
-                            <div class="col-2">
-                                {inputListYear.length -1 === i && 
-                                <button type="button" onClick={handleAddY} class="btn btn-primary mt-1">Add More</button>
-                                }
-                            </div>
-                        </div>)
-                                
+                                            </div>
+                                            <div class="col-2">
+                                                {inputListYear.length - 1 === i &&
+                                                    <button type="button" onClick={handleAddY} class="btn btn-primary mt-1">Add More</button>
+                                                }
+                                            </div>
+                                        </div>)
+
                                 })}
                             </div>
                             <div class="text-center mt-4">  <button onClick={sendCharges} class="btn btn-generate btn-success">Generate</button></div>
@@ -363,24 +285,24 @@ export default Fee;
 
 
 
-                        
-                                           
 
 
-                                
-                                
-                   
-                
 
-                   
-            
-                   
-                    
-                       
-                     
-                       
-                    
 
-                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

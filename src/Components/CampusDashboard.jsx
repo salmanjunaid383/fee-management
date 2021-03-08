@@ -27,15 +27,15 @@ const CampusDashboard = () => {
     const [schooldata, setSchooldata]= useState([]);
     const school_id = localStorage.getItem("school_id")
     const admin_id = localStorage.getItem("admin_id")
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/school_administrator`)
-        .then(response => {
-            console.log(response.data)
-            setData(response.data)
-        })
-        .catch(error => console.log(error) )
+    // useEffect(() => {
+    //     axios.get(`http://fee-management-api.nastechltd.co/api/school_administrator`)
+    //     .then(response => {
+    //         console.log(response.data)
+    //         setData(response.data)
+    //     })
+    //     .catch(error => console.log(error) )
 
-    },[])
+    // },[])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
         .then(response => {

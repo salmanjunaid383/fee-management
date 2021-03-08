@@ -16,8 +16,14 @@
   display: flex;
 }
 .add-student{
+  display: flex;
+  justify-content: flex-end;
+}
+.add-student1{
+ border-bottom: 2px solid black;
  display: flex;
  justify-content: flex-end;
+
 }
 .expense-btn-p{
   background-color: #06bf31 !important;
@@ -216,6 +222,17 @@ margin-left: 0px;
 margin-bottom: 10px ;
 line-height: 1.7;
 font-weight: 600;
+}
+.show_fee{
+
+  overflow: auto;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+}
+.fee_card{
+  width: 300px;
 }
 .message {
 margin: 10 0px;
