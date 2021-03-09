@@ -1,7 +1,16 @@
-import React from 'react';
+import {React, useEffect } from 'react';
 import './FeeVoucher.css';
+import axios from 'axios';
 
 const FeeVoucher = () => {
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/fee_voucher/1`)
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => console.log(error))
+
+    }, [])
     return (
         <>
             <div class="fee-voucher-main">
@@ -59,11 +68,15 @@ const FeeVoucher = () => {
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
-                            <div class="col-12">
-                                <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-left text-bolder">January,2021</p>
-                                <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-right text-bolder">1575</p>
-                            </div>
+                            <div class="col-12 mt-3">
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                
 
+                            </div>
+  
                             <div class="fix-bottom">
                                 <div class="col-12 voucher-box-bottom">
                                     <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
@@ -76,6 +89,12 @@ const FeeVoucher = () => {
                                 </div>
                             </div>
                         </div>
+                            
+
+
+                            
+
+
                         <div class="row border border-dark">
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-2">Fee Payable before Due Date</p>
@@ -166,9 +185,12 @@ const FeeVoucher = () => {
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
-                            <div class="col-12">
-                                <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-left text-bolder">January,2021</p>
-                                <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-right text-bolder">1575</p>
+                        <div class="col-12 mt-3">
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                
+
                             </div>
 
                             <div class="fix-bottom">
@@ -272,9 +294,12 @@ const FeeVoucher = () => {
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
-                            <div class="col-12">
-                                <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-left text-bolder">January,2021</p>
-                                <p class="voucher-text1 voucher-box-inline mt-3 voucher-box-right text-bolder">1575</p>
+                        <div class="col-12 mt-3">
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
+                                
+
                             </div>
 
                             <div class="fix-bottom">

@@ -38,10 +38,13 @@ const useStyles = makeStyles((theme) => ({
 
 
 const StudentLedger = () => {
+    const student_id = localStorage.getItem("student_id");
+    const [studentledger, setStudentledger] = useState([]);
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger/2`)
             .then(response => {
                 console.log(response.data)
+                setStudentledger(response.data);
             })
             .catch(error => console.log(error))
 
@@ -105,43 +108,41 @@ const StudentLedger = () => {
                                 <table class="table no-wrap">
                                     <thead>
                                         <tr>
-                                            <th class="border-top-0">#</th>
-                                            <th class="border-top-0">NAME</th>
+                                            <th class="border-top-0">Term</th>
                                             <th class="border-top-0">Description</th>
-                                            <th class="border-top-0">Charges</th>
+                                            <th class="border-top-0">Date</th>
+                                            <th class="border-top-0">Debit</th>
+                                            <th class="border-top-0">Credit</th>
+                                            <th class="border-top-0">Balance</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* {expensedata.map((val, i) => {
+                                        {studentledger.map((val, i) => {
                                             return (
                                                 <>
                                                     <tr key={i}>
-                                                        <td>{val.id}</td>
-                                                        <td class="txt-oflo">{val.name}</td>
-                                                        <td>{val.description}</td>
-                                                        <td>{val.charges}</td>
-                                                        <td>
-                                                            {val.paid == 1 ?
-                                                                <span class="text-primary text-bolder">Paid</span>
-                                                                :
-                                                                <span class="text-danger text-bolder">Unpaid</span>
-                                                            }
-                                                        </td>
-                                                        <td>
-                                                            <ButtonGroup disableElevation variant="contained" color="primary">
-                                                                <Button className="expense-btn-p " onClick={() => sendpay(val.id)}><span class="text-white text-bolder mb-3">Pay</span></Button>
-                                                            </ButtonGroup>
-                                                        </td>
+                                                        <td>{val.term}</td>
+                                                        <td class="txt-oflo">{val.description}</td>
+                                                        <td>{val.date}</td>
+                                                        {
+                                                            val.debit == 0 ?
+                                                            <td></td> :
+                                                            
+                                                            <td>{val.debit}</td>
+                                                        }
+                                                        {
+                                                            val.credit == 0 ?
+                                                            <td></td> :
+                                                            
+                                                            <td>{val.credit}</td>
+                                                        }
+                                                        <td>{val.balance}</td>
+                                                        
                                                     </tr>
                                                 </>
                                             )
-                                        })} */}
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Marium</td>
-                                            <td>Van</td>
-                                            <td>5000</td>
-                                        </tr>
+                                        })}
+
                                     </tbody>
                                 </table>
                             </div>

@@ -19,7 +19,9 @@
   display: flex;
   justify-content: space-around;
 }
-
+.small-box{
+  height: 20px;
+}
 /* .voucher-table-inner{
   border-collapse: collapse !important;
   width: 100%;
