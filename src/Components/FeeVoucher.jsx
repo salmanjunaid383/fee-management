@@ -1,16 +1,31 @@
-import {React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import './FeeVoucher.css';
 import axios from 'axios';
 
 const FeeVoucher = () => {
+    const [discount, setDiscount] = useState();
+    const [duedate, setDuedate] = useState();
+    const [issuedate, setIssuedate] = useState();
+    const [feevoucherbreak, setFeevoucherbreak] = useState([]);
+    const [feevoucher, setFeevoucher] = useState({});
+    const [studentdata, setStudentdata] = useState({});
+    const [classdata, setClassdata] = useState({});
+    const student_id = localStorage.getItem("student_id")
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/fee_voucher/1`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/fee_voucher/${student_id}`)
             .then(response => {
                 console.log(response.data)
+                setDiscount(response.data.discount);
+                setDuedate(response.data.due_date);
+                setIssuedate(response.data.issue_date);
+                setFeevoucher(response.data.feeVoucher);
+                setStudentdata(response.data.student);
+                setClassdata(response.data.class);
+                setFeevoucherbreak(response.data.feeVoucherBreakDown);
             })
             .catch(error => console.log(error))
-
     }, [])
+
     return (
         <>
             <div class="fee-voucher-main">
@@ -26,79 +41,86 @@ const FeeVoucher = () => {
                         <div class="row">
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Fee Bill No</p>
-                                <p class=" voucher-text1">21981</p>
+                                <p class=" voucher-text1">{feevoucher.voucher_no}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Fee Period</p>
-                                <p class=" voucher-text1">Jan-2021</p>
+                                <p class=" voucher-text1">{feevoucher.date}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Issue Date</p>
-                                <p class=" voucher-text1">15-01-2021</p>
+                                <p class=" voucher-text1">{issuedate}</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Campus</p>
-                                <p class=" voucher-text1">1</p>
-                            </div>
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
-                                <p class=" voucher-text1">CLASS X/TR</p>
-                            </div>
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
-                                <p class=" voucher-text1">28-01-2021</p>
-                            </div>
-                        </div>
-                        <div class="row">
+
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">GR. No</p>
                                 <p class=" voucher-text1">S-2725</p>
+                            </div>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
+                                <p class=" voucher-text1">{classdata.name}</p>
+                            </div>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
+                                <p class=" voucher-text1">{duedate}</p>
+                            </div>
+                        </div>
+                        {/* <div class="row">
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">Campus</p>
+                                <p class=" voucher-text1">1</p>
                             </div>
                             <div class="col-8 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">This slip is valid upto</p>
                                 <p class=" voucher-text1">07-02-2021</p>
                             </div>
-                        </div>
+                        </div> */}
                         <div class="row">
                             <div class="col-12 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
-                                <p class=" voucher-text1 text-bolder">Muhammad Jahanzaib</p>
+                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.last_name}`}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
                             <div class="col-12 mt-3">
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                
+                                {
+                                    feevoucherbreak.map((val, i) => {
+                                        return (
+                                            <>
+                                                <p class="voucher-text1 text-left text-bolder ">{(val.description).charAt(0).toUpperCase() + (val.description).slice(1)}<p class="voucher-text1 text-right ">{val.charges}</p></p>
+
+                                            </>
+                                        )
+                                    })
+                                }
+
 
                             </div>
-  
+
                             <div class="fix-bottom">
                                 <div class="col-12 voucher-box-bottom">
                                     <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
                                     <span
-                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
+                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">{feevoucher.total_amount}</span>
                                 </div>
                                 <div class="col-12 pos-rel">
                                     <span class="voucher-box-font text-bolder voucher-box-left">Discount Fee</span>
-                                    <span class="pos-ab text-bolder">1175</span>
+                                    <span class="pos-ab text-bolder">{discount}</span>
                                 </div>
                             </div>
                         </div>
-                            
 
 
-                            
+
+
 
 
                         <div class="row border border-dark">
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-2">Fee Payable before Due Date</p>
-                                <p class="voucher-box-right text-bolder mt-2">1575</p>
+                                <p class="voucher-box-right text-bolder mt-2">{feevoucher.final_amount}</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>
@@ -143,29 +165,15 @@ const FeeVoucher = () => {
                         <div class="row">
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Fee Bill No</p>
-                                <p class=" voucher-text1">21981</p>
+                                <p class=" voucher-text1">{feevoucher.voucher_no}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Fee Period</p>
-                                <p class=" voucher-text1">Jan-2021</p>
+                                <p class=" voucher-text1">{feevoucher.date}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Issue Date</p>
-                                <p class=" voucher-text1">15-01-2021</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Campus</p>
-                                <p class=" voucher-text1">1</p>
-                            </div>
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
-                                <p class=" voucher-text1">CLASS X/TR</p>
-                            </div>
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
-                                <p class=" voucher-text1">28-01-2021</p>
+                                <p class=" voucher-text1">{issuedate}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -173,23 +181,35 @@ const FeeVoucher = () => {
                                 <p class="voucher-text1 mt-3 text-bolder">GR. No</p>
                                 <p class=" voucher-text1">S-2725</p>
                             </div>
-                            <div class="col-8 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">This slip is valid upto</p>
-                                <p class=" voucher-text1">07-02-2021</p>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
+                                <p class=" voucher-text1">{classdata.name}</p>
+                            </div>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
+                                <p class=" voucher-text1">{duedate}</p>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-12 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
-                                <p class=" voucher-text1 text-bolder">Muhammad Jahanzaib</p>
+                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.last_name}`}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
-                        <div class="col-12 mt-3">
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                
+                            <div class="col-12 mt-3">
+                                {
+                                    feevoucherbreak.map((val, i) => {
+                                        return (
+                                            <>
+                                                <p class="voucher-text1 text-left text-bolder ">{(val.description).charAt(0).toUpperCase() + (val.description).slice(1)}<p class="voucher-text1 text-right ">{val.charges}</p></p>
+
+                                            </>
+                                        )
+                                    })
+                                }
+
 
                             </div>
 
@@ -197,18 +217,24 @@ const FeeVoucher = () => {
                                 <div class="col-12 voucher-box-bottom">
                                     <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
                                     <span
-                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
+                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">{feevoucher.total_amount}</span>
                                 </div>
                                 <div class="col-12 pos-rel">
                                     <span class="voucher-box-font text-bolder voucher-box-left">Discount Fee</span>
-                                    <span class="pos-ab text-bolder">1175</span>
+                                    <span class="pos-ab text-bolder">{discount}</span>
                                 </div>
                             </div>
                         </div>
+
+
+
+
+
+
                         <div class="row border border-dark">
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-2">Fee Payable before Due Date</p>
-                                <p class="voucher-box-right text-bolder mt-2">1575</p>
+                                <p class="voucher-box-right text-bolder mt-2">{feevoucher.final_amount}</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>
@@ -252,29 +278,15 @@ const FeeVoucher = () => {
                         <div class="row">
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Fee Bill No</p>
-                                <p class=" voucher-text1">21981</p>
+                                <p class=" voucher-text1">{feevoucher.voucher_no}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Fee Period</p>
-                                <p class=" voucher-text1">Jan-2021</p>
+                                <p class=" voucher-text1">{feevoucher.date}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Issue Date</p>
-                                <p class=" voucher-text1">15-01-2021</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Campus</p>
-                                <p class=" voucher-text1">1</p>
-                            </div>
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
-                                <p class=" voucher-text1">CLASS X/TR</p>
-                            </div>
-                            <div class="col-4 border border-dark">
-                                <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
-                                <p class=" voucher-text1">28-01-2021</p>
+                                <p class=" voucher-text1">{issuedate}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -282,23 +294,45 @@ const FeeVoucher = () => {
                                 <p class="voucher-text1 mt-3 text-bolder">GR. No</p>
                                 <p class=" voucher-text1">S-2725</p>
                             </div>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
+                                <p class=" voucher-text1">{classdata.name}</p>
+                            </div>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
+                                <p class=" voucher-text1">{duedate}</p>
+                            </div>
+                        </div>
+                        {/* <div class="row">
+
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">Campus</p>
+                                <p class=" voucher-text1">1</p>
+                            </div>
                             <div class="col-8 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">This slip is valid upto</p>
                                 <p class=" voucher-text1">07-02-2021</p>
                             </div>
-                        </div>
+                        </div> */}
                         <div class="row">
                             <div class="col-12 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
-                                <p class=" voucher-text1 text-bolder">Muhammad Jahanzaib</p>
+                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.last_name}`}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
-                        <div class="col-12 mt-3">
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                <p class="voucher-text1 text-left text-bolder ">January,2021<p class="voucher-text1 text-right ">1575</p></p>
-                                
+                            <div class="col-12 mt-3">
+                                {
+                                    feevoucherbreak.map((val, i) => {
+                                        return (
+                                            <>
+                                                <p class="voucher-text1 text-left text-bolder ">{(val.description).charAt(0).toUpperCase() + (val.description).slice(1)}<p class="voucher-text1 text-right ">{val.charges}</p></p>
+
+                                            </>
+                                        )
+                                    })
+                                }
+
 
                             </div>
 
@@ -306,18 +340,24 @@ const FeeVoucher = () => {
                                 <div class="col-12 voucher-box-bottom">
                                     <span class="voucher-box-font text-bolder voucher-box-left">Total Month Fee</span>
                                     <span
-                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">2750</span>
+                                        class="absolute-right voucher-box-font text-bolder flex-left voucher-box-right">{feevoucher.total_amount}</span>
                                 </div>
                                 <div class="col-12 pos-rel">
                                     <span class="voucher-box-font text-bolder voucher-box-left">Discount Fee</span>
-                                    <span class="pos-ab text-bolder">1175</span>
+                                    <span class="pos-ab text-bolder">{discount}</span>
                                 </div>
                             </div>
                         </div>
+
+
+
+
+
+
                         <div class="row border border-dark">
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-2">Fee Payable before Due Date</p>
-                                <p class="voucher-box-right text-bolder mt-2">1575</p>
+                                <p class="voucher-box-right text-bolder mt-2">{feevoucher.final_amount}</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>

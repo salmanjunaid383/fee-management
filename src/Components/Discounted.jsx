@@ -69,7 +69,7 @@ const Discounted = () => {
             .catch(error => console.log(error))
     }
 
-
+    console.log(studentid)
 
     return (
         <>

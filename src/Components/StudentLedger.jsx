@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import './dashboard.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const StudentLedger = () => {
+    const history = useHistory();
     const student_id = localStorage.getItem("student_id");
     const [studentledger, setStudentledger] = useState([]);
     useEffect(() => {
@@ -49,6 +50,10 @@ const StudentLedger = () => {
             .catch(error => console.log(error))
 
     }, [])
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
     // const [show, setShow] = useState(false);
     // const [expensedata, setExpensedata] = useState([]);
     // const handleClose = () => setShow(false);
@@ -95,7 +100,8 @@ const StudentLedger = () => {
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
                                     Student Ledger
-                        </div>
+                                </div>
+                                    <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>
                         </div>
                         <hr class="new-hr" />
@@ -126,18 +132,18 @@ const StudentLedger = () => {
                                                         <td>{val.date}</td>
                                                         {
                                                             val.debit == 0 ?
-                                                            <td></td> :
-                                                            
-                                                            <td>{val.debit}</td>
+                                                                <td></td> :
+
+                                                                <td>{val.debit}</td>
                                                         }
                                                         {
                                                             val.credit == 0 ?
-                                                            <td></td> :
-                                                            
-                                                            <td>{val.credit}</td>
+                                                                <td></td> :
+
+                                                                <td>{val.credit}</td>
                                                         }
                                                         <td>{val.balance}</td>
-                                                        
+
                                                     </tr>
                                                 </>
                                             )
