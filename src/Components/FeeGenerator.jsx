@@ -33,8 +33,8 @@ const Fee = () => {
     const classes = useStyles();
     const [classid, setClassid] = useState();
     const [tax, setTax] = useState();
-    const [classdata, setClassdata] = useState([]);
     const [description, setDescription] = useState();
+    const [classdata, setClassdata] = useState([]);
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
     const [inputList, setInputList] = useState([
@@ -52,10 +52,9 @@ const Fee = () => {
         setInputList([...inputList, { description: "", charges: "" }]);
     }
     const [inputListYear, setInputListYear] = useState([
-        { description: "", charges: "" }
+        { description: "", charges: "", month: "" }
     ]
     );
-    console.log(classid)
 
     const handleChangeY = (e, index) => {
         const { name, value } = e.target;
@@ -64,8 +63,9 @@ const Fee = () => {
         setInputListYear(list);
     }
     const handleAddY = () => {
-        setInputListYear([...inputListYear, { description: "", charges: "" }]);
+        setInputListYear([...inputListYear, { description: "", charges: "", month: "" }]);
     }
+    console.log(inputListYear)
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
@@ -80,12 +80,13 @@ const Fee = () => {
             {
                 monthlyCharges: inputList,
                 monthly_charges: 0,
-                yearlyCharges: inputListYear,
                 yearly_charges: 0,
+                yearlyCharges: inputListYear,
                 class_id: classid,
                 school_id: school_id,
                 description: description,
-                tax : tax
+                tax: tax
+
 
 
             })
@@ -98,12 +99,15 @@ const Fee = () => {
         // console.log(inputList)
     }
 
-    
 
 
-    
 
 
+
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
 
     return (
         <>
@@ -120,13 +124,6 @@ const Fee = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
-                            {/* <div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-school"></i>
-                                </div>
-                                <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
-                            </div> */}
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -192,6 +189,8 @@ const Fee = () => {
                                 <div class="big-inbox">
                                     Fee
                                 </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />
@@ -204,10 +203,10 @@ const Fee = () => {
                                     <div class="col-2">
                                         <select class="inline select" id="select-class" onChange={(e) => setClassid(e.target.value)}>
                                             <option selected disabled>Class</option>
-                                            {classdata.map ((val,i)=>{
-                                                return(
+                                            {classdata.map((val, i) => {
+                                                return (
                                                     <>
-                                            <option value={val.id}>{val.name}</option>
+                                                        <option value={val.id}>{val.name}</option>
                                                     </>
                                                 )
                                             })}
@@ -252,17 +251,21 @@ const Fee = () => {
                                 <hr class="new-hr" />
                                 <h4 class="text-center">Yearly Charges</h4>
                                 <hr class="new-hr" />
+
                                 {inputListYear.map((item, i) => {
                                     return (
                                         <div key={i} class="row mb-2">
-                                            <div class="col-5">
-                                                <input type="text" id="tax" name="description" value={item.description} onChange={e => handleChangeY(e, i)} placeholder="Description" class="inline select" />
+                                            <div class="col-3">
+                                                <input type="text" name="month" value={item.month} onChange={e => handleChangeY(e, i)} placeholder="Month" class="inline select" />
                                             </div>
-                                            <div class="col-5">
-                                                <input type="text" id="tax" name="charges" value={item.charges} onChange={e => handleChangeY(e, i)} placeholder="Charges" class="inline select" />
+                                            <div class="col-3">
+                                                <input type="text" name="description" value={item.description} onChange={e => handleChangeY(e, i)} placeholder="Description" class="inline select" />
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="text" name="charges" value={item.charges} onChange={e => handleChangeY(e, i)} placeholder="Charges" class="inline select" />
 
                                             </div>
-                                            <div class="col-2">
+                                            <div class="col-3">
                                                 {inputListYear.length - 1 === i &&
                                                     <button type="button" onClick={handleAddY} class="btn btn-primary mt-1">Add More</button>
                                                 }

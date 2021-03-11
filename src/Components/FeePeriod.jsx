@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
@@ -21,6 +21,7 @@ const FeePeriod = () => {
     const [due, setDue]= useState();
     const [generate, setGenerate]= useState();
     const [latefee, setLatefee]= useState();
+    const history = useHistory();
 
     const data = {
         school_id :localStorage.getItem("school_id"),
@@ -52,7 +53,10 @@ const FeePeriod = () => {
         
         
 
-
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
    
 
     return(
@@ -146,6 +150,8 @@ const FeePeriod = () => {
                         <div class="big-inbox">
                             Fee
                         </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                     </div>
                 </div>
                 <hr class="new-hr" />

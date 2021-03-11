@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './dashboard.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from "./jb1.png";
 import { Modal} from 'react-bootstrap';
@@ -31,6 +31,7 @@ const SuperAdmin = () => {
     const [administratordata, setAdministratordata]= useState([]);
     const [studentdata, setStudentdata]= useState([]);
     const [schooldata, setSchooldata]= useState([]);
+    const history = useHistory();
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user`)
         .then(response => {
@@ -151,8 +152,10 @@ const SuperAdmin = () => {
         })
         .catch (error => console.log(error))
     }
-        
-
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/");
+    }
         
      
 
@@ -191,6 +194,8 @@ const SuperAdmin = () => {
                             <div class="big-inbox">
                                 SuperAdmin Dashboard
                             </div>
+                            <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                         </div>
                     </div>
                     <hr class="new-hr" />

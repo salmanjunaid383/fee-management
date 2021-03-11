@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
@@ -47,7 +47,8 @@ const Term = () => {
     const [endingdate, setEndingdate] = useState();
     const [description, setDescription] = useState();
     const [classid, setClassid] = useState();
-    const school_id = localStorage.getItem("school_id")
+    const school_id = localStorage.getItem("school_id");
+    const history = useHistory();
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
@@ -93,9 +94,13 @@ const Term = () => {
                 console.log(response);
             })
             .catch(error => console.log(error))
+        // console.log(data)
     }
 
-
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
 
     return (
         <>
@@ -188,7 +193,9 @@ const Term = () => {
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
                                     Fee
-                        </div>
+                                </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />

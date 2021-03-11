@@ -164,7 +164,10 @@ const SuperSchool = () => {
         })
         .catch (error => console.log(error))
     }
-        
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
     
 
       
@@ -202,6 +205,8 @@ const SuperSchool = () => {
                                 <div class="big-inbox">
                                     Schools
                                 </div>
+                            <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />

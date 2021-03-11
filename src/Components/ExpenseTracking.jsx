@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import './dashboard.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -52,7 +52,8 @@ const MyExpense = () => {
     const [charges, setCharges] = useState();
     const [paid, setPaid] = useState();
     const [description, setDescription] = useState();
-    const school_id = localStorage.getItem("school_id")
+    const school_id = localStorage.getItem("school_id");
+    const history = useHistory();
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
             .then(response => {
@@ -193,7 +194,10 @@ const MyExpense = () => {
     }
 
 
-
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
 
     return (
         <>
@@ -279,6 +283,8 @@ const MyExpense = () => {
                                 <div class="big-inbox">
                                     Expense Tracking
                         </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />

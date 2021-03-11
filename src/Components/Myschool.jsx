@@ -47,6 +47,10 @@ const history = useHistory();
         
     
     }
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/");
+    }
 
       
     return (
@@ -122,8 +126,10 @@ const history = useHistory();
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
                                     Schools
-                        </div>
+                                </div>
+                            <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>
+
                         </div>
                         <hr class="new-hr" />
                     </div>

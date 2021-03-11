@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
@@ -43,7 +43,8 @@ const Discounted = () => {
     const [studentdata, setStudentdata] = useState([]);
     const [studentid, setStudentid] = useState();
     const [discount, setDiscount] = useState();
-    const school_id = localStorage.getItem("school_id")
+    const school_id = localStorage.getItem("school_id");
+    const history = useHistory();
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
@@ -53,10 +54,19 @@ const Discounted = () => {
             .catch(error => (console.log(error)))
 
     }, [])
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/discount`)
+            .then(response => {
+                console.log(response);
+                // setStudentdata(response.data);
+            })
+            .catch(error => (console.log(error)))
+
+    }, [])
 
 
     const data = {
-        student_id: 1,
+        student_id: studentid,
         discount: discount
 
     }
@@ -65,12 +75,25 @@ const Discounted = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/discount`, data)
             .then(response => {
                 console.log(response);
+                // setDiscount(" ");
+                // setStudentid(" ");
             })
             .catch(error => console.log(error))
     }
+    // ect(() => {
+    //     axios.get(`http://fee-management-api.nastechltd.co/api/monthly_charges`)
+    //         .then(response => {
+    //             console.log(response.data)
+    //             setChargesdata(response.data)
 
+    //         })
+    //         .catch(error => console.log(error))
+    // }, [])
     console.log(studentid)
-
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
     return (
         <>
             <div class="dashboard">
@@ -156,6 +179,8 @@ const Discounted = () => {
                                 <div class="big-inbox">
                                     Fee
                         </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />

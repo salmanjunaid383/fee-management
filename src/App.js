@@ -13,7 +13,7 @@ import MyClass from './Components/MyClass';
 import MySection from './Components/Section';
 import FeeVoucher from './Components/FeeVoucher';
 import Mystudents from './Components/Mystudents';
-// import Homepage from './Components/Homepage';
+import BreakDown from './Components/BreakDown';
 import Finance from './Components/Finance';
 import Student1 from './Components/Student1';
 import StudentLedger from './Components/StudentLedger';
@@ -65,6 +65,7 @@ const App = () => {
             <Route path="/addexpense" component={AddExpenseTracking} />
             <Route path="/expense" component={MyExpense} />
             <Route path="/fee" component={Fee} />
+            <Route path="/breakdown" component={BreakDown} />
             <Route path="/feeperiod" component={FeePeriod} />
             <Route path="/feevoucher" component={FeeVoucher} />
             <Route path="/structure" component={Structure} />

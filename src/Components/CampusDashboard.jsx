@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './dashboard.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal} from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
@@ -26,7 +26,8 @@ const CampusDashboard = () => {
     const [studentdata, setStudentdata]= useState([]);
     const [schooldata, setSchooldata]= useState([]);
     const school_id = localStorage.getItem("school_id")
-    const admin_id = localStorage.getItem("admin_id")
+    const admin_id = localStorage.getItem("admin_id");
+    const history = useHistory();
     // useEffect(() => {
     //     axios.get(`http://fee-management-api.nastechltd.co/api/school_administrator`)
     //     .then(response => {
@@ -54,7 +55,10 @@ const CampusDashboard = () => {
         .catch(error => console.log(error) )
 
     },[]) 
-    
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
     return (
         <>
             <div class="dashboard">
@@ -146,6 +150,8 @@ const CampusDashboard = () => {
                                 <div class="big-inbox">
                                     School Administrator
                         </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />
