@@ -28,6 +28,7 @@ import EmployeeUpdate from './Components/EmployeeUpdate';
 import SchoolClass from './Components/ClassEntry';
 import Fee from './Components/FeeGenerator';
 import FeePeriod from './Components/FeePeriod';
+import ShowFeePeriod from './Components/ShowFeePeriod';
 import Structure from './Components/FeeStructure';
 import Discounted from './Components/Discounted';
 import SuperAdmin from './Components/SuperAdmin';
@@ -67,6 +68,7 @@ const App = () => {
             <Route path="/fee" component={Fee} />
             <Route path="/breakdown" component={BreakDown} />
             <Route path="/feeperiod" component={FeePeriod} />
+            <Route path="/showfeeperiod" component={ShowFeePeriod} />
             <Route path="/feevoucher" component={FeeVoucher} />
             <Route path="/structure" component={Structure} />
             <Route path="/admission" component={AdmissionCharges} />

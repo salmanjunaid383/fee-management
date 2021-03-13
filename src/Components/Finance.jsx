@@ -139,6 +139,10 @@ const Finance = () => {
         })
         .catch (error => console.log(error))
     }
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
     return (
         <>
             <div class="dashboard">
@@ -192,6 +196,12 @@ const Finance = () => {
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link>
                             <Link class="nav-link" to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -223,6 +233,8 @@ const Finance = () => {
                                 <div class="big-inbox">
                                     Finance Employee
                                 </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />
@@ -348,8 +360,8 @@ const Finance = () => {
                                            <tr key={i}>
                                                 <td>{val.id}</td>
                                                 <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
+                                                <td>{val.gender}</td>
                                                 <td>{val.contact}</td>
-                                                <td>{val.address}</td>
                                                 <td class="txt-oflo">{val.email}</td>
                                                 <td>
                                             <ButtonGroup disableElevation variant="contained" color="primary">

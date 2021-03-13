@@ -88,8 +88,8 @@ const Structure = () => {
                 localStorage.setItem("total_monthly_charges",response.data.total_monthly_charges)
                 localStorage.setItem("total_yearly_charges",response.data.total_yearly_charges)
                 setTax(response.data.tax)
-                setDescription(response.data.description)
-                setClassid(response.data.Classid)
+                setDescription(response.data.description);
+                setClassid(response.data.class_id);
                 console.log(response.data)
                 handleShow();
                 
@@ -102,8 +102,8 @@ const Structure = () => {
             description : description,
             class_id : classid,
             school_id : school_id,
-            total_monthly_charges: localStorage.getItem("total_monthly_charges"),
-            tptal_yearly_charges: localStorage.getItem("total_yearlyly_charges"),
+            monthly_charges: localStorage.getItem("total_monthly_charges"),
+            yearly_charges: localStorage.getItem("total_yearly_charges"),
             tax : tax
         })
             .then(response => {
@@ -221,6 +221,12 @@ const Structure = () => {
                                     <i class="fas fa-wallet active"></i>
                                 </div>
                                 <div class="icon-name active">Fee Structure</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
                             </div></Link>
                             <Link class="nav-link" to="/discounted"><div class="folder-icons">
                                 <div class="icon1">

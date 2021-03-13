@@ -1,6 +1,6 @@
 import { React, useEffect } from 'react';
 import './dashboard.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -22,6 +22,7 @@ const AdmissionCharges = () => {
     const [show1, setShow1] = useState(false);
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
+    const history = useHistory();
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/admission_charges`)
             .then(response => {
@@ -89,7 +90,10 @@ const AdmissionCharges = () => {
         })
         .catch(error => console.log(error))
     }
-    console.log(admissiondata)
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
 
     return (
         <>
@@ -181,8 +185,10 @@ const AdmissionCharges = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Fee
+                                    Admission Charges
                                 </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />

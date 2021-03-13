@@ -197,7 +197,7 @@ const Mystudents = () => {
             })
             .catch(error => console.log(error))
     }
-    console.log(fname)
+    // console.log(fname)
     const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
             first_name: fname,
@@ -222,6 +222,10 @@ const Mystudents = () => {
 
             })
             .catch(error => console.log(error))
+    }
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
     }
 
     return (
@@ -279,6 +283,12 @@ const Mystudents = () => {
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link>
                             <Link class="nav-link" to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -310,6 +320,8 @@ const Mystudents = () => {
                                 <div class="big-inbox">
                                     Students
                                 </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />
@@ -436,7 +448,7 @@ const Mystudents = () => {
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">NAME</th>
                                             <th class="border-top-0">GENDER</th>
-                                            <th class="border-top-0">Details</th>
+                                            {/* <th class="border-top-0">Details</th> */}
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
@@ -447,7 +459,7 @@ const Mystudents = () => {
                                                     <td>{val.id}</td>
                                                     <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
                                                     <td>{val.gender}</td>
-                                                    <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td>
+                                                    {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
                                                     <td>
                                                         <ButtonGroup disableElevation variant="contained" color="primary">

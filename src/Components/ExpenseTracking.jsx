@@ -74,6 +74,15 @@ const MyExpense = () => {
             .catch(error => (console.log(error)))
 
     }, [])
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/expense_tracking/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setExpensedata(response.data)
+            })
+            .catch(error => console.log(error))
+
+    }, [])
 
 
     if (studentid.length != 0) {
@@ -83,7 +92,7 @@ const MyExpense = () => {
 
             })
             .catch(error => (console.log(error)))
-    }
+        }
 
 
 
@@ -91,7 +100,7 @@ const MyExpense = () => {
 
     const data = {
         school_id: school_id,
-        student_id: 2,
+        student_id: studentid,
         charges: charges,
         description: description,
         name: studentname,
@@ -108,15 +117,6 @@ const MyExpense = () => {
             .catch(error => console.log(error))
     }
 
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/expense_tracking/${school_id}`)
-            .then(response => {
-                console.log(response);
-                setExpensedata(response.data)
-            })
-            .catch(error => console.log(error))
-
-    }, [])
 
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/expense_tracking/${school_id}`)
@@ -155,7 +155,7 @@ const MyExpense = () => {
                 localStorage.setItem("description", response.data.description)
                 setCharges(response.data.charges)
                 setDescription(response.data.description)
-                setStudentname(response.data.name)
+                localStorage.setItem("name",response.data.name)
                 setStudentid(response.data.student_id)
                 setPaid(response.data.paid)
                 handleShow1();
@@ -167,7 +167,7 @@ const MyExpense = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem("id")}`, {
             charges: charges,
             description: description,
-            name: studentname,
+            name: localStorage.getItem("name"),
             paid: paid,
             student_id: studentid
         })
@@ -176,6 +176,7 @@ const MyExpense = () => {
                 localStorage.removeItem("id")
                 localStorage.removeItem("charges")
                 localStorage.removeItem("description")
+                localStorage.removeItem("name")
                 reload();
                 handleClose1();
             })
@@ -252,6 +253,12 @@ const MyExpense = () => {
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link>
                             <Link class="nav-link" to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -293,7 +300,7 @@ const MyExpense = () => {
 
                         <div class="message">
                             <div class="add-student">
-                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add More</button>
+                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add</button>
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title className="text-center">Add Expense</Modal.Title>

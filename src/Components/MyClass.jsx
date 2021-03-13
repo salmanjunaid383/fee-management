@@ -110,7 +110,10 @@ const MyClass = () => {
         .catch (error => console.log(error))
     }
 
-
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
 
     return (
         <>
@@ -165,6 +168,12 @@ const MyClass = () => {
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link>
                             <Link  class="nav-link"to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
                                 <i class="fas fa-wallet"></i>
@@ -197,6 +206,8 @@ const MyClass = () => {
                                 <div class="big-inbox">
                                     Classes
                         </div>
+                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />

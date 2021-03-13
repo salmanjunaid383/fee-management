@@ -246,6 +246,14 @@ padding: 0 25px;
 div.css-g1d714-ValueContainer{
 padding: 12px 12px 10px !important;
 }
+.select-update{
+  width : 100% !important;
+  height: 54px;
+  /* margin-top: 7px; */
+  outline: none;
+  border: 2px solid #ddd;
+  border-radius: 4px 4px 0px 0px;
+}
 .select{
   padding: 10px;
   border-radius: 4px;

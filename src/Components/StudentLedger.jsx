@@ -39,10 +39,18 @@ const useStyles = makeStyles((theme) => ({
 
 const StudentLedger = () => {
     const history = useHistory();
-    const student_id = localStorage.getItem("student_id");
     const [studentledger, setStudentledger] = useState([]);
+    const [name, setName]= useState();
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger/2`)
+        const student_id = localStorage.getItem("student_id");
+        axios.get(`http://fee-management-api.nastechltd.co/api/user/${student_id}`)
+            .then(response => {
+                // console.log(response.data)
+                setName(`${response.data.first_name} ${response.data.last_name}`);
+            })
+            .catch(error => console.log(error))
+
+        axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger/${student_id}`)
             .then(response => {
                 console.log(response.data)
                 setStudentledger(response.data);
@@ -61,7 +69,7 @@ const StudentLedger = () => {
     // const classes = useStyles();
     // const [studentdata, setStudentdata] = useState([]);
     // const [studentname, setStudentname] = useState();
-    // const [studentid, setStudentid] = useState('');
+    // const [studentid, setStudentid] = useState('')response.data.first_name;
     // const [charges, setCharges] = useState();
     // const [description, setDescription] = useState();
 
@@ -99,7 +107,7 @@ const StudentLedger = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Student Ledger
+                                    {`${name}'s `} Ledger
                                 </div>
                                     <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>

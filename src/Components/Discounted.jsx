@@ -4,11 +4,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import logo from './jb1.png'
-import Select1 from 'react-select'
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import UpdateIcon from '@material-ui/icons/Update';
+import LaunchIcon from '@material-ui/icons/Launch';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { Modal } from 'react-bootstrap';
 import FormLabel from '@material-ui/core/FormLabel';
 
 
@@ -40,7 +46,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Discounted = () => {
     const classes = useStyles();
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const [studentdata, setStudentdata] = useState([]);
+    const [discounteddata, setDiscounteddata] = useState([]);
     const [studentid, setStudentid] = useState();
     const [discount, setDiscount] = useState();
     const school_id = localStorage.getItem("school_id");
@@ -58,11 +68,22 @@ const Discounted = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/discount`)
             .then(response => {
                 console.log(response);
-                // setStudentdata(response.data);
+                setDiscounteddata(response.data);
             })
             .catch(error => (console.log(error)))
 
     }, [])
+
+    const reload = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/discount`)
+        .then(response => {
+            console.log(response);
+            setDiscounteddata(response.data);
+        })
+        .catch(error => (console.log(error)))
+    }
+
+    
 
 
     const data = {
@@ -75,10 +96,19 @@ const Discounted = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/discount`, data)
             .then(response => {
                 console.log(response);
-                // setDiscount(" ");
-                // setStudentid(" ");
+                reload();
+                handleClose();
             })
             .catch(error => console.log(error))
+    }
+
+    const deleteDiscount = (id) => {
+        axios.delete(`http://fee-management-api.nastechltd.co/api/discount/${id}`)
+        .then(response => {
+            console.log(response);
+            reload();
+        })
+        .catch(error => console.log(error))
     }
     // ect(() => {
     //     axios.get(`http://fee-management-api.nastechltd.co/api/monthly_charges`)
@@ -89,7 +119,7 @@ const Discounted = () => {
     //         })
     //         .catch(error => console.log(error))
     // }, [])
-    console.log(studentid)
+    // console.log(studentid)
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -148,6 +178,12 @@ const Discounted = () => {
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link>
                             <Link class="nav-link" to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet active"></i>
@@ -177,9 +213,9 @@ const Discounted = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Fee
+                                    Discount
                         </div>
-                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
@@ -188,32 +224,84 @@ const Discounted = () => {
                     <div class="right-body">
 
                         <div class="message">
-                            <h2 class="text-center mt-3 secondary">Discount</h2>
-                            <hr class="new-hr1 secondary" />
+                            <div class="add-student">
+                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Discount</button>
+                                <Modal show={show} onHide={handleClose}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Add Discount</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div class="row billing-main">
+                                            <div class="col-8 billing-box">
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-simple-select-label">Student</InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        // value={id}
+                                                        onChange={(e) => setStudentid(e.target.value)}
+                                                    >
+                                                        {studentdata.map((val, i) => {
+                                                            return (
+                                                                <MenuItem value={val.id}>{`${val.first_name} ${val.last_name}`}</MenuItem>
+                                                            )
 
-                            <div class="row billing-main">
-                                <div class="col-4 billing-box">
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel id="demo-simple-select-label">Student</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            // value={id}
-                                            onChange={(e) => setStudentid(e.target.value)}
-                                        >
-                                            {studentdata.map((val, i) => {
-                                                return (
-                                                    <MenuItem value={val.id}>{`${val.first_name} ${val.last_name}`}</MenuItem>
-                                                )
-
-                                            })}
-                                        </Select>
-                                    </FormControl>
-                                    {/* <Select1 className="pb-3 searchSelect"  onChange={(e)=>setStudentid(e.target.value)} placeholder="Select Student" options={options} /> */}
-                                    <TextField type="number" helperText="Discount Amount" onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
+                                                        })}
+                                                    </Select>
+                                                </FormControl>
+                                                {/* <Select1 className="pb-3 searchSelect"  onChange={(e)=>setStudentid(e.target.value)} placeholder="Select Student" options={options} /> */}
+                                                <TextField type="number" helperText="Discount Amount" onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
 
 
-                                </div>
+                                            </div>
+                                        </div>
+
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={handleClose}>
+                                            Close
+                                            </button>
+                                        <button onClick={sendData} className="btn btn-primary">Create</button>
+                                    </Modal.Footer>
+                                </Modal>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table no-wrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">#</th>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Amount</th>
+                                            <th class="border-top-0">Created At</th>
+                                            <th class="border-top-0">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {discounteddata.map((val, i) => {
+                                            return (
+                                                <>
+                                                    <tr key={i}>
+                                                        <td>{val.id}</td>
+                                                        <td class="txt-oflo">{val.name}</td>
+
+                                                        <td>{val.discount}</td>
+                                                            
+                                                        <td>{val.created_at.slice(0, 10)}</td>
+                                                        <td>
+                                                            <ButtonGroup disableElevation variant="contained" color="primary">
+                                                                {/* <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button> */}
+                                                                <Button className="student-btn-del" onClick={()=>deleteDiscount(val.id)} ><DeleteIcon className="text-white"/></Button>
+                                                            </ButtonGroup>
+                                                        </td>
+                                                    </tr>
+                                                </>
+
+                                            )
+                                        })}
+
+
+                                    </tbody>
+                                </table>
                             </div>
 
 
@@ -224,7 +312,9 @@ const Discounted = () => {
 
 
 
-                            <div class="text-center my-4">  <button onClick={sendData} class="btn btn-generate btn-success">Submit</button></div>
+
+
+
                         </div>
 
 

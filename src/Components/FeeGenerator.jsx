@@ -160,6 +160,12 @@ const Fee = () => {
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link>
                             <Link class="nav-link" to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -189,7 +195,7 @@ const Fee = () => {
                                 <div class="big-inbox">
                                     Fee
                                 </div>
-                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
@@ -256,7 +262,23 @@ const Fee = () => {
                                     return (
                                         <div key={i} class="row mb-2">
                                             <div class="col-3">
-                                                <input type="text" name="month" value={item.month} onChange={e => handleChangeY(e, i)} placeholder="Month" class="inline select" />
+                                                <select class="inline select" id="select-class" name="month" value={item.month} onChange={(e) => handleChangeY(e,i)}>
+                                                    <option selected disabled="disabled" value="" >Month</option>
+                                                    <option>Jan</option>
+                                                    <option>Feb</option>
+                                                    <option>Mar</option>
+                                                    <option>Apr</option>
+                                                    <option>May</option>
+                                                    <option>Jun</option>
+                                                    <option>Jul</option>
+                                                    <option>Aug</option>
+                                                    <option>Sep</option>
+                                                    <option>Oct</option>
+                                                    <option>Nov</option>
+                                                    <option>Dec</option>
+                                                </select>
+
+
                                             </div>
                                             <div class="col-3">
                                                 <input type="text" name="description" value={item.description} onChange={e => handleChangeY(e, i)} placeholder="Description" class="inline select" />

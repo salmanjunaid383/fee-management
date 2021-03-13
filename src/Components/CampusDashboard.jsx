@@ -119,6 +119,12 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link>
                             <Link  class="nav-link"to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
                                 <i class="fas fa-wallet"></i>

@@ -134,7 +134,7 @@ const FeeVoucher = () => {
                         <div class="row border border-dark">
                             <div class="col-12">
                                 <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society
-                                for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump
+                                for Advancement of Learning in Pakistan)<span class="text-bolder"> Account# 1031-0981-019040-01-9</span> held with Water Pump
                                 Branch,Karachi
                                 </p>
                             </div>
@@ -248,7 +248,7 @@ const FeeVoucher = () => {
                         <div class="row border border-dark">
                             <div class="col-12">
                                 <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society
-                                for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump
+                                for Advancement of Learning in Pakistan)<span class="text-bolder"> Account# 1031-0981-019040-01-9</span> held with Water Pump
                                 Branch,Karachi
                                 </p>
                             </div>
@@ -371,7 +371,7 @@ const FeeVoucher = () => {
                         <div class="row border border-dark">
                             <div class="col-12">
                                 <p class="text-small">These Funds are intended for Wonderland Grammar Secondary School (Society
-                                for Advancement of Learning in Pakistan) Account# 1031-0981-019040-01-9 held with Water Pump
+                                for Advancement of Learning in Pakistan) <span class="text-bolder"> Account# 1031-0981-019040-01-9</span> held with Water Pump
                                 Branch,Karachi
                                 </p>
                             </div>
@@ -392,21 +392,20 @@ const FeeVoucher = () => {
                 </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </>
     );
 };
 export default FeeVoucher;
+
+
+
+
+
+
+
+
+
+
+
+
+
