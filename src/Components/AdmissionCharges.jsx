@@ -24,7 +24,7 @@ const AdmissionCharges = () => {
     const handleShow1 = () => setShow1(true);
     const history = useHistory();
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/admission_charges`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_admission/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setAdmissiondata(response.data)
@@ -32,7 +32,7 @@ const AdmissionCharges = () => {
             .catch(error => console.log(error))
     }, [])
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/admission_charges`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_admission/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setAdmissiondata(response.data)
@@ -53,7 +53,10 @@ const AdmissionCharges = () => {
                 reload();
                 handleClose();
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+                alert("Enter Valid Field(s)")
+            })
 
     };
     const update = (id) => {
@@ -79,8 +82,10 @@ const AdmissionCharges = () => {
                 reload();
                 handleClose1();
             })
-            .catch(error => console.log(error))
-    }
+            .catch(error => {
+                console.log(error);
+                alert("Enter Valid Field(s)")
+            })    }
     const deleteCharges = (id) =>{
         axios.delete(`http://fee-management-api.nastechltd.co/api/admission_charges/${id}`)
         .then(response => {
@@ -204,7 +209,7 @@ const AdmissionCharges = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" onChange={(e) => setChargesadmission(e.target.value)} label="Charges" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="number" onChange={(e) => setChargesadmission(e.target.value)} label="Charges" variant="filled" />
                                             </div>
                                         </div>
 
@@ -224,7 +229,7 @@ const AdmissionCharges = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("charges")} onChange={(e) => setChargesadmission(e.target.value)} label="Charges" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("charges")} onChange={(e) => setChargesadmission(e.target.value)} label="Charges" variant="filled" />
                                             </div>
                                         </div>
 

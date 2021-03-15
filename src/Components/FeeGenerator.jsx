@@ -94,7 +94,10 @@ const Fee = () => {
                 console.log(response)
                 history.push("/structure")
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                alert("Fee Structure Already Defined")
+            })
         // console.log(inputListYear)
         // console.log(inputList)
     }
@@ -220,10 +223,10 @@ const Fee = () => {
                                         </select>
                                     </div>
                                     <div class="col-5">
-                                        <input type="text" id="tax" name="tax" onChange={(e) => setDescription(e.target.value)} placeholder="Description" class="inline select" />
+                                        <input type="text" id="tax" name="tax" required onChange={(e) => setDescription(e.target.value)} placeholder="Description" class="inline select" />
                                     </div>
                                     <div class="col-5">
-                                        <input type="text" id="tax" name="tax" onChange={(e) => setTax(e.target.value)} placeholder="Enter Tax" class="inline select" />
+                                        <input type="text" id="tax" name="tax" required onChange={(e) => setTax(e.target.value)} placeholder="Enter Tax" class="inline select" />
                                     </div>
                                 </div>
 

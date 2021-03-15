@@ -63,6 +63,14 @@ const Term = () => {
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
     useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_term/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setTerm(response.data);
+            })
+            .catch(error => (console.log(error)))
+    }, [])
+    useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
                 console.log(response.data)
@@ -80,17 +88,9 @@ const Term = () => {
             .catch(error => (console.log(error)))
 
     }, [])
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/term`)
-            .then(response => {
-                console.log(response);
-                setTerm(response.data);
-            })
-            .catch(error => (console.log(error)))
-
-    }, [])
+    
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/term`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_term/${school_id}`)
             .then(response => {
                 console.log(response);
                 setTerm(response.data);
@@ -118,12 +118,20 @@ const Term = () => {
                 handleShow();
             })
             .catch(error => (console.log(error)))
-
+            
     }
     const sendUpdated = () => {
+        if (startingdate == undefined){
+            alert("Select Starting Date")
+        }
+        else if (endingdate == undefined){
+            alert("Select ending Date")
+
+        }
+        else{
         axios.put(`http://fee-management-api.nastechltd.co/api/term/${localStorage.getItem("id")}`,{
-            start_date: `${startdate}-${startmonth}-${startyear}`,
-        end_date: `${enddate}-${endmonth}-${endyear}`,
+        start_date: `${StartDate.getTime()/1000}`,
+        end_date: `${EndDate.getTime()/1000}`,
         term_name: description,
         school_id: school_id,
         month_or_year: `${startmonth}-${startyear}`
@@ -138,12 +146,26 @@ const Term = () => {
                 handleClose();
             })
             .catch(error => (console.log(error)))
+        }
     }
 
+    function timeConverter(UNIX_timestamp){
+        var a = new Date(UNIX_timestamp * 1000);
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = date + ' ' + month + ' ' + year ;
+        return time;
+      }
     // const feedDate = () => {
         var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
             "Aug", "Sep", "Oct", "Nov", "Dec"];
         var StartDate = new Date(startingdate);
+        // console.log(StartDate)
         var startdate = StartDate.getDate()
         var startmonth = months[StartDate.getMonth()];
         var startyear = StartDate.getFullYear().toString().substr(-2);
@@ -155,13 +177,15 @@ const Term = () => {
         // setEnddatefinal(`${enddate}-${endmonth}-${endyear}`);
         // setMonthyear(`${startmonth}-${startyear}`);
 
+
     
 
-
+    // var tt = new Date().getTime()/1000;
+    // console.log(tt)
 
     const data = {
-        start_date: `${startdate}-${startmonth}-${startyear}`,
-        end_date: `${enddate}-${endmonth}-${endyear}`,
+        start_date: `${StartDate.getTime()/1000}`,
+        end_date: `${EndDate.getTime()/1000}`,
         term_name: description,
         school_id: school_id,
         month_or_year: `${startmonth}-${startyear}`
@@ -303,10 +327,10 @@ const Term = () => {
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
                                                 <TextField type="date" className="pb-3" label="Starting Date" onChange={(e) => setStartingdate(e.target.value)} defaultValue="2021-01-01" variant="filled" />
-                                                <TextField type="text" className="pb-3" label="Term Name" defaultValue={localStorage.getItem("term_name")} onChange={(e) => setDescription(e.target.value)} variant="filled" />
+                                                <TextField type="text" className="pb-3" required label="Term Name" defaultValue={localStorage.getItem("term_name")} onChange={(e) => setDescription(e.target.value)} variant="filled" />
                                             </div>
                                             <div class="col-6 billing-box">
-                                                <TextField type="date" className="pb-3" label="Ending Date" onChange={(e) => setEndingdate(e.target.value)} defaultValue="2021-01-01" variant="filled" />
+                                                <TextField type="date" className="pb-3" required label="Ending Date" onChange={(e) => setEndingdate(e.target.value)} defaultValue="2021-01-01" variant="filled" />
                                             </div>
                                         </div>
 
@@ -341,8 +365,8 @@ const Term = () => {
                                                             <tr key={i}>
                                                                 <td>{val.id}</td>
                                                                 <td>{val.term_name}</td>
-                                                                <td>{val.start_date}</td>
-                                                                <td class="txt-oflo">{val.end_date}</td>
+                                                                <td>{timeConverter(val.start_date)}</td>
+                                                                <td class="txt-oflo">{timeConverter(val.end_date)}</td>
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary ">
                                                                         <Button className="student-btn-up" onClick={() => update(val.id)}   ><UpdateIcon className="text-white" /></Button>

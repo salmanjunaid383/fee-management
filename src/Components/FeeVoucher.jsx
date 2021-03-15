@@ -6,6 +6,7 @@ const FeeVoucher = () => {
     const [discount, setDiscount] = useState();
     const [duedate, setDuedate] = useState();
     const [issuedate, setIssuedate] = useState();
+    const [latefee, setLatefee] = useState();
     const [remainingbalance, setRemainingbalance] = useState();
     const [feevoucherbreak, setFeevoucherbreak] = useState([]);
     const [feevoucher, setFeevoucher] = useState({});
@@ -24,6 +25,7 @@ const FeeVoucher = () => {
                 setClassdata(response.data.class);
                 setRemainingbalance(response.data.remainingBalance);
                 setFeevoucherbreak(response.data.feeVoucherBreakDown);
+                setLatefee(response.data.fee_after_due_date)
             })
             .catch(error => console.log(error))
     }, [])
@@ -127,7 +129,7 @@ const FeeVoucher = () => {
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>
-                                <p class="voucher-box-right mt-1 text-bolder">1675</p>
+                                <p class="voucher-box-right mt-1 text-bolder">{latefee}</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="text-smaller mt-1">The additional amount collected after due date will be donated for
@@ -242,7 +244,7 @@ const FeeVoucher = () => {
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>
-                                <p class="voucher-box-right mt-1 text-bolder">1675</p>
+                                <p class="voucher-box-right mt-1 text-bolder">{latefee}</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="text-smaller mt-1">The additional amount collected after due date will be donated for
@@ -366,7 +368,7 @@ const FeeVoucher = () => {
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="voucher-box-left mt-1">Fee Payable after Due Date(with charity)</p>
-                                <p class="voucher-box-right mt-1 text-bolder">1675</p>
+                                <p class="voucher-box-right mt-1 text-bolder">{latefee}</p>
                             </div>
                             <div class="col-12 border border-dark voucher-box-small">
                                 <p class="text-smaller mt-1">The additional amount collected after due date will be donated for

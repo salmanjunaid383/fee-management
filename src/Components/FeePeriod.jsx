@@ -35,7 +35,7 @@ const FeePeriod = () => {
     const history = useHistory();
 
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/billing_period`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_billing_period/${school_id}`)
             .then(response => {
                 console.log(response.data);
                 setBillingperiod(response.data);
@@ -44,7 +44,7 @@ const FeePeriod = () => {
             .catch(error => console.log(error))
     }, [])
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/billing_period`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_billing_period/${school_id}`)
             .then(response => {
                 console.log(response.data);
                 setBillingperiod(response.data);
@@ -60,8 +60,8 @@ const FeePeriod = () => {
             })
             .catch(error => console.log(error))
     }
-    const update = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/billing_period/${school_id}`)
+    const update = (id) => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/billing_period/${id}`)
             .then(response => {
                 console.log(response.data);
                 localStorage.setItem("id", response.data.id);
@@ -129,7 +129,7 @@ const FeePeriod = () => {
         }
 
     }
-
+    // console.log(billingperiod)
 
 
 
@@ -275,6 +275,7 @@ const FeePeriod = () => {
                                 </Modal>
                             </div>
                             {billingperiod.length > 0 ?
+                            
                                 <>
                                     <div class="table-responsive">
 
@@ -301,7 +302,7 @@ const FeePeriod = () => {
                                                                 <td>{val.late_fee_charge}</td>
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary ">
-                                                                        <Button className="student-btn-up" onClick={() => update}   ><UpdateIcon className="text-white" /></Button>
+                                                                        <Button className="student-btn-up" onClick={() => update(val.id)}   ><UpdateIcon className="text-white" /></Button>
                                                                         <Button className="student-btn-del" onClick={() => deletePeriod(val.id)}  ><DeleteIcon className="text-white" /></Button>
                                                                     </ButtonGroup>
                                                                 </td>
@@ -315,8 +316,10 @@ const FeePeriod = () => {
                                         </table>
                                     </div>
                                 </>
-                                :
+                            
+                                  :
                                 <>
+                                
                                     <h2 class="text-center mt-3 secondary">Billing Period</h2>
                                     <hr class="new-hr1 secondary" />
 
@@ -335,6 +338,7 @@ const FeePeriod = () => {
 
                                     <div class="text-center my-4">  <button class="btn btn-generate btn-success" onClick={sendData}>Submit</button></div>
                                 </>
+                                
                             }
 
                         </div>

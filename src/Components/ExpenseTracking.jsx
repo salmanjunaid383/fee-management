@@ -92,7 +92,7 @@ const MyExpense = () => {
 
             })
             .catch(error => (console.log(error)))
-        }
+    }
 
 
 
@@ -114,7 +114,10 @@ const MyExpense = () => {
                 reload();
 
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+                alert("Enter Valid Field(s)")
+            })
     }
 
 
@@ -153,10 +156,10 @@ const MyExpense = () => {
                 localStorage.setItem("id", response.data.id)
                 localStorage.setItem("charges", response.data.charges)
                 localStorage.setItem("description", response.data.description)
-                localStorage.setItem("name",response.data.name)
+                localStorage.setItem("name", response.data.name)
                 setCharges(response.data.charges)
                 setDescription(response.data.description)
-                localStorage.getItem("student_id",response.data.student_id)
+                localStorage.getItem("student_id", response.data.student_id)
                 setPaid(response.data.paid)
                 handleShow1();
                 //   setSection(response.data.name)
@@ -181,7 +184,10 @@ const MyExpense = () => {
                 reload();
                 handleClose1();
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+                alert("Enter Valid Field(s)")
+            })
     }
     const deleteExpense = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/expense_tracking/${id}`)
@@ -291,7 +297,7 @@ const MyExpense = () => {
                                 <div class="big-inbox">
                                     Expense Tracking
                         </div>
-                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
@@ -376,7 +382,6 @@ const MyExpense = () => {
                                             <th class="border-top-0">Charged</th>
                                             <th class="border-top-0">Status</th>
                                             <th class="border-top-0">Action</th>
-                                            <th class="border-top-0">Update/Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -393,14 +398,11 @@ const MyExpense = () => {
                                                             {val.paid == 1 ?
                                                                 <span class="text-primary text-bolder">Paid</span>
                                                                 :
-                                                                <span class="text-danger text-bolder">Unpaid</span>
-                                                            }
+                                                                <ButtonGroup disableElevation variant="contained" color="primary">
+                                                                    <Button className="expense-btn-p " onClick={() => sendpay(val.id)}><span class="text-white text-bolder mb-1">Pay</span></Button>
+                                                                </ButtonGroup>}
                                                         </td>
-                                                        <td>
-                                                            <ButtonGroup disableElevation variant="contained" color="primary">
-                                                                <Button className="expense-btn-p " onClick={() => sendpay(val.id)}><span class="text-white text-bolder mb-1">Pay</span></Button>
-                                                            </ButtonGroup>
-                                                        </td>
+
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>

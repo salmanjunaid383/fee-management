@@ -68,7 +68,7 @@ const Discounted = () => {
 
     }, [])
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/discount`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_discount/${school_id}`)
             .then(response => {
                 console.log(response);
                 setDiscounteddata(response.data);
@@ -78,20 +78,21 @@ const Discounted = () => {
     }, [])
 
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/discount`)
-        .then(response => {
-            console.log(response);
-            setDiscounteddata(response.data);
-        })
-        .catch(error => (console.log(error)))
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_discount/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setDiscounteddata(response.data);
+            })
+            .catch(error => (console.log(error)))
     }
 
-    
+
 
 
     const data = {
         student_id: studentid,
-        discount: discount
+        discount: discount,
+        school_id: school_id
 
     }
 
@@ -102,35 +103,50 @@ const Discounted = () => {
                 reload();
                 handleClose();
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error);
+                alert("Enter Valid Field(s)")
+            })
     }
 
     const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/discount/${id}`)
-        .then(response => {
-            console.log(response.data.Discount);
-            localStorage.setItem("id",response.data.Discount.id)
-            localStorage.setItem("student_id",response.data.Discount.student_id)
-            localStorage.setItem("discount",response.data.Discount.discount)
-            // setDiscounteddata(response.data);
-        })
-        .catch(error => (console.log(error)))
+            .then(response => {
+                console.log(response.data);
+                localStorage.setItem("id", response.data.id)
+                localStorage.setItem("student_id", response.data.student_id)
+                localStorage.setItem("discount", response.data.discount)
+                handleShow1();
+            })
+            .catch(error => (console.log(error)))
     }
 
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/discount/${localStorage.getItem("id")}`,{
-            student_id : localStorage.getItem("student_id"),
-            discount : discount
-
+        axios.put(`http://fee-management-api.nastechltd.co/api/discount/${localStorage.getItem("id")}`, {
+            student_id: localStorage.getItem("student_id"),
+            discount: discount
         })
+            .then(response => {
+                console.log(response);
+                localStorage.removeItem("id")
+                localStorage.removeItem("student_id")
+                localStorage.removeItem("discount")
+                reload();
+                handleClose1();
+
+            })
+            .catch(error => {
+                console.log(error);
+                alert("Enter Valid Field(s)")
+            })
     }
     const deleteDiscount = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/discount/${id}`)
-        .then(response => {
-            console.log(response);
-            reload();
-        })
-        .catch(error => console.log(error))
+            .then(response => {
+                console.log(response);
+                reload();
+            })
+            .catch(error => console.log(error))
     }
     // ect(() => {
     //     axios.get(`http://fee-management-api.nastechltd.co/api/monthly_charges`)
@@ -283,17 +299,17 @@ const Discounted = () => {
                                         <button class="btn btn-secondary" onClick={handleClose}>
                                             Close
                                             </button>
-                                        <button onClick={sendData} className="btn btn-primary">Create</button>
+                                        <button onClick={sendData} className="btn btn-primary">Add</button>
                                     </Modal.Footer>
                                 </Modal>
                                 <Modal show={show1} onHide={handleClose1}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title className="text-center">Update Expense</Modal.Title>
+                                        <Modal.Title className="text-center">Update Discount</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div className="col-8">
-                                            <TextField type="number" helperText="Discount Amount" onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
+                                                <TextField type="number" helperText="Discount Amount" defaultValue={localStorage.getItem("discount")} onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
 
                                             </div>
                                         </div>
@@ -326,12 +342,12 @@ const Discounted = () => {
                                                         <td class="txt-oflo">{val.name}</td>
 
                                                         <td>{val.discount}</td>
-                                                            
+
                                                         <td>{val.created_at.slice(0, 10)}</td>
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={()=>deleteDiscount(val.id)} ><DeleteIcon className="text-white"/></Button>
+                                                                <Button className="student-btn-del" onClick={() => deleteDiscount(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>

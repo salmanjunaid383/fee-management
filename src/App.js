@@ -3,6 +3,8 @@ import React from 'react';
 // import Student from './Components/Students';
 import Login from './Components/Login';
 // import Profile from './Components/Profile';
+import Form from './Components/Form';
+import Form1 from './Components/Form1';
 import Signup from './Components/Signup';
 import Paro from './Components/Crud';
 import Superlogin from './Components/Superlogin';
@@ -76,6 +78,8 @@ const App = () => {
             <Route path="/term" component={Term} />
             <Route path="/super" component={SuperAdmin} />
             <Route path="/paro" component={Paro} />
+            <Route path="/form" component={Form} />
+            <Route path="/form1" component={Form1} />
         </Switch>
 
     </>

@@ -16,6 +16,7 @@
   display: flex;
 }
 .add-student{
+  padding-top: 10px;
   display: flex;
   justify-content: flex-end;
 }
@@ -349,3 +350,12 @@ color: #f62d51 !important;
 .text-danger:hover, .text-danger:focus {
 color: #ce092c !important;
 } 
+
+.form_body{
+  background-color: #f2f3f7;
+}
+.field_box{
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+}
