@@ -343,12 +343,12 @@ const BreakDown = () => {
 
                                             </div>
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("description")} onChange={(e) => setSection(e.target.value)} label="Description" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("description")} onChange={(e) => setYearlydescription(e.target.value)} label="Description" variant="filled" />
                                             </div>
                                         </div>
                                         <div class="row ">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("charges")} onChange={(e) => setSection(e.target.value)} label="Charges" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("charges")} onChange={(e) => setYearlycharges(e.target.value)} label="Charges" variant="filled" />
                                             </div>
                                         </div>
 

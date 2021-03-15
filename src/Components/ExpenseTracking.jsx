@@ -153,10 +153,10 @@ const MyExpense = () => {
                 localStorage.setItem("id", response.data.id)
                 localStorage.setItem("charges", response.data.charges)
                 localStorage.setItem("description", response.data.description)
+                localStorage.setItem("name",response.data.name)
                 setCharges(response.data.charges)
                 setDescription(response.data.description)
-                localStorage.setItem("name",response.data.name)
-                setStudentid(response.data.student_id)
+                localStorage.getItem("student_id",response.data.student_id)
                 setPaid(response.data.paid)
                 handleShow1();
                 //   setSection(response.data.name)
@@ -169,7 +169,7 @@ const MyExpense = () => {
             description: description,
             name: localStorage.getItem("name"),
             paid: paid,
-            student_id: studentid
+            student_id: localStorage.getItem("student_id")
         })
             .then(response => {
                 console.log(response);
@@ -177,6 +177,7 @@ const MyExpense = () => {
                 localStorage.removeItem("charges")
                 localStorage.removeItem("description")
                 localStorage.removeItem("name")
+                localStorage.removeItem("student_id")
                 reload();
                 handleClose1();
             })

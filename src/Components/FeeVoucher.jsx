@@ -6,6 +6,7 @@ const FeeVoucher = () => {
     const [discount, setDiscount] = useState();
     const [duedate, setDuedate] = useState();
     const [issuedate, setIssuedate] = useState();
+    const [remainingbalance, setRemainingbalance] = useState();
     const [feevoucherbreak, setFeevoucherbreak] = useState([]);
     const [feevoucher, setFeevoucher] = useState({});
     const [studentdata, setStudentdata] = useState({});
@@ -21,6 +22,7 @@ const FeeVoucher = () => {
                 setFeevoucher(response.data.feeVoucher);
                 setStudentdata(response.data.student);
                 setClassdata(response.data.class);
+                setRemainingbalance(response.data.remainingBalance);
                 setFeevoucherbreak(response.data.feeVoucherBreakDown);
             })
             .catch(error => console.log(error))
@@ -95,6 +97,7 @@ const FeeVoucher = () => {
                                         )
                                     })
                                 }
+                                <p class="voucher-text1 text-left text-bolder ">Remainig Balance<p class="voucher-text1 text-right ">{remainingbalance}</p></p>
 
 
                             </div>
@@ -209,7 +212,8 @@ const FeeVoucher = () => {
                                         )
                                     })
                                 }
-
+                                <p class="voucher-text1 text-left text-bolder ">Remainig Balance<p class="voucher-text1 text-right ">{remainingbalance}</p></p>
+                                
 
                             </div>
 
@@ -332,7 +336,8 @@ const FeeVoucher = () => {
                                         )
                                     })
                                 }
-
+                                <p class="voucher-text1 text-left text-bolder ">Remainig Balance<p class="voucher-text1 text-right ">{remainingbalance}</p></p>
+                                
 
                             </div>
 

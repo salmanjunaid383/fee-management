@@ -49,6 +49,9 @@ const Discounted = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [show1, setShow1] = useState(false);
+    const handleClose1 = () => setShow1(false);
+    const handleShow1 = () => setShow1(true);
     const [studentdata, setStudentdata] = useState([]);
     const [discounteddata, setDiscounteddata] = useState([]);
     const [studentid, setStudentid] = useState();
@@ -102,6 +105,25 @@ const Discounted = () => {
             .catch(error => console.log(error))
     }
 
+    const update = (id) => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/discount/${id}`)
+        .then(response => {
+            console.log(response.data.Discount);
+            localStorage.setItem("id",response.data.Discount.id)
+            localStorage.setItem("student_id",response.data.Discount.student_id)
+            localStorage.setItem("discount",response.data.Discount.discount)
+            // setDiscounteddata(response.data);
+        })
+        .catch(error => (console.log(error)))
+    }
+
+    const sendUpdated = () => {
+        axios.put(`http://fee-management-api.nastechltd.co/api/discount/${localStorage.getItem("id")}`,{
+            student_id : localStorage.getItem("student_id"),
+            discount : discount
+
+        })
+    }
     const deleteDiscount = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/discount/${id}`)
         .then(response => {
@@ -264,6 +286,25 @@ const Discounted = () => {
                                         <button onClick={sendData} className="btn btn-primary">Create</button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal show={show1} onHide={handleClose1}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title className="text-center">Update Expense</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div class="row billing-main">
+                                            <div className="col-8">
+                                            <TextField type="number" helperText="Discount Amount" onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
+
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={handleClose1}>
+                                            Close
+                                        </button>
+                                        <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                    </Modal.Footer>
+                                </Modal>
                             </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
@@ -289,7 +330,7 @@ const Discounted = () => {
                                                         <td>{val.created_at.slice(0, 10)}</td>
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
-                                                                {/* <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button> */}
+                                                                <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
                                                                 <Button className="student-btn-del" onClick={()=>deleteDiscount(val.id)} ><DeleteIcon className="text-white"/></Button>
                                                             </ButtonGroup>
                                                         </td>
