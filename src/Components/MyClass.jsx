@@ -23,18 +23,18 @@ const MyClass = () => {
     const [classdata, setClassdata] = useState([]);
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
-    const [sections, setSections] = useState([
-        { name: "" }
-    ]);
-    const handleChange = (e, index) => {
-        const { name, value } = e.target;
-        const list = [...sections];
-        list[index][name] = value;
-        setSections(list);
-    }
-    const handleAdd = () => {
-        setSections([...sections, { name: "" }]);
-    }
+    // const [sections, setSections] = useState([
+    //     { name: "" }
+    // ]);
+    // const handleChange = (e, index) => {
+    //     const { name, value } = e.target;
+    //     const list = [...sections];
+    //     list[index][name] = value;
+    //     setSections(list);
+    // }
+    // const handleAdd = () => {
+    //     setSections([...sections, { name: "" }]);
+    // }
 
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -48,7 +48,7 @@ const MyClass = () => {
     const data = {
         name: schoolClass,
         school_id: localStorage.getItem("school_id"),
-        sections: sections
+        // sections: sections
     }
     const sendData = (e) => {
         axios.post('http://fee-management-api.nastechltd.co/api/schools_class', data)
@@ -226,7 +226,7 @@ const MyClass = () => {
                                                 <TextField className="pb-3 bg-white" type="text" onChange={(e) => setSchoolClass(e.target.value)} label="Class" variant="filled" />
                                             </div>
                                         </div>
-                                        {sections.map((item, i) => {
+                                        {/* {sections.map((item, i) => {
                                             return (
                                                 <>
                                                     <div key={i} class="row mb-2 billing-main">
@@ -243,7 +243,7 @@ const MyClass = () => {
                                                     </div>
                                                 </>
                                             )
-                                        })}
+                                        })} */}
 
                                     </Modal.Body>
                                     <Modal.Footer>

@@ -352,7 +352,11 @@ color: #ce092c !important;
 } 
 
 .form_body{
+  height: 100vh;
   background-color: #f2f3f7;
+}
+.w25{
+  width: 146px !important;
 }
 .field_box{
   background-color: white;

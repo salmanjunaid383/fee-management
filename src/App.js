@@ -3,8 +3,13 @@ import React from 'react';
 // import Student from './Components/Students';
 import Login from './Components/Login';
 // import Profile from './Components/Profile';
-import Form from './Components/Form';
-import Form1 from './Components/Form1';
+import Studentparticular from './Components/Studentparticular';
+import Fatherparticular from './Components/Fatherparticular';
+import Motherparticular from './Components/Motherparticular';
+import Guardianparticular from './Components/Guardianparticular';
+import Siblings from './Components/Siblings';
+import Emergency from './Components/Emergency';
+import Requirements from './Components/Requirements';
 import Signup from './Components/Signup';
 import Paro from './Components/Crud';
 import Superlogin from './Components/Superlogin';
@@ -26,6 +31,7 @@ import ClassUpdate from './Components/ClassUpdate';
 import SchoolUpdate from './Components/SchoolUpdate';
 import SchoolEntry from './Components/SchoolEntry';
 import AdmissionCharges from './Components/AdmissionCharges';
+import AdmissionRequest from './Components/AdmissionRequest';
 import EmployeeUpdate from './Components/EmployeeUpdate';
 import SchoolClass from './Components/ClassEntry';
 import Fee from './Components/FeeGenerator';
@@ -74,12 +80,18 @@ const App = () => {
             <Route path="/feevoucher" component={FeeVoucher} />
             <Route path="/structure" component={Structure} />
             <Route path="/admission" component={AdmissionCharges} />
+            <Route path="/admissionrequest" component={AdmissionRequest}/>
             <Route path="/discounted" component={Discounted} />
             <Route path="/term" component={Term} />
             <Route path="/super" component={SuperAdmin} />
             <Route path="/paro" component={Paro} />
-            <Route path="/form" component={Form} />
-            <Route path="/form1" component={Form1} />
+            <Route path="/Studentparticular" component={Studentparticular} />
+            <Route path="/fatherparticular" component={Fatherparticular} /> 
+            <Route path="/motherparticular" component={Motherparticular} /> 
+            <Route path="/guardianparticular" component={Guardianparticular} />
+            <Route path="/siblings" component={Siblings} />
+            <Route path="/emergency" component={Emergency} />
+            <Route path="/requirements" component={Requirements} />
         </Switch>
 
     </>
