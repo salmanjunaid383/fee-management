@@ -84,7 +84,7 @@ const FeeVoucher = () => {
                         <div class="row">
                             <div class="col-12 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
-                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.last_name}`}</p>
+                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.middle_name} ${studentdata.last_name}`}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
@@ -199,7 +199,7 @@ const FeeVoucher = () => {
                         <div class="row">
                             <div class="col-12 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
-                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.last_name}`}</p>
+                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.middle_name} ${studentdata.last_name}`}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
@@ -323,7 +323,7 @@ const FeeVoucher = () => {
                         <div class="row">
                             <div class="col-12 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
-                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.last_name}`}</p>
+                                <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.middle_name} ${studentdata.last_name}`}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">

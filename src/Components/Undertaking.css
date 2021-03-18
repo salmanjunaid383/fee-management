@@ -1,0 +1,7 @@
+.undertaking-main{
+    width: 1200px;
+    height: 900px;
+}
+@page { 
+    size: portrait !important;
+}

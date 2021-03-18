@@ -2,6 +2,9 @@
   width: 1754px;
   display: flex;
 }
+/* @page { 
+  size: landscape !important;
+} */
 .fee-voucher-middle,.fee-voucher-left,.fee-voucher-right{
   width: 490px;
   border: 2px solid black;

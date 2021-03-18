@@ -19,10 +19,11 @@ const Guardianparticular = () => {
     const [occupation, setOccupation] = useState('');
     const [nationality, setNationality] = useState('');
     const [religion, setReligion] = useState('');
+   
 
 
 
-    var a = JSON.parse(localStorage.getItem('mother'))
+    var a = JSON.parse(localStorage.getItem('guardian'))
     console.log(a)
 
     const data = {
@@ -49,7 +50,7 @@ const Guardianparticular = () => {
                     <h1 className="text-center text-dark">STUDENT ADMISSION FORM</h1>
                     <form onSubmit={(e)=> e.preventDefault()} >
                         <fieldset className="mt-4 field_box shadow">
-                            <legend>Guardian's Particular</legend>
+                            <legend>Guardian's Particular(if any</legend>
                             <div className="row">
                                 <div className="col-4">
                                     <label for="guardname">Full Name:</label>

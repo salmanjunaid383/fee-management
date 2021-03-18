@@ -138,6 +138,12 @@ const MyClass = () => {
                                 </div>
                                 <div class="icon-name active">Class</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="icon-name">Pending Admissions</div>
+                            </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -150,12 +156,7 @@ const MyClass = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            <Link class="nav-link" to="/fee"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Generation</div>
-                            </div></Link>
+                            
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -167,6 +168,18 @@ const MyClass = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Fee Voucher</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Student Ledger</div>
                             </div></Link>
                             <Link class="nav-link" to="/admission"><div class="folder-icons">
                                 <div class="icon1">
@@ -282,7 +295,7 @@ const MyClass = () => {
                                         <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">Class</th>
-                                            <th class="border-top-0">Section</th>
+                                            {/* <th class="border-top-0">Section</th> */}
                                             <th class="border-top-0">Created At</th>
                                             <th class="border-top-0">Action</th>
                                         </tr>
@@ -295,7 +308,7 @@ const MyClass = () => {
                                                         <td>{i+1}</td>
                                                         <td class="txt-oflo">{val.name}</td>
 
-                                                        <td><Link to="/section"><button class="btn" onClick={()=>{localStorage.setItem("class_id",val.id);localStorage.setItem("class_name",val.name)}}><LaunchIcon/></button></Link></td>
+                                                        {/* <td><Link to="/section"><button class="btn" onClick={()=>{localStorage.setItem("class_id",val.id);localStorage.setItem("class_name",val.name)}}><LaunchIcon/></button></Link></td> */}
                                                             
                                                         <td>{val.created_at.slice(0, 10)}</td>
                                                         <td>

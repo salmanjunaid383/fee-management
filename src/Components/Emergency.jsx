@@ -50,8 +50,10 @@ const Emergency = () => {
         cell_no : cell,
         tel_no : tel,
         relation : relation
+        
     }
     const d ={
+        school_id :localStorage.getItem("school_id"),
          students : [student],
          guardians : [guardian],
          mothers : [mother],
@@ -65,7 +67,8 @@ const Emergency = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/admission_form`, d)
         .then(response => {
             console.log(response.data)
-            history.push("/requirements")
+            localStorage.clear();
+            history.push("/")
         })
         .catch(error => console.log(error))
         
@@ -125,7 +128,7 @@ const Emergency = () => {
                                 {buttonshow == true ? 
                                 <>
                                 <div className="col-12 text-right mt-3">
-                                    <button onClick={sendData}className="btn btn-success w25">Next</button>
+                                    <button onClick={sendData}className="btn btn-success w25">Submit</button>
                                 </div>
                                 </>
                                 :

@@ -241,6 +241,12 @@ const Term = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="icon-name">Pending Admissions</div>
+                            </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -253,12 +259,7 @@ const Term = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            <Link class="nav-link" to="/fee"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Generation</div>
-                            </div></Link>
+                            
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -270,6 +271,18 @@ const Term = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Fee Voucher</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Student Ledger</div>
                             </div></Link>
                             <Link class="nav-link" to="/admission"><div class="folder-icons">
                                 <div class="icon1">

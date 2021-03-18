@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './dashboard.css';
 import { Link, useHistory } from 'react-router-dom';
+import PrintIcon from '@material-ui/icons/Print';
 import UpdateIcon from '@material-ui/icons/Update';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
@@ -44,55 +44,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const AdmissionRequest = () => {
+const FeeVoucherAdmin = () => {
 
     const classes = useStyles();
-    const [show, setShow] = useState(false);
-    const [show1, setShow1] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleClose1 = () => setShow1(false);
-    const handleShow = () => setShow(true);
-    const handleShow1 = () => setShow1(true);
     const [studentdata, setStudentdata] = useState([]);
-    const [classdata, setClassdata] = useState([]);
-    const [classid, setClassid] = useState([]);
-    const [email, setEmail] = useState();
-    const [form_no, setForm_no] = useState();
-    const [GR_no, setGR_no] = useState();
-    const [lname, setLname] = useState();
-    const [password, setPassword] = useState();
-    const [confirmpassword, setConfirmpassword] = useState();
-    const [contact, setContact] = useState();
-    const [address, setAddress] = useState();
-    const [gender, setGender] = useState();
-    const [userdata, setUserdata] = useState([]);
-    var mydata = [];
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
+    
 
-    if ((studentdata.length > 0) && (userdata.length > 0)) {
-        for (var i = 0; i < studentdata.length; i++) {
-            for (var j = 0; j < userdata.length; j++) {
-                var dd = {
-                    contact: `${studentdata[i].contact}`,
-                    address: `${studentdata[i].address}`,
-                    gender: `${studentdata[i].gender}`,
-                    id: `${studentdata[i].id}`,
-                    name: "",
-                    email: ""
-                };
-                if (studentdata[i].user_id === userdata[j].id) {
-                    dd.name = `${userdata[j].first_name} ${userdata[j].last_name}`;
-                    dd.email = `${userdata[j].email}`
-                }
-            }
-            mydata.push(dd)
-        }
-    }
+    
 
 
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/admission_form`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
@@ -101,15 +65,7 @@ const AdmissionRequest = () => {
 
     }, [])
     
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
-            .then(response => {
-                console.log(response.data)
-                setClassdata(response.data)
-            })
-            .catch(error => console.log(error))
-
-    }, [])
+    
 
 
 
@@ -117,78 +73,21 @@ const AdmissionRequest = () => {
 
 
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/admission_form`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
             })
             .catch(error => (console.log(error)))
 
-    }
-
-
-
-    const deleteData = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/user/${id}`)
-            .then(response => {
-                console.log(response)
-                reload();
-            }).catch(error => console.log(error))
-    }
-
-    const data = {
-        school_id: school_id,
-        form_no : form_no,
-        G_R_NO : GR_no,
-        class_id: classid
-    };
-    // console.log(contact)
-    const sendData = () => {
         
-        
-            axios.post('http://fee-management-api.nastechltd.co/api/student', data)
-            .then(response => {
-                handleClose();
-                reload();
-                localStorage.removeItem("registration_no")
-            })
-            .catch(error => console.log(error))
-        
-        // console.log(data)
     }
-    const add = (id) => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/admission_form/${id}`)
-            .then(response => {
-                
-                
-                localStorage.setItem("registration_no",response.data.registration_no);
-                setForm_no(response.data.registration_no);
-                handleShow();
-                console.log(response.data)
-                
-            })
-            .catch(error => console.log(error))
-    }
-    // console.log(fname)
-    const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
 
-        })
-            .then(response => {
-                console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("fname")
-                localStorage.removeItem("lname")
-                localStorage.removeItem("email")
-                localStorage.removeItem("contact")
-                localStorage.removeItem("address")
-                localStorage.removeItem("gender")
-                reload();
-                handleClose1();
 
-            })
-            .catch(error => console.log(error))
-    }
+
+    
+
+    
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -221,9 +120,9 @@ const AdmissionRequest = () => {
                             </div></Link>
                             <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-user-graduate active"></i>
+                                    <i class="fas fa-user-graduate"></i>
                                 </div>
-                                <div class="icon-name active">Pending Admissions</div>
+                                <div class="icon-name">Pending Admissions</div>
                             </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
@@ -252,9 +151,9 @@ const AdmissionRequest = () => {
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas active fa-wallet"></i>
                                 </div>
-                                <div class="icon-name">Fee Voucher</div>
+                                <div class="icon-name active">Fee Voucher</div>
                             </div></Link>
                             <Link class="nav-link" to="/adminledger"><div class="folder-icons">
                                 <div class="icon1">
@@ -297,7 +196,7 @@ const AdmissionRequest = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Admissions
+                                    Fee Voucher
                                 </div>
                         <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
@@ -308,51 +207,8 @@ const AdmissionRequest = () => {
                     <div class="right-body">
 
                         <div class="message">
-                            <div class="add-student">
-                                {/* <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Student</button> */}
-                                <Modal show={show} onHide={handleClose}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Add Student</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <div class="row billing-main">
-                                            <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("registration_no")} onChange={(e) => setForm_no(e.target.value)} label="Registeration No." variant="filled" />
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-simple-select-label">Class</InputLabel>
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        variant="filled"
-
-                                                        onChange={(e) => setClassid(e.target.value)}
-                                                    >
-                                                        {classdata.map((val, i) => {
-                                                            return (
-                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
-                                                            )
-
-                                                        })}
-                                                    </Select>
-                                                </FormControl>
-
-                                            </div>
-
-                                            <div class="col-6 billing-box">
-                                                <TextField className="pb-3" type="text" onChange={(e) => setGR_no(e.target.value)} label="GR Number" variant="filled" />
-                                            </div>
-                                            
-                                        </div>
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <button class="btn btn-secondary" onClick={handleClose}>
-                                            Close
-                                            </button>
-                                        <button onClick={sendData} className="btn btn-primary">Add</button>
-                                    </Modal.Footer>
-                                </Modal>
                                 
-                            </div>
+                                        
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
@@ -373,12 +229,10 @@ const AdmissionRequest = () => {
                                                     <td>{val.gender}</td>
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
-                                                    <td>
-                                                        <ButtonGroup disableElevation variant="contained" color="primary">
-                                                            <Button className="student-btn-up" onClick={() => add(val.id)}><ThumbUpIcon className="text-white" /></Button>
-                                                            <Button className="student-btn-del" onClick={() => deleteData(val.id)} ><DeleteIcon className="text-white" /></Button>
-                                                        </ButtonGroup>
-                                                    </td>
+                                                    
+                                                    <td><Link to="/feevoucher"><Button onClick={() =>localStorage.setItem("student_id",val.id)}><PrintIcon /></Button></Link></td>
+                                                        
+                                                    
                                                 </tr>
                                             )
                                         })}
@@ -392,6 +246,6 @@ const AdmissionRequest = () => {
         </>
     );
 };
-export default AdmissionRequest;
+export default FeeVoucherAdmin;
 
 

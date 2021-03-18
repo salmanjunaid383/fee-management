@@ -230,6 +230,12 @@ const MyExpense = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="icon-name">Pending Admissions</div>
+                            </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -242,12 +248,7 @@ const MyExpense = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            <Link class="nav-link" to="/fee"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Generation</div>
-                            </div></Link>
+                            
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -259,6 +260,18 @@ const MyExpense = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Fee Structure</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Fee Voucher</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Student Ledger</div>
                             </div></Link>
                             <Link class="nav-link" to="/admission"><div class="folder-icons">
                                 <div class="icon1">
@@ -314,7 +327,7 @@ const MyExpense = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
-                                            <div class="col-4 billing-box">
+                                            <div class="col-6 billing-box">
                                                 <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Student</InputLabel>
                                                     <Select
@@ -334,7 +347,7 @@ const MyExpense = () => {
                                                 <TextField className="pb-3" type="number" onChange={(e) => setCharges(e.target.value)} label="Charges" variant="filled" />
                                             </div>
 
-                                            <div class="col-4 billing-box">
+                                            <div class="col-6 billing-box">
                                                 <TextField className="pb-3" type="text" label="Description" onChange={(e) => setDescription(e.target.value)} variant="filled" />
 
                                             </div>

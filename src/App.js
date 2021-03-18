@@ -17,13 +17,18 @@ import Mydashboard from './Components/Mydashboard';
 import CampusDashboard from './Components/CampusDashboard';
 import Myschool from './Components/Myschool';
 import MyClass from './Components/MyClass';
+import Undertaking from './Components/Undertaking';
+import PrintForm from './Components/PrintForm';
 import MySection from './Components/Section';
 import FeeVoucher from './Components/FeeVoucher';
+import FeeVoucherAdmin from './Components/FeeVoucherAdmin';
 import Mystudents from './Components/Mystudents';
 import BreakDown from './Components/BreakDown';
 import Finance from './Components/Finance';
 import Student1 from './Components/Student1';
 import StudentLedger from './Components/StudentLedger';
+import Ledger from './Components/Ledger';
+import AdminLedger from './Components/AdminLedger';
 import AddExpenseTracking from './Components/AddExpenseTracking';
 import MyExpense from './Components/ExpenseTracking';
 import StudentUpdate from './Components/StudentUpdate';
@@ -32,6 +37,7 @@ import SchoolUpdate from './Components/SchoolUpdate';
 import SchoolEntry from './Components/SchoolEntry';
 import AdmissionCharges from './Components/AdmissionCharges';
 import AdmissionRequest from './Components/AdmissionRequest';
+import AdmissionForm from './Components/AdmissionForm';
 import EmployeeUpdate from './Components/EmployeeUpdate';
 import SchoolClass from './Components/ClassEntry';
 import Fee from './Components/FeeGenerator';
@@ -63,7 +69,9 @@ const App = () => {
             <Route path="/class" component={MyClass} />
             <Route path="/section" component={MySection} />
             <Route path="/students" component={Mystudents} />
-            <Route path="/ledger" component={StudentLedger} />
+            <Route path="/studentledger" component={StudentLedger} />
+            <Route path="/ledger" component={Ledger} />
+            <Route path="/adminledger" component={AdminLedger} />
             <Route path="/finance" component={Finance} />
             <Route path="/studentupdate/:studentid" component={StudentUpdate} />
             <Route path="/employeupdate/:employeeid" component={EmployeeUpdate} />
@@ -78,20 +86,24 @@ const App = () => {
             <Route path="/feeperiod" component={FeePeriod} />
             <Route path="/showfeeperiod" component={ShowFeePeriod} />
             <Route path="/feevoucher" component={FeeVoucher} />
+            <Route path="/feevoucheradmin" component={FeeVoucherAdmin} />
             <Route path="/structure" component={Structure} />
             <Route path="/admission" component={AdmissionCharges} />
             <Route path="/admissionrequest" component={AdmissionRequest}/>
+            <Route path="/admissionform/:schoolid" component={AdmissionForm}/>
             <Route path="/discounted" component={Discounted} />
             <Route path="/term" component={Term} />
             <Route path="/super" component={SuperAdmin} />
             <Route path="/paro" component={Paro} />
-            <Route path="/Studentparticular" component={Studentparticular} />
+            <Route path="/studentparticular" component={Studentparticular} />
             <Route path="/fatherparticular" component={Fatherparticular} /> 
             <Route path="/motherparticular" component={Motherparticular} /> 
             <Route path="/guardianparticular" component={Guardianparticular} />
             <Route path="/siblings" component={Siblings} />
             <Route path="/emergency" component={Emergency} />
             <Route path="/requirements" component={Requirements} />
+            <Route path="/undertaking" component={Undertaking} />
+            <Route path="/printform" component={PrintForm} />
         </Switch>
 
     </>

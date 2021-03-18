@@ -30,7 +30,7 @@ const Login = () => {
                 }
                 else if (decoded.role == 'Student')
                 {
-                    history.push("/ledger")
+                    history.push("/studentledger")
                     localStorage.setItem("student_id",decoded.sub)
 
                 }
