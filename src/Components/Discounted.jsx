@@ -179,7 +179,12 @@ const Discounted = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>

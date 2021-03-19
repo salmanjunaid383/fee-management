@@ -44,8 +44,11 @@ const CampusDashboard = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+              })
     }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools/${admin_id}`)
@@ -53,8 +56,11 @@ const CampusDashboard = () => {
                 console.log(response.data)
                 setSchooldata(response.data)
             })
-            .catch(error => console.log(error))
-
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+              })
     }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
@@ -62,8 +68,11 @@ const CampusDashboard = () => {
                 console.log(response.data.is_oppend)
                 setIsOppened(response.data.is_oppend)
             })
-            .catch(error => console.log(error))
-
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+              })
     }, [])
     const openAdmission = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/admission_open/${school_id}`)
@@ -74,9 +83,17 @@ const CampusDashboard = () => {
                         console.log(response.data.is_oppend)
                         setIsOppened(response.data.is_oppend)
                     })
-                    .catch(error => console.log(error))
+                    .catch((error) => {
+                        if (error.response) {
+                          alert(error.response.data.message);
+                        }
+                      })
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+              })
     }
     const logOut = () => {
         localStorage.clear();
@@ -99,7 +116,12 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name1 active">Dashboard</div>
                             </div></Link>
-
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
                             {/* <div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-school"></i>

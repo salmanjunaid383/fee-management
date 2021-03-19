@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import './dashboard.css';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -41,22 +41,28 @@ const Ledger = () => {
     const history = useHistory();
     const [studentledger, setStudentledger] = useState([]);
     const [name, setName]= useState();
+    const {studentid} = useParams();
     useEffect(() => {
-        const student_id = localStorage.getItem("student_id");
-        axios.get(`http://fee-management-api.nastechltd.co/api/user/${student_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
             .then(response => {
                 // console.log(response.data)
-                setName(`${response.data.first_name} ${response.data.last_name}`);
+                setName(`${response.data.first_name} ${response.data.middle_name} ${response.data.last_name}`);
             })
-            .catch(error => console.log(error))
-
-        axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger/${student_id}`)
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+        axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger/${studentid}`)
             .then(response => {
                 console.log(response.data)
                 setStudentledger(response.data);
             })
-            .catch(error => console.log(error))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
     const logOut = () => {
         localStorage.clear();

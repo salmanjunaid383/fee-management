@@ -44,7 +44,11 @@ const BreakDown = () => {
                 setMonthly(response.data.monthly_charges)
                 setYearly(response.data.yearly_charges)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
 
     // const sendData = () => {
@@ -59,7 +63,8 @@ const BreakDown = () => {
     //             reload();
     //             handleClose();
     //         })
-    //         .catch(error => console.log(error))
+    //         .catch((error) => {
+              
     // }
     const updateMonthly = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/monthly_charges/${id}`)
@@ -74,7 +79,11 @@ const BreakDown = () => {
                 // setSection(response.data.name)
                 // handleShow1();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const updateYearly = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/yearly_charges/${id}`)
@@ -91,7 +100,11 @@ const BreakDown = () => {
                 // setSection(response.data.name)
                 // handleShow1();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const sendUpdatedYearly = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/yearly_charges/${localStorage.getItem("id")}`, {
@@ -110,7 +123,11 @@ const BreakDown = () => {
                 reload();
                 handleClose1();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const sendUpdatedMonthly = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/monthly_charges/${localStorage.getItem("id")}`, {
@@ -127,7 +144,11 @@ const BreakDown = () => {
                 reload();
                 handleClose();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
 
     const sendMonthly = () => {
@@ -143,7 +164,11 @@ const BreakDown = () => {
                 handleClose2();
 
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
 
     const sendYearly = () => {
@@ -160,7 +185,11 @@ const BreakDown = () => {
                 handleClose3();
 
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
 
 
@@ -173,7 +202,11 @@ const BreakDown = () => {
                 setMonthly(response.data.monthly_charges)
                 setYearly(response.data.yearly_charges)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
 
     }
@@ -183,8 +216,10 @@ const BreakDown = () => {
                 console.log(response)
                 reload();
             })
-            .catch(error => {
-                console.log(error)
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
             })
 
     }
@@ -195,8 +230,10 @@ const BreakDown = () => {
                 console.log(response)
                 reload();
             })
-            .catch(error => {
-                console.log(error)
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
             })
 
     }

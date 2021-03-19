@@ -1,8 +1,10 @@
 import { React, useEffect, useState } from 'react';
 import './FeeVoucher.css';
 import axios from 'axios';
+import { useParams } from 'react-router';
+import { makeStyles } from '@material-ui/core/styles';
 
-const FeeVoucher = () => {
+const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
     const [discount, setDiscount] = useState();
     const [duedate, setDuedate] = useState();
     const [issuedate, setIssuedate] = useState();
@@ -12,9 +14,24 @@ const FeeVoucher = () => {
     const [feevoucher, setFeevoucher] = useState({});
     const [studentdata, setStudentdata] = useState({});
     const [classdata, setClassdata] = useState({});
-    const student_id = localStorage.getItem("student_id")
+    const { studentid } = useParams();
+    function setPageSize(cssPageSize) {
+        const style = document.createElement('style');
+        style.innerHTML = `@page {size: ${cssPageSize}}`;
+        style.id = 'page-orientation';
+        document.head.appendChild(style);
+    }
+
+    // Set orientation of page being printed
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/fee_voucher/${student_id}`)
+        setPageSize(orientation);
+        return () => {
+            const child = document.getElementById('page-orientation');
+            child.parentNode.removeChild(child);
+        };
+    }, [orientation]);
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/fee_voucher/${studentid}`)
             .then(response => {
                 console.log(response.data)
                 setDiscount(response.data.discount);
@@ -27,7 +44,11 @@ const FeeVoucher = () => {
                 setFeevoucherbreak(response.data.feeVoucherBreakDown);
                 setLatefee(response.data.fee_after_due_date)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
 
     return (
@@ -215,7 +236,7 @@ const FeeVoucher = () => {
                                     })
                                 }
                                 <p class="voucher-text1 text-left text-bolder ">Remainig Balance<p class="voucher-text1 text-right ">{remainingbalance}</p></p>
-                                
+
 
                             </div>
 
@@ -339,7 +360,7 @@ const FeeVoucher = () => {
                                     })
                                 }
                                 <p class="voucher-text1 text-left text-bolder ">Remainig Balance<p class="voucher-text1 text-right ">{remainingbalance}</p></p>
-                                
+
 
                             </div>
 

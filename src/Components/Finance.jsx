@@ -39,7 +39,11 @@ const Finance = () => {
                 console.log(response);
                 setEmployeedata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
 
     const reload = () => {
@@ -48,7 +52,11 @@ const Finance = () => {
                 console.log(response);
                 setEmployeedata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
 
     // const Reload = () => {
@@ -57,7 +65,7 @@ const Finance = () => {
     //         console.log(response);
     //         setData(response.data);
     //     })
-    //     .catch(error => (console.log(error)))
+    //     
 
     // }
 
@@ -66,6 +74,11 @@ const Finance = () => {
             .then(response => {
                 console.log(response)
                 reload();
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
             })
     }
     const data = {
@@ -90,7 +103,11 @@ const Finance = () => {
                 handleClose();
                 reload();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
         }
     }
     const update = (id) =>{
@@ -112,7 +129,11 @@ const Finance = () => {
                   setGender(response.data.gender)
                   handleShow1();
           })
-          .catch(error => console.log(error) )
+          .catch((error) => {
+            if (error.response) {
+                alert(error.response.data.message);
+            }
+        })
       }
       const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
@@ -137,7 +158,11 @@ const Finance = () => {
             handleClose1();
             
         })
-        .catch (error => console.log(error))
+        .catch((error) => {
+            if (error.response) {
+                alert(error.response.data.message);
+            }
+        })
     }
     const logOut = () => {
         localStorage.clear();
@@ -159,6 +184,12 @@ const Finance = () => {
                                     <i class="fas  fa-columns"></i>
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
+                            </div></Link>
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
                             </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">

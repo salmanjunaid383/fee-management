@@ -41,7 +41,11 @@ const FeePeriod = () => {
                 setBillingperiod(response.data);
 
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_billing_period/${school_id}`)
@@ -50,7 +54,11 @@ const FeePeriod = () => {
                 setBillingperiod(response.data);
 
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const deletePeriod = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/billing_period/${id}`)
@@ -58,7 +66,11 @@ const FeePeriod = () => {
                 console.log(response);
                 reload();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/billing_period/${id}`)
@@ -76,7 +88,11 @@ const FeePeriod = () => {
                 handleShow();
             })
 
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
 
     const sendUpdated = () => {
@@ -97,8 +113,11 @@ const FeePeriod = () => {
                 handleClose();
                 reload();
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
     }
 
@@ -125,7 +144,11 @@ const FeePeriod = () => {
                     console.log(response);
                     reload();
                 })
-                .catch(error => console.log(error))
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
         }
 
     }
@@ -156,7 +179,12 @@ const FeePeriod = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
                             {/* <div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-school"></i>
@@ -187,7 +215,7 @@ const FeePeriod = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet active"></i>
@@ -288,7 +316,7 @@ const FeePeriod = () => {
                                 </Modal>
                             </div>
                             {billingperiod.length > 0 ?
-                            
+
                                 <>
                                     <div class="table-responsive">
 
@@ -329,10 +357,10 @@ const FeePeriod = () => {
                                         </table>
                                     </div>
                                 </>
-                            
-                                  :
+
+                                :
                                 <>
-                                
+
                                     <h2 class="text-center mt-3 secondary">Billing Period</h2>
                                     <hr class="new-hr1 secondary" />
 
@@ -351,7 +379,7 @@ const FeePeriod = () => {
 
                                     <div class="text-center my-4">  <button class="btn btn-generate btn-success" onClick={sendData}>Submit</button></div>
                                 </>
-                                
+
                             }
 
                         </div>

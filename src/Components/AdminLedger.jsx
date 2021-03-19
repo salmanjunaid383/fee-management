@@ -62,7 +62,11 @@ const AdminLedger = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+            })
 
     }, [])
     
@@ -79,8 +83,11 @@ const AdminLedger = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+              })
         
     }
 
@@ -112,7 +119,12 @@ const AdminLedger = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -231,7 +243,7 @@ const AdminLedger = () => {
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
                                                     
-                                                    <td><Link to="/ledger"><Button onClick={() =>localStorage.setItem("student_id",val.id)}><LaunchIcon /></Button></Link></td>
+                                                    <td><Button onClick={() =>history.push(`/ledger/${val.id}`)}><LaunchIcon /></Button></td>
                                                         
                                                     
                                                 </tr>

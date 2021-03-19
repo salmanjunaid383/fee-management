@@ -2,7 +2,22 @@ import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import './Undertaking.css';
 
-const Undertaking = () => {
+const Undertaking = ({ teamId, orientation = 'portrait' }) => {
+    function setPageSize(cssPageSize) {
+        const style = document.createElement('style');
+        style.innerHTML = `@page {size: ${cssPageSize}}`;
+        style.id = 'page-orientation';
+        document.head.appendChild(style);
+    }
+
+    // Set orientation of page being printed
+    useEffect(() => {
+        setPageSize(orientation);
+        return () => {
+            const child = document.getElementById('page-orientation');
+            child.parentNode.removeChild(child);
+        };
+    }, [orientation]);
     return (
         <>
             <div className="undertaking-main border border-dark">
@@ -14,7 +29,7 @@ const Undertaking = () => {
                         <div className="col-12 text-right">
                             <p>GR No:<span><u>567</u></span></p>
                         </div>
-                        <div className="col-10 mt-2">
+                        <div className="col-12 mt-2">
                             <h2 className="text-center"><u>Undertaking by the Parents</u></h2>
                         </div>
                     </div>

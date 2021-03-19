@@ -51,6 +51,11 @@ const Fee = () => {
     const handleAdd = () => {
         setInputList([...inputList, { description: "", charges: "" }]);
     }
+    const removeField = (index) => {
+        const list = [...inputList];
+        list.splice(index,1);
+        setInputList(list);
+    }
     const [inputListYear, setInputListYear] = useState([
         { description: "", charges: "", month: "" }
     ]
@@ -65,6 +70,11 @@ const Fee = () => {
     const handleAddY = () => {
         setInputListYear([...inputListYear, { description: "", charges: "", month: "" }]);
     }
+    const removeFieldY = (index) => {
+        const list = [...inputListYear];
+        list.splice(index,1);
+        setInputListYear(list);
+    }
     console.log(inputListYear)
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -72,8 +82,11 @@ const Fee = () => {
                 console.log(response.data)
                 setClassdata(response.data)
             })
-            .catch(error => console.log(error))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
     const sendCharges = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/fee_structure`,
@@ -94,10 +107,11 @@ const Fee = () => {
                 console.log(response)
                 history.push("/structure")
             })
-            .catch(error => {
-                console.log(error)
-                alert("Fee Structure Already Defined")
-            })
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+              })
         // console.log(inputListYear)
         // console.log(inputList)
     }
@@ -258,9 +272,15 @@ const Fee = () => {
                                                 <input type="text" id="tax" name="charges" onChange={(e) => handleChange(e, i)} value={item.charges} placeholder="Charges" class="inline select" />
 
                                             </div>
-                                            <div class="col-2">
+                                            <div class="col-1">
+                                                {inputList.length !== 1 && 
+                                                    <button type="button" onClick={removeField} class="btn btn-primary mt-1">Remove</button>
+                                                }
+
+                                            </div>
+                                            <div class="col-1">
                                                 {inputList.length - 1 === i &&
-                                                    <button type="button" onClick={handleAdd} class="btn btn-primary mt-1">Add More</button>
+                                                    <button type="button" onClick={handleAdd} class="btn ml-1 btn-primary mt-1">Add</button>
                                                 }
 
                                             </div>
@@ -302,9 +322,15 @@ const Fee = () => {
                                                 <input type="text" name="charges" value={item.charges} onChange={e => handleChangeY(e, i)} placeholder="Charges" class="inline select" />
 
                                             </div>
-                                            <div class="col-3">
+                                            <div class="col-1">
+                                                {inputListYear.length !== 1 && 
+                                                    <button type="button" onClick={removeFieldY} class="btn btn-primary mt-1">Remove</button>
+                                                }
+
+                                            </div>
+                                            <div class="col-2">
                                                 {inputListYear.length - 1 === i &&
-                                                    <button type="button" onClick={handleAddY} class="btn btn-primary mt-1">Add More</button>
+                                                    <button type="button" onClick={handleAddY} class="btn ml-1 btn-primary mt-1">Add</button>
                                                 }
                                             </div>
                                         </div>)

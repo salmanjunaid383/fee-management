@@ -92,12 +92,16 @@ const AdmissionRequest = () => {
 
 
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/admission_form`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_form/${school_id}`)
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
     }, [])
     
@@ -107,7 +111,11 @@ const AdmissionRequest = () => {
                 console.log(response.data)
                 setClassdata(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
     }, [])
 
@@ -117,24 +125,33 @@ const AdmissionRequest = () => {
 
 
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/admission_form`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_form/${school_id}`)
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
     }
 
 
 
-    const deleteData = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/user/${id}`)
-            .then(response => {
-                console.log(response)
-                reload();
-            }).catch(error => console.log(error))
-    }
+    // const deleteData = (id) => {
+    //     axios.delete(`http://fee-management-api.nastechltd.co/api/user/${id}`)
+    //         .then(response => {
+    //             console.log(response)
+    //             reload();
+    //         })
+    //         .catch((error) => {
+    //             if (error.response) {
+    //                 alert(error.response.data.message);
+    //             }
+    //         })
+    // }
 
     const data = {
         school_id: school_id,
@@ -152,8 +169,11 @@ const AdmissionRequest = () => {
                 reload();
                 localStorage.removeItem("registration_no")
             })
-            .catch(error => console.log(error))
-        
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })        
         // console.log(data)
     }
     const add = (id) => {
@@ -167,28 +187,32 @@ const AdmissionRequest = () => {
                 console.log(response.data)
                 
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     // console.log(fname)
-    const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
+    // const sendUpdated = () => {
+    //     axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
 
-        })
-            .then(response => {
-                console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("fname")
-                localStorage.removeItem("lname")
-                localStorage.removeItem("email")
-                localStorage.removeItem("contact")
-                localStorage.removeItem("address")
-                localStorage.removeItem("gender")
-                reload();
-                handleClose1();
+    //     })
+    //         .then(response => {
+    //             console.log(response);
+    //             localStorage.removeItem("id")
+    //             localStorage.removeItem("fname")
+    //             localStorage.removeItem("lname")
+    //             localStorage.removeItem("email")
+    //             localStorage.removeItem("contact")
+    //             localStorage.removeItem("address")
+    //             localStorage.removeItem("gender")
+    //             reload();
+    //             handleClose1();
 
-            })
-            .catch(error => console.log(error))
-    }
+    //         })
+    //         .catch(error => console.log(error))
+    // }
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -212,7 +236,12 @@ const AdmissionRequest = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -360,7 +389,7 @@ const AdmissionRequest = () => {
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">NAME</th>
                                             <th class="border-top-0">GENDER</th>
-                                            {/* <th class="border-top-0">Details</th> */}
+                                            <th class="border-top-0">Details</th>
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
@@ -371,12 +400,12 @@ const AdmissionRequest = () => {
                                                     <td>{val.id}</td>
                                                     <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
                                                     <td>{val.gender}</td>
-                                                    {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
+                                                    <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>
 
                                                     <td>
                                                         <ButtonGroup disableElevation variant="contained" color="primary">
                                                             <Button className="student-btn-up" onClick={() => add(val.id)}><ThumbUpIcon className="text-white" /></Button>
-                                                            <Button className="student-btn-del" onClick={() => deleteData(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                            {/* <Button className="student-btn-del" onClick={() => deleteData(val.id)} ><DeleteIcon className="text-white" /></Button> */}
                                                         </ButtonGroup>
                                                     </td>
                                                 </tr>

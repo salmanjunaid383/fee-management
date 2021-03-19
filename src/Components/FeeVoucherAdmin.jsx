@@ -61,8 +61,11 @@ const FeeVoucherAdmin = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
     
     
@@ -78,8 +81,11 @@ const FeeVoucherAdmin = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
         
     }
 
@@ -111,7 +117,12 @@ const FeeVoucherAdmin = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -230,7 +241,7 @@ const FeeVoucherAdmin = () => {
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
                                                     
-                                                    <td><Link to="/feevoucher"><Button onClick={() =>localStorage.setItem("student_id",val.id)}><PrintIcon /></Button></Link></td>
+                                                    <td><Button onClick={() =>history.push(`/feevoucher/${val.id}`)}><PrintIcon /></Button></td>
                                                         
                                                     
                                                 </tr>

@@ -39,8 +39,11 @@ const Mydashboard = () => {
             console.log(response);
             setStudentdata(response.data);
         })
-        .catch(error => (console.log(error)))
-
+        .catch((error) => {
+            if (error.response) {
+              alert(error.response.data.message);
+            }
+          })
     },[])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools/${admin_id}`)
@@ -48,8 +51,11 @@ const Mydashboard = () => {
             console.log(response.data)
             setSchooldata(response.data)
         })
-        .catch(error => console.log(error) )
-
+        .catch((error) => {
+            if (error.response) {
+              alert(error.response.data.message);
+            }
+          })
     },[]) 
     const logOut = () => {
         localStorage.clear();

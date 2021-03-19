@@ -16,6 +16,7 @@ import Superlogin from './Components/Superlogin';
 import Mydashboard from './Components/Mydashboard';
 import CampusDashboard from './Components/CampusDashboard';
 import Myschool from './Components/Myschool';
+import AdminsSchool from './Components/AdminsSchool';
 import MyClass from './Components/MyClass';
 import Undertaking from './Components/Undertaking';
 import PrintForm from './Components/PrintForm';
@@ -29,6 +30,7 @@ import Student1 from './Components/Student1';
 import StudentLedger from './Components/StudentLedger';
 import Ledger from './Components/Ledger';
 import AdminLedger from './Components/AdminLedger';
+import Documents from './Components/Documents';
 import AddExpenseTracking from './Components/AddExpenseTracking';
 import MyExpense from './Components/ExpenseTracking';
 import StudentUpdate from './Components/StudentUpdate';
@@ -69,29 +71,24 @@ const App = () => {
             <Route path="/class" component={MyClass} />
             <Route path="/section" component={MySection} />
             <Route path="/students" component={Mystudents} />
-            <Route path="/studentledger" component={StudentLedger} />
-            <Route path="/ledger" component={Ledger} />
+            <Route path="/studentledger/:studentid" component={StudentLedger} />
+            <Route path="/ledger/:studentid" component={Ledger} />
             <Route path="/adminledger" component={AdminLedger} />
             <Route path="/finance" component={Finance} />
-            <Route path="/studentupdate/:studentid" component={StudentUpdate} />
-            <Route path="/employeupdate/:employeeid" component={EmployeeUpdate} />
-            <Route path="/schoolupdate" component={SchoolUpdate} />
-            <Route path="/classentry" component={SchoolClass} />
-            <Route path="/classupdate/:classid" component={ClassUpdate} />
             <Route path="/student1/:studentid" component={Student1} />
-            <Route path="/addexpense" component={AddExpenseTracking} />
             <Route path="/expense" component={MyExpense} />
             <Route path="/fee" component={Fee} />
             <Route path="/breakdown" component={BreakDown} />
             <Route path="/feeperiod" component={FeePeriod} />
-            <Route path="/showfeeperiod" component={ShowFeePeriod} />
-            <Route path="/feevoucher" component={FeeVoucher} />
+            <Route path="/feevoucher/:studentid" component={FeeVoucher} />
             <Route path="/feevoucheradmin" component={FeeVoucherAdmin} />
             <Route path="/structure" component={Structure} />
             <Route path="/admission" component={AdmissionCharges} />
             <Route path="/admissionrequest" component={AdmissionRequest}/>
             <Route path="/admissionform/:schoolid" component={AdmissionForm}/>
+            <Route path="/adminschool/:adminid" component={AdminsSchool}/>
             <Route path="/discounted" component={Discounted} />
+            <Route path="/documents" component={Documents} />
             <Route path="/term" component={Term} />
             <Route path="/super" component={SuperAdmin} />
             <Route path="/paro" component={Paro} />
@@ -103,7 +100,7 @@ const App = () => {
             <Route path="/emergency" component={Emergency} />
             <Route path="/requirements" component={Requirements} />
             <Route path="/undertaking" component={Undertaking} />
-            <Route path="/printform" component={PrintForm} />
+            <Route path="/printform/:formNo" component={PrintForm} />
         </Switch>
 
     </>

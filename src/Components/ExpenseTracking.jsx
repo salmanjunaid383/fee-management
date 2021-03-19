@@ -61,7 +61,11 @@ const MyExpense = () => {
                 // setStudentdata(response.data);
 
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
     }, [])
     useEffect(() => {
@@ -71,7 +75,11 @@ const MyExpense = () => {
                 setStudentdata(response.data);
 
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
     }, [])
     useEffect(() => {
@@ -80,8 +88,11 @@ const MyExpense = () => {
                 console.log(response);
                 setExpensedata(response.data)
             })
-            .catch(error => console.log(error))
-
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+            })
     }, [])
 
 
@@ -91,7 +102,11 @@ const MyExpense = () => {
                 setStudentname(`${response.data.first_name} ${response.data.last_name}`);
 
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
 
 
@@ -114,9 +129,10 @@ const MyExpense = () => {
                 reload();
 
             })
-            .catch(error => {
-                console.log(error);
-                alert("Enter Valid Field(s)")
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
             })
     }
 
@@ -126,7 +142,11 @@ const MyExpense = () => {
             .then(response => {
                 setExpensedata(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+            })
     }
 
 
@@ -145,7 +165,11 @@ const MyExpense = () => {
                         console.log(response.data);
                         reload();
                     })
-                    .catch(error => console.log(error))
+                    .catch((error) => {
+                        if (error.response) {
+                          alert(error.response.data.message);
+                        }
+                    })
             })
             .catch(error => console.log(error))
     }
@@ -164,7 +188,11 @@ const MyExpense = () => {
                 handleShow1();
                 //   setSection(response.data.name)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+            })
     }
     const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem("id")}`, {
@@ -184,9 +212,10 @@ const MyExpense = () => {
                 reload();
                 handleClose1();
             })
-            .catch(error => {
-                console.log(error);
-                alert("Enter Valid Field(s)")
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
             })
     }
     const deleteExpense = (id) => {
@@ -195,9 +224,10 @@ const MyExpense = () => {
                 console.log(response)
                 reload();
             })
-            .catch(error => {
-                console.log(error)
-                alert("First Delete Students Of This Class")
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
             })
     }
 
@@ -224,6 +254,12 @@ const MyExpense = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -248,7 +284,7 @@ const MyExpense = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>

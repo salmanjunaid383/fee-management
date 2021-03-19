@@ -30,17 +30,17 @@ const Login = () => {
                 }
                 else if (decoded.role == 'Student')
                 {
-                    history.push("/studentledger")
-                    localStorage.setItem("student_id",decoded.sub)
+                    history.push(`/studentledger/${decoded.sub}`)
 
                 }
 
             })
     
-            .catch (error => {
-                console.log(error);
-                alert("Enter Valid Field(s)")
-            });
+            .catch((error) => {
+                if (error.response) {
+                  alert(error.response.data.message);
+                }
+              })
 
     }
 return (

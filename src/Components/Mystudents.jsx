@@ -95,8 +95,11 @@ const Mystudents = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
@@ -105,7 +108,11 @@ const Mystudents = () => {
                 setUserdata(response.data)
                 // setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -113,8 +120,11 @@ const Mystudents = () => {
                 console.log(response.data)
                 setClassdata(response.data)
             })
-            .catch(error => console.log(error))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
 
 
@@ -128,15 +138,21 @@ const Mystudents = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
             .then(response => {
                 console.log(response);
                 setUserdata(response.data)
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
 
 
@@ -146,35 +162,17 @@ const Mystudents = () => {
             .then(response => {
                 console.log(response)
                 reload();
-            }).catch(error => console.log(error))
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
 
-    const data = {
-        school_id: school_id,
-        first_name: fname,
-        last_name: lname,
-        password: password,
-        email: email,
-        contact: contact,
-        address: address,
-        gender: gender,
-        class_id: classid
-    };
+    
     // console.log(contact)
-    const sendData = () => {
-        if (password != confirmpassword) {
-            alert("Incorrect Password");
-        }
-        else {
-            axios.post('http://fee-management-api.nastechltd.co/api/student', data)
-            .then(response => {
-                handleClose();
-                reload();
-            })
-            .catch(error => console.log(error))
-        }
-        // console.log(data)
-    }
+    
     const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
             .then(response => {
@@ -195,7 +193,11 @@ const Mystudents = () => {
                 handleShow1();
                 console.log(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     // console.log(fname)
     const sendUpdated = () => {
@@ -221,7 +223,11 @@ const Mystudents = () => {
                 handleClose1();
 
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const logOut = () => {
         localStorage.clear();
@@ -246,7 +252,12 @@ const Mystudents = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -343,8 +354,7 @@ const Mystudents = () => {
 
                         <div class="message">
                             <div class="add-student">
-                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Student</button>
-                                <Modal show={show} onHide={handleClose}>
+                                {/* <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Add Student</Modal.Title>
                                     </Modal.Header>
@@ -399,7 +409,7 @@ const Mystudents = () => {
                                             </button>
                                         <button onClick={sendData} className="btn btn-primary">Create</button>
                                     </Modal.Footer>
-                                </Modal>
+                                </Modal> */}
                                 <Modal show={show1} onHide={handleClose1}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Update Students</Modal.Title>

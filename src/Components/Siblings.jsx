@@ -26,7 +26,11 @@ const Siblings = () => {
     const handleAdd = () => {
         setInputList([...inputList, { name: "", age: "", class: "" }]);
     }
-
+    const removeField = (index) => {
+        const list = [...inputList];
+        list.splice(index,1);
+        setInputList(list);
+    }
     const history = useHistory();
 
     var a = JSON.parse(localStorage.getItem('guardian'))
@@ -59,21 +63,27 @@ const Siblings = () => {
                             {inputList.map((item, i) => {
                                 return (
                                     <div key={i} class="row">
-                                        <div className="col">
+                                        <div className="col-3">
                                             <label for="name">Name:</label>
                                             <input id="name" type="text" name="name" value={item.name} onChange={e => handleChange(e, i)} className="form-control" placeholder="Full Name" />
                                         </div>
-                                        <div className="col">
+                                        <div className="col-3">
                                             <label for="age">Age:</label>
                                             <input id="age" type="number" name="age" value={item.age} onChange={e => handleChange(e, i)} className="form-control" placeholder="Age" />
                                         </div>
-                                        <div className="col">
+                                        <div className="col-3">
                                             <label for="class">Class:</label>
                                             <input id="class" type="number" name="class" value={item.class} onChange={e => handleChange(e, i)} className="form-control" placeholder="Class" />
                                         </div>
                                         <div class="col-1 mt-4">
+                                                {inputList.length !== 1 && 
+                                                    <button type="button" onClick={removeField} class="btn btn-primary mt-2">Remove</button>
+                                                }
+
+                                            </div>
+                                        <div class="col-1 mt-4">
                                             {inputList.length - 1 === i &&
-                                                <button type="button" onClick={handleAdd} class="btn btn-primary mt-1">Add</button>
+                                                <button type="button" onClick={handleAdd} class="btn btn-primary mt-2">Add</button>
                                             }
 
                                         </div>

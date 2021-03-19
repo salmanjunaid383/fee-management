@@ -21,8 +21,11 @@ const history = useHistory();
             console.log(response.data)
             setData(response.data)
         })
-        .catch(error => console.log(error) )
-
+        .catch((error) => {
+            if (error.response) {
+              alert(error.response.data.message);
+            }
+          })
     },[])  
 
     const reload = () => {
@@ -31,8 +34,11 @@ const history = useHistory();
             console.log(response.data)
             setData(response.data)
         })
-        .catch(error => console.log(error) )
-
+        .catch((error) => {
+            if (error.response) {
+              alert(error.response.data.message);
+            }
+          })
     }
     const deleteSchool = (id) =>{
         axios.delete(`http://fee-management-api.nastechltd.co/api/school/${id}`)
@@ -40,10 +46,11 @@ const history = useHistory();
             console.log(response)
             reload();
         })
-        .catch (error => {
-            console.log(error)
-            alert("First Delete the Classes");
-        })
+        .catch((error) => {
+            if (error.response) {
+              alert(error.response.data.message);
+            }
+          })
         
     
     }

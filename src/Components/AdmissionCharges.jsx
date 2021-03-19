@@ -29,7 +29,11 @@ const AdmissionCharges = () => {
                 console.log(response.data)
                 setAdmissiondata(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_admission/${school_id}`)
@@ -37,7 +41,11 @@ const AdmissionCharges = () => {
                 console.log(response.data)
                 setAdmissiondata(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
     }
     const sendAdmission = () => {
@@ -53,9 +61,10 @@ const AdmissionCharges = () => {
                 reload();
                 handleClose();
             })
-            .catch(error => {
-                console.log(error);
-                alert("Enter Valid Field(s)")
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
             })
 
     };
@@ -63,17 +72,21 @@ const AdmissionCharges = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/admission_charges/${id}`)
             .then(response => {
                 console.log(response.data)
-                localStorage.setItem("id",response.data.id)
-                localStorage.setItem("charges",response.data.charges)
+                localStorage.setItem("id", response.data.id)
+                localStorage.setItem("charges", response.data.charges)
                 setChargesadmission(response.data.charges)
                 handleShow1();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/admission_charges/${localStorage.getItem("id")}`,{
-            charges : chargesadmission,
-            school_id : school_id
+        axios.put(`http://fee-management-api.nastechltd.co/api/admission_charges/${localStorage.getItem("id")}`, {
+            charges: chargesadmission,
+            school_id: school_id
         })
             .then(response => {
                 console.log(response.data)
@@ -82,18 +95,24 @@ const AdmissionCharges = () => {
                 reload();
                 handleClose1();
             })
-            .catch(error => {
-                console.log(error);
-                alert("Enter Valid Field(s)")
-            })    }
-    const deleteCharges = (id) =>{
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+    }
+    const deleteCharges = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/admission_charges/${id}`)
-        .then(response => {
-            console.log(response)
-            reload();
+            .then(response => {
+                console.log(response)
+                reload();
 
-        })
-        .catch(error => console.log(error))
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const logOut = () => {
         localStorage.clear();
@@ -117,7 +136,12 @@ const AdmissionCharges = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
 
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
@@ -143,7 +167,7 @@ const AdmissionCharges = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -205,7 +229,7 @@ const AdmissionCharges = () => {
                                 <div class="big-inbox">
                                     Admission Charges
                                 </div>
-                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
