@@ -181,10 +181,10 @@ const AdmissionRequest = () => {
             .then(response => {
                 
                 
-                localStorage.setItem("registration_no",response.data.registration_no);
-                setForm_no(response.data.registration_no);
-                handleShow();
                 console.log(response.data)
+                localStorage.setItem("registration_no",response.data.AdmissionForm.registration_no);
+                setForm_no(response.data.AdmissionForm.registration_no);
+                handleShow();
                 
             })
             .catch((error) => {
@@ -230,7 +230,7 @@ const AdmissionRequest = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>
@@ -398,13 +398,13 @@ const AdmissionRequest = () => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
+                                                    <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
                                                     <td>{val.gender}</td>
                                                     <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>
 
                                                     <td>
                                                         <ButtonGroup disableElevation variant="contained" color="primary">
-                                                            <Button className="student-btn-up" onClick={() => add(val.id)}><ThumbUpIcon className="text-white" /></Button>
+                                                            <Button className="student-btn-up" onClick={() => add(val.registration_no)}><ThumbUpIcon className="text-white" /></Button>
                                                             {/* <Button className="student-btn-del" onClick={() => deleteData(val.id)} ><DeleteIcon className="text-white" /></Button> */}
                                                         </ButtonGroup>
                                                     </td>

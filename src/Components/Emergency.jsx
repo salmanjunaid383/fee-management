@@ -41,7 +41,6 @@ const Emergency = () => {
     var father = JSON.parse(localStorage.getItem('father'))
     var sibling = JSON.parse(localStorage.getItem('siblings'))
     var emergency = JSON.parse(localStorage.getItem('emergency'))
-    // console.log(guardian)
     
     const data = {
         name : name,
@@ -53,22 +52,27 @@ const Emergency = () => {
         
     }
     const d ={
-        school_id :localStorage.getItem("school_id"),
-         students : [student],
-         guardians : [guardian],
-         mothers : [mother],
-         fathers : [father],
-         emergencies : [data],
-         siblings : sibling.siblings
-         
+        school_id :1,
+        students : [student],
+        guardians : [guardian],
+        mothers : [mother],
+        fathers : [father],
+        emergencies : [data],
+        siblings : sibling.siblings
+        
     }
     const sendData = () => {
+        console.log(data)
         // localStorage.setItem('emergency', JSON.stringify(data))
         axios.post(`http://fee-management-api.nastechltd.co/api/admission_form`, d)
         .then(response => {
             console.log(response.data)
-            localStorage.clear();
-            history.push("/")
+            localStorage.removeItem("student");
+            localStorage.removeItem("guardian");
+            localStorage.removeItem("mother");
+            localStorage.removeItem("father");
+            localStorage.removeItem("siblings");
+            history.push(`/requirements/${response.data}`)
         })
         .catch(error => console.log(error))
         

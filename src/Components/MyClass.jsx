@@ -59,6 +59,7 @@ const MyClass = () => {
             .then(response => {
                 console.log(response)
                 console.log(response.data.id)
+                setSchoolClass();
                 // setSections([{ name: "" }]);
                 handleClose();
                 reload();
@@ -120,6 +121,7 @@ const MyClass = () => {
                 console.log(response);
                 localStorage.removeItem("id")
                 localStorage.removeItem("name")
+                setSchoolClass();
                 reload();
                 handleClose1();
             })
@@ -146,7 +148,7 @@ const MyClass = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>

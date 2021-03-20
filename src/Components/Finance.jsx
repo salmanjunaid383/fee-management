@@ -97,56 +97,63 @@ const Finance = () => {
         }
         else {
             axios.post('http://fee-management-api.nastechltd.co/api/finance_employee', data)
+                .then(response => {
+                    console.log(response);
+                    console.log(response.data.id);
+                    setFname();
+                    setLname();
+                    setContact();
+                    setAddress();
+                    setEmail();
+                    setGender();
+                    setPassword();
+                    handleClose();
+                    reload();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
+        }
+    }
+    const update = (id) => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
             .then(response => {
-                console.log(response);
-                console.log(response.data.id);
-                handleClose();
-                reload();
+                console.log(response.data)
+                localStorage.setItem("id", response.data.id)
+                localStorage.setItem("fname", response.data.first_name)
+                localStorage.setItem("lname", response.data.last_name)
+                localStorage.setItem("email", response.data.email)
+                localStorage.setItem("contact", response.data.contact)
+                localStorage.setItem("address", response.data.address)
+                localStorage.setItem("gender", response.data.gender)
+                setAddress(response.data.address)
+                setFname(response.data.first_name)
+                setLname(response.data.last_name)
+                setContact(response.data.contact)
+                setEmail(response.data.email)
+                setGender(response.data.gender)
+                handleShow1();
             })
             .catch((error) => {
                 if (error.response) {
                     alert(error.response.data.message);
                 }
             })
-        }
     }
-    const update = (id) =>{
-        axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
-          .then(response => {
-                  console.log(response.data)
-                  localStorage.setItem("id",response.data.id)
-                  localStorage.setItem("fname",response.data.first_name)
-                  localStorage.setItem("lname",response.data.last_name)
-                  localStorage.setItem("email",response.data.email)
-                  localStorage.setItem("contact",response.data.contact)
-                  localStorage.setItem("address",response.data.address)
-                  localStorage.setItem("gender",response.data.gender)
-                  setAddress(response.data.address)
-                  setFname(response.data.first_name)
-                  setLname(response.data.last_name)
-                  setContact(response.data.contact)
-                  setEmail(response.data.email)
-                  setGender(response.data.gender)
-                  handleShow1();
-          })
-          .catch((error) => {
-            if (error.response) {
-                alert(error.response.data.message);
-            }
-        })
-      }
-      const sendUpdated = () => {
+    const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
             first_name: fname,
             last_name: lname,
             email: email,
             contact: contact,
-            address : address,
-            gender : gender
+            address: address,
+            gender: gender
 
         })
-        .then (response => 
-            {console.log(response);
+            .then(response => {
+                console.log(response);
                 localStorage.removeItem("id")
                 localStorage.removeItem("fname")
                 localStorage.removeItem("lname")
@@ -154,15 +161,22 @@ const Finance = () => {
                 localStorage.removeItem("contact")
                 localStorage.removeItem("address")
                 localStorage.removeItem("gender")
-            reload();
-            handleClose1();
-            
-        })
-        .catch((error) => {
-            if (error.response) {
-                alert(error.response.data.message);
-            }
-        })
+                setFname();
+                setLname();
+                setContact();
+                setAddress();
+                setEmail();
+                setGender();
+                setPassword();
+                reload();
+                handleClose1();
+
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const logOut = () => {
         localStorage.clear();
@@ -179,7 +193,7 @@ const Finance = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>
@@ -215,7 +229,7 @@ const Finance = () => {
                                 </div>
                                 <div class="icon-name active">Finance Employee</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -264,7 +278,7 @@ const Finance = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            
+
 
 
                         </div>
@@ -277,7 +291,7 @@ const Finance = () => {
                                 <div class="big-inbox">
                                     Finance Employee
                                 </div>
-                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
@@ -294,33 +308,33 @@ const Finance = () => {
                                     <Modal.Title>Finance Employee</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                <div class="row billing-main">
-                                            <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
-                                                <TextField className="pb-3 bg-white" type="number" onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
-                                                <TextField className="pb-3 bg-white" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
-                                                <TextField className="TextField" onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
+                                    <div class="row billing-main">
+                                        <div class="col-6 billing-box">
+                                            <TextField className="pb-3 bg-white" type="text" onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="number" onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
+                                            <TextField className="TextField" onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
 
-                                            </div>
+                                        </div>
 
-                                            <div class="col-6 billing-box">
-                                                <TextField className="pb-3" type="text" onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
-                                                <TextField className="pb-3" type="email" onChange={(e) => setEmail(e.target.value)} label="Email" variant="filled" />
-                                                <TextField className="pb-3" type="password" onChange={(e) => setConfirmpassword(e.target.value)} label="Confirm Password" variant="filled" />
-                                                
+                                        <div class="col-6 billing-box">
+                                            <TextField className="pb-3" type="text" onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
+                                            <TextField className="pb-3" type="email" onChange={(e) => setEmail(e.target.value)} label="Email" variant="filled" />
+                                            <TextField className="pb-3" type="password" onChange={(e) => setConfirmpassword(e.target.value)} label="Confirm Password" variant="filled" />
+
+                                        </div>
+                                        <div className="mt-2">
+                                            <FormLabel component="legend">Gender</FormLabel>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" onChange={(e) => setGender(e.target.value)} value="male" />
+                                                <label class="form-check-label" for="inlineRadio1">Male</label>
                                             </div>
-                                            <div className="mt-2">
-                                                <FormLabel component="legend">Gender</FormLabel>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" onChange={(e) => setGender(e.target.value)} value="male" />
-                                                    <label class="form-check-label" for="inlineRadio1">Male</label>
-                                                </div>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" onChange={(e) => setGender(e.target.value)} value="female" />
-                                                    <label class="form-check-label" for="inlineRadio2">Female</label>
-                                                </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" onChange={(e) => setGender(e.target.value)} value="female" />
+                                                <label class="form-check-label" for="inlineRadio2">Female</label>
                                             </div>
                                         </div>
+                                    </div>
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <button class="btn btn-secondary" onClick={handleClose}>
@@ -334,47 +348,47 @@ const Finance = () => {
                                     <Modal.Title>Update Finance Employee</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                <div class="row billing-main">
-                                            <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("fname")} onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
-                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("contact")} onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
-                                                <TextField className="TextField" defaultValue={localStorage.getItem("address")} onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
+                                    <div class="row billing-main">
+                                        <div class="col-6 billing-box">
+                                            <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("fname")} onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("contact")} onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
+                                            <TextField className="TextField" defaultValue={localStorage.getItem("address")} onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
 
-                                            </div>
-
-                                            <div class="col-6 billing-box">
-                                                <TextField className="pb-3" type="text" defaultValue={localStorage.getItem("lname")} onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
-                                                <TextField className="pb-3" type="email" defaultValue={localStorage.getItem("email")} onChange={(e) => setEmail(e.target.value)} label="Email" variant="filled" />
-                                                
-                                            </div>
-                                                {
-                                                    gender == "male" ?
-                                                    <div className="mt-2">
-                                                        <FormLabel component="legend">Gender</FormLabel>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" checked id="inlineRadio1" onChange={(e) => setGender(e.target.value)} value="male" />
-                                                            <label class="form-check-label" for="inlineRadio1">Male</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" onChange={(e) => setGender(e.target.value)} value="female" />
-                                                            <label class="form-check-label" for="inlineRadio2">Female</label>
-                                                        </div>
-                                                    </div>
-                                                    :
-                                                    <div className="mt-2">
-                                                        <FormLabel component="legend">Gender</FormLabel>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"  id="inlineRadio1" onChange={(e) => setGender(e.target.value)} value="male" />
-                                                            <label class="form-check-label" for="inlineRadio1">Male</label>
-                                                        </div>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" checked id="inlineRadio2" onChange={(e) => setGender(e.target.value)} value="female" />
-                                                            <label class="form-check-label" for="inlineRadio2">Female</label>
-                                                        </div>
-                                                    </div>
-                                                }
-                                                
                                         </div>
+
+                                        <div class="col-6 billing-box">
+                                            <TextField className="pb-3" type="text" defaultValue={localStorage.getItem("lname")} onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
+                                            <TextField className="pb-3" type="email" defaultValue={localStorage.getItem("email")} onChange={(e) => setEmail(e.target.value)} label="Email" variant="filled" />
+
+                                        </div>
+                                        {
+                                            gender == "male" ?
+                                                <div className="mt-2">
+                                                    <FormLabel component="legend">Gender</FormLabel>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" checked id="inlineRadio1" onChange={(e) => setGender(e.target.value)} value="male" />
+                                                        <label class="form-check-label" for="inlineRadio1">Male</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" onChange={(e) => setGender(e.target.value)} value="female" />
+                                                        <label class="form-check-label" for="inlineRadio2">Female</label>
+                                                    </div>
+                                                </div>
+                                                :
+                                                <div className="mt-2">
+                                                    <FormLabel component="legend">Gender</FormLabel>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" onChange={(e) => setGender(e.target.value)} value="male" />
+                                                        <label class="form-check-label" for="inlineRadio1">Male</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" checked id="inlineRadio2" onChange={(e) => setGender(e.target.value)} value="female" />
+                                                        <label class="form-check-label" for="inlineRadio2">Female</label>
+                                                    </div>
+                                                </div>
+                                        }
+
+                                    </div>
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <button class="btn btn-secondary" onClick={handleClose1}>
@@ -396,30 +410,30 @@ const Finance = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    { employeedata.map ((val, i)=> {
-                                        return (
-                                            <>
-                                       { 
-                                          (val.type).slice(11,40) == "Finance" ?
-                                           <tr key={i}>
-                                                <td>{val.id}</td>
-                                                <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
-                                                <td>{val.gender}</td>
-                                                <td>{val.contact}</td>
-                                                <td class="txt-oflo">{val.email}</td>
-                                                <td>
-                                            <ButtonGroup disableElevation variant="contained" color="primary">
-      <Button className="student-btn-up" onClick={()=>update(val.id)}  ><UpdateIcon  className="text-white"/></Button>
-      <Button className="student-btn-del" onClick={()=>deleteData(val.id)} ><DeleteIcon className="text-white"/></Button>
-    </ButtonGroup>
-                                            </td>                                            
-                                            </tr>
-                                          :
-                                          null
-                                            }
-                                            </>
-                                                )
-                                            })}
+                                        {employeedata.map((val, i) => {
+                                            return (
+                                                <>
+                                                    {
+                                                        (val.type).slice(11, 40) == "Finance" ?
+                                                            <tr key={i}>
+                                                                <td>{val.id}</td>
+                                                                <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
+                                                                <td>{val.gender}</td>
+                                                                <td>{val.contact}</td>
+                                                                <td class="txt-oflo">{val.email}</td>
+                                                                <td>
+                                                                    <ButtonGroup disableElevation variant="contained" color="primary">
+                                                                        <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
+                                                                        <Button className="student-btn-del" onClick={() => deleteData(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                    </ButtonGroup>
+                                                                </td>
+                                                            </tr>
+                                                            :
+                                                            null
+                                                    }
+                                                </>
+                                            )
+                                        })}
 
 
 

@@ -110,7 +110,7 @@ const CampusDashboard = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link active"><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link active"><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas active fa-columns"></i>
                                 </div>
@@ -221,7 +221,7 @@ const CampusDashboard = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-                        <div class="scroll-cards">
+                        {/* <div class="scroll-cards">
                             <div class="card">
                                 <div class="mails">
                                     <div class="mail-names">
@@ -249,7 +249,7 @@ const CampusDashboard = () => {
                         </div>
                                 <div>
                                 </div>
-                            </div>
+                            </div> */}
                             {/* <div class="card">
                                 <div class="mails">
                                     <div class="mail-names">
@@ -262,13 +262,13 @@ const CampusDashboard = () => {
                                 <div>
                                 </div>
                             </div> */}
-                        </div>
+                        {/* </div> */}
                         <div class="message">
                             <div class="add-student">
                                 {isOppened == 0 ?
-                                    <button type="button" onClick={openAdmission} class="btn btn-primary btn-small">Open Admission</button>
+                                    <button type="button" onClick={openAdmission} class="btn text-bolder btn-primary btn-small">Open Admission</button>
                                     :
-                                    <button type="button" onClick={openAdmission} class="btn btn-primary btn-small">Close Admission</button>
+                                    <button type="button" onClick={openAdmission} class="btn text-bolder btn-primary btn-small">Close Admission</button>
 
                                 }
                             </div>

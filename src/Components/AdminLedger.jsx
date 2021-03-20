@@ -113,7 +113,7 @@ const AdminLedger = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>

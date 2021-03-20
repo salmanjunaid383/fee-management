@@ -114,7 +114,7 @@ return (
                             <div class="icon1">
                                 <i class="fas fa-columns"></i>
                             </div>
-                            <div class="icon-name1">Dashboard</div>
+                            <div class="icon-name1">Administrators</div>
                         </div></Link>
 
                         <Link to="/superschool" class="nav-link active "><div class="folder-icons">

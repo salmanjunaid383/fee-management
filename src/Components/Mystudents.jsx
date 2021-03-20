@@ -58,6 +58,7 @@ const Mystudents = () => {
     const [email, setEmail] = useState();
     const [fname, setFname] = useState();
     const [lname, setLname] = useState();
+    const [mname, setMname] = useState();
     const [password, setPassword] = useState();
     const [confirmpassword, setConfirmpassword] = useState();
     const [contact, setContact] = useState();
@@ -170,15 +171,16 @@ const Mystudents = () => {
             })
     }
 
-    
+
     // console.log(contact)
-    
+
     const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
             .then(response => {
-                
+
                 localStorage.setItem("fname", response.data.first_name)
                 localStorage.setItem("lname", response.data.last_name)
+                localStorage.setItem("mname", response.data.middle_name)
                 localStorage.setItem("email", response.data.email)
                 localStorage.setItem("id", response.data.id)
                 localStorage.setItem("contact", response.data.contact)
@@ -186,6 +188,7 @@ const Mystudents = () => {
                 localStorage.setItem("gender", response.data.gender)
                 setFname(response.data.first_name)
                 setLname(response.data.last_name)
+                setMname(response.data.middle_name)
                 setEmail(response.data.email)
                 setAddress(response.data.address)
                 setContact(response.data.contact)
@@ -204,6 +207,7 @@ const Mystudents = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
             first_name: fname,
             last_name: lname,
+            middle_name: mname,
             email: email,
             contact: contact,
             address: address,
@@ -215,6 +219,7 @@ const Mystudents = () => {
                 localStorage.removeItem("id")
                 localStorage.removeItem("fname")
                 localStorage.removeItem("lname")
+                localStorage.removeItem("mname")
                 localStorage.removeItem("email")
                 localStorage.removeItem("contact")
                 localStorage.removeItem("address")
@@ -246,7 +251,7 @@ const Mystudents = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>
@@ -282,7 +287,7 @@ const Mystudents = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -344,7 +349,7 @@ const Mystudents = () => {
                                 <div class="big-inbox">
                                     Students
                                 </div>
-                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
@@ -418,14 +423,15 @@ const Mystudents = () => {
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("fname")} onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
+                                                <TextField className="pb-3" type="text" defaultValue={localStorage.getItem("lname")} onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
                                                 <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("contact")} onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
-                                                <TextField className="TextField" defaultValue={localStorage.getItem("address")} onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
 
                                             </div>
 
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3" type="text" defaultValue={localStorage.getItem("lname")} onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("mname")} onChange={(e) => setMname(e.target.value)} label="Middle Name" variant="filled" />
                                                 <TextField className="pb-3" type="email" defaultValue={localStorage.getItem("email")} onChange={(e) => setEmail(e.target.value)} label="Email" variant="filled" />
+                                                <TextField className="TextField" defaultValue={localStorage.getItem("address")} onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
 
                                             </div>
                                             {
@@ -480,7 +486,7 @@ const Mystudents = () => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
+                                                    <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
                                                     <td>{val.gender}</td>
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 

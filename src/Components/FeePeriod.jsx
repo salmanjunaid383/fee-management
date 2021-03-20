@@ -110,6 +110,10 @@ const FeePeriod = () => {
                 localStorage.removeItem("duedate");
                 localStorage.removeItem("generationdate");
                 localStorage.removeItem("late_fee_charge");
+                setDue();
+                setGenerate();
+                setBilling();
+                setLatefee();
                 handleClose();
                 reload();
             })
@@ -142,6 +146,10 @@ const FeePeriod = () => {
             axios.post(`http://fee-management-api.nastechltd.co/api/billing_period`, data)
                 .then(response => {
                     console.log(response);
+                    setDue();
+                    setGenerate();
+                    setBilling();
+                    setLatefee();
                     reload();
                 })
                 .catch((error) => {
@@ -173,7 +181,7 @@ const FeePeriod = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>

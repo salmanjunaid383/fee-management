@@ -107,18 +107,18 @@ const Mydashboard = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-                        <div class="scroll-cards">
+                        {/* <div class="scroll-cards">
                             <div class="card">
                                 <div class="mails">
                                     <div class="mail-names">
                                         Schools Active
-                            </div>
+                                    </div>
 
                                 </div>
                                 <div class="mail-info">
                                     {schooldata.length} Schools all over Pakistan
 
-                        </div>
+                                </div>
                                 <div>
                                 </div>
 
@@ -127,15 +127,15 @@ const Mydashboard = () => {
                                 <div class="mails">
                                     <div class="mail-names">
                                         Active Students
-                            </div>
+                                    </div>
 
                                 </div>
                                 <div class="mail-info">
                                     {studentdata.length} Students
-                        </div>
+                                </div>
                                 <div>
                                 </div>
-                            </div>
+                            </div> */}
                             {/* <div class="card">
                                 <div class="mails">
                                     <div class="mail-names">
@@ -148,7 +148,7 @@ const Mydashboard = () => {
                                 <div>
                                 </div>
                             </div> */}
-                        </div>
+                        {/* </div> */}
                         <div class="message">
                         
                             <div class="table-responsive">

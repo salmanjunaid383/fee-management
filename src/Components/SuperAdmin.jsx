@@ -110,6 +110,12 @@ const SuperAdmin = () => {
                 .then(response => {
                     console.log(response);
                     console.log(response.data.id);
+                    setAddress();
+                    setPassword();
+                    setFname();
+                    setLname();
+                    setContact();
+                    setEmail();
                     handleClose();
                     reload();
                 })
@@ -128,9 +134,9 @@ const SuperAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })
+            })
     }
     const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
@@ -147,13 +153,20 @@ const SuperAdmin = () => {
                 setLname(response.data.last_name)
                 setContact(response.data.contact)
                 setEmail(response.data.email)
+                setAddress();
+                setPassword();
+                setFname();
+                setLname();
+                setContact();
+                setEmail();
                 handleShow1();
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })    }
+            })
+    }
     const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
             first_name: fname,
@@ -177,9 +190,10 @@ const SuperAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })    }
+            })
+    }
     const logOut = () => {
         localStorage.clear();
         history.push("/");
@@ -203,7 +217,7 @@ const SuperAdmin = () => {
                                 <div class="icon1">
                                     <i class="fas active fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 active">Dashboard</div>
+                                <div class="icon-name1 active">Administrators</div>
                             </div></Link>
 
                             <Link class="nav-link" to="/superschool"><div class="folder-icons">
@@ -220,7 +234,7 @@ const SuperAdmin = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    SuperAdmin Dashboard
+                                    Administrators
                             </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
@@ -229,7 +243,7 @@ const SuperAdmin = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-                        <div class="scroll-cards">
+                        {/* <div class="scroll-cards">
                             <div class="card">
                                 <div class="mails">
                                     <div class="mail-names">
@@ -252,7 +266,7 @@ const SuperAdmin = () => {
                             </div>
                                 <div></div>
                             </div>
-                        </div>
+                        </div> */}
                         <div class="message">
                             <div class="add-student">
                                 <button type="button" onClick={handleShow} class="btn btn-primary btn-small"><AddIcon /> Add School Administrator</button>

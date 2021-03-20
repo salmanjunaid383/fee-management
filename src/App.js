@@ -98,7 +98,7 @@ const App = () => {
             <Route path="/guardianparticular" component={Guardianparticular} />
             <Route path="/siblings" component={Siblings} />
             <Route path="/emergency" component={Emergency} />
-            <Route path="/requirements" component={Requirements} />
+            <Route path="/requirements/:formNo" component={Requirements} />
             <Route path="/undertaking" component={Undertaking} />
             <Route path="/printform/:formNo" component={PrintForm} />
         </Switch>

@@ -25,7 +25,7 @@ const Documents = () => {
     const school_id = localStorage.getItem("school_id")
 
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/document`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_document/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setDocumentdata(response.data)
@@ -45,6 +45,7 @@ const Documents = () => {
         })
             .then(response => {
                 console.log(response);
+                setDocument();
                 reload();
                 handleClose();
             })
@@ -78,6 +79,7 @@ const Documents = () => {
             {console.log(response);
                 localStorage.removeItem("id")
                 localStorage.removeItem("name")
+                setDocument();
                 reload();
                 handleClose1();
             })
@@ -92,7 +94,7 @@ const Documents = () => {
 
 
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/document`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_document/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setDocumentdata(response.data)
@@ -128,7 +130,7 @@ const Documents = () => {
                             <div class="abilan">
                                 <img src={logo} />
                             </div>
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>

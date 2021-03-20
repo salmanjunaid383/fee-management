@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './personal.css';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 // import WebcamCapture from './Webcam'
 // import Webcam from 'react-webcam';
 
 
 
 const Requirements = () => {
-    const [documentdata, setDocumentdata] = useState([]);
+    const [documentdata, setDocumentdata] = useState([{}]);
     const [document, setDocument] = useState();
     const [selectedFile, setSelectedFile] = useState();
     const [documentid, setDocumentid] = useState();
-    const [isSelected, setIsSelected] = useState(false);
+    const history = useHistory();
+    const { formNo } = useParams();
+    const school_id = localStorage.getItem("school_id");
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/document`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_document/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setDocumentdata(response.data)
@@ -25,44 +27,108 @@ const Requirements = () => {
                 }
             })
     }, [])
-    const changeHandler = (e) => {
-        setSelectedFile(e.target.files[0]);
-        axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentid}`)
+    const check = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${formNo}`)
             .then(response => {
                 console.log(response.data)
-                setDocument(response.data.require_document)
+                for(var i=0; i< response.data.length ; i++){
+                    if(response.data[i].file == null){
+                        history.push(`/undertaking/${formNo}`)
+                        break;
+                    }
+                    else{
+                        history.push(`/`)
+
+                    }
+                }
+                // setDocument(response.data.require_document)
             })
             .catch((error) => {
                 if (error.response) {
                     alert(error.response.data.message);
                 }
             })
+    }
+    const changeHandler = (e) => {
+        setSelectedFile(e.target.files[0]);
+        
     };
-    const changeHandlerbox = (e) => {
+    
+    const changeHandlerbox = async (e) => {
         setDocumentid(e.target.value);
-        setIsSelected(true);
         
     };
 
+
     const handleSubmission = () => {
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        formData.append('document_id', documentid);
-        formData.append('document', document);
-        axios({
-            method: "post",
-            url: "http://fee-management-api.nastechltd.co/api/student_document",
-            data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
-        })
-            .then(function (response) {
-                //handle success
-                console.log(response);
+        axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentid}`)
+            .then(response => {
+                // setDocument(response.data.require_document);
+                if (selectedFile == undefined) {
+                    const formData = new FormData();
+                    formData.append('file', null);
+                    formData.append('document_id', documentid);
+                    formData.append('form_no', formNo);
+                    formData.append('document', response.data.require_document);
+                    axios({
+                        method: "post",
+                        url: "http://fee-management-api.nastechltd.co/api/student_document",
+                        data: formData,
+                        headers: { "Content-Type": "multipart/form-data" },
+                    })
+                        .then(function (response) {
+                            //handle success
+                            console.log(response);
+                            setSelectedFile();
+                            setDocumentid();
+                            setDocument();
+
+                            alert("Submitted!!")
+
+                        })
+                        .catch(function (response) {
+                            //handle error
+                            console.log(response);
+                        });
+
+                }
+                else {
+                    const formData = new FormData();
+                    formData.append('file', selectedFile);
+                    formData.append('document_id', documentid);
+                    formData.append('document', response.data.require_document);
+                    formData.append('form_no', formNo);
+                    axios({
+                        method: "post",
+                        url: "http://fee-management-api.nastechltd.co/api/student_document",
+                        data: formData,
+                        headers: { "Content-Type": "multipart/form-data" },
+                    })
+                        .then(function (response) {
+                            //handle success
+                            console.log(response);
+                            setSelectedFile();
+                            setDocumentid();
+                            setDocument();
+
+                            alert("Submitted!!")
+
+                        })
+                        .catch(function (response) {
+                            //handle error
+                            console.log(response);
+                        });
+
+                }
+                console.log(response.data)
+
             })
-            .catch(function (response) {
-                //handle error
-                console.log(response);
-            });
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+
         // const data = {
         //             file : formData,
         //             form_no : 552191,
@@ -178,15 +244,22 @@ const Requirements = () => {
                                                 </label>
                                             </div>
                                             <div className="col-4">
-                                                {isSelected == true ?
+                                                {documentid == val.id ?
                                                     <>
-                                                        <input class="form-control" name="file" type="file" id="formFile" onChange={(e) => changeHandler(e)} />
+                                                        <input class="form-control" name="file" type="file" id={`${val.id}file`} onChange={(e) => changeHandler(e)} />
                                                     </>
                                                     :
                                                     null}
                                             </div>
                                             <div className="col-3 my-1">
-                                                <button className="btn btn-success">Upload</button>
+                                                {documentid == val.id ?
+                                                    <>
+                                                        <button onClick={handleSubmission} className="btn btn-success">Upload</button>
+                                                    </>
+                                                    :
+                                                    <button onClick={handleSubmission} disabled className="btn btn-success">Upload</button>
+
+                                                }
                                             </div>
 
                                         </div>
@@ -196,29 +269,19 @@ const Requirements = () => {
 
                             {/* <div className="row">
                                 <div className="ml-2 mt-2 col-4 form-check">
-                                    <input className="form-check-input" type="checkbox" value="agreed" id="a1"  />
+                                    <input className="form-check-input" type="checkbox" value={documentdata.id} id="a1" onChange={(e) => changeHandlerbox(e)} />
                                     <label className="form-check-label" for="a1">
-                                        T.C (from last school)
+                                        {documentdata.require_document}
                                     </label>
                                 </div>
                                 <div className="col-4">
-                                    <input class="form-control" type="file" id="formFile" />
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="ml-2 mt-2 col-4 form-check">
-                                    <input className="form-check-input" type="checkbox" value="agreed" id="a1"  />
-                                    <label className="form-check-label" for="a1">
-                                        Photocopy of valid CNIC of Parents
-                                    </label>
-                                </div>
-                                <div className="col-4">
-                                    <input class="form-control" type="file" id="formFile" />
+                                    <input class="form-control" type="file" id="formFile" onChange={(e) => changeHandler(e)} />
                                 </div>
                             </div> */}
+
                             <div className="row">
                                 <div className="col-12 text-right mt-3">
-                                    <button onClick={handleSubmission} className="btn btn-success w25">Next</button>
+                                    <button onClick={check} className="btn btn-success w25">Next</button>
                                 </div>
                             </div>
 

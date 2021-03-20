@@ -100,6 +100,7 @@ const Discounted = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/discount`, data)
             .then(response => {
                 console.log(response);
+                setDiscount();
                 reload();
                 handleClose();
             })
@@ -131,6 +132,7 @@ const Discounted = () => {
                 localStorage.removeItem("id")
                 localStorage.removeItem("student_id")
                 localStorage.removeItem("discount")
+                setDiscount();
                 reload();
                 handleClose1();
 
@@ -173,7 +175,7 @@ const Discounted = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link active"><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link active"><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>

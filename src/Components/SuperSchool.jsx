@@ -39,7 +39,7 @@ const SuperSchool = () => {
     const [schooldata, setSchooldata] = useState([]);
     const history = useHistory();
     const [show, setShow] = useState(false);
-    
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [schoolName, setSchoolName] = useState();
@@ -58,9 +58,9 @@ const SuperSchool = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })
+            })
     }, [])
 
 
@@ -90,17 +90,23 @@ const SuperSchool = () => {
             url: "http://fee-management-api.nastechltd.co/api/schools",
             data: formData,
             headers: { "Content-Type": "multipart/form-data" },
-          })
+        })
             .then(function (response) {
-              //handle success
-              console.log(response);
-              handleClose();
+                //handle success
+                console.log(response);
+                setSchoolName();
+                setSelectedFile();
+                setPhone();
+                setAddress();
+                setEmail();
+                setAdminid()
+                handleClose();
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })
+            })
     }
 
     // const sendData = () => {
@@ -131,13 +137,13 @@ const SuperSchool = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })
+            })
     }, [])
 
-    
-    
+
+
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -160,14 +166,14 @@ const SuperSchool = () => {
                                 <div class="icon1">
                                     <i class="fas fa-columns"></i>
                                 </div>
-                                <div class="icon-name1">Dashboard</div>
+                                <div class="icon-name1">Administrators</div>
                             </div></Link>
 
                             <Link to="/superschool" class="nav-link active "><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas active fa-school"></i>
                                 </div>
-                                <div class="icon-name active">School</div>
+                                <div class="icon-name active">Schools</div>
                             </div></Link>
                         </div>
                     </div>
@@ -216,7 +222,7 @@ const SuperSchool = () => {
                                             <TextField className="pb-3 bg-white" type="text" onChange={(e) => setSchoolName(e.target.value)} label="School Name" variant="filled" />
                                             <TextField className="pb-3 bg-white" type="number" onChange={(e) => setPhone(e.target.value)} label="Contact No." variant="filled" />
                                             <label htmlFor="logo">Upload School Logo:</label>
-                                            <input id="logo" type="file" name="logo" onChange={(e)=>setSelectedFile(e.target.files[0])} className="form-control w-100" />
+                                            <input id="logo" type="file" name="logo" onChange={(e) => setSelectedFile(e.target.files[0])} className="form-control w-100" />
                                         </div>
 
                                         <div class="col-6 billing-box">
@@ -233,7 +239,7 @@ const SuperSchool = () => {
                                     <button onClick={sendData} className="btn btn-primary">Create</button>
                                 </Modal.Footer>
                             </Modal>
-                            
+
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
@@ -248,30 +254,30 @@ const SuperSchool = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    { administratordata.map ((val, i)=> {
-                                        return (
-                                            <>
-                                       { 
-                                          (val.type).slice(11,40) == "SchoolAdministrator" ?
-                                           <tr key={i}>
-                                                <td>{val.id}</td>
-                                                <td class="txt-oflo">{`${val.first_name} ${val.last_name}'s Schools`}</td>
-                                                <td><Button onClick={() => history.push(`/adminschool/${val.id}`)}><DescriptionIcon /></Button></td>
-                                                <td>{val.contact}</td>
-                                                <td class="txt-oflo">{val.email}</td>
-                                                <td>
-                                            {/* <ButtonGroup disableElevation variant="contained" color="primary">
+                                        {administratordata.map((val, i) => {
+                                            return (
+                                                <>
+                                                    {
+                                                        (val.type).slice(11, 40) == "SchoolAdministrator" ?
+                                                            <tr key={i}>
+                                                                <td>{val.id}</td>
+                                                                <td class="txt-oflo">{`${val.first_name} ${val.last_name}'s Schools`}</td>
+                                                                <td><Button onClick={() => history.push(`/adminschool/${val.id}`)}><DescriptionIcon /></Button></td>
+                                                                <td>{val.contact}</td>
+                                                                <td class="txt-oflo">{val.email}</td>
+                                                                <td>
+                                                                    {/* <ButtonGroup disableElevation variant="contained" color="primary">
       <Button className="student-btn-up" onClick={()=>update(val.id)}  ><UpdateIcon  className="text-white"/></Button>
       <Button className="student-btn-del" onClick={()=>deleteAdministrator(val.id)} ><DeleteIcon className="text-white"/></Button>
     </ButtonGroup> */}
-                                            </td>                                            
-                                            </tr>
-                                          :
-                                          null
-                                            }
-                                            </>
-                                                )
-                                            })}
+                                                                </td>
+                                                            </tr>
+                                                            :
+                                                            null
+                                                    }
+                                                </>
+                                            )
+                                        })}
 
 
 

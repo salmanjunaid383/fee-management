@@ -125,6 +125,10 @@ const MyExpense = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/expense_tracking`, data)
             .then(response => {
                 console.log(response);
+                setDescription();
+                setStudentid();
+                setStudentname();
+                setCharges();
                 handleClose();
                 reload();
 
@@ -209,6 +213,10 @@ const MyExpense = () => {
                 localStorage.removeItem("description")
                 localStorage.removeItem("name")
                 localStorage.removeItem("student_id")
+                setDescription();
+                setStudentid();
+                setStudentname();
+                setCharges();
                 reload();
                 handleClose1();
             })
@@ -248,7 +256,7 @@ const MyExpense = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>

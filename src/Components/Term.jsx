@@ -142,6 +142,9 @@ const Term = () => {
                 localStorage.removeItem("term_name");
                 localStorage.removeItem("startdate");
                 localStorage.removeItem("enddate");
+                setStartingdate();
+                setEndingdate();
+                setDescription();
                 reload();
                 handleClose();
             })
@@ -197,6 +200,9 @@ const Term = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/term`, data)
             .then(response => {
                 console.log(response);
+                setStartingdate();
+                setEndingdate();
+                setDescription();
                 reload();
             })
             .catch(error => console.log(error))
@@ -222,7 +228,7 @@ const Term = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/dashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>

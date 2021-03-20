@@ -105,6 +105,11 @@ const Fee = () => {
             })
             .then(response => {
                 console.log(response)
+                setDescription();
+                setTax();
+                setClassid();
+                setInputList([{ description: "", charges: "" }])
+                setInputListYear([{ description: "", charges: "", month: "" }])
                 history.push("/structure")
             })
             .catch((error) => {
@@ -135,7 +140,7 @@ const Fee = () => {
                             <div class="abilan">
                                 <img src={logo} />
                             </div>
-                            <Link to="/dashboard" class="nav-link active"><div class="folder-icons ">
+                            <Link to="/campusdashboard" class="nav-link active"><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>
@@ -165,12 +170,7 @@ const Fee = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            <Link class="nav-link" to="/fee"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet active"></i>
-                                </div>
-                                <div class="icon-name active">Fee Generation</div>
-                            </div></Link>
+                            
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -179,9 +179,9 @@ const Fee = () => {
                             </div></Link>
                             <Link class="nav-link" to="/structure"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas active fa-wallet"></i>
                                 </div>
-                                <div class="icon-name">Fee Structure</div>
+                                <div class="icon-name active">Fee Structure</div>
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
@@ -274,7 +274,7 @@ const Fee = () => {
                                             </div>
                                             <div class="col-1">
                                                 {inputList.length !== 1 && 
-                                                    <button type="button" onClick={removeField} class="btn btn-primary mt-1">Remove</button>
+                                                    <button type="button" onClick={()=>removeField(i)} class="btn btn-primary mt-1">Remove</button>
                                                 }
 
                                             </div>
