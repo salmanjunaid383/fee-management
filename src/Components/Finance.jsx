@@ -31,7 +31,19 @@ const Finance = () => {
     const [contact, setContact] = useState();
     const [address, setAddress] = useState();
     const [gender, setGender] = useState();
+    const [prevdata, setPrevdata] = useState('');
     const school_id = localStorage.getItem("school_id")
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
 
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
@@ -70,10 +82,11 @@ const Finance = () => {
     // }
 
     const deleteData = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/finance/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/finance/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response)
                 reload();
+                remove();
             })
             .catch((error) => {
                 if (error.response) {
@@ -96,38 +109,38 @@ const Finance = () => {
             alert("Incorrect Password");
         }
         else {
-            axios.post('http://fee-management-api.nastechltd.co/api/finance_employee', data)
-                .then(response => {
-                    console.log(response);
-                    console.log(response.data.id);
-                    setFname();
-                    setLname();
-                    setContact();
-                    setAddress();
-                    setEmail();
-                    setGender();
-                    setPassword();
-                    handleClose();
-                    reload();
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        alert(error.response.data.message);
-                    }
-                })
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                axios.post('http://fee-management-api.nastechltd.co/api/finance_employee', data)
+                    .then(response => {
+                        console.log(response);
+                        console.log(response.data.id);
+                        setFname();
+                        setLname();
+                        setContact();
+                        setAddress();
+                        setEmail();
+                        setGender();
+                        setPassword();
+                        handleClose();
+                        reload();
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
+            }
+            else{
+                alert("Enter Valid Email")
+            }
+
         }
     }
     const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${id}`)
             .then(response => {
                 console.log(response.data)
-                localStorage.setItem("id", response.data.id)
-                localStorage.setItem("fname", response.data.first_name)
-                localStorage.setItem("lname", response.data.last_name)
-                localStorage.setItem("email", response.data.email)
-                localStorage.setItem("contact", response.data.contact)
-                localStorage.setItem("address", response.data.address)
-                localStorage.setItem("gender", response.data.gender)
+                setPrevdata(response.data);
                 setAddress(response.data.address)
                 setFname(response.data.first_name)
                 setLname(response.data.last_name)
@@ -143,7 +156,7 @@ const Finance = () => {
             })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/user/${localStorage.getItem("id")}`, {
+        axios.put(`http://fee-management-api.nastechltd.co/api/user/${prevdata.id}`, {
             first_name: fname,
             last_name: lname,
             email: email,
@@ -154,13 +167,7 @@ const Finance = () => {
         })
             .then(response => {
                 console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("fname")
-                localStorage.removeItem("lname")
-                localStorage.removeItem("email")
-                localStorage.removeItem("contact")
-                localStorage.removeItem("address")
-                localStorage.removeItem("gender")
+                setPrevdata('');
                 setFname();
                 setLname();
                 setContact();
@@ -350,15 +357,15 @@ const Finance = () => {
                                 <Modal.Body>
                                     <div class="row billing-main">
                                         <div class="col-6 billing-box">
-                                            <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("fname")} onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
-                                            <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("contact")} onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
-                                            <TextField className="TextField" defaultValue={localStorage.getItem("address")} onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.first_name} onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="number" defaultValue={prevdata.contact} onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
+                                            <TextField className="TextField" defaultValue={prevdata.address} onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
 
                                         </div>
 
                                         <div class="col-6 billing-box">
-                                            <TextField className="pb-3" type="text" defaultValue={localStorage.getItem("lname")} onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
-                                            <TextField className="pb-3" type="email" defaultValue={localStorage.getItem("email")} onChange={(e) => setEmail(e.target.value)} label="Email" variant="filled" />
+                                            <TextField className="pb-3" type="text" defaultValue={prevdata.last_name} onChange={(e) => setLname(e.target.value)} label="Last Name" variant="filled" />
+                                            <TextField className="pb-3" type="email" defaultValue={prevdata.email} onChange={(e) => setEmail(e.target.value)} label="Email" variant="filled" />
 
                                         </div>
                                         {
@@ -397,6 +404,25 @@ const Finance = () => {
                                     <button onClick={sendUpdated} className="btn btn-primary">Update</button>
                                 </Modal.Footer>
                             </Modal>
+                            <Modal show={show2} onHide={remove}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Confirmation</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                        </div>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <button class="btn btn-secondary" onClick={remove}>
+                                        Close
+                                            </button>
+                                    <button onClick={deleteData} className="btn btn-primary">Yes</button>
+                                </Modal.Footer>
+                            </Modal>
+
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
@@ -424,7 +450,7 @@ const Finance = () => {
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary">
                                                                         <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                        <Button className="student-btn-del" onClick={() => deleteData(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                        <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                                     </ButtonGroup>
                                                                 </td>
                                                             </tr>

@@ -39,9 +39,9 @@ const SuperSchool = () => {
     const [schooldata, setSchooldata] = useState([]);
     const history = useHistory();
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
     const [schoolName, setSchoolName] = useState();
     const [phone, setPhone] = useState();
     const [address, setAddress] = useState();
@@ -84,29 +84,35 @@ const SuperSchool = () => {
         formData.append('address', address);
         formData.append('email', email);
         // console.log(formData.get('File'))
+        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
 
-        axios({
-            method: "post",
-            url: "http://fee-management-api.nastechltd.co/api/schools",
-            data: formData,
-            headers: { "Content-Type": "multipart/form-data" },
-        })
-            .then(function (response) {
-                //handle success
-                console.log(response);
-                setSchoolName();
-                setSelectedFile();
-                setPhone();
-                setAddress();
-                setEmail();
-                setAdminid()
-                handleClose();
+            axios({
+                method: "post",
+                url: "http://fee-management-api.nastechltd.co/api/schools",
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data" },
             })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+                .then(function (response) {
+                    //handle success
+                    console.log(response);
+                    setSchoolName();
+                    setSelectedFile();
+                    setPhone();
+                    setAddress();
+                    setEmail();
+                    setAdminid()
+                    handleClose();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
+        }
+        else{
+            alert("Enter Valid Email")
+        }
+
     }
 
     // const sendData = () => {

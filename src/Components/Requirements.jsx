@@ -31,17 +31,21 @@ const Requirements = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${formNo}`)
             .then(response => {
                 console.log(response.data)
-                for(var i=0; i< response.data.length ; i++){
-                    if(response.data[i].file == null){
+                for(var i=0; i< response.data.undertaking.length ; i++){
+                    if(response.data.undertaking[i].file == null){
                         history.push(`/undertaking/${formNo}`)
+                        localStorage.clear();
                         break;
                     }
-                    else{
-                        history.push(`/`)
-
-                    }
                 }
-                // setDocument(response.data.require_document)
+                if(response.data.undertaking.length == 0){
+                    history.push(`/`)
+                    localStorage.clear();
+                }
+                    
+
+
+                // setDocument(response.data.required_document)
             })
             .catch((error) => {
                 if (error.response) {
@@ -63,13 +67,15 @@ const Requirements = () => {
     const handleSubmission = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentid}`)
             .then(response => {
-                // setDocument(response.data.require_document);
+                // setDocument(response.data.required_document);
                 if (selectedFile == undefined) {
                     const formData = new FormData();
                     formData.append('file', null);
                     formData.append('document_id', documentid);
                     formData.append('form_no', formNo);
-                    formData.append('document', response.data.require_document);
+                    formData.append('document', response.data.required_document);
+                    formData.append('school_id', school_id);
+
                     axios({
                         method: "post",
                         url: "http://fee-management-api.nastechltd.co/api/student_document",
@@ -96,8 +102,9 @@ const Requirements = () => {
                     const formData = new FormData();
                     formData.append('file', selectedFile);
                     formData.append('document_id', documentid);
-                    formData.append('document', response.data.require_document);
+                    formData.append('document', response.data.required_document);
                     formData.append('form_no', formNo);
+                    formData.append('school_id', school_id);
                     axios({
                         method: "post",
                         url: "http://fee-management-api.nastechltd.co/api/student_document",
@@ -238,9 +245,9 @@ const Requirements = () => {
                                     <>
                                         <div className="row">
                                             <div className="ml-2 mt-2 col-4 form-check">
-                                                <input className="form-check-input" type="checkbox" value={val.id} onChange={(e) => changeHandlerbox(e)} id="a1" />
-                                                <label className="form-check-label" for="a1">
-                                                    {val.require_document}
+                                                <input className="form-check-input" type="checkbox" value={val.id} onChange={(e) => changeHandlerbox(e)} id={val.id} />
+                                                <label className="form-check-label" for={val.id}>
+                                                    {val.required_document}
                                                 </label>
                                             </div>
                                             <div className="col-4">
@@ -271,7 +278,7 @@ const Requirements = () => {
                                 <div className="ml-2 mt-2 col-4 form-check">
                                     <input className="form-check-input" type="checkbox" value={documentdata.id} id="a1" onChange={(e) => changeHandlerbox(e)} />
                                     <label className="form-check-label" for="a1">
-                                        {documentdata.require_document}
+                                        {documentdata.required_document}
                                     </label>
                                 </div>
                                 <div className="col-4">

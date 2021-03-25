@@ -22,7 +22,19 @@ const MyClass = () => {
     const handleShow1 = () => setShow1(true);
     const [classdata, setClassdata] = useState([]);
     const history = useHistory();
+    const [prevdata, setPrevdata] = useState('');
     const school_id = localStorage.getItem("school_id")
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
     // const [sections, setSections] = useState([
     //     { name: "" }
     // ]);
@@ -85,9 +97,10 @@ const MyClass = () => {
             })
     }
     const deleteClass = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/schools_class/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/schools_class/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response)
+                remove()
                 reload();
             })
             .catch((error) => {
@@ -100,9 +113,8 @@ const MyClass = () => {
     const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_class/${id}`)
             .then(response => {
-                console.log(response.data)
-                localStorage.setItem("id", response.data.id)
-                localStorage.setItem("name", response.data.name)
+                console.log(response.data);
+                setPrevdata(response.data);
                 setSchoolClass(response.data.name)
                 handleShow1();
             })
@@ -113,14 +125,13 @@ const MyClass = () => {
             })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/schools_class/${localStorage.getItem("id")}`, {
+        axios.put(`http://fee-management-api.nastechltd.co/api/schools_class/${prevdata.id}`, {
             name: schoolClass
 
         })
             .then(response => {
                 console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("name")
+                setPrevdata('');
                 setSchoolClass();
                 reload();
                 handleClose1();
@@ -301,7 +312,7 @@ const MyClass = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("name")} onChange={(e) => setSchoolClass(e.target.value)} label="Class" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.name} onChange={(e) => setSchoolClass(e.target.value)} label="Class" variant="filled" />
                                             </div>
                                         </div>
 
@@ -312,6 +323,24 @@ const MyClass = () => {
                                             Close
                                             </button>
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={show2} onHide={remove}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteClass} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
 
@@ -342,7 +371,7 @@ const MyClass = () => {
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => deleteClass(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>

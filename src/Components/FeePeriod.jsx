@@ -29,10 +29,22 @@ const FeePeriod = () => {
     const [billing, setBilling] = useState();
     const [billingperiod, setBillingperiod] = useState([]);
     const [due, setDue] = useState();
+    const [prevdata, setPrevdata] = useState('');
     const [generate, setGenerate] = useState();
     const [latefee, setLatefee] = useState();
     const school_id = localStorage.getItem("school_id")
     const history = useHistory();
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
 
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_billing_period/${school_id}`)
@@ -61,9 +73,10 @@ const FeePeriod = () => {
             })
     }
     const deletePeriod = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/billing_period/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/billing_period/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response);
+                remove();
                 reload();
             })
             .catch((error) => {
@@ -76,11 +89,7 @@ const FeePeriod = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/billing_period/${id}`)
             .then(response => {
                 console.log(response.data);
-                localStorage.setItem("id", response.data.id);
-                localStorage.setItem("phase", response.data.phase);
-                localStorage.setItem("duedate", response.data.due_date);
-                localStorage.setItem("generationdate", response.data.generation_date);
-                localStorage.setItem("late_fee_charge", response.data.late_fee_charge);
+                setPrevdata(response.data);
                 setDue(response.data.due_date)
                 setGenerate(response.data.generation_date)
                 setBilling(response.data.phase)
@@ -96,7 +105,7 @@ const FeePeriod = () => {
     }
 
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/billing_period/${localStorage.getItem("id")}`, {
+        axios.put(`http://fee-management-api.nastechltd.co/api/billing_period/${prevdata.id}`, {
             phase: billing,
             generation_date: generate,
             due_date: due,
@@ -106,10 +115,7 @@ const FeePeriod = () => {
         })
             .then(response => {
                 console.log(response.data);
-                localStorage.removeItem("phase");
-                localStorage.removeItem("duedate");
-                localStorage.removeItem("generationdate");
-                localStorage.removeItem("late_fee_charge");
+                setPrevdata('');
                 setDue();
                 setGenerate();
                 setBilling();
@@ -141,6 +147,9 @@ const FeePeriod = () => {
         }
         else if (due < 0 || due > 28) {
             alert("Due date can only be from 1-28")
+        }
+        else if( latefee < 0){
+            alert("charges can't be negative")
         }
         else {
             axios.post(`http://fee-management-api.nastechltd.co/api/billing_period`, data)
@@ -302,13 +311,13 @@ const FeePeriod = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3" type="number" defaultValue={localStorage.getItem("phase")} onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
-                                                <TextField className="pb-3" type="number" defaultValue={localStorage.getItem("duedate")} onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
+                                                <TextField className="pb-3" type="number" defaultValue={prevdata.phase} onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
+                                                <TextField className="pb-3" type="number" defaultValue={prevdata.due_date} onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
                                             </div>
 
                                             <div class="col-6 billing-box">
-                                                <TextField type="number" className="pb-3" defaultValue={localStorage.getItem("late_fee_charge")} onChange={(e) => setLatefee(e.target.value)} helperText=" " label="Late Fee Charges" variant="filled" />
-                                                <TextField className="pb-3" type="number" defaultValue={localStorage.getItem("generationdate")} onChange={(e) => setGenerate(e.target.value)} helperText="The day Fee to be Generated" label="Generation Date" variant="filled" />
+                                                <TextField type="number" className="pb-3" defaultValue={prevdata.late_fee_charge} onChange={(e) => setLatefee(e.target.value)} helperText=" " label="Late Fee Charges" variant="filled" />
+                                                <TextField className="pb-3" type="number" defaultValue={prevdata.generation_date} onChange={(e) => setGenerate(e.target.value)} helperText="The day Fee to be Generated" label="Generation Date" variant="filled" />
 
                                             </div>
                                         </div>
@@ -320,6 +329,24 @@ const FeePeriod = () => {
                                             Close
                                             </button>
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={show2} onHide={remove}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove}>
+                                            Close
+                                            </button>
+                                        <button onClick={deletePeriod} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
                             </div>
@@ -352,7 +379,7 @@ const FeePeriod = () => {
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary ">
                                                                         <Button className="student-btn-up" onClick={() => update(val.id)}   ><UpdateIcon className="text-white" /></Button>
-                                                                        <Button className="student-btn-del" onClick={() => deletePeriod(val.id)}  ><DeleteIcon className="text-white" /></Button>
+                                                                        <Button className="student-btn-del" onClick={() => handleClick(val.id)}><DeleteIcon className="text-white" /></Button>
                                                                     </ButtonGroup>
                                                                 </td>
 

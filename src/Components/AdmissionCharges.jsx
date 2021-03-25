@@ -22,9 +22,10 @@ const AdmissionCharges = () => {
     const [show1, setShow1] = useState(false);
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
+    const [prevdata, setPrevdata] = useState('');
     const history = useHistory();
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_admission/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_admission_charges/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setAdmissiondata(response.data)
@@ -36,7 +37,7 @@ const AdmissionCharges = () => {
             })
     }, [])
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_admission/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_admission_charges/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setAdmissiondata(response.data)
@@ -73,8 +74,7 @@ const AdmissionCharges = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/admission_charges/${id}`)
             .then(response => {
                 console.log(response.data)
-                localStorage.setItem("id", response.data.id)
-                localStorage.setItem("charges", response.data.charges)
+                setPrevdata(response.data);
                 setChargesadmission(response.data.charges)
                 handleShow1();
             })
@@ -85,14 +85,13 @@ const AdmissionCharges = () => {
             })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/admission_charges/${localStorage.getItem("id")}`, {
+        axios.put(`http://fee-management-api.nastechltd.co/api/admission_charges/${prevdata.id}`, {
             charges: chargesadmission,
             school_id: school_id
         })
             .then(response => {
                 console.log(response.data)
-                localStorage.removeItem("charges")
-                localStorage.removeItem("id")
+                setPrevdata('');
                 setChargesadmission();
                 reload();
                 handleClose1();
@@ -103,10 +102,23 @@ const AdmissionCharges = () => {
                 }
             })
     }
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
     const deleteCharges = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/admission_charges/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/admission_charges/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response)
+                handleClose2();
+                localStorage.removeItem("user_id")
                 reload();
 
             })
@@ -268,7 +280,7 @@ const AdmissionCharges = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("charges")} onChange={(e) => setChargesadmission(e.target.value)} label="Charges" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="number" defaultValue={prevdata.charges} onChange={(e) => setChargesadmission(e.target.value)} label="Charges" variant="filled" />
                                             </div>
                                         </div>
 
@@ -279,6 +291,24 @@ const AdmissionCharges = () => {
                                             Close
                                             </button>
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={show2} onHide={remove}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteCharges} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
                             </div>
@@ -303,7 +333,7 @@ const AdmissionCharges = () => {
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => deleteCharges(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>

@@ -62,6 +62,19 @@ const Term = () => {
     const [classid, setClassid] = useState();
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const [prevdata, setPrevdata] = useState('');
+
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_term/${school_id}`)
             .then(response => {
@@ -88,7 +101,7 @@ const Term = () => {
             .catch(error => (console.log(error)))
 
     }, [])
-    
+
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_term/${school_id}`)
             .then(response => {
@@ -98,9 +111,10 @@ const Term = () => {
             .catch(error => (console.log(error)))
     }
     const deleteTerm = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/term/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/term/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response);
+                remove();
                 reload();
             })
             .catch(error => console.log(error))
@@ -110,85 +124,81 @@ const Term = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/term/${id}`)
             .then(response => {
                 console.log(response.data);
-                localStorage.setItem("id", response.data.id);
-                localStorage.setItem("term_name", response.data.term_name);
-                setDescription(response.data.term_name)
-                localStorage.setItem("startdate", response.data.start_date);
-                localStorage.setItem("enddate", response.data.end_date);
+                setPrevdata(response.data);
                 handleShow();
+                setDescription(response.data.term_name)
             })
             .catch(error => (console.log(error)))
-            
     }
+
+
+
     const sendUpdated = () => {
-        if (startingdate == undefined){
+        if (startingdate == undefined) {
             alert("Select Starting Date")
         }
-        else if (endingdate == undefined){
+        else if (endingdate == undefined) {
             alert("Select ending Date")
 
         }
-        else{
-        axios.put(`http://fee-management-api.nastechltd.co/api/term/${localStorage.getItem("id")}`,{
-        start_date: `${StartDate.getTime()/1000}`,
-        end_date: `${EndDate.getTime()/1000}`,
-        term_name: description,
-        school_id: school_id,
-        month_or_year: `${startmonth}-${startyear}`
-        })
-            .then(response => {
-                console.log(response.data);
-                localStorage.removeItem("id")
-                localStorage.removeItem("term_name");
-                localStorage.removeItem("startdate");
-                localStorage.removeItem("enddate");
-                setStartingdate();
-                setEndingdate();
-                setDescription();
-                reload();
-                handleClose();
+        else {
+            axios.put(`http://fee-management-api.nastechltd.co/api/term/${prevdata.id}`, {
+                start_date: `${StartDate.getTime() / 1000}`,
+                end_date: `${EndDate.getTime() / 1000}`,
+                term_name: description,
+                school_id: school_id,
+                month_or_year: `${startmonth}-${startyear}`
             })
-            .catch(error => (console.log(error)))
+                .then(response => {
+                    console.log(response.data);
+                    setPrevdata('')
+                    setStartingdate();
+                    setEndingdate();
+                    setDescription();
+                    reload();
+                    handleClose();
+                })
+                .catch(error => (console.log(error)))
         }
     }
 
-    function timeConverter(UNIX_timestamp){
+    function timeConverter(UNIX_timestamp) {
         var a = new Date(UNIX_timestamp * 1000);
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var year = a.getFullYear();
         var month = months[a.getMonth()];
         var date = a.getDate();
         var hour = a.getHours();
         var min = a.getMinutes();
         var sec = a.getSeconds();
-        var time = date + ' ' + month + ' ' + year ;
+        var time = date + ' ' + month + ' ' + year;
         return time;
-      }
+    }
     // const feedDate = () => {
-        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-            "Aug", "Sep", "Oct", "Nov", "Dec"];
-        var StartDate = new Date(startingdate);
-        // console.log(StartDate)
-        var startdate = StartDate.getDate()
-        var startmonth = months[StartDate.getMonth()];
-        var startyear = StartDate.getFullYear().toString().substr(-2);
-        var EndDate = new Date(endingdate);
-        var enddate = EndDate.getDate()
-        var endmonth = months[EndDate.getMonth()];
-        var endyear = EndDate.getFullYear().toString().substr(-2);
-        // setStartdatefinal(`${startdate}-${startmonth}-${startyear}`);
-        // setEnddatefinal(`${enddate}-${endmonth}-${endyear}`);
-        // setMonthyear(`${startmonth}-${startyear}`);
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+        "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var StartDate = new Date(startingdate);
+    // console.log(StartDate)
+    // var startdate = StartDate.getDate()
+    var startmonth = months[StartDate.getMonth()];
+    var startyear = StartDate.getFullYear().toString().substr(-2);
+    var EndDate = new Date(endingdate);
+    // var enddate = EndDate.getDate()
+    // var endmonth = months[EndDate.getMonth()];
+    // var endyear = EndDate.getFullYear().toString().substr(-2);
+    // setStartdatefinal(`${startdate}-${startmonth}-${startyear}`);
+    // setEnddatefinal(`${enddate}-${endmonth}-${endyear}`);
+    // setMonthyear(`${startmonth}-${startyear}`);
 
 
-    
+
 
     // var tt = new Date().getTime()/1000;
     // console.log(tt)
 
     const data = {
-        start_date: `${StartDate.getTime()/1000}`,
-        end_date: `${EndDate.getTime()/1000}`,
+        start_date: `${StartDate.getTime() / 1000}`,
+        end_date: `${EndDate.getTime() / 1000}`,
         term_name: description,
         school_id: school_id,
         month_or_year: `${startmonth}-${startyear}`
@@ -270,7 +280,7 @@ const Term = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -351,7 +361,7 @@ const Term = () => {
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
                                                 <TextField type="date" className="pb-3" label="Starting Date" onChange={(e) => setStartingdate(e.target.value)} defaultValue="2021-01-01" variant="filled" />
-                                                <TextField type="text" className="pb-3" required label="Term Name" defaultValue={localStorage.getItem("term_name")} onChange={(e) => setDescription(e.target.value)} variant="filled" />
+                                                <TextField type="text" className="pb-3" required label="Term Name" defaultValue={prevdata.term_name} onChange={(e) => setDescription(e.target.value)} variant="filled" />
                                             </div>
                                             <div class="col-6 billing-box">
                                                 <TextField type="date" className="pb-3" required label="Ending Date" onChange={(e) => setEndingdate(e.target.value)} defaultValue="2021-01-01" variant="filled" />
@@ -365,6 +375,24 @@ const Term = () => {
                                             Close
                                             </button>
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={show2} onHide={remove}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteTerm} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
                             </div>
@@ -394,7 +422,7 @@ const Term = () => {
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary ">
                                                                         <Button className="student-btn-up" onClick={() => update(val.id)}   ><UpdateIcon className="text-white" /></Button>
-                                                                        <Button className="student-btn-del" onClick={() => deleteTerm(val.id)}  ><DeleteIcon className="text-white" /></Button>
+                                                                        <Button className="student-btn-del" onClick={() => handleClick(val.id)}  ><DeleteIcon className="text-white" /></Button>
                                                                     </ButtonGroup>
                                                                 </td>
 

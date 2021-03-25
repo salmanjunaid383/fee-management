@@ -4,7 +4,7 @@ import './PrintForm.css';
 import { useHistory, useParams } from 'react-router';
 import { capitalize } from '@material-ui/core';
 
-const PrintForm = ({ teamId, orientation = 'portrait' }) => {
+const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
     const { formNo } = useParams();
     const [student, setStudent] = useState({});
     const [parent, setParent] = useState({});
@@ -72,7 +72,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
 
                         </div>
                         <div className="col-4">
-                            <p>Email: <span className="print-capitalize">{student.email}</span></p>
+                            <p>Email: <span className="">{student.email}</span></p>
 
                         </div>
                         <div className="col-4">
@@ -117,7 +117,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                             <p>Qualification: <span className="print-capitalize">{parent.father_qualification}</span></p>
                         </div>
                         <div className="col-4">
-                            <p>Email: <span className="print-capitalize">{parent.father_email}</span></p>
+                            <p>Email: <span className="">{parent.father_email}</span></p>
 
                         </div>
                         <div className="col-4">
@@ -163,7 +163,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                             <p>Qualification: <span className="print-capitalize">{parent.mother_qualification}</span></p>
                         </div>
                         <div className="col-4">
-                            <p>Email: <span className="print-capitalize">{parent.mother_email}</span></p>
+                            <p>Email: <span className="">{parent.mother_email}</span></p>
 
                         </div>
                         <div className="col-4">
@@ -216,7 +216,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                                         <p>Qualification: <span className="print-capitalize">{guardian.qualification}</span></p>
                                     </div>
                                     <div className="col-4">
-                                        <p>Email: <span className="print-capitalize">{guardian.email}</span></p>
+                                        <p>Email: <span className="">{guardian.email}</span></p>
 
                                     </div>
                                     <div className="col-4">
@@ -305,11 +305,11 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
 
                 </div>
                 <div className="row">
-                    <div id="print_btn" className="col-12 print-submit-btn"><button onClick={()=>window.print()} className="btn btn-success">Print</button></div>
+                    <div className="col-12 print-submit-btn"><button onClick={()=>history.push(`/requirements/${formNo}`)} className="btn btn-success">Submit</button></div>
 
                 </div>
             </div>
         </>
     )
 }
-export default PrintForm;
+export default SubmitForm;

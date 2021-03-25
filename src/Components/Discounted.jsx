@@ -56,8 +56,20 @@ const Discounted = () => {
     const [discounteddata, setDiscounteddata] = useState([]);
     const [studentid, setStudentid] = useState();
     const [discount, setDiscount] = useState();
+    const [prevdata, setPrevdata] = useState('');
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
@@ -114,24 +126,22 @@ const Discounted = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/discount/${id}`)
             .then(response => {
                 console.log(response.data);
-                localStorage.setItem("id", response.data.id)
-                localStorage.setItem("student_id", response.data.student_id)
-                localStorage.setItem("discount", response.data.discount)
+                setPrevdata(response.data)
+                
+                setDiscount(response.data.discount)
                 handleShow1();
             })
             .catch(error => (console.log(error)))
     }
 
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/discount/${localStorage.getItem("id")}`, {
-            student_id: localStorage.getItem("student_id"),
+        axios.put(`http://fee-management-api.nastechltd.co/api/discount/${prevdata.id}`, {
+            student_id: prevdata.student_id,
             discount: discount
         })
             .then(response => {
                 console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("student_id")
-                localStorage.removeItem("discount")
+                setPrevdata('')
                 setDiscount();
                 reload();
                 handleClose1();
@@ -143,9 +153,10 @@ const Discounted = () => {
             })
     }
     const deleteDiscount = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/discount/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/discount/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response);
+                remove();
                 reload();
             })
             .catch(error => console.log(error))
@@ -211,14 +222,14 @@ const Discounted = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Fee Period</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/structure"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -302,14 +313,14 @@ const Discounted = () => {
                                                     >
                                                         {studentdata.map((val, i) => {
                                                             return (
-                                                                <MenuItem value={val.id}>{`${val.first_name} ${val.last_name}`}</MenuItem>
+                                                                <MenuItem value={val.id}>{`${val.first_name} ${val.middle_name} ${val.last_name}`}</MenuItem>
                                                             )
 
                                                         })}
                                                     </Select>
                                                 </FormControl>
                                                 {/* <Select1 className="pb-3 searchSelect"  onChange={(e)=>setStudentid(e.target.value)} placeholder="Select Student" options={options} /> */}
-                                                <TextField type="number" helperText="Discount Amount" onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
+                                                <TextField type="number" helperText="Discount Amount (Not In %)" onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
 
 
                                             </div>
@@ -330,7 +341,7 @@ const Discounted = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div className="col-8">
-                                                <TextField type="number" helperText="Discount Amount" defaultValue={localStorage.getItem("discount")} onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
+                                                <TextField type="number" helperText="Discount Amount" defaultValue={prevdata.discount} onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
 
                                             </div>
                                         </div>
@@ -340,6 +351,24 @@ const Discounted = () => {
                                             Close
                                         </button>
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={show2} onHide={remove}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteDiscount} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
                             </div>
@@ -368,7 +397,7 @@ const Discounted = () => {
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => deleteDiscount(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>

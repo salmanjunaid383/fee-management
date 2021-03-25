@@ -1,10 +1,15 @@
 import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import './Undertaking.css';
+import { useParams } from 'react-router';
 
 const Undertaking = ({ teamId, orientation = 'portrait' }) => {
-    const [student, setStudent] = useState([]);
+    const [student, setStudent] = useState({});
+    const [documents, setDocuments] = useState([]);
     const [date, setDate] = useState();
+    const [myclass, setMyclass] = useState();
+    const {formNo} = useParams()
+    console.log(formNo)
     function setPageSize(cssPageSize) {
         const style = document.createElement('style');
         style.innerHTML = `@page {size: ${cssPageSize}}`;
@@ -21,16 +26,16 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
         };
     }, [orientation]);
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/8520`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${formNo}`)
             .then(response => {
                 console.log(response);
-                setStudent(response.data);
-                setDate(response.data[1].created_at);
-                // setFather(response.data.StudentFather);
-                // setMother(response.data.StudentMother);
-                // setGuardian(response.data.StudentGuardian);
-                // setSiblings(response.data.SiblingsDetail);
-                // setEmergency(response.data.EmergencyContact);
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_class/${response.data.form.class_id}`)
+                .then (response=>{
+                    setMyclass(response.data.name)
+                })
+                setStudent(response.data.form);
+                setDocuments(response.data.undertaking);
+                setDate(response.data.undertaking[0].date);
             })
             .catch((error) => {
                 if (error.response) {
@@ -47,10 +52,10 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
                             <h2 className="text-center">WONDERLAND GRAMMAR SECONDARY SCHOOL</h2>
                         </div>
                         <div className="col-6 text-left">
-                            <p className="text-bolder">GR No:<span className="text-bolder">567</span></p>
+                            <p className="text-bolder">GR No:<span className="text-bolder">{student.G_R_NO}</span></p>
                         </div>
                         <div className="col-6 text-right">
-                            <p className="text-bolder">Date:<span className="text-bolder">{date.slice(0,10)}</span></p>
+                            {/* <p className="text-bolder">Date:<span className="text-bolder">{date.slice(0,10)}</span></p> */}
                         </div>
                         <div className="col-12 mt-2">
                             <h2 className="text-center"><u>Undertaking by the Parents</u></h2>
@@ -58,14 +63,14 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
                     </div>
                     <div className="row mt-5">
                         <div className="col-12">
-                            <p>Thanks for granting admission to my son/daughter named<span> Muhammad Jahanzaib</span> In class <span>X</span> of your school sunject to the submission of following documents on or before date 2021-03-24</p>
+                            <p>Thanks for granting admission to my son/daughter named<span className="text-bold"> {`${student.first_name} ${student.middle_name} ${student.last_name}`}</span> In class <span className="text-bold">{myclass}</span> of your school subject to the submission of following documents on or before date <span className="text-bold"> {date}</span>. </p>
                         </div>
 
                     </div>
                     <div className="row mt-1">
                         <div className="col-12  undertaking-line">
                             {
-                                student.map((val, i) => {
+                                documents.map((val, i) => {
                                     return (
                                         <>
                                             <p className="text-bolder ml-2">{val.document}</p>

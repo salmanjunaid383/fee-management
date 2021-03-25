@@ -9,120 +9,120 @@ import { Link, useHistory } from 'react-router-dom';
 
 const Motherparticular = () => {
     const history = useHistory();
-    const [cnic, setCnic] = useState('');
-    const [mothername, setMothername] = useState('');
-    const [email, setEmail] = useState('');
-    const [addressresidential, setAddressresidential] = useState('');
-    const [cell, setCell] = useState('');
-    const [tel, setTel] = useState('');
-    const [qualification, setQualification] = useState('');
-    const [occupation, setOccupation] = useState('');
-    const [nationality, setNationality] = useState('');
-    const [religion, setReligion] = useState('');
+    const [Mothername, setMotherName] = useState('');
+    const [Mothercnic, setMotherCnic] = useState('');
+    const [Motheremail, setMotherEmail] = useState('');
+    const [Motheraddress, setMotherAddress] = useState('');
+    const [Mothercell, setMotherCell] = useState('');
+    const [Mothertel, setMotherTel] = useState('');
+    const [Motherqualification, setMotherQualification] = useState('');
+    const [Motheroccupation, setMotherOccupation] = useState('');
+    const [Mothernationality, setMotherNationality] = useState('');
+    const [Motherreligion, setMotherReligion] = useState('');
     const [buttonshow, setButtonshow] = useState(false);
 
     const handleChangemothername = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+        if ((Mothercnic.length > 0)&&(Motheremail.length > 0)&& (Motherqualification.length > 0)&& (Mothername.length > 0) && (Motheroccupation.length > 0)&& (Mothernationality.length > 0)&& (Motherreligion.length > 0) && (Mothercell.length > 0) && (Mothertel.length > 0) &&(Motheraddress.length > 0)){
             setButtonshow(true);
         }
         else{
             setButtonshow(false)
         }
-        setMothername(e.target.value)
+        // setMotherName(e.target.value)
     }
-    const handleChangecnic = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setCnic(e.target.value)
-    }
-    const handleChangeemail = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setEmail(e.target.value)
-    }
-    const handleChangeaddressresidential = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setAddressresidential(e.target.value)
-    }
-    const handleChangecell = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setCell(e.target.value)
-    }
-    const handleChangetel = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setTel(e.target.value)
-    }
-    const handleChangequalification = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setQualification(e.target.value)
-    }
-    const handleChangeoccupation = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setOccupation(e.target.value)
-    }
-    const handleChangenationality = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setNationality(e.target.value)
-    }
-    const handleChangereligion = (e) =>{
-        if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
-            setButtonshow(true);
-        }
-        else{
-            setButtonshow(false)
-        }
-        setReligion(e.target.value)
-    }
+    // const handleChangecnic = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherCnic(e.target.value)
+    // }
+    // const handleChangeemail = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherEmail(e.target.value)
+    // }
+    // const handleChangeaddressresidential = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherAddressresidential(e.target.value)
+    // }
+    // const handleChangecell = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherCell(e.target.value)
+    // }
+    // const handleChangetel = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherTel(e.target.value)
+    // }
+    // const handleChangequalification = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherQualification(e.target.value)
+    // }
+    // const handleChangeoccupation = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherOccupation(e.target.value)
+    // }
+    // const handleChangenationality = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherNationality(e.target.value)
+    // }
+    // const handleChangereligion = (e) =>{
+    //     if ((cnic.length > 0)&&(email.length > 0)&& (qualification.length > 0)&& (mothername.length > 0) && (occupation.length > 0)&& (nationality.length > 0)&& (religion.length > 0) && (cell.length > 0) && (tel.length > 0) &&(addressresidential.length > 0)){
+    //         setButtonshow(true);
+    //     }
+    //     else{
+    //         setButtonshow(false)
+    //     }
+    //     setMotherReligion(e.target.value)
+    // }
 
     const data = {
-        name: mothername,
-        qualification: qualification,
-        religion: religion,
-        nationality: nationality,
-        occupation: occupation,
-        tel_no: tel,
-        cell_no: cell,
-        CNIC: cnic,
-        residential_address: addressresidential,
-        email: email
+        mother_name: Mothername,
+        mother_qualification: Motherqualification,
+        mother_religion: Motherreligion,
+        mother_nationality: Mothernationality,
+        mother_occupation: Motheroccupation,
+        mother_tel_no: Mothertel,
+        mother_cell_no: Mothercell,
+        mother_CNIC: Mothercnic,
+        mother_residential_address: Motheraddress,
+        mother_email: Motheremail
     }
     const sendData = () => {
         localStorage.setItem('mother', JSON.stringify(data))
@@ -147,44 +147,44 @@ const Motherparticular = () => {
                             <div className="row">
                                 <div className="col-4">
                                     <label for="guardname">Full Name:</label>
-                                    <input id="guardname" type="text" className="form-control" placeholder="Full Name" onChange={(e) => handleChangemothername(e)} />
+                                    <input id="guardname" type="text" className="form-control" placeholder="Full Name" onChange={(e) => setMotherName(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="age">Qualification:</label>
-                                    <input id="age" type="text" className="form-control" placeholder="Qualification" onChange={(e) => handleChangequalification(e)} />
+                                    <input id="age" type="text" className="form-control" placeholder="Qualification" onChange={(e) => setMotherQualification(e)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Phone:</label>
-                                    <input id="guardPhone" type="number" className="form-control" placeholder="Phone" onChange={(e) => handleChangetel(e)} />
+                                    <input id="guardPhone" type="number" className="form-control" placeholder="Phone" onChange={(e) => setMotherTel(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Cell:</label>
-                                    <input id="guardPhone" type="number" className="form-control" placeholder="Cellphone" onChange={(e) => handleChangecell(e)} />
+                                    <input id="guardPhone" type="number" className="form-control" placeholder="Cellphone" onChange={(e) => setMotherCell(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardCnic">CNIC:</label>
-                                    <input id="guardCnic" type="number" className="form-control" placeholder="CNIC Number" onChange={(e) => handleChangecnic(e)} />
+                                    <input id="guardCnic" type="number" className="form-control" placeholder="CNIC Number" onChange={(e) => setMotherCnic(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="email">Email:</label>
-                                    <input id="email" type="email" className="form-control" placeholder="Email" onChange={(e) => handleChangeemail(e)} />
+                                    <input id="email" type="email" className="form-control" placeholder="Email" onChange={(e) => setMotherEmail(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Residential Address</label>
-                                    <textarea className="form-control" id="guardAddress" onChange={(e) => handleChangeaddressresidential(e)} rows="1"></textarea>
+                                    <textarea className="form-control" id="guardAddress" onChange={(e) => setMotherAddress(e.target.value)} rows="1"></textarea>
                                 </div>
 
                                 <div className="col-4">
                                     <label for="age">Occupation:</label>
-                                    <input id="age" type="text" className="form-control" placeholder="Occupation" onChange={(e) => handleChangeoccupation(e)}/>
+                                    <input id="age" type="text" className="form-control" placeholder="Occupation" onChange={(e) => setMotherOccupation(e.target.value)}/>
                                 </div>
                                 <div className="col-4">
                                     <label for="age">Nationality:</label>
-                                    <input id="age" type="text" className="form-control" placeholder="Nationality" onChange={(e) => handleChangenationality(e)} />
+                                    <input id="age" type="text" className="form-control" placeholder="Nationality" onChange={(e) => setMotherNationality(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="age">Religion:</label>
-                                    <input id="age" type="text" className="form-control" placeholder="Religion" onChange={(e) => handleChangereligion(e)} />
+                                    <input id="age" type="text" className="form-control" placeholder="Religion" onChange={(e) => setMotherReligion(e.target.value)} />
                                 </div>
                                 {buttonshow == true ? 
                                 <>

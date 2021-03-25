@@ -12,9 +12,9 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 
-const Documents = () => {
+const SchoolUndertaking = () => {
     const [document, setDocument] = useState();
-    const [documentdata, setDocumentdata] = useState([]);
+    const [undertakingdata, setUndertakingdata] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -22,25 +22,13 @@ const Documents = () => {
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
     const history = useHistory();
-    const [prevdata, setPrevdata] = useState('');
     const school_id = localStorage.getItem("school_id")
-    const [show2, setShow2] = useState(false);
-    const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
-    const handleClick = (id) => {
-        localStorage.setItem("user_id", id)
-        handleShow2();
-    }
-    const remove = () => {
-        localStorage.removeItem("user_id")
-        handleClose2();
-    }
 
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_document/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_undertaking/${school_id}`)
             .then(response => {
                 console.log(response.data)
-                setDocumentdata(response.data)
+                setUndertakingdata(response.data)
             })
             .catch((error) => {
                 if (error.response) {
@@ -49,30 +37,30 @@ const Documents = () => {
             })
     }, [])
 
-    const sendData = () => {
-        axios.post(`http://fee-management-api.nastechltd.co/api/document`, {
-            required_document: document,
-            school_id :school_id
+    // const sendData = () => {
+    //     axios.post(`http://fee-management-api.nastechltd.co/api/document`, {
+    //         required_document: document,
+    //         school_id :school_id
 
-        })
-            .then(response => {
-                console.log(response);
-                setDocument();
-                reload();
-                handleClose();
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-    }
+    //     })
+    //         .then(response => {
+    //             console.log(response);
+    //             setDocument();
+    //             reload();
+    //             handleClose();
+    //         })
+    //         .catch((error) => {
+    //             if (error.response) {
+    //                 alert(error.response.data.message);
+    //             }
+    //         })
+    // }
     const update = (id) =>{
         axios.get(`http://fee-management-api.nastechltd.co/api/document/${id}`)
           .then(response => {
                   console.log(response.data)
-                  setPrevdata(response.data)
-
+                  localStorage.setItem("id",response.data.id)
+                  localStorage.setItem("name",response.data.required_document)
                   setDocument(response.data.required_document);
                   handleShow1();
           })
@@ -83,13 +71,14 @@ const Documents = () => {
         })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/document/${prevdata.id}`, {
+        axios.put(`http://fee-management-api.nastechltd.co/api/document/${localStorage.getItem("id")}`, {
         required_document : document,
         school_id : school_id
         })
         .then (response => 
             {console.log(response);
-                setPrevdata('')
+                localStorage.removeItem("id")
+                localStorage.removeItem("name")
                 setDocument();
                 reload();
                 handleClose1();
@@ -105,10 +94,10 @@ const Documents = () => {
 
 
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_document/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_undertaking/${school_id}`)
             .then(response => {
                 console.log(response.data)
-                setDocumentdata(response.data)
+                setUndertakingdata(response.data)
             })
             .catch((error) => {
                 if (error.response) {
@@ -116,12 +105,10 @@ const Documents = () => {
                 }
             })
     }
-    const deleteDocument = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/document/${localStorage.getItem("user_id")}`)
+    const deleteSchool = (id) => {
+        axios.delete(`http://fee-management-api.nastechltd.co/api/document/${id}`)
             .then(response => {
                 console.log(response)
-                handleClose2();
-                localStorage.removeItem("user_id")
                 reload();
             })
             .catch((error) => {
@@ -132,10 +119,7 @@ const Documents = () => {
 
     }
 
-    const logOut = () => {
-        localStorage.clear();
-        history.push("/")
-    }
+
 
     return (
         <>
@@ -154,9 +138,15 @@ const Documents = () => {
                             </div></Link>
                             <Link to="/documents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
+                                    <i class="fas fa-columns"></i>
+                                </div>
+                                <div class="icon-name1">Documents</div>
+                            </div></Link>
+                            <Link to="/schoolundertaking" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
                                     <i class="fas active fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 active">Documents</div>
+                                <div class="icon-name1 active">Undertaking</div>
                             </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
@@ -240,10 +230,8 @@ const Documents = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Required Documents
+                                    Student Undertaking
                                 </div>
-                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
-
                             </div>
                         </div>
                         <hr class="new-hr" />
@@ -251,8 +239,8 @@ const Documents = () => {
                     <div class="right-body">
                         <div class="message">
                             <div class="add-student">
-                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon />Add Document</button>
-                                <Modal show={show} onHide={handleClose}>
+                                {/* <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon />Add Document</button> */}
+                                {/* <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Add Document</Modal.Title>
                                     </Modal.Header>
@@ -279,7 +267,7 @@ const Documents = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.required_document} onChange={(e) => setDocument(e.target.value)} label="Section" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("name")} onChange={(e) => setDocument(e.target.value)} label="Section" variant="filled" />
                                             </div>
                                         </div>
 
@@ -291,27 +279,9 @@ const Documents = () => {
                                             </button>
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
                                     </Modal.Footer>
-                                </Modal>
-                                <Modal show={show2} onHide={remove}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Confirmation</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
-                                            </div>
-                                        </div>
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <button class="btn btn-secondary" onClick={remove}>
-                                            Close
-                                            </button>
-                                        <button onClick={deleteDocument} className="btn btn-primary">Yes</button>
-                                    </Modal.Footer>
-                                </Modal>
+                                </Modal> */}
                             </div>
-                            {documentdata.length == 0 ?
+                            {undertakingdata.length == 0 ?
                             <>
                             <div className="col-12">
                                 <h2 className="text-center">Nothing To Show...</h2>
@@ -325,23 +295,23 @@ const Documents = () => {
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">Class</th>
                                             <th class="border-top-0">Created At</th>
-                                            <th class="border-top-0">Action</th>
+                                            {/* <th class="border-top-0">Action</th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {documentdata.map((val, i) => {
+                                        {undertakingdata.map((val, i) => {
                                             return (
                                                 <>
                                                     <tr key={i}>
                                                         <td>{i + 1}</td>
                                                         <td class="txt-oflo">{val.required_document}</td>
                                                         <td>{val.created_at.slice(0, 10)}</td>
-                                                        <td>
+                                                        {/* <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => deleteSchool(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
-                                                        </td>
+                                                        </td> */}
                                                     </tr>
                                                 </>
                                             )
@@ -357,7 +327,7 @@ const Documents = () => {
         </>
     );
 };
-export default Documents;
+export default SchoolUndertaking;
 
 
 

@@ -19,7 +19,9 @@ import Myschool from './Components/Myschool';
 import AdminsSchool from './Components/AdminsSchool';
 import MyClass from './Components/MyClass';
 import Undertaking from './Components/Undertaking';
+import SchoolUndertaking from './Components/SchoolUndertaking';
 import PrintForm from './Components/PrintForm';
+import SubmitForm from './Components/SubmitForm';
 import MySection from './Components/Section';
 import FeeVoucher from './Components/FeeVoucher';
 import FeeVoucherAdmin from './Components/FeeVoucherAdmin';
@@ -93,14 +95,16 @@ const App = () => {
             <Route path="/super" component={SuperAdmin} />
             <Route path="/paro" component={Paro} />
             <Route path="/studentparticular" component={Studentparticular} />
-            <Route path="/fatherparticular" component={Fatherparticular} /> 
+            <Route path="/fatherparticular/:formNo" component={Fatherparticular} /> 
             <Route path="/motherparticular" component={Motherparticular} /> 
             <Route path="/guardianparticular" component={Guardianparticular} />
             <Route path="/siblings" component={Siblings} />
             <Route path="/emergency" component={Emergency} />
             <Route path="/requirements/:formNo" component={Requirements} />
-            <Route path="/undertaking" component={Undertaking} />
+            <Route path="/undertaking/:formNo" component={Undertaking} />
+            <Route path="/schoolundertaking" component={SchoolUndertaking} />
             <Route path="/printform/:formNo" component={PrintForm} />
+            <Route path="/submitform/:formNo" component={SubmitForm} />
         </Switch>
 
     </>

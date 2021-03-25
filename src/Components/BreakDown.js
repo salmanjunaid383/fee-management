@@ -34,8 +34,31 @@ const BreakDown = () => {
     const handleClose3 = () => setShow3(false);
     const handleShow3 = () => setShow3(true);
     const [yearly, setYearly] = useState([]);
+    const [prevdata, setPrevdata] = useState('');
     const history = useHistory();
-    const fee_structure_id = localStorage.getItem("fee_structure_id")
+    const fee_structure_id = localStorage.getItem("fee_structure_id");
+    const [show4, setShow4] = useState(false);
+    const handleClose4 = () => setShow4(false);
+    const handleShow4 = () => setShow4(true);
+    const [show5, setShow5] = useState(false);
+    const handleClose5 = () => setShow5(false);
+    const handleShow5 = () => setShow5(true);
+    const handleClick1 = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow4();
+    }
+    const remove1 = () => {
+        localStorage.removeItem("user_id")
+        handleClose4();
+    }
+    const handleClick2 = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow5();
+    }
+    const remove2 = () => {
+        localStorage.removeItem("user_id")
+        handleClose5();
+    }
 
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_charges/${fee_structure_id}`)
@@ -64,15 +87,13 @@ const BreakDown = () => {
     //             handleClose();
     //         })
     //         .catch((error) => {
-              
+
     // }
     const updateMonthly = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/monthly_charges/${id}`)
             .then(response => {
                 console.log(response.data)
-                localStorage.setItem("id", response.data.id);
-                localStorage.setItem("description", response.data.description);
-                localStorage.setItem("charges", response.data.charges);
+                setPrevdata(response.data);
                 setMonthlydescription(response.data.description)
                 setMonthlycharges(response.data.charges)
                 handleShow();
@@ -89,10 +110,7 @@ const BreakDown = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/yearly_charges/${id}`)
             .then(response => {
                 console.log(response.data)
-                localStorage.setItem("id", response.data.id);
-                localStorage.setItem("description", response.data.description);
-                localStorage.setItem("charges", response.data.charges);
-                localStorage.setItem("month", response.data.month);
+                setPrevdata(response.data)
                 setYearlymonth(response.data.month);
                 setYearlydescription(response.data.description);
                 setYearlycharges(response.data.charges);
@@ -107,7 +125,7 @@ const BreakDown = () => {
             })
     }
     const sendUpdatedYearly = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/yearly_charges/${localStorage.getItem("id")}`, {
+        axios.put(`http://fee-management-api.nastechltd.co/api/yearly_charges/${prevdata.id}`, {
             description: yearlydescription,
             charges: yearlycharges,
             month: yearlymonth,
@@ -116,10 +134,7 @@ const BreakDown = () => {
         })
             .then(response => {
                 console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("description")
-                localStorage.removeItem("charges")
-                localStorage.removeItem("month")
+                setPrevdata('');
                 reload();
                 handleClose1();
             })
@@ -130,7 +145,7 @@ const BreakDown = () => {
             })
     }
     const sendUpdatedMonthly = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/monthly_charges/${localStorage.getItem("id")}`, {
+        axios.put(`http://fee-management-api.nastechltd.co/api/monthly_charges/${prevdata.id}`, {
             description: monthlydescription,
             charges: monthlycharges,
             fee_structure_id: fee_structure_id
@@ -138,9 +153,7 @@ const BreakDown = () => {
         })
             .then(response => {
                 console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("description")
-                localStorage.removeItem("charges")
+                setPrevdata('');
                 reload();
                 handleClose();
             })
@@ -175,7 +188,7 @@ const BreakDown = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/yearly_charges`, {
             description: yearlydescription,
             charges: yearlycharges,
-            month : yearlymonth,
+            month: yearlymonth,
             fee_structure_id: fee_structure_id
 
         })
@@ -211,10 +224,11 @@ const BreakDown = () => {
 
     }
     const deleteCharges = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/monthly_charges/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/monthly_charges/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response)
                 reload();
+                remove1()
             })
             .catch((error) => {
                 if (error.response) {
@@ -225,9 +239,10 @@ const BreakDown = () => {
     }
 
     const deleteYearlyCharges = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/yearly_charges/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/yearly_charges/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response)
+                remove2();
                 reload();
             })
             .catch((error) => {
@@ -258,13 +273,30 @@ const BreakDown = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas  fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 ">Documents</div>
+                            </div></Link>
+                            {/* <div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-school"></i>
+                                </div>
+                                <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
+                            </div> */}
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-
+                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="icon-name">Pending Admissions</div>
+                            </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -277,12 +309,7 @@ const BreakDown = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            <Link class="nav-link" to="/fee"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Generation</div>
-                            </div></Link>
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -294,6 +321,24 @@ const BreakDown = () => {
                                     <i class="fas fa-wallet active"></i>
                                 </div>
                                 <div class="icon-name active">Fee Structure</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Fee Voucher</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Student Ledger</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
                             </div></Link>
                             <Link class="nav-link" to="/discounted"><div class="folder-icons">
                                 <div class="icon1">
@@ -338,10 +383,10 @@ const BreakDown = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("description")} onChange={(e) => setMonthlydescription(e.target.value)} label="Description" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.description} onChange={(e) => setMonthlydescription(e.target.value)} label="Description" variant="filled" />
                                             </div>
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("charges")} onChange={(e) => setMonthlycharges(e.target.value)} label="Charges" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="number" defaultValue={prevdata.charges} onChange={(e) => setMonthlycharges(e.target.value)} label="Charges" variant="filled" />
                                             </div>
                                         </div>
 
@@ -362,7 +407,7 @@ const BreakDown = () => {
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
                                                 <select class="inline select-update" id="select-class" name="month" onChange={(e) => setYearlymonth(e.target.value)}>
-                                                    <option selected disabled="disabled" value="" >{localStorage.getItem("month")}</option>
+                                                    <option selected disabled="disabled" value="" >{prevdata.month}</option>
                                                     <option>Jan</option>
                                                     <option>Feb</option>
                                                     <option>Mar</option>
@@ -380,12 +425,12 @@ const BreakDown = () => {
 
                                             </div>
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("description")} onChange={(e) => setYearlydescription(e.target.value)} label="Description" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.description} onChange={(e) => setYearlydescription(e.target.value)} label="Description" variant="filled" />
                                             </div>
                                         </div>
                                         <div class="row ">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("charges")} onChange={(e) => setYearlycharges(e.target.value)} label="Charges" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="number" defaultValue={prevdata.charges} onChange={(e) => setYearlycharges(e.target.value)} label="Charges" variant="filled" />
                                             </div>
                                         </div>
 
@@ -427,7 +472,7 @@ const BreakDown = () => {
                                         <Modal.Title>Add Yearly Charges</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
-                                    <div class="row billing-main">
+                                        <div class="row billing-main">
                                             <div class="col-6 billing-box">
                                                 <select class="inline select-update" id="select-class" name="month" onChange={(e) => setYearlymonth(e.target.value)}>
                                                     <option selected disabled="disabled" value="" >Month</option>
@@ -466,6 +511,42 @@ const BreakDown = () => {
                                         <button onClick={sendYearly} className="btn btn-primary">Add</button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal show={show4} onHide={remove1}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove1}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteCharges} className="btn btn-primary">Yes</button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={show5} onHide={remove2}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove2}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteYearlyCharges} className="btn btn-primary">Yes</button>
+                                    </Modal.Footer>
+                                </Modal>
                             </div>
 
 
@@ -496,7 +577,7 @@ const BreakDown = () => {
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => updateMonthly(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => deleteCharges(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => handleClick1(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>
@@ -534,7 +615,7 @@ const BreakDown = () => {
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => updateYearly(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => deleteYearlyCharges(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => handleClick2(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>

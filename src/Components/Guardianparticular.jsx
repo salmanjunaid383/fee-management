@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './personal.css';
 import { Link, useHistory } from 'react-router-dom';
@@ -9,7 +9,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 const Guardianparticular = () => {
     const history = useHistory();
-    const [cnic, setCnic] = useState('');
+    const [cnic, setCnic] = useState();
     const [guardianname, setGuardianname] = useState('');
     const [email, setEmail] = useState('');
     const [addressresidential, setAddressresidential] = useState('');
@@ -19,14 +19,41 @@ const Guardianparticular = () => {
     const [occupation, setOccupation] = useState('');
     const [nationality, setNationality] = useState('');
     const [religion, setReligion] = useState('');
-   
+    const [prevdata, setPrevdata] = useState('');
+    const form_no = localStorage.getItem("form_no")
+    const guardian_id = localStorage.getItem("guardian_id")
+    useEffect(() => {
+        if (guardian_id != null) {
+            axios.get(`http://fee-management-api.nastechltd.co/api/student_guardian/${guardian_id}`)
+                .then(response => {
+                    console.log(response.data)
+                    setPrevdata(response.data)
+                    setGuardianname(response.data._name);
+                    setQualification(response.data.qualification)
+                    setNationality(response.data.nationality)
+                    setOccupation(response.data.occupation)
+                    setReligion(response.data.religion)
+                    setAddressresidential(response.data.residential_address)
+                    setEmail(response.data.email)
+                    setCnic(response.data.CNIC)
+                    setCell(response.data.cell_no)
+                    setTel(response.data.tel_no)
+
+
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
+        }
+    }, [])
 
 
 
-    var a = JSON.parse(localStorage.getItem('guardian'))
-    console.log(a)
 
     const data = {
+        form_no: form_no,
         name: guardianname,
         qualification: qualification,
         religion: religion,
@@ -39,8 +66,45 @@ const Guardianparticular = () => {
         email: email
     }
     const sendData = () => {
-        localStorage.setItem('guardian', JSON.stringify(data))
-        
+        if (guardian_id == null) {
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                axios.post(`http://fee-management-api.nastechltd.co/api/student_guardian`, data)
+                    .then(response => {
+                        console.log(response.data);
+                        localStorage.setItem("guardian_id", response.data.id)
+                        history.push("/siblings")
+                        // setStudentdata(response.data);
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
+            }
+            else{
+                alert("Enter Valid Email")
+            }
+        }
+        else {
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                axios.put(`http://fee-management-api.nastechltd.co/api/student_guardian/${guardian_id}`, data)
+                    .then(response => {
+                        console.log(response.data);
+                        localStorage.setItem("guardian_id", response.data.id)
+                        history.push("/siblings")
+                        // setStudentdata(response.data);
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
+            }
+            else{
+                alert("Enter Valid Email")
+            }
+        }
+
     }
     return (
         <>
@@ -48,56 +112,72 @@ const Guardianparticular = () => {
             <div className="container-fluid form_body">
                 <div className="container ">
                     <h1 className="text-center text-dark">STUDENT ADMISSION FORM</h1>
-                    <form onSubmit={(e)=> e.preventDefault()} >
+                    <form onSubmit={(e) => e.preventDefault()} >
                         <fieldset className="mt-4 field_box shadow">
                             <legend>Guardian's Particular(if any</legend>
                             <div className="row">
                                 <div className="col-4">
                                     <label for="guardname">Full Name:</label>
-                                    <input id="guardname" type="text" className="form-control" placeholder="Full Name" onChange={(e) => setGuardianname(e.target.value)}/>
+                                    <input id="guardname" defaultValue={prevdata.name} type="text" className="form-control" placeholder="Full Name" onChange={(e) => setGuardianname(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="age">Qualification:</label>
-                                    <input id="age" type="text" className="form-control" placeholder="Qualification" onChange={(e) => setQualification(e.target.value)}/>
+                                    <input id="age" defaultValue={prevdata.qualification} type="text" className="form-control" placeholder="Qualification" onChange={(e) => setQualification(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Tel:</label>
-                                    <input id="guardPhone" type="number" className="form-control" placeholder="Telephone" onChange={(e) => setTel(e.target.value)}/>
+                                    <input id="guardPhone" defaultValue={prevdata.tel_no} type="number" className="form-control" placeholder="Telephone" onChange={(e) => setTel(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Cell:</label>
-                                    <input id="guardPhone" type="number" className="form-control" placeholder="Cellphone" onChange={(e) => setCell(e.target.value)}/>
+                                    <input id="guardPhone" defaultValue={prevdata.cell_no} type="number" className="form-control" placeholder="Cellphone" onChange={(e) => setCell(e.target.value)} />
                                 </div>
-                            
+
                                 <div className="col-4">
                                     <label for="guardCnic">CNIC:</label>
-                                    <input id="guardCnic" type="number" className="form-control" placeholder="CNIC Number" onChange={(e) => setCnic(e.target.value)}/>
+                                    <input id="guardCnic" defaultValue={prevdata.CNIC} type="number" className="form-control" placeholder="CNIC Number" onChange={(e) => setCnic(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="email">Email:</label>
-                                    <input id="email" type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                                    <input id="email" defaultValue={prevdata.email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Residential Address</label>
-                                    <textarea className="form-control" id="guardAddress" rows="1" onChange={(e) => setAddressresidential(e.target.value)}></textarea>
+                                    <textarea className="form-control" defaultValue={prevdata.residential_address} id="guardAddress" rows="1" onChange={(e) => setAddressresidential(e.target.value)}></textarea>
                                 </div>
-                            
+
                                 <div className="col-4">
                                     <label for="age">Occupation:</label>
-                                    <input id="age" type="text" className="form-control" placeholder="Occupation" onChange={(e) => setOccupation(e.target.value)}/>
+                                    <input id="age" defaultValue={prevdata.occupation} type="text" className="form-control" placeholder="Occupation" onChange={(e) => setOccupation(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="age">Nationality:</label>
-                                    <input id="age" type="text" className="form-control" placeholder="Nationality" onChange={(e) => setNationality(e.target.value)}/>
+                                    <input id="age" defaultValue={prevdata.nationality} type="text" className="form-control" placeholder="Nationality" onChange={(e) => setNationality(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="age">Religion:</label>
-                                    <input id="age" type="text" className="form-control" placeholder="Religion" onChange={(e) => setReligion(e.target.value)}/>
-                                </div>
-                                <div className="col-12 text-right mt-3">
-                                    <Link to="/siblings"><button onClick={sendData} className="btn btn-success w25">Next</button></Link>
+                                    <input id="age" defaultValue={prevdata.religion} type="text" className="form-control" placeholder="Religion" onChange={(e) => setReligion(e.target.value)} />
                                 </div>
                             </div>
+                            <div className="row">
+                                <div className="col-6 text-left mt-3">
+                                    <Link to="/fatherparticular"><button className="btn btn-success w25">Back</button></Link>
+                                </div>
+                                {cnic == undefined ?
+                                    <>
+                                        <div className="col-6 text-right mt-3">
+                                            <button onClick={() => history.push("/siblings")} className="btn btn-success w25">Next</button>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <div className="col-6 text-right mt-3">
+                                            <button onClick={sendData} className="btn btn-success w25">Next</button>
+                                        </div>
+                                    </>
+                                }
+                            </div>
+
                         </fieldset>
 
                     </form>

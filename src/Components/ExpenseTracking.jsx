@@ -54,6 +54,17 @@ const MyExpense = () => {
     const [description, setDescription] = useState();
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
             .then(response => {
@@ -96,10 +107,12 @@ const MyExpense = () => {
     }, [])
 
 
-    if (studentid.length != 0) {
+    const handleCharges = (e) => {
+        setCharges(e.target.value)
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
             .then(response => {
-                setStudentname(`${response.data.first_name} ${response.data.last_name}`);
+                // console.log(response.data)
+                setStudentname(`${response.data.first_name} ${response.data.middle_name} ${response.data.last_name}`);
 
             })
             .catch((error) => {
@@ -227,9 +240,10 @@ const MyExpense = () => {
             })
     }
     const deleteExpense = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/expense_tracking/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response)
+                remove();
                 reload();
             })
             .catch((error) => {
@@ -382,13 +396,13 @@ const MyExpense = () => {
                                                     >
                                                         {studentdata.map((val, i) => {
                                                             return (
-                                                                <MenuItem value={val.id}>{`${val.first_name} ${val.last_name}`}</MenuItem>
+                                                                <MenuItem value={val.id}>{`${val.first_name} ${val.middle_name} ${val.last_name}`}</MenuItem>
                                                             )
 
                                                         })}
                                                     </Select>
                                                 </FormControl>
-                                                <TextField className="pb-3" type="number" onChange={(e) => setCharges(e.target.value)} label="Charges" variant="filled" />
+                                                <TextField className="pb-3" type="number" onChange={(e) => handleCharges(e)} label="Charges" variant="filled" />
                                             </div>
 
                                             <div class="col-6 billing-box">
@@ -428,6 +442,24 @@ const MyExpense = () => {
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal show={show2} onHide={remove}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteExpense} className="btn btn-primary">Yes</button>
+                                    </Modal.Footer>
+                                </Modal>
                             </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
@@ -463,7 +495,7 @@ const MyExpense = () => {
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => deleteExpense(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>

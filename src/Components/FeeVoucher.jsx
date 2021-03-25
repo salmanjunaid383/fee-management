@@ -81,7 +81,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
 
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">GR. No</p>
-                                <p class=" voucher-text1">S-2725</p>
+                                <p class=" voucher-text1">{studentdata.G_R_NO}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
@@ -205,7 +205,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                         <div class="row">
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">GR. No</p>
-                                <p class=" voucher-text1">S-2725</p>
+                                <p class=" voucher-text1">{studentdata.G_R_NO}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
@@ -319,7 +319,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                         <div class="row">
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">GR. No</p>
-                                <p class=" voucher-text1">S-2725</p>
+                                <p class=" voucher-text1">{studentdata.G_R_NO}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>

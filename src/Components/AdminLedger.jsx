@@ -226,7 +226,7 @@ const AdminLedger = () => {
                                 <table class="table no-wrap">
                                     <thead>
                                         <tr>
-                                            <th class="border-top-0">#</th>
+                                            <th class="border-top-0">G.R No</th>
                                             <th class="border-top-0">NAME</th>
                                             <th class="border-top-0">GENDER</th>
                                             {/* <th class="border-top-0">Details</th> */}
@@ -237,8 +237,8 @@ const AdminLedger = () => {
                                         {studentdata.map((val, i) => {
                                             return (
                                                 <tr key={i}>
-                                                    <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
+                                                    <td>{val.G_R_NO}</td>
+                                                    <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
                                                     <td>{val.gender}</td>
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 

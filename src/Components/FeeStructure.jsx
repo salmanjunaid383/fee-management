@@ -21,10 +21,22 @@ const Structure = () => {
     const history = useHistory();
     const [classid, setClassid] = useState();
     const [tax, setTax] = useState();
+    const [prevdata, setPrevdata] = useState('');
     const [description, setDescription] = useState();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_fee_structure/${school_id}`)
             .then(response => {
@@ -83,9 +95,10 @@ const Structure = () => {
             })
     }
     const deleteFee = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/fee_structure/${id}`)
+        axios.delete(`http://fee-management-api.nastechltd.co/api/fee_structure/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response);
+                remove();
                 reload();
             })
             .catch((error) => {
@@ -98,11 +111,7 @@ const Structure = () => {
     const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/fee_structure/${id}`)
             .then(response => {
-                localStorage.setItem("description", response.data.description)
-                localStorage.setItem("tax", response.data.tax)
-                localStorage.setItem("id", response.data.id)
-                localStorage.setItem("total_monthly_charges", response.data.total_monthly_charges)
-                localStorage.setItem("total_yearly_charges", response.data.total_yearly_charges)
+                setPrevdata(response.data);
                 setTax(response.data.tax)
                 setDescription(response.data.description);
                 setClassid(response.data.class_id);
@@ -118,20 +127,17 @@ const Structure = () => {
 
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/fee_structure/${localStorage.getItem("id")}`, {
+        axios.put(`http://fee-management-api.nastechltd.co/api/fee_structure/${prevdata.id}`, {
             description: description,
             class_id: classid,
             school_id: school_id,
-            monthly_charges: localStorage.getItem("total_monthly_charges"),
-            yearly_charges: localStorage.getItem("total_yearly_charges"),
+            monthly_charges: prevdata.total_monthly_charges,
+            yearly_charges: prevdata.total_yearly_charges,
             tax: tax
         })
             .then(response => {
-                localStorage.removeItem("description")
-                localStorage.removeItem("tax")
-                localStorage.removeItem("total_yearly_charges")
-                localStorage.removeItem("total_monthly_charges")
-                localStorage.removeItem("id")
+                setPrevdata('');
+                
                 reload();
                 handleClose();
                 console.log(response.data);
@@ -320,10 +326,10 @@ return (
                                 <Modal.Body>
                                     <div class="row billing-main">
                                         <div class="col-6 billing-box">
-                                            <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("description")} onChange={(e) => setDescription(e.target.value)} label="Description" variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.description} onChange={(e) => setDescription(e.target.value)} label="Description" variant="filled" />
                                         </div>
                                         <div class="col-6 billing-box">
-                                            <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("tax")} onChange={(e) => setTax(e.target.value)} label="Tax" variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="number" defaultValue={prevdata.tax} onChange={(e) => setTax(e.target.value)} label="Tax" variant="filled" />
                                         </div>
                                     </div>
 
@@ -336,6 +342,24 @@ return (
                                     <button onClick={sendUpdated} className="btn btn-primary">Update</button>
                                 </Modal.Footer>
                             </Modal>
+                            <Modal show={show2} onHide={remove}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteFee} className="btn btn-primary">Yes</button>
+                                    </Modal.Footer>
+                                </Modal>
                         </div>
                         <div class="show_fee">
 
@@ -440,7 +464,7 @@ return (
                                             <div className="col text-right my-3">
                                                 <ButtonGroup disableElevation variant="contained" color="primary ">
                                                     <Button className="student-btn-up" onClick={() => update(val.id)}   ><UpdateIcon className="text-white" /></Button>
-                                                    <Button className="student-btn-del" onClick={() => deleteFee(val.id)}  ><DeleteIcon className="text-white" /></Button>
+                                                    <Button className="student-btn-del" onClick={() => handleClick(val.id)}  ><DeleteIcon className="text-white" /></Button>
                                                 </ButtonGroup>
                                             </div>
                                         </div>

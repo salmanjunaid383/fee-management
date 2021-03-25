@@ -184,6 +184,7 @@ const AdmissionRequest = () => {
                 console.log(response.data)
                 localStorage.setItem("registration_no",response.data.AdmissionForm.registration_no);
                 setForm_no(response.data.AdmissionForm.registration_no);
+                setClassid(response.data.AdmissionForm.class_id)
                 handleShow();
                 
             })
@@ -347,7 +348,7 @@ const AdmissionRequest = () => {
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("registration_no")} onChange={(e) => setForm_no(e.target.value)} label="Registeration No." variant="filled" />
-                                                <FormControl className={classes.formControl}>
+                                                {/* <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Class</InputLabel>
                                                     <Select
                                                         labelId="demo-simple-select-label"
@@ -363,7 +364,7 @@ const AdmissionRequest = () => {
 
                                                         })}
                                                     </Select>
-                                                </FormControl>
+                                                </FormControl> */}
 
                                             </div>
 
@@ -396,6 +397,9 @@ const AdmissionRequest = () => {
                                     <tbody>
                                         {studentdata.map((val, i) => {
                                             return (
+                                                <>
+                                                {val.G_R_NO == null ?
+                                                <>
                                                 <tr key={i}>
                                                     <td>{val.id}</td>
                                                     <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
@@ -409,6 +413,11 @@ const AdmissionRequest = () => {
                                                         </ButtonGroup>
                                                     </td>
                                                 </tr>
+                                                </>
+                                                :
+                                                null
+                                                }
+                                                </>
                                             )
                                         })}
                                     </tbody>

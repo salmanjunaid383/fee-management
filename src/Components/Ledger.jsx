@@ -91,7 +91,7 @@ const Ledger = () => {
                             </div>
 
 
-                            <Link class="nav-link" to="/ledger"><div class="folder-icons">
+                            <Link class="nav-link" to={`/ledger/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet active"></i>
                                 </div>

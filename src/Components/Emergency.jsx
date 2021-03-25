@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './personal.css';
 import { Link, useHistory } from 'react-router-dom';
@@ -16,66 +16,94 @@ const Emergency = () => {
     const [cnic, setCnic] = useState('');
     const [cell, setCell] = useState('');
     const [tel, setTel] = useState('');
-    const [buttonshow, setButtonshow] = useState(false);
-
+    const [prevdata, setPrevdata] = useState('');
+    const form_no = localStorage.getItem("form_no")
+    const sibling_id = localStorage.getItem("sibling_id")
     const history = useHistory();
+    const emergency_id = localStorage.getItem("emergency_id");
+    useEffect(() => {
+        if (emergency_id != null) {
+            axios.get(`http://fee-management-api.nastechltd.co/api/emergency/${emergency_id}`)
+                .then(response => {
+                    console.log(response.data)
+                    setPrevdata(response.data)
+                    setName(response.data.name);
+                    setRelation(response.data.relation_student)
+                    setAddress(response.data.address)
+                    setCnic(response.data.CNIC)
+                    setCell(response.data.cell_no)
+                    setTel(response.data.tel_no)
+
+
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
+        }
+    }, [])
+
+
     
-    const handleChange = (e) =>{
-        setCell(e.target.value)
-        if ((cnic.length > 0) && (relation.length > 0) && (name.length > 0) && (cell.length > 0) && (tel.length > 0) && (address.length > 0)){
-            setButtonshow(true);
+
+
+
+
+    const data = {
+        form_no : form_no,
+        name: name,
+        CNIC: cnic,
+        address: address,
+        cell_no: cell,
+        tel_no: tel,
+        relation_student: relation
+
+    }
+
+    const sendData = () => {
+        // console.log(data)
+        if((cnic.length > 0) && (relation.length > 0) && (name.length > 0) && (cell.length > 0) && (tel.length > 0) && (address.length > 0)) {
+            if (emergency_id == null){
+            axios.post(`http://fee-management-api.nastechltd.co/api/emergency`, data)
+            .then(response => {
+                console.log(response.data);
+                localStorage.setItem("emergency_id", response.data.id)
+                history.push(`/printform/${response.data.form_no}`)
+                // setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
         }
         else{
-            setButtonshow(false)
+            axios.put(`http://fee-management-api.nastechltd.co/api/emergency/${emergency_id}`, data)
+            .then(response => {
+                console.log(response.data);
+                localStorage.setItem("emergency_id", response.data.id)
+                history.push(`/submitform/${response.data.form_no}`)
+                // setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
         }
-    }
-    
-    console.log(buttonshow)
-    console.log(cell)
-    console.log(tel)
-    
-
-    var student = JSON.parse(localStorage.getItem('student'))
-    var guardian = JSON.parse(localStorage.getItem('guardian'))
-    var mother = JSON.parse(localStorage.getItem('mother'))
-    var father = JSON.parse(localStorage.getItem('father'))
-    var sibling = JSON.parse(localStorage.getItem('siblings'))
-    var emergency = JSON.parse(localStorage.getItem('emergency'))
-    
-    const data = {
-        name : name,
-        CNIC : cnic,
-        address : address,
-        cell_no : cell,
-        tel_no : tel,
-        relation : relation
-        
-    }
-    const d ={
-        school_id :1,
-        students : [student],
-        guardians : [guardian],
-        mothers : [mother],
-        fathers : [father],
-        emergencies : [data],
-        siblings : sibling.siblings
-        
-    }
-    const sendData = () => {
-        console.log(data)
+        }
+        else {
+            alert("Enter Valid Field(s)")
+        }
         // localStorage.setItem('emergency', JSON.stringify(data))
-        axios.post(`http://fee-management-api.nastechltd.co/api/admission_form`, d)
-        .then(response => {
-            console.log(response.data)
-            localStorage.removeItem("student");
-            localStorage.removeItem("guardian");
-            localStorage.removeItem("mother");
-            localStorage.removeItem("father");
-            localStorage.removeItem("siblings");
-            history.push(`/requirements/${response.data}`)
-        })
-        .catch(error => console.log(error))
-        
+        // axios.post(`http://fee-management-api.nastechltd.co/api/admission_form`, data)
+        //     .then(response => {
+
+        //         // history.push(`/requirements/${response.data}`)
+        //     })
+        //     .catch(error => console.log(error))
+
         // axios.post(`http://fee-management-api.nastechltd.co/api/student_guardian`, {
         //     CNIC: "567890",
         // cell: "76890",
@@ -92,7 +120,7 @@ const Emergency = () => {
         // })
         // .error (error => console.log(error))
 
-      }
+    }
 
 
     return (
@@ -101,48 +129,48 @@ const Emergency = () => {
             <div className="container-fluid form_body">
                 <div className="container ">
                     <h1 className="text-center text-dark">STUDENT ADMISSION FORM</h1>
-                    <form onSubmit={(e)=> e.preventDefault()} >
-                    <fieldset className="mt-4 field_box shadow">
-                        <legend>Incase Of Emergency</legend>
-                        <div className="row">
+                    <form onSubmit={(e) => e.preventDefault()} >
+                        <fieldset className="mt-4 field_box shadow">
+                            <legend>Incase Of Emergency</legend>
+                            <div className="row">
                                 <div className="col-4">
                                     <label for="guardCnic">CNIC:</label>
-                                    <input id="guardCnic" type="number" className="form-control" placeholder="CNIC Number" onChange={(e)=> setCnic(e.target.value)}/>
+                                    <input id="guardCnic" defaultValue={prevdata.CNIC} type="number" className="form-control" placeholder="CNIC Number" onChange={(e) => setCnic(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="email">Name of the person to be contacted:</label>
-                                    <input id="email" type="text" className="form-control" placeholder="Name" onChange={(e)=> setName(e.target.value)}/>
+                                    <input id="email" defaultValue={prevdata.name} type="text" className="form-control" placeholder="Name" onChange={(e) => setName(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Relation with the student</label>
-                                    <input id="email" type="text" className="form-control" placeholder="Realtion" onChange={(e)=> setRelation(e.target.value)}/>
+                                    <input id="email" defaultValue={prevdata.relation_student} type="text" className="form-control" placeholder="Realtion" onChange={(e) => setRelation(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Address</label>
-                                    <textarea className="form-control" id="guardAddress" rows="1" onChange={(e)=> setAddress(e.target.value)}></textarea>
+                                    <textarea className="form-control" defaultValue={prevdata.address} id="guardAddress" rows="1" onChange={(e) => setAddress(e.target.value)}></textarea>
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Telephone:</label>
-                                    <input id="guardPhone" type="number" className="form-control" placeholder="Telephone" onChange={(e)=> setTel(e.target.value)}/>
+                                    <input id="guardPhone" defaultValue={prevdata.tel_no} type="number" className="form-control" placeholder="Telephone" onChange={(e) => setTel(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Cell:</label>
-                                    <input id="guardPhone" type="number" className="form-control" placeholder="Cell" onChange={handleChange}/>
+                                    <input id="guardPhone" defaultValue={prevdata.cell_no} type="number" className="form-control" placeholder="Cell" onChange={(e)=> setCell(e.target.value)} />
                                 </div>
-                                {buttonshow == true ? 
-                                <>
-                                <div className="col-12 text-right mt-3">
-                                    <button onClick={sendData}className="btn btn-success w25">Submit</button>
-                                </div>
-                                </>
-                                :
-                                null
-                                }
-                                
                             </div>
-                            
+                            <div className="row">
+                                <div className="col-6 text-left mt-3">
+                                    <Link to="/siblings"><button className="btn btn-success w25">Back</button></Link>
+                                </div>
+                                <div className="col-6 text-right mt-3">
+                                    <button onClick={sendData} className="btn btn-success w25">Next</button>
+                                </div>
+                            </div>
 
-                    </fieldset>
+
+
+
+                        </fieldset>
 
                     </form>
                 </div>
