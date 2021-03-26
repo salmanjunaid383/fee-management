@@ -42,9 +42,11 @@ import SchoolEntry from './Components/SchoolEntry';
 import AdmissionCharges from './Components/AdmissionCharges';
 import AdmissionRequest from './Components/AdmissionRequest';
 import AdmissionForm from './Components/AdmissionForm';
+import Admission from './Components/Admission';
 import EmployeeUpdate from './Components/EmployeeUpdate';
 import SchoolClass from './Components/ClassEntry';
 import Fee from './Components/FeeGenerator';
+import FeeComponents from './Components/Fee';
 import FeePeriod from './Components/FeePeriod';
 import ShowFeePeriod from './Components/ShowFeePeriod';
 import Structure from './Components/FeeStructure';
@@ -80,6 +82,7 @@ const App = () => {
             <Route path="/student1/:studentid" component={Student1} />
             <Route path="/expense" component={MyExpense} />
             <Route path="/fee" component={Fee} />
+            <Route path="/feecomponents" component={FeeComponents} />
             <Route path="/breakdown" component={BreakDown} />
             <Route path="/feeperiod" component={FeePeriod} />
             <Route path="/feevoucher/:studentid" component={FeeVoucher} />
@@ -87,6 +90,7 @@ const App = () => {
             <Route path="/structure" component={Structure} />
             <Route path="/admission" component={AdmissionCharges} />
             <Route path="/admissionrequest" component={AdmissionRequest}/>
+            <Route path="/admissioncomponents" component={Admission}/>
             <Route path="/admissionform/:schoolid" component={AdmissionForm}/>
             <Route path="/adminschool/:adminid" component={AdminsSchool}/>
             <Route path="/discounted" component={Discounted} />

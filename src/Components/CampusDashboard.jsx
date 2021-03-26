@@ -23,7 +23,6 @@ const CampusDashboard = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [data, setData] = useState([]);
-    const [isOppened, setIsOppened] = useState();
     const [studentdata, setStudentdata] = useState([]);
     const [schooldata, setSchooldata] = useState([]);
     const school_id = localStorage.getItem("school_id")
@@ -46,9 +45,9 @@ const CampusDashboard = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })
+            })
     }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools/${admin_id}`)
@@ -58,43 +57,12 @@ const CampusDashboard = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })
-    }, [])
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
-            .then(response => {
-                console.log(response.data.is_oppend)
-                setIsOppened(response.data.is_oppend)
             })
-            .catch((error) => {
-                if (error.response) {
-                  alert(error.response.data.message);
-                }
-              })
     }, [])
-    const openAdmission = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/admission_open/${school_id}`)
-            .then(response => {
-                console.log(response);
-                axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
-                    .then(response => {
-                        console.log(response.data.is_oppend)
-                        setIsOppened(response.data.is_oppend)
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                          alert(error.response.data.message);
-                        }
-                      })
-            })
-            .catch((error) => {
-                if (error.response) {
-                  alert(error.response.data.message);
-                }
-              })
-    }
+
+
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -116,11 +84,11 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name1 active">Dashboard</div>
                             </div></Link>
-                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas  fa-columns"></i>
+                                    <i class="fas fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 ">Documents</div>
+                                <div class="icon-name1">Admission</div>
                             </div></Link>
                             {/* <div class="folder-icons">
                                 <div class="icon1">
@@ -134,36 +102,34 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Pending Admissions</div>
-                            </div></Link>
+                            {/* <div class="dropdown nav-link">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admissions
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div> */}
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
                                 </div>
                                 <div class="icon-name">Students</div>
                             </div></Link>
+
                             <Link class="nav-link" to="/finance"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-
-                            <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
+                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
                                 </div>
-                                <div class="icon-name">Fee Period</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/structure"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Structure</div>
+                                <div class="icon-name">Fee</div>
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
@@ -177,18 +143,7 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
-                            <Link class="nav-link" to="/admission"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Admission Charges</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/discounted"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Discounted</div>
-                            </div></Link>
+                            
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -201,6 +156,7 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
+
 
 
 
@@ -250,7 +206,7 @@ const CampusDashboard = () => {
                                 <div>
                                 </div>
                             </div> */}
-                            {/* <div class="card">
+                        {/* <div class="card">
                                 <div class="mails">
                                     <div class="mail-names">
                                         Visits
@@ -264,14 +220,14 @@ const CampusDashboard = () => {
                             </div> */}
                         {/* </div> */}
                         <div class="message">
-                            <div class="add-student">
+                            {/* <div class="add-student">
                                 {isOppened == 0 ?
                                     <button type="button" onClick={openAdmission} class="btn text-bolder btn-primary btn-small">Open Admission</button>
                                     :
                                     <button type="button" onClick={openAdmission} class="btn text-bolder btn-primary btn-small">Close Admission</button>
 
                                 }
-                            </div>
+                            </div> */}
                             <div class="table-responsive">
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>

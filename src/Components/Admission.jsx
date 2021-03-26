@@ -1,101 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import axios from 'axios';
+import logo from './jb1.png'
+import LaunchIcon from '@material-ui/icons/Launch';
 import './dashboard.css';
-import { Link, useHistory } from 'react-router-dom';
-import PrintIcon from '@material-ui/icons/Print';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import LaunchIcon from '@material-ui/icons/Launch';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
-import DescriptionIcon from '@material-ui/icons/Description';
-import logo from './jb1.png'
-import StnData from './Crud.jsx'
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
-import FormLabel from '@material-ui/core/FormLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
-
-import firebase from './Firebase'
-import axios from 'axios';
-
-
-
-import { makeStyles } from '@material-ui/core/styles';
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-            width: '30ch'
-
-        },
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        //   width: '30ch',
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-}));
-
-
-const AdminLedger = () => {
-
-    const classes = useStyles();
-    const [studentdata, setStudentdata] = useState([]);
+const Admissions = () => {
     const history = useHistory();
+    const [isOppened, setIsOppened] = useState();
     const school_id = localStorage.getItem("school_id")
-
-
-
-
-
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
             .then(response => {
-                console.log(response);
-                setStudentdata(response.data);
+                console.log(response.data.is_oppend)
+                setIsOppened(response.data.is_oppend)
             })
             .catch((error) => {
                 if (error.response) {
                     alert(error.response.data.message);
                 }
             })
-
     }, [])
-
-
-
-
-
-
-
-
-    const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+    const openAdmission = () => {
+        axios.put(`http://fee-management-api.nastechltd.co/api/admission_open/${school_id}`)
             .then(response => {
                 console.log(response);
-                setStudentdata(response.data);
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
+                    .then(response => {
+                        console.log(response.data.is_oppend)
+                        setIsOppened(response.data.is_oppend)
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
             })
             .catch((error) => {
                 if (error.response) {
                     alert(error.response.data.message);
                 }
             })
-
     }
-
-
-
-
-
-
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -103,16 +56,13 @@ const AdminLedger = () => {
 
     return (
         <>
-
             <div class="dashboard">
                 <div class="left">
                     <div class="navigation">
                         <div class="wrapper2">
                             <div class="abilan">
-                                <img
-                                    src={logo} />
+                                <img src={logo} />
                             </div>
-
                             <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
@@ -121,18 +71,22 @@ const AdminLedger = () => {
                             </div></Link>
                             <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas fa-columns"></i>
+                                    <i class="fas active fa-columns"></i>
                                 </div>
-                                <div class="icon-name1">Admission</div>
+                                <div class="icon-name1 active">Admission</div>
                             </div></Link>
-
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-
+                            {/* <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="icon-name">Pending Admissions</div>
+                            </div></Link> */}
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -159,10 +113,17 @@ const AdminLedger = () => {
                             </div></Link>
                             <Link class="nav-link" to="/adminledger"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas active fa-wallet"></i>
+                                    <i class="fas fa-wallet"></i>
                                 </div>
-                                <div class="icon-name active">Student Ledger</div>
+                                <div class="icon-name">Student Ledger</div>
                             </div></Link>
+                            {/* <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link> */}
+                            
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -176,8 +137,6 @@ const AdminLedger = () => {
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
 
-
-
                         </div>
                     </div>
                 </div>
@@ -186,7 +145,7 @@ const AdminLedger = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Student Ledger
+                                    Admissions
                                 </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
@@ -195,39 +154,22 @@ const AdminLedger = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-
                         <div class="message">
+                            <div className="show_fee">
+                                <div className="">
 
+                                    {isOppened == 0 ?
+                                        <button type="button" onClick={openAdmission} class="btn btn-primary my-3 btn-lg">Open Admission</button>
+                                        :
+                                        <button type="button" onClick={openAdmission} class="btn btn-primary my-3 btn-lg">Close Admission</button>
+                                    }
+                                    <button type="button" onClick={() => history.push("/admission")} class="btn my-3 mx-1 btn-primary btn-lg">Admission Charges</button>
+                                    <button type="button" onClick={() => history.push("/documents")} class="btn my-3 mx-1 btn-primary btn-lg">Documents</button>
+                                    <button type="button" onClick={() => history.push("/admissionrequest")} class="btn my-3 mx-1 btn-primary btn-lg">Pending Admissions</button>
 
-                            <div class="table-responsive">
-                                <table class="table no-wrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-top-0">G.R No</th>
-                                            <th class="border-top-0">NAME</th>
-                                            <th class="border-top-0">GENDER</th>
-                                            {/* <th class="border-top-0">Details</th> */}
-                                            <th class="border-top-0">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {studentdata.map((val, i) => {
-                                            return (
-                                                <tr key={i}>
-                                                    <td>{val.G_R_NO}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                    <td>{val.gender}</td>
-                                                    {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
+                                    {/* <button type="button" class="btn my-3 mx-1 btn-primary btn-lg"><Link to="/" className="text-white">Admission</Link></button> */}
+                                </div>
 
-
-                                                    <td><Button onClick={() => history.push(`/ledger/${val.id}`)}><LaunchIcon /></Button></td>
-
-
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
@@ -236,6 +178,15 @@ const AdminLedger = () => {
         </>
     );
 };
-export default AdminLedger;
+export default Admissions;
+
+
+
+
+
+
+
+
+
 
 

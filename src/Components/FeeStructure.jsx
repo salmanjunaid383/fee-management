@@ -137,7 +137,7 @@ const Structure = () => {
         })
             .then(response => {
                 setPrevdata('');
-                
+
                 reload();
                 handleClose();
                 console.log(response.data);
@@ -160,189 +160,166 @@ const Structure = () => {
 
     //         })
     //         .catch((error) => {
-  
-// }, [])
+
+    // }, [])
 
 
 
-// var mydata = []
-// for (var i = 0; i < feedata.length; i++) {
+    // var mydata = []
+    // for (var i = 0; i < feedata.length; i++) {
 
 
-//     for (var j = 0; j < chargesdata.length; j++) {
-//         var objectdata = {
-//             id: feedata[i].id,
-//             class_id: feedata[i].class_id,
-//             school_id: feedata[i].school_id,
-//             tax: feedata[i].tax,
-//             totalmonthlyCharges: feedata[i].total_monthly_charges,
-//             totalyearlyCharges: feedata[i].total_yearly_charges,
-//             monthlyCharges: [],
-//             yearlyCharges: [],
-//         }
-//         if (feedata[i].id == chargesdata[j].fee_structure_id) {
-//             objectdata.monthlyCharges.push(chargesdata[j].monthly_charges)
-//             objectdata.yearlyCharges.push(chargesdata[j].yearly_charges)
+    //     for (var j = 0; j < chargesdata.length; j++) {
+    //         var objectdata = {
+    //             id: feedata[i].id,
+    //             class_id: feedata[i].class_id,
+    //             school_id: feedata[i].school_id,
+    //             tax: feedata[i].tax,
+    //             totalmonthlyCharges: feedata[i].total_monthly_charges,
+    //             totalyearlyCharges: feedata[i].total_yearly_charges,
+    //             monthlyCharges: [],
+    //             yearlyCharges: [],
+    //         }
+    //         if (feedata[i].id == chargesdata[j].fee_structure_id) {
+    //             objectdata.monthlyCharges.push(chargesdata[j].monthly_charges)
+    //             objectdata.yearlyCharges.push(chargesdata[j].yearly_charges)
 
-//         }
-//     }
-//     mydata.push(objectdata)
-// }
-// console.log(mydata)
-const logOut = () => {
-    localStorage.clear();
-    history.push("/")
-}
-return (
-    <>
-        <div class="dashboard">
-            <div class="left">
-                <div class="navigation">
-                    <div class="wrapper2">
-                        <div class="abilan">
-                            <img
-                                src={logo} />
-                        </div>
-
-                        <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
-                            <div class="icon1">
-                                <i class="fas  fa-columns"></i>
+    //         }
+    //     }
+    //     mydata.push(objectdata)
+    // }
+    // console.log(mydata)
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
+    return (
+        <>
+            <div class="dashboard">
+                <div class="left">
+                    <div class="navigation">
+                        <div class="wrapper2">
+                            <div class="abilan">
+                                <img
+                                    src={logo} />
                             </div>
-                            <div class="icon-name1 ">Dashboard</div>
-                        </div></Link>
-                        <Link to="/documents" class="nav-link "><div class="folder-icons ">
+
+                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 ">Documents</div>
+                                <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-                        {/* <div class="folder-icons">
+                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas fa-columns"></i>
+                                </div>
+                                <div class="icon-name1">Admission</div>
+                            </div></Link>
+                            {/* <div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-school"></i>
                                 </div>
                                 <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
                             </div> */}
-                        <Link class="nav-link" to="/class"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="icon-name">Class</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="icon-name">Pending Admissions</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/students"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="icon-name">Students</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/finance"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Finance Employee</div>
-                        </div></Link>
-
-                        <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Fee Period</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/structure"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet active"></i>
-                            </div>
-                            <div class="icon-name active">Fee Structure</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Fee Voucher</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/adminledger"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Student Ledger</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/admission"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Admission Charges</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/discounted"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Discounted</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/term"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Term</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/expense"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Expense Tracking</div>
-                        </div></Link>
-
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="right-side">
-                <div class="right-header">
-                    <div class="top-bar">
-                        <div class="top-bar-justify">
-                            <div class="big-inbox">
-                                Fee
+                            <Link class="nav-link" to="/class"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
                                 </div>
-                            <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <div class="icon-name">Class</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/students"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="icon-name">Students</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/finance"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Finance Employee</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet active"></i>
+                                </div>
+                                <div class="icon-name active">Fee</div>
+                            </div></Link>
+                            
+                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Fee Voucher</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Student Ledger</div>
+                            </div></Link>
+                            
+                            <Link class="nav-link" to="/term"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Term</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/expense"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Expense Tracking</div>
+                            </div></Link>
+
+
 
                         </div>
                     </div>
-                    <hr class="new-hr" />
                 </div>
-                <div class="right-body">
+                <div class="right-side">
+                    <div class="right-header">
+                        <div class="top-bar">
+                            <div class="top-bar-justify">
+                                <div class="big-inbox">
+                                    Fee Structure
+                                </div>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
-                    <div class="message">
-                        <div class="add-student1">
-                            <Link to="/fee"> <button type="button" class="btn mb-1 btn-primary btn-lg"><AddIcon /> Add Structure</button></Link>
-                            <Modal show={show} onHide={handleClose}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Update Fee Structure</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <div class="row billing-main">
-                                        <div class="col-6 billing-box">
-                                            <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.description} onChange={(e) => setDescription(e.target.value)} label="Description" variant="filled" />
+                            </div>
+                        </div>
+                        <hr class="new-hr" />
+                    </div>
+                    <div class="right-body">
+
+                        <div class="message">
+                            <div class="add-student1">
+                                <Link to="/fee"> <button type="button" class="btn mb-1 btn-primary btn-lg"><AddIcon /> Add Structure</button></Link>
+                                <Modal show={show} onHide={handleClose}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Update Fee Structure</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div class="row billing-main">
+                                            <div class="col-6 billing-box">
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.description} onChange={(e) => setDescription(e.target.value)} label="Description" variant="filled" />
+                                            </div>
+                                            <div class="col-6 billing-box">
+                                                <TextField className="pb-3 bg-white" type="number" defaultValue={prevdata.tax} onChange={(e) => setTax(e.target.value)} label="Tax" variant="filled" />
+                                            </div>
                                         </div>
-                                        <div class="col-6 billing-box">
-                                            <TextField className="pb-3 bg-white" type="number" defaultValue={prevdata.tax} onChange={(e) => setTax(e.target.value)} label="Tax" variant="filled" />
-                                        </div>
-                                    </div>
 
 
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <button class="btn btn-secondary" onClick={handleClose}>
-                                        Close
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={handleClose}>
+                                            Close
                                             </button>
-                                    <button onClick={sendUpdated} className="btn btn-primary">Update</button>
-                                </Modal.Footer>
-                            </Modal>
-                            <Modal show={show2} onHide={remove}>
+                                        <button onClick={sendUpdated} className="btn btn-primary">Update</button>
+                                    </Modal.Footer>
+                                </Modal>
+                                <Modal show={show2} onHide={remove}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Confirmation</Modal.Title>
                                     </Modal.Header>
@@ -360,10 +337,10 @@ return (
                                         <button onClick={deleteFee} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
-                        </div>
-                        <div class="show_fee">
+                            </div>
+                            <div class="show_fee">
 
-                            {/* <div class="fee_card shadow rounded mx-2 my-3">
+                                {/* <div class="fee_card shadow rounded mx-2 my-3">
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
@@ -389,7 +366,7 @@ return (
                                     </div>
                                 </div> */}
 
-                            {/* <div class="fee_card shadow mx-2 rounded my-3">
+                                {/* <div class="fee_card shadow mx-2 rounded my-3">
                                     <div className="col">
                                         <span>Class:</span>
                                         <span>1</span>
@@ -432,46 +409,46 @@ return (
                                         </ButtonGroup>
                                     </div>
                                 </div> */}
-                            {mydata.map((val, i) => {
-                                return (
-                                    <>
-                                        <div class="fee_card shadow mx-2 rounded my-3">
-                                            <div className="col">
-                                                <span>Class:</span>
-                                                <span class="text-bolder">{val.class_name}</span>
+                                {mydata.map((val, i) => {
+                                    return (
+                                        <>
+                                            <div class="fee_card shadow mx-2 rounded my-3">
+                                                <div className="col">
+                                                    <span>Class:</span>
+                                                    <span class="text-bolder">{val.class_name}</span>
+                                                </div>
+                                                <div className="col ">
+                                                    <span>Description:</span>
+                                                    <span class="text-bolder">{val.description}</span>
+                                                </div>
+                                                <div className="col ">
+                                                    <span>Monthly Charges:</span>
+                                                    <span class="text-bolder">{val.total_monthly}</span>
+                                                </div>
+
+                                                <div className="col ">
+                                                    <span>Yearly Charges:</span>
+                                                    <span class="text-bolder">{val.total_yearly}</span>
+                                                </div>
+                                                <div className="col ">
+                                                    <span>Tax:</span>
+                                                    <span class="text-bolder">{val.tax}</span>
+                                                </div>
+                                                <div className="col">
+                                                    <Link to="/breakdown"><button onClick={() => localStorage.setItem("fee_structure_id", val.id)} class="btn text-success">Details</button></Link>
+                                                </div>
+
+                                                <div className="col text-right my-3">
+                                                    <ButtonGroup disableElevation variant="contained" color="primary ">
+                                                        <Button className="student-btn-up" onClick={() => update(val.id)}   ><UpdateIcon className="text-white" /></Button>
+                                                        <Button className="student-btn-del" onClick={() => handleClick(val.id)}  ><DeleteIcon className="text-white" /></Button>
+                                                    </ButtonGroup>
+                                                </div>
                                             </div>
-                                            <div className="col ">
-                                                <span>Description:</span>
-                                                <span class="text-bolder">{val.description}</span>
-                                            </div>
-                                            <div className="col ">
-                                                <span>Monthly Charges:</span>
-                                                <span class="text-bolder">{val.total_monthly}</span>
-                                            </div>
 
-                                            <div className="col ">
-                                                <span>Yearly Charges:</span>
-                                                <span class="text-bolder">{val.total_yearly}</span>
-                                            </div>
-                                            <div className="col ">
-                                                <span>Tax:</span>
-                                                <span class="text-bolder">{val.tax}</span>
-                                            </div>
-                                            <div className="col">
-                                                <Link to="/breakdown"><button onClick={() => localStorage.setItem("fee_structure_id", val.id)} class="btn text-success">Details</button></Link>
-                                            </div>
-
-                                            <div className="col text-right my-3">
-                                                <ButtonGroup disableElevation variant="contained" color="primary ">
-                                                    <Button className="student-btn-up" onClick={() => update(val.id)}   ><UpdateIcon className="text-white" /></Button>
-                                                    <Button className="student-btn-del" onClick={() => handleClick(val.id)}  ><DeleteIcon className="text-white" /></Button>
-                                                </ButtonGroup>
-                                            </div>
-                                        </div>
-
-                                    </>
-                                )
-                            })}
+                                        </>
+                                    )
+                                })}
 
 
 
@@ -479,13 +456,13 @@ return (
 
 
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </>
-);
+        </>
+    );
 
 };
 export default Structure;

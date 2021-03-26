@@ -53,7 +53,7 @@ const Fee = () => {
     }
     const removeField = (index) => {
         const list = [...inputList];
-        list.splice(index,1);
+        list.splice(index, 1);
         setInputList(list);
     }
     const [inputListYear, setInputListYear] = useState([
@@ -72,7 +72,7 @@ const Fee = () => {
     }
     const removeFieldY = (index) => {
         const list = [...inputListYear];
-        list.splice(index,1);
+        list.splice(index, 1);
         setInputListYear(list);
     }
     console.log(inputListYear)
@@ -114,9 +114,9 @@ const Fee = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
-              })
+            })
         // console.log(inputListYear)
         // console.log(inputList)
     }
@@ -141,96 +141,72 @@ const Fee = () => {
                                 <img src={logo} />
                             </div>
                             <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
-                            <div class="icon1">
-                                <i class="fas  fa-columns"></i>
-                            </div>
-                            <div class="icon-name1 ">Dashboard</div>
-                        </div></Link>
-                        <Link to="/documents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 ">Documents</div>
+                                <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-                        {/* <div class="folder-icons">
+                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas fa-columns"></i>
+                                </div>
+                                <div class="icon-name1">Admission</div>
+                            </div></Link>
+                            {/* <div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-school"></i>
                                 </div>
                                 <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
                             </div> */}
-                        <Link class="nav-link" to="/class"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="icon-name">Class</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="icon-name">Pending Admissions</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/students"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="icon-name">Students</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/finance"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Finance Employee</div>
-                        </div></Link>
+                            <Link class="nav-link" to="/class"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="icon-name">Class</div>
+                            </div></Link>
 
-                        <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Fee Period</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/structure"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet active"></i>
-                            </div>
-                            <div class="icon-name active">Fee Structure</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Fee Voucher</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/adminledger"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Student Ledger</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/admission"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Admission Charges</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/discounted"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Discounted</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/term"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Term</div>
-                        </div></Link>
-                        <Link class="nav-link" to="/expense"><div class="folder-icons">
-                            <div class="icon1">
-                                <i class="fas fa-wallet"></i>
-                            </div>
-                            <div class="icon-name">Expense Tracking</div>
-                        </div></Link>
+                            <Link class="nav-link" to="/students"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-user-graduate"></i>
+                                </div>
+                                <div class="icon-name">Students</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/finance"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Finance Employee</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet active"></i>
+                                </div>
+                                <div class="icon-name active">Fee</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Fee Voucher</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Student Ledger</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/term"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Term</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/expense"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Expense Tracking</div>
+                            </div></Link>
 
                         </div>
                     </div>
@@ -240,7 +216,7 @@ const Fee = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Fee
+                                    Add Fee Structure
                                 </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
@@ -267,7 +243,7 @@ const Fee = () => {
                                         </select>
                                     </div>
                                     <div class="col-5">
-                                        <input type="text" id="tax" name="description" required onChange={(e) => setDescription(e.target.value)} placeholder="Description"  class="inline select" />
+                                        <input type="text" id="tax" name="description" required onChange={(e) => setDescription(e.target.value)} placeholder="Description" class="inline select" />
                                     </div>
                                     <div class="col-5">
                                         <input type="number" id="tax" name="tax" required data-bs-toggle="tooltip" title="Not in %" onChange={(e) => setTax(e.target.value)} placeholder="Enter Tax" class="inline select" />
@@ -291,8 +267,8 @@ const Fee = () => {
 
                                             </div>
                                             <div class="col-1">
-                                                {inputList.length !== 1 && 
-                                                    <button type="button" onClick={()=>removeField(i)} class="btn btn-primary mt-1">Remove</button>
+                                                {inputList.length !== 1 &&
+                                                    <button type="button" onClick={() => removeField(i)} class="btn btn-primary mt-1">Remove</button>
                                                 }
 
                                             </div>
@@ -316,7 +292,7 @@ const Fee = () => {
                                     return (
                                         <div key={i} class="row mb-2">
                                             <div class="col-3">
-                                                <select class="inline select" id="select-class" name="month" value={item.month} onChange={(e) => handleChangeY(e,i)}>
+                                                <select class="inline select" id="select-class" name="month" value={item.month} onChange={(e) => handleChangeY(e, i)}>
                                                     <option selected disabled="disabled" value="" >Month</option>
                                                     <option>Jan</option>
                                                     <option>Feb</option>
@@ -342,7 +318,7 @@ const Fee = () => {
 
                                             </div>
                                             <div class="col-1">
-                                                {inputListYear.length !== 1 && 
+                                                {inputListYear.length !== 1 &&
                                                     <button type="button" onClick={removeFieldY} class="btn btn-primary mt-1">Remove</button>
                                                 }
 

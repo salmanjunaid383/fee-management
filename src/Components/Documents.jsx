@@ -52,7 +52,7 @@ const Documents = () => {
     const sendData = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/document`, {
             required_document: document,
-            school_id :school_id
+            school_id: school_id
 
         })
             .then(response => {
@@ -67,28 +67,28 @@ const Documents = () => {
                 }
             })
     }
-    const update = (id) =>{
+    const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/document/${id}`)
-          .then(response => {
-                  console.log(response.data)
-                  setPrevdata(response.data)
+            .then(response => {
+                console.log(response.data)
+                setPrevdata(response.data)
 
-                  setDocument(response.data.required_document);
-                  handleShow1();
-          })
-          .catch((error) => {
-            if (error.response) {
-                alert(error.response.data.message);
-            }
-        })
+                setDocument(response.data.required_document);
+                handleShow1();
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const sendUpdated = () => {
         axios.put(`http://fee-management-api.nastechltd.co/api/document/${prevdata.id}`, {
-        required_document : document,
-        school_id : school_id
+            required_document: document,
+            school_id: school_id
         })
-        .then (response => 
-            {console.log(response);
+            .then(response => {
+                console.log(response);
                 setPrevdata('')
                 setDocument();
                 reload();
@@ -152,11 +152,11 @@ const Documents = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas active fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 active">Documents</div>
+                                <div class="icon-name1 active">Admission</div>
                             </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
@@ -164,12 +164,7 @@ const Documents = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Pending Admissions</div>
-                            </div></Link>
+                            
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -181,19 +176,12 @@ const Documents = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
-                            </div></Link>
-                            
-                            <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
+                            </div></Link>                            
+                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
                                 </div>
-                                <div class="icon-name">Fee Period</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/structure"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Structure</div>
+                                <div class="icon-name">Fee</div>
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
@@ -207,18 +195,6 @@ const Documents = () => {
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
-                            <Link class="nav-link" to="/admission"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Admission Charges</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/discounted"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Discounted</div>
-                            </div></Link>
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -231,7 +207,7 @@ const Documents = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -312,43 +288,43 @@ const Documents = () => {
                                 </Modal>
                             </div>
                             {documentdata.length == 0 ?
-                            <>
-                            <div className="col-12">
-                                <h2 className="text-center">Nothing To Show...</h2>
-                            </div>
-                            </>
-                            :
-                            <div class="table-responsive">
-                                <table class="table no-wrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-top-0">#</th>
-                                            <th class="border-top-0">Class</th>
-                                            <th class="border-top-0">Created At</th>
-                                            <th class="border-top-0">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {documentdata.map((val, i) => {
-                                            return (
-                                                <>
-                                                    <tr key={i}>
-                                                        <td>{i + 1}</td>
-                                                        <td class="txt-oflo">{val.required_document}</td>
-                                                        <td>{val.created_at.slice(0, 10)}</td>
-                                                        <td>
-                                                            <ButtonGroup disableElevation variant="contained" color="primary">
-                                                                <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
-                                                            </ButtonGroup>
-                                                        </td>
-                                                    </tr>
-                                                </>
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
-                            </div>
+                                <>
+                                    <div className="col-12">
+                                        <h2 className="text-center">Nothing To Show...</h2>
+                                    </div>
+                                </>
+                                :
+                                <div class="table-responsive">
+                                    <table class="table no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-top-0">#</th>
+                                                <th class="border-top-0">Class</th>
+                                                <th class="border-top-0">Created At</th>
+                                                <th class="border-top-0">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {documentdata.map((val, i) => {
+                                                return (
+                                                    <>
+                                                        <tr key={i}>
+                                                            <td>{i + 1}</td>
+                                                            <td class="txt-oflo">{val.required_document}</td>
+                                                            <td>{val.created_at.slice(0, 10)}</td>
+                                                            <td>
+                                                                <ButtonGroup disableElevation variant="contained" color="primary">
+                                                                    <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
+                                                                    <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                </ButtonGroup>
+                                                            </td>
+                                                        </tr>
+                                                    </>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
                             }
                         </div>
                     </div>
