@@ -35,18 +35,23 @@ const MyClass = () => {
         localStorage.removeItem("user_id")
         handleClose2();
     }
-    // const [sections, setSections] = useState([
-    //     { name: "" }
-    // ]);
-    // const handleChange = (e, index) => {
-    //     const { name, value } = e.target;
-    //     const list = [...sections];
-    //     list[index][name] = value;
-    //     setSections(list);
-    // }
-    // const handleAdd = () => {
-    //     setSections([...sections, { name: "" }]);
-    // }
+    const [sections, setSections] = useState([
+        { name: "" }
+    ]);
+    const handleChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...sections];
+        list[index][name] = value;
+        setSections(list);
+    }
+    const handleAdd = () => {
+        setSections([...sections, { name: "" }]);
+    }
+    const removeField = (index) => {
+        const list = [...sections];
+        list.splice(index, 1);
+        setSections(list);
+    }
 
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -64,7 +69,7 @@ const MyClass = () => {
     const data = {
         name: schoolClass,
         school_id: localStorage.getItem("school_id"),
-        // sections: sections
+        sections: sections
     }
     const sendData = (e) => {
         axios.post('http://fee-management-api.nastechltd.co/api/schools_class', data)
@@ -72,7 +77,7 @@ const MyClass = () => {
                 console.log(response)
                 console.log(response.data.id)
                 setSchoolClass();
-                // setSections([{ name: "" }]);
+                setSections([{ name: "" }]);
                 handleClose();
                 reload();
 
@@ -164,24 +169,18 @@ const MyClass = () => {
                                     <i class="fas  fa-columns"></i>
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
-                            </div></Link>
-                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                            </div></Link>                            
+                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas  fa-columns"></i>
+                                    <i class="fas fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 ">Documents</div>
+                                <div class="icon-name1">Admission</div>
                             </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate active"></i>
                                 </div>
                                 <div class="icon-name active">Class</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Pending Admissions</div>
                             </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
@@ -195,18 +194,11 @@ const MyClass = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-
-                            <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
+                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
                                 </div>
-                                <div class="icon-name">Fee Period</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/structure"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Structure</div>
+                                <div class="icon-name">Fee</div>
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
@@ -219,18 +211,6 @@ const MyClass = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/admission"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Admission Charges</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/discounted"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Discounted</div>
                             </div></Link>
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
@@ -274,28 +254,33 @@ const MyClass = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
-                                            <div class="col-6 billing-box">
+                                            <div class="col-12 billing-box">
                                                 <TextField className="pb-3 bg-white" type="text" onChange={(e) => setSchoolClass(e.target.value)} label="Class" variant="filled" />
                                             </div>
                                         </div>
-                                        {/* {sections.map((item, i) => {
+                                        {sections.map((item, i) => {
                                             return (
                                                 <>
                                                     <div key={i} class="row mb-2 billing-main">
                                                         <div class="col-6">
                                                             <TextField className="pb-3 bg-white" name="name" type="text" onChange={(e) => handleChange(e, i)} label="Section" variant="filled" />
                                                         </div>
-                                                    </div>
-                                                    <div className="row billing-main">
-                                                        <div class="col-6">
+                                                        <div class="col-2 text-right p-0">
                                                             {sections.length - 1 === i &&
-                                                                <button type="button" onClick={handleAdd} class="btn btn-primary mt-1">Add More</button>
+                                                                <button type="button" onClick={handleAdd} class="btn btn-primary mt-3">More</button>
+                                                            }
+                                                        </div>
+                                                        <div className="col-2 text-left p-0">
+                                                        {sections.length !== 1 &&
+                                                                <button type="button" onClick={()=>removeField(i)} class="btn btn-primary mt-3">Remove</button>
                                                             }
                                                         </div>
                                                     </div>
+                                                    <div className="row billing-main">
+                                                    </div>
                                                 </>
                                             )
-                                        })} */}
+                                        })}
 
                                     </Modal.Body>
                                     <Modal.Footer>
@@ -352,7 +337,7 @@ const MyClass = () => {
                                         <tr>
                                             <th class="border-top-0">#</th>
                                             <th class="border-top-0">Class</th>
-                                            {/* <th class="border-top-0">Section</th> */}
+                                            <th class="border-top-0">Section</th>
                                             <th class="border-top-0">Created At</th>
                                             <th class="border-top-0">Action</th>
                                         </tr>
@@ -365,7 +350,7 @@ const MyClass = () => {
                                                         <td>{i + 1}</td>
                                                         <td class="txt-oflo">{val.name}</td>
 
-                                                        {/* <td><Link to="/section"><button class="btn" onClick={()=>{localStorage.setItem("class_id",val.id);localStorage.setItem("class_name",val.name)}}><LaunchIcon/></button></Link></td> */}
+                                                        <td><Link to="/section"><button class="btn" onClick={()=>{localStorage.setItem("class_id",val.id);localStorage.setItem("class_name",val.name)}}><LaunchIcon/></button></Link></td>
 
                                                         <td>{val.created_at.slice(0, 10)}</td>
                                                         <td>

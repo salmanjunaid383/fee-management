@@ -55,11 +55,12 @@ const AdmissionRequest = () => {
     const handleShow1 = () => setShow1(true);
     const [studentdata, setStudentdata] = useState([]);
     const [classdata, setClassdata] = useState([]);
+    const [sectiondata, setSectiondata] = useState([]);
     const [classid, setClassid] = useState([]);
     const [email, setEmail] = useState();
     const [form_no, setForm_no] = useState();
     const [GR_no, setGR_no] = useState();
-    const [lname, setLname] = useState();
+    const [classname, setClassname] = useState();
     const [password, setPassword] = useState();
     const [confirmpassword, setConfirmpassword] = useState();
     const [contact, setContact] = useState();
@@ -96,6 +97,7 @@ const AdmissionRequest = () => {
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
+
             })
             .catch((error) => {
                 if (error.response) {
@@ -104,7 +106,7 @@ const AdmissionRequest = () => {
             })
 
     }, [])
-    
+
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
@@ -143,7 +145,6 @@ const AdmissionRequest = () => {
     // const deleteData = (id) => {
     //     axios.delete(`http://fee-management-api.nastechltd.co/api/user/${id}`)
     //         .then(response => {
-    //             console.log(response)
     //             reload();
     //         })
     //         .catch((error) => {
@@ -155,15 +156,15 @@ const AdmissionRequest = () => {
 
     const data = {
         school_id: school_id,
-        form_no : form_no,
-        G_R_NO : GR_no,
+        form_no: form_no,
+        G_R_NO: GR_no,
         class_id: classid
     };
     // console.log(contact)
     const sendData = () => {
-        
-        
-            axios.post('http://fee-management-api.nastechltd.co/api/student', data)
+
+
+        axios.post('http://fee-management-api.nastechltd.co/api/student', data)
             .then(response => {
                 handleClose();
                 reload();
@@ -173,20 +174,36 @@ const AdmissionRequest = () => {
                 if (error.response) {
                     alert(error.response.data.message);
                 }
-            })        
+            })
         // console.log(data)
     }
     const add = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/admission_form/${id}`)
             .then(response => {
-                
-                
+
+
                 console.log(response.data)
-                localStorage.setItem("registration_no",response.data.AdmissionForm.registration_no);
+                localStorage.setItem("registration_no", response.data.AdmissionForm.registration_no);
                 setForm_no(response.data.AdmissionForm.registration_no);
-                setClassid(response.data.AdmissionForm.class_id)
+                setClassid(response.data.AdmissionForm.class_id);
+                axios.get(`http://fee-management-api.nastechltd.co/api/section/${response.data.AdmissionForm.class_id}`)
+                    .then(response => {
+                        console.log(response.data)
+                        setSectiondata(response.data)
+                    })
+                    .catch(error => console.log(error))
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_class/${response.data.AdmissionForm.class_id}`)
+                    .then(response => {
+                        console.log(response.data)
+                        setClassname(response.data.name)
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
                 handleShow();
-                
+
             })
             .catch((error) => {
                 if (error.response) {
@@ -219,6 +236,9 @@ const AdmissionRequest = () => {
         history.push("/")
     }
 
+    console.log(classid)
+    console.log(classname)
+
     return (
         <>
 
@@ -249,7 +269,7 @@ const AdmissionRequest = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -261,7 +281,7 @@ const AdmissionRequest = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
-                            </div></Link>                            
+                            </div></Link>
                             <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -305,7 +325,7 @@ const AdmissionRequest = () => {
                                 <div class="big-inbox">
                                     Pending Admissions
                                 </div>
-                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
@@ -324,30 +344,32 @@ const AdmissionRequest = () => {
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("registration_no")} onChange={(e) => setForm_no(e.target.value)} label="Registeration No." variant="filled" />
-                                                {/* <FormControl className={classes.formControl}>
+                                                <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Class</InputLabel>
                                                     <Select
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
                                                         variant="filled"
-
                                                         onChange={(e) => setClassid(e.target.value)}
                                                     >
-                                                        {classdata.map((val, i) => {
+
+                                                        {sectiondata.map((val, i) => {
                                                             return (
-                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+
+                                                                <MenuItem value={val.id}>{`${val.class_name} ${val.name}`}</MenuItem>
+
                                                             )
 
                                                         })}
                                                     </Select>
-                                                </FormControl> */}
+                                                </FormControl>
 
                                             </div>
 
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3" type="text" onChange={(e) => setGR_no(e.target.value)} label="GR Number" variant="filled" />
                                             </div>
-                                            
+
                                         </div>
                                     </Modal.Body>
                                     <Modal.Footer>
@@ -357,7 +379,7 @@ const AdmissionRequest = () => {
                                         <button onClick={sendData} className="btn btn-primary">Add</button>
                                     </Modal.Footer>
                                 </Modal>
-                                
+
                             </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
@@ -374,25 +396,25 @@ const AdmissionRequest = () => {
                                         {studentdata.map((val, i) => {
                                             return (
                                                 <>
-                                                {val.G_R_NO == null ?
-                                                <>
-                                                <tr key={i}>
-                                                    <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                    <td>{val.gender}</td>
-                                                    <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>
+                                                    {val.G_R_NO == null ?
+                                                        <>
+                                                            <tr key={i}>
+                                                                <td>{val.id}</td>
+                                                                <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                                <td>{val.gender}</td>
+                                                                <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>
 
-                                                    <td>
-                                                        <ButtonGroup disableElevation variant="contained" color="primary">
-                                                            <Button className="student-btn-up" onClick={() => add(val.registration_no)}><ThumbUpIcon className="text-white" /></Button>
-                                                            {/* <Button className="student-btn-del" onClick={() => deleteData(val.id)} ><DeleteIcon className="text-white" /></Button> */}
-                                                        </ButtonGroup>
-                                                    </td>
-                                                </tr>
-                                                </>
-                                                :
-                                                null
-                                                }
+                                                                <td>
+                                                                    <ButtonGroup disableElevation variant="contained" color="primary">
+                                                                        <Button className="student-btn-up" onClick={() => add(val.registration_no)}><ThumbUpIcon className="text-white" /></Button>
+                                                                        {/* <Button className="student-btn-del" onClick={() => deleteData(val.id)} ><DeleteIcon className="text-white" /></Button> */}
+                                                                    </ButtonGroup>
+                                                                </td>
+                                                            </tr>
+                                                        </>
+                                                        :
+                                                        null
+                                                    }
                                                 </>
                                             )
                                         })}

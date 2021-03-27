@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
+import MultiSelect from "react-multi-select-component";
 import FormLabel from '@material-ui/core/FormLabel';
 
 
@@ -54,7 +55,8 @@ const Discounted = () => {
     const handleShow1 = () => setShow1(true);
     const [studentdata, setStudentdata] = useState([]);
     const [discounteddata, setDiscounteddata] = useState([]);
-    const [studentid, setStudentid] = useState();
+    // const [studentid, setStudentid] = useState();
+    const [selected, setSelected] = useState([]);
     const [discount, setDiscount] = useState();
     const [prevdata, setPrevdata] = useState('');
     const school_id = localStorage.getItem("school_id");
@@ -100,26 +102,34 @@ const Discounted = () => {
 
 
 
+    const options = studentdata.map(val => ({
+        label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
 
+    }))
     const data = {
-        student_id: studentid,
+        students: selected,
         discount: discount,
         school_id: school_id
 
     }
 
     const sendData = () => {
-        axios.post(`http://fee-management-api.nastechltd.co/api/discount`, data)
-            .then(response => {
-                console.log(response);
-                setDiscount();
-                reload();
-                handleClose();
-            })
-            .catch(error => {
-                console.log(error);
-                alert("Enter Valid Field(s)")
-            })
+        if (discount < 0) {
+            alert("Discount Can't be Negative")
+        }
+        else {
+            axios.post(`http://fee-management-api.nastechltd.co/api/discount`, data)
+                .then(response => {
+                    console.log(response);
+                    setDiscount();
+                    reload();
+                    handleClose();
+                })
+                .catch(error => {
+                    console.log(error);
+                    alert("Enter Valid Field(s)")
+                })
+        }
     }
 
     const update = (id) => {
@@ -127,7 +137,7 @@ const Discounted = () => {
             .then(response => {
                 console.log(response.data);
                 setPrevdata(response.data)
-                
+
                 setDiscount(response.data.discount)
                 handleShow1();
             })
@@ -204,7 +214,7 @@ const Discounted = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -278,7 +288,7 @@ const Discounted = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-8 billing-box">
-                                                <FormControl className={classes.formControl}>
+                                                {/* <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Student</InputLabel>
                                                     <Select
                                                         labelId="demo-simple-select-label"
@@ -293,9 +303,16 @@ const Discounted = () => {
 
                                                         })}
                                                     </Select>
-                                                </FormControl>
-                                                {/* <Select1 className="pb-3 searchSelect"  onChange={(e)=>setStudentid(e.target.value)} placeholder="Select Student" options={options} /> */}
+                                                </FormControl> */}
                                                 <TextField type="number" helperText="Discount Amount (Not In %)" onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
+                                                <MultiSelect
+                                                    className="mb-1"
+                                                    options={options}
+                                                    value={selected}
+                                                    onChange={setSelected}
+                                                    labelledBy={"Select"}
+                                                />
+                                                {/* <Select1 className="pb-3 searchSelect"  onChange={(e)=>setStudentid(e.target.value)} placeholder="Select Student" options={options} /> */}
 
 
                                             </div>

@@ -49,14 +49,27 @@ const FeeVoucherAdmin = () => {
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
     const history = useHistory();
+    const [searchTerm, setSearchTerm] = useState('');
     const school_id = localStorage.getItem("school_id")
     
 
     
 
 
+    // useEffect(() => {
+    //     axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+    //         .then(response => {
+    //             console.log(response);
+    //             setStudentdata(response.data);
+    //         })
+    //         .catch((error) => {
+    //             if (error.response) {
+    //                 alert(error.response.data.message);
+    //             }
+    //         })
+    // }, [])
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${school_id}`)
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
@@ -193,7 +206,10 @@ const FeeVoucherAdmin = () => {
                     <div class="right-body">
 
                         <div class="message">
-                                
+                        <div className="col-12 text-center mt-1">
+                                <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" variant="filled" />
+
+                            </div>
                                         
                             <div class="table-responsive">
                                 <table class="table no-wrap">
@@ -207,7 +223,17 @@ const FeeVoucherAdmin = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {studentdata.map((val, i) => {
+                                        {studentdata.filter((val)=>{
+                                            if(searchTerm == ''){
+                                                return val;
+                                            }
+                                            else if(val.G_R_NO.includes(searchTerm)){
+                                                return  val
+                                            }
+                                            else if(`${val.first_name} ${val.middle_name} ${val.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())){
+                                                return val;
+                                            }
+                                        }).map((val, i) => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.G_R_NO}</td>

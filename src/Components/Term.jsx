@@ -125,10 +125,46 @@ const Term = () => {
             .then(response => {
                 console.log(response.data);
                 setPrevdata(response.data);
+                getStartDate(response.data.start_date);
+                getEndDate(response.data.end_date)
+
+
                 handleShow();
                 setDescription(response.data.term_name)
             })
             .catch(error => (console.log(error)))
+    }
+    const getStartDate = (UNIX_timestamp) => {
+        var a = new Date(UNIX_timestamp * 1000);
+        var year = a.getFullYear();
+        var month = ('0'+(a.getMonth()+1)).slice(-2);
+        var date = ('0'+a.getDate()).slice(-2);
+        setStartingdate(`${year}-${month}-${date}`);
+        
+    }
+    console.log(startingdate)
+    const getEndDate = (UNIX_timestamp) => {
+        var b = new Date(UNIX_timestamp * 1000);
+        var yearb = b.getFullYear();
+        var monthb = ('0'+(b.getMonth()+1)).slice(-2);
+        var dateb = ('0'+b.getDate()).slice(-2);
+        setEndingdate(`${yearb}-${monthb}-${dateb}`)
+        console.log(endingdate)
+        
+    }
+    console.log(endingdate)
+
+    function timeConverter(UNIX_timestamp) {
+        var a = new Date(UNIX_timestamp * 1000);
+        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate();
+        var hour = a.getHours();
+        var min = a.getMinutes();
+        var sec = a.getSeconds();
+        var time = date + ' ' + month + ' ' + year;
+        return time;
     }
 
 
@@ -162,23 +198,10 @@ const Term = () => {
         }
     }
 
-    function timeConverter(UNIX_timestamp) {
-        var a = new Date(UNIX_timestamp * 1000);
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var year = a.getFullYear();
-        var month = months[a.getMonth()];
-        var date = a.getDate();
-        var hour = a.getHours();
-        var min = a.getMinutes();
-        var sec = a.getSeconds();
-        var time = date + ' ' + month + ' ' + year;
-        return time;
-    }
     // const feedDate = () => {
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
         "Aug", "Sep", "Oct", "Nov", "Dec"];
     var StartDate = new Date(startingdate);
-    // console.log(StartDate)
     // var startdate = StartDate.getDate()
     var startmonth = months[StartDate.getMonth()];
     var startyear = StartDate.getFullYear().toString().substr(-2);
@@ -189,6 +212,7 @@ const Term = () => {
     // setStartdatefinal(`${startdate}-${startmonth}-${startyear}`);
     // setEnddatefinal(`${enddate}-${endmonth}-${endyear}`);
     // setMonthyear(`${startmonth}-${startyear}`);
+
 
 
 

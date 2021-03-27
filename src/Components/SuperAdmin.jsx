@@ -22,13 +22,13 @@ const SuperAdmin = () => {
     const handleClose1 = () => setShow1(false);
     const handleShow = () => setShow(true);
     const handleShow1 = () => setShow1(true);
-    const [email, setEmail] = useState();
-    const [fname, setFname] = useState();
-    const [lname, setLname] = useState();
-    const [password, setPassword] = useState();
-    const [confirmpassword, setConfirmpassword] = useState();
-    const [contact, setContact] = useState();
-    const [address, setAddress] = useState();
+    const [email, setEmail] = useState('');
+    const [fname, setFname] = useState('');
+    const [lname, setLname] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmpassword, setConfirmpassword] = useState('');
+    const [contact, setContact] = useState('');
+    const [address, setAddress] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const [administratordata, setAdministratordata] = useState([]);
     const [studentdata, setStudentdata] = useState([]);
@@ -38,7 +38,6 @@ const SuperAdmin = () => {
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
-    const cssBtn = {display : 'inlineBlock'}
     const handleClick = (id) => {
         localStorage.setItem("user_id", id)
         handleShow2();
@@ -47,17 +46,7 @@ const SuperAdmin = () => {
         localStorage.removeItem("user_id")
         handleClose2();
     }
-    const handleChangeAddress = (e) => {
-        setAddress(e.target.value)
-        if ((email.length > 0) && (fname.length > 0) && (lname.length > 0) && (password.length > 0) && (contact.length > 0) && (address.length > 0)) {
-            setAllSelected(true);
-            cssBtn.display = 'none'
-        }
-        else {
-            setAllSelected(false);
-        }
 
-    }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user`)
             .then(response => {
@@ -131,18 +120,33 @@ const SuperAdmin = () => {
         if (password != confirmpassword) {
             alert("Incorrect Password");
         }
+        else if (fname == '') {
+            alert("Enter First Name")
+        }
+        else if (lname == '') {
+            alert("Enter Last Name")
+        }
+        else if (contact == '') {
+            alert("Enter Contact No.")
+        }
+        else if (address == '') {
+            alert("Enter Address")
+        }
+        else if (password == '') {
+            alert("Enter Password")
+        }
         else {
             if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
                 axios.post('http://fee-management-api.nastechltd.co/api/administrator', data)
                     .then(response => {
                         console.log(response);
                         console.log(response.data.id);
-                        setAddress();
-                        setPassword();
-                        setFname();
-                        setLname();
-                        setContact();
-                        setEmail();
+                        setAddress('');
+                        setPassword('');
+                        setFname('');
+                        setLname('');
+                        setContact('');
+                        setEmail('');
                         handleClose();
                         reload();
                     })
@@ -201,12 +205,12 @@ const SuperAdmin = () => {
             .then(response => {
                 console.log(response);
                 setPrevdata('');
-                setAddress();
-                setPassword();
-                setFname();
-                setLname();
-                setContact();
-                setEmail();
+                setAddress('');
+                setPassword('');
+                setFname('');
+                setLname('');
+                setContact('');
+                setEmail('');
                 reload();
                 handleClose1();
             })
@@ -304,7 +308,7 @@ const SuperAdmin = () => {
                                                 <TextField className="pb-3 bg-white" type="text" onChange={(e) => setFname(e.target.value)} label="First Name" variant="filled" />
                                                 <TextField className="pb-3 bg-white" type="number" onChange={(e) => setContact(e.target.value)} label="Contact No." variant="filled" />
                                                 <TextField className="pb-3 bg-white" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
-                                                <TextField className="TextField" onChange={(e) => handleChangeAddress(e)} label="Address" multiline rows={1} variant="filled" />
+                                                <TextField className="TextField" onChange={(e) => setAddress(e.target.value)} label="Address" multiline rows={1} variant="filled" />
 
                                             </div>
 
@@ -320,11 +324,8 @@ const SuperAdmin = () => {
                                         <button class="btn btn-secondary" onClick={handleClose}>
                                             Close
                                             </button>
-                                        {allSelected == false ?
-                                            <button onClick={sendData} disabled className="btn btn-primary">Create</button>
-                                            :
-                                            <button onClick={sendData} style={cssBtn} className="btn btn-primary">Create</button>
-                                        }
+                                        <button onClick={sendData} className="btn btn-primary">Create</button>
+
 
                                     </Modal.Footer>
                                 </Modal>

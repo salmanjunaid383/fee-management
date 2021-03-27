@@ -51,7 +51,17 @@ const AdminLedger = () => {
     const [studentdata, setStudentdata] = useState([]);
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
-
+    const [searchTerm, setSearchTerm] = React.useState('');
+    const [searchResults, setSearchResults] = React.useState([]);
+    // const handleChange = event => {
+    //     setSearchTerm(event.target.value);
+    // };
+    // React.useEffect(() => {
+    //     const results = studentdata.filter(filter_student =>
+    //         filter_student.toLowerCase().includes(searchTerm)
+    //     );
+    //     setSearchResults(results);
+    // }, [searchTerm]);
 
 
 
@@ -198,7 +208,10 @@ const AdminLedger = () => {
 
                         <div class="message">
 
+                            <div className="col-12 text-center mt-1">
+                                <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" variant="filled" />
 
+                            </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
@@ -211,7 +224,17 @@ const AdminLedger = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {studentdata.map((val, i) => {
+                                        {studentdata.filter((val)=> {
+                                            if(searchTerm == ''){
+                                                return val;
+                                            }
+                                            else if(val.G_R_NO.includes(searchTerm)){
+                                                return  val
+                                            }
+                                            else if(`${val.first_name} ${val.middle_name} ${val.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())){
+                                                return val;
+                                            }
+                                        }).map((val, i) => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.G_R_NO}</td>
@@ -226,6 +249,9 @@ const AdminLedger = () => {
                                                 </tr>
                                             )
                                         })}
+                                        {/* {searchResults.map(item => (
+                                            <li>{item}</li>
+                                        ))} */}
                                     </tbody>
                                 </table>
                             </div>

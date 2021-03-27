@@ -101,7 +101,7 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
             })
     }, [])
@@ -135,22 +135,27 @@ const MyExpense = () => {
         paid: 0
     }
     const sendData = () => {
-        axios.post(`http://fee-management-api.nastechltd.co/api/expense_tracking`, data)
-            .then(response => {
-                console.log(response);
-                setDescription();
-                setStudentid();
-                setStudentname();
-                setCharges();
-                handleClose();
-                reload();
+        if (charges < 0) {
+            alert("charges can't be Negative")
+        }
+        else {
+            axios.post(`http://fee-management-api.nastechltd.co/api/expense_tracking`, data)
+                .then(response => {
+                    console.log(response);
+                    setDescription();
+                    setStudentid();
+                    setStudentname();
+                    setCharges();
+                    handleClose();
+                    reload();
 
-            })
-            .catch((error) => {
-                if (error.response) {
-                  alert(error.response.data.message);
-                }
-            })
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
+        }
     }
 
 
@@ -161,7 +166,7 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
             })
     }
@@ -184,7 +189,7 @@ const MyExpense = () => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                          alert(error.response.data.message);
+                            alert(error.response.data.message);
                         }
                     })
             })
@@ -207,7 +212,7 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
             })
     }
@@ -235,7 +240,7 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
             })
     }
@@ -248,7 +253,7 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                  alert(error.response.data.message);
+                    alert(error.response.data.message);
                 }
             })
     }
@@ -288,7 +293,7 @@ const MyExpense = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -300,7 +305,7 @@ const MyExpense = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
-                            </div></Link>                            
+                            </div></Link>
                             <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>

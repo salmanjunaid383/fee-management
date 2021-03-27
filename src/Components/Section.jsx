@@ -25,7 +25,17 @@ const MySection = () => {
     const history = useHistory();
     const class_id = localStorage.getItem("class_id")
     const class_name = localStorage.getItem("class_name")
-
+    const [show2, setShow2] = useState(false);
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
+    const handleClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow2();
+    }
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose2();
+    }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/section/${class_id}`)
             .then(response => {
@@ -87,10 +97,11 @@ const MySection = () => {
             .catch(error => console.log(error))
 
     }
-    const deleteSchool = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/section/${id}`)
+    const deleteSection = (id) => {
+        axios.delete(`http://fee-management-api.nastechltd.co/api/section/${localStorage.getItem("user_id")}`)
             .then(response => {
                 console.log(response)
+                remove();
                 reload();
             })
             .catch(error => {
@@ -234,6 +245,24 @@ const MySection = () => {
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal show={show2} onHide={remove}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Confirmation</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove}>
+                                            Close
+                                            </button>
+                                        <button onClick={deleteSection} className="btn btn-primary">Yes</button>
+                                    </Modal.Footer>
+                                </Modal>
                             </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
@@ -258,7 +287,7 @@ const MySection = () => {
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => deleteSchool(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
                                                     </tr>

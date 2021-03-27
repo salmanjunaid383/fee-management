@@ -215,7 +215,7 @@ const AdminsSchool = () => {
                             </Modal>
                             <Modal show={show2} onHide={remove}>
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Update School Administrator</Modal.Title>
+                                    <Modal.Title>Confirmation</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <div className="row">

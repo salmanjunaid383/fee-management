@@ -41,12 +41,11 @@ const SuperSchool = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
-    const [schoolName, setSchoolName] = useState();
-    const [phone, setPhone] = useState();
-    const [address, setAddress] = useState();
-    const [email, setEmail] = useState();
-    const [adminid, setAdminid] = useState();
+    const [schoolName, setSchoolName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [email, setEmail] = useState('');
+    const [adminid, setAdminid] = useState('');
     const [selectedFile, setSelectedFile] = useState();
     const [administratordata, setAdministratordata] = useState([]);
 
@@ -84,33 +83,50 @@ const SuperSchool = () => {
         formData.append('address', address);
         formData.append('email', email);
         // console.log(formData.get('File'))
-        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-
-            axios({
-                method: "post",
-                url: "http://fee-management-api.nastechltd.co/api/schools",
-                data: formData,
-                headers: { "Content-Type": "multipart/form-data" },
-            })
-                .then(function (response) {
-                    //handle success
-                    console.log(response);
-                    setSchoolName();
-                    setSelectedFile();
-                    setPhone();
-                    setAddress();
-                    setEmail();
-                    setAdminid()
-                    handleClose();
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        alert(error.response.data.message);
-                    }
-                })
+        if (schoolName == '') {
+            alert("Enter School Name")
         }
-        else{
-            alert("Enter Valid Email")
+        else if (address == '') {
+            alert("Enter School Address")
+        }
+        else if (phone == '') {
+            alert("Enter School Contact No.")
+        }
+        else if (adminid == '') {
+            alert("Select School Admin")
+        }
+        else if (selectedFile == undefined) {
+            alert("Select School School Logo")
+        }
+        else {
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+
+                axios({
+                    method: "post",
+                    url: "http://fee-management-api.nastechltd.co/api/schools",
+                    data: formData,
+                    headers: { "Content-Type": "multipart/form-data" },
+                })
+                    .then(function (response) {
+                        //handle success
+                        console.log(response);
+                        setSelectedFile();
+                        setSchoolName('');
+                        setPhone('');
+                        setAddress('');
+                        setEmail('');
+                        setAdminid('')
+                        handleClose('');
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
+            }
+            else {
+                alert("Enter Valid Email")
+            }
         }
 
     }

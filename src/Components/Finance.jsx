@@ -23,14 +23,14 @@ const Finance = () => {
     const handleClose1 = () => setShow1(false);
     const handleShow = () => setShow(true);
     const handleShow1 = () => setShow1(true);
-    const [email, setEmail] = useState();
-    const [fname, setFname] = useState();
-    const [lname, setLname] = useState();
-    const [password, setPassword] = useState();
-    const [confirmpassword, setConfirmpassword] = useState();
-    const [contact, setContact] = useState();
-    const [address, setAddress] = useState();
-    const [gender, setGender] = useState();
+    const [email, setEmail] = useState('');
+    const [fname, setFname] = useState('');
+    const [lname, setLname] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmpassword, setConfirmpassword] = useState('');
+    const [contact, setContact] = useState('');
+    const [address, setAddress] = useState('');
+    const [gender, setGender] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const school_id = localStorage.getItem("school_id")
     const [show2, setShow2] = useState(false);
@@ -108,6 +108,24 @@ const Finance = () => {
         if (password != confirmpassword) {
             alert("Incorrect Password");
         }
+        else if (fname == '') {
+            alert("Enter First Name")
+        }
+        else if (lname == '') {
+            alert("Enter Last Name")
+        }
+        else if (contact == '') {
+            alert("Enter Contact No.")
+        }
+        else if (address == '') {
+            alert("Enter Address")
+        }
+        else if (password == '') {
+            alert("Enter Password")
+        }
+        else if (gender == '') {
+            alert("Select Gender")
+        }
         else {
             if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
                 axios.post('http://fee-management-api.nastechltd.co/api/finance_employee', data)
@@ -168,13 +186,13 @@ const Finance = () => {
             .then(response => {
                 console.log(response);
                 setPrevdata('');
-                setFname();
-                setLname();
-                setContact();
-                setAddress();
-                setEmail();
-                setGender();
-                setPassword();
+                setFname('');
+                setLname('');
+                setContact('');
+                setAddress('');
+                setEmail('');
+                setGender('');
+                setPassword('');
                 reload();
                 handleClose1();
 
