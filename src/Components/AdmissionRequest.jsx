@@ -57,6 +57,7 @@ const AdmissionRequest = () => {
     const [classdata, setClassdata] = useState([]);
     const [sectiondata, setSectiondata] = useState([]);
     const [classid, setClassid] = useState([]);
+    const [sectionid, setSectionid] = useState();
     const [email, setEmail] = useState();
     const [form_no, setForm_no] = useState();
     const [GR_no, setGR_no] = useState();
@@ -158,7 +159,7 @@ const AdmissionRequest = () => {
         school_id: school_id,
         form_no: form_no,
         G_R_NO: GR_no,
-        class_id: classid
+        section_id: sectionid
     };
     // console.log(contact)
     const sendData = () => {
@@ -350,7 +351,7 @@ const AdmissionRequest = () => {
                                                         labelId="demo-simple-select-label"
                                                         id="demo-simple-select"
                                                         variant="filled"
-                                                        onChange={(e) => setClassid(e.target.value)}
+                                                        onChange={(e) => setSectionid(e.target.value)}
                                                     >
 
                                                         {sectiondata.map((val, i) => {

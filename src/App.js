@@ -19,6 +19,7 @@ import Myschool from './Components/Myschool';
 import AdminsSchool from './Components/AdminsSchool';
 import MyClass from './Components/MyClass';
 import Undertaking from './Components/Undertaking';
+import UndertakingDocuments from './Components/UndertakingDocuments';
 import SchoolUndertaking from './Components/SchoolUndertaking';
 import PrintForm from './Components/PrintForm';
 import SubmitForm from './Components/SubmitForm';
@@ -106,6 +107,7 @@ const App = () => {
             <Route path="/emergency" component={Emergency} />
             <Route path="/requirements/:formNo" component={Requirements} />
             <Route path="/undertaking/:formNo" component={Undertaking} />
+            <Route path="/undertakingdocuments/:formNo" component={UndertakingDocuments} />
             <Route path="/schoolundertaking" component={SchoolUndertaking} />
             <Route path="/printform/:formNo" component={PrintForm} />
             <Route path="/submitform/:formNo" component={SubmitForm} />

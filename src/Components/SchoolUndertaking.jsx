@@ -37,58 +37,8 @@ const SchoolUndertaking = () => {
             })
     }, [])
 
-    // const sendData = () => {
-    //     axios.post(`http://fee-management-api.nastechltd.co/api/document`, {
-    //         required_document: document,
-    //         school_id :school_id
 
-    //     })
-    //         .then(response => {
-    //             console.log(response);
-    //             setDocument();
-    //             reload();
-    //             handleClose();
-    //         })
-    //         .catch((error) => {
-    //             if (error.response) {
-    //                 alert(error.response.data.message);
-    //             }
-    //         })
-    // }
-    const update = (id) =>{
-        axios.get(`http://fee-management-api.nastechltd.co/api/document/${id}`)
-          .then(response => {
-                  console.log(response.data)
-                  localStorage.setItem("id",response.data.id)
-                  localStorage.setItem("name",response.data.required_document)
-                  setDocument(response.data.required_document);
-                  handleShow1();
-          })
-          .catch((error) => {
-            if (error.response) {
-                alert(error.response.data.message);
-            }
-        })
-    }
-    const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/document/${localStorage.getItem("id")}`, {
-        required_document : document,
-        school_id : school_id
-        })
-        .then (response => 
-            {console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("name")
-                setDocument();
-                reload();
-                handleClose1();
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-    }
+
 
 
 
@@ -105,19 +55,7 @@ const SchoolUndertaking = () => {
                 }
             })
     }
-    const deleteSchool = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/document/${id}`)
-            .then(response => {
-                console.log(response)
-                reload();
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
 
-    }
 
 
 
@@ -172,7 +110,7 @@ const SchoolUndertaking = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -221,7 +159,7 @@ const SchoolUndertaking = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -281,44 +219,48 @@ const SchoolUndertaking = () => {
                                     </Modal.Footer>
                                 </Modal> */}
                             </div>
-                            {undertakingdata.length == 0 ?
-                            <>
-                            <div className="col-12">
-                                <h2 className="text-center">Nothing To Show...</h2>
-                            </div>
-                            </>
-                            :
-                            <div class="table-responsive">
-                                <table class="table no-wrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-top-0">#</th>
-                                            <th class="border-top-0">Class</th>
-                                            <th class="border-top-0">Created At</th>
-                                            {/* <th class="border-top-0">Action</th> */}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {undertakingdata.map((val, i) => {
-                                            return (
-                                                <>
-                                                    <tr key={i}>
-                                                        <td>{i + 1}</td>
-                                                        <td class="txt-oflo">{val.required_document}</td>
-                                                        <td>{val.created_at.slice(0, 10)}</td>
-                                                        {/* <td>
+                            {undertakingdata.length === 0 ?
+                                <>
+                                    <div className="col-12">
+                                        <h2 className="text-center">Nothing To Show...</h2>
+                                    </div>
+                                </>
+                                :
+                                <div class="table-responsive">
+                                    <table class="table no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-top-0">#</th>
+                                                <th class="border-top-0">Registeration No.</th>
+                                                <th class="border-top-0">Name</th>
+                                                <th class="border-top-0">Documents</th>
+                                                <th class="border-top-0">Created At</th>
+                                                {/* <th class="border-top-0">Action</th> */}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {undertakingdata.map((val, i) => {
+                                                return (
+                                                    <>
+                                                        <tr key={i}>
+                                                            <td>{i + 1}</td>
+                                                            <td class="txt-oflo">{val.registration_no}</td>
+                                                            <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                            <td><button class="btn" onClick={() =>history.push(`/undertaking/${val.registration_no}`)}><LaunchIcon /></button></td>
+                                                            <td>{val.created_at.slice(0, 10)}</td>
+                                                            {/* <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
                                                                 <Button className="student-btn-del" onClick={() => deleteSchool(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td> */}
-                                                    </tr>
-                                                </>
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
-                            </div>
+                                                        </tr>
+                                                    </>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
                             }
                         </div>
                     </div>

@@ -48,6 +48,7 @@ const FeeVoucherAdmin = () => {
 
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
+    const [feedata, setFeedata] = useState([]);
     const history = useHistory();
     const [searchTerm, setSearchTerm] = useState('');
     const school_id = localStorage.getItem("school_id")
@@ -56,23 +57,23 @@ const FeeVoucherAdmin = () => {
     
 
 
-    // useEffect(() => {
-    //     axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
-    //         .then(response => {
-    //             console.log(response);
-    //             setStudentdata(response.data);
-    //         })
-    //         .catch((error) => {
-    //             if (error.response) {
-    //                 alert(error.response.data.message);
-    //             }
-    //         })
-    // }, [])
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+    }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${school_id}`)
             .then(response => {
                 console.log(response);
-                setStudentdata(response.data);
+                setFeedata(response.data);
             })
             .catch((error) => {
                 if (error.response) {

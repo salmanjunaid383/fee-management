@@ -12,108 +12,52 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 
-const MySection = () => {
-    const [schoolClass, setSchoolClass] = useState();
-    const [section, setSection] = useState();
+const UndertakingDocuments = () => {
+    const [document, setDocument] = useState();
+    const [undertakingdata, setUndertakingdata] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [show1, setShow1] = useState(false);
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
-    const [sectiondata, setSectiondata] = useState([]);
     const history = useHistory();
-    const class_id = localStorage.getItem("class_id")
-    const class_name = localStorage.getItem("class_name")
-    const [show2, setShow2] = useState(false);
-    const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
-    const handleClick = (id) => {
-        localStorage.setItem("user_id", id)
-        handleShow2();
-    }
-    const remove = () => {
-        localStorage.removeItem("user_id")
-        handleClose2();
-    }
+    const {formNo} = useParams();
+    const school_id = localStorage.getItem("school_id")
+
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/section/${class_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_undertaking/${formNo}`)
             .then(response => {
                 console.log(response.data)
-                setSectiondata(response.data)
+                setUndertakingdata(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }, [])
 
-    const sendData = () => {
-        axios.post(`http://fee-management-api.nastechltd.co/api/section`, {
-            name: section,
-            class_id :class_id,
-            class_name : class_name
 
-        })
-            .then(response => {
-                console.log(response);
-                reload();
-                handleClose();
-            })
-            .catch(error => console.log(error))
-    }
-    const update = (id) =>{
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_section/${id}`)
-          .then(response => {
-                  console.log(response.data)
-                  localStorage.setItem("id",response.data.id)
-                  localStorage.setItem("name",response.data.name)
-                  setSection(response.data.name)
-                  handleShow1();
-          })
-          .catch(error => console.log(error) )
-    }
-    const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/section/${localStorage.getItem("id")}`, {
-            name : section
 
-        })
-        .then (response => 
-            {console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("name")
-                reload();
-                handleClose1();
-            })
-        .catch (error => console.log(error))
-    }
 
 
 
 
     const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/section/${class_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_undertaking/${school_id}`)
             .then(response => {
                 console.log(response.data)
-                setSectiondata(response.data)
+                setUndertakingdata(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+    }
 
-    }
-    const deleteSection = (id) => {
-        axios.delete(`http://fee-management-api.nastechltd.co/api/section/${localStorage.getItem("user_id")}`)
-            .then(response => {
-                console.log(response)
-                remove();
-                reload();
-            })
-            .catch(error => {
-                console.log(error)
-                alert("First Delete Students Of This Class")
-            })
 
-    }
-    const logOut = () => {
-        localStorage.clear();
-        history.push("/")
-    }
 
 
     return (
@@ -131,11 +75,17 @@ const MySection = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
+                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas fa-columns"></i>
                                 </div>
-                                <div class="icon-name1">Admission</div>
+                                <div class="icon-name1">Documents</div>
+                            </div></Link>
+                            <Link to="/schoolundertaking" class="nav-link "><div class="folder-icons ">
+                                <div class="icon1">
+                                    <i class="fas active fa-columns"></i>
+                                </div>
+                                <div class="icon-name1 active">Undertaking</div>
                             </div></Link>
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
@@ -143,11 +93,11 @@ const MySection = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            <Link class="nav-link" to="/section"><div class="folder-icons">
+                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas active fa-user-graduate"></i>
+                                    <i class="fas fa-user-graduate"></i>
                                 </div>
-                                <div class="icon-name active">Section</div>
+                                <div class="icon-name">Pending Admissions</div>
                             </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
@@ -160,12 +110,19 @@ const MySection = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
-                            </div></Link>                            
-                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
+                            </div></Link>
+
+                            <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
                                 </div>
-                                <div class="icon-name">Fee</div>
+                                <div class="icon-name">Fee Period</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/structure"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Fee Structure</div>
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
@@ -179,6 +136,18 @@ const MySection = () => {
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
+                            <Link class="nav-link" to="/admission"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Admission Charges</div>
+                            </div></Link>
+                            <Link class="nav-link" to="/discounted"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Discounted</div>
+                            </div></Link>
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -191,7 +160,7 @@ const MySection = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -199,25 +168,25 @@ const MySection = () => {
                     <div class="right-header">
                         <div class="top-bar">
                             <div class="top-bar-justify">
-                                <div class="big-inbox">Sections</div>
-                            <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <div class="big-inbox">
+                                    Student Undertaking
+                                </div>
                             </div>
-
                         </div>
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
                         <div class="message">
                             <div class="add-student">
-                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon />Add Section</button>
-                                <Modal show={show} onHide={handleClose}>
+                                {/* <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon />Add Document</button> */}
+                                {/* <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title>Add Section</Modal.Title>
+                                        <Modal.Title>Add Document</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" onChange={(e) => setSection(e.target.value)} label="Section" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" onChange={(e) => setDocument(e.target.value)} label="Document Name" variant="filled" />
                                             </div>
                                         </div>
 
@@ -227,17 +196,17 @@ const MySection = () => {
                                         <button class="btn btn-secondary" onClick={handleClose}>
                                             Close
                                             </button>
-                                        <button onClick={sendData} className="btn btn-primary">Create</button>
+                                        <button onClick={sendData} className="btn btn-primary">Add</button>
                                     </Modal.Footer>
                                 </Modal>
                                 <Modal show={show1} onHide={handleClose1}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title>Update Section</Modal.Title>
+                                        <Modal.Title>Update Document</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("name")} onChange={(e) => setSection(e.target.value)} label="Section" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={localStorage.getItem("name")} onChange={(e) => setDocument(e.target.value)} label="Section" variant="filled" />
                                             </div>
                                         </div>
 
@@ -249,59 +218,51 @@ const MySection = () => {
                                             </button>
                                         <button onClick={sendUpdated} className="btn btn-primary">Update</button>
                                     </Modal.Footer>
-                                </Modal>
-                                <Modal show={show2} onHide={remove}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Confirmation</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <h2 className="text-center">Are You Sure You Want To Delete?</h2>
-                                            </div>
-                                        </div>
-                                    </Modal.Body>
-                                    <Modal.Footer>
-                                        <button class="btn btn-secondary" onClick={remove}>
-                                            Close
-                                            </button>
-                                        <button onClick={deleteSection} className="btn btn-primary">Yes</button>
-                                    </Modal.Footer>
-                                </Modal>
+                                </Modal> */}
                             </div>
-                            <div class="table-responsive">
-                                <table class="table no-wrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-top-0">#</th>
-                                            <th class="border-top-0">Class</th>
-                                            <th class="border-top-0">Section</th>
-                                            <th class="border-top-0">Created At</th>
-                                            <th class="border-top-0">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {sectiondata.map((val, i) => {
-                                            return (
-                                                <>
-                                                    <tr key={i}>
-                                                        <td>{i + 1}</td>
-                                                        <td class="txt-oflo">{val.class_name}</td>
-                                                        <td>{val.name}</td>
-                                                        <td>{val.created_at.slice(0, 10)}</td>
-                                                        <td>
+                            {undertakingdata.length === 0 ?
+                                <>
+                                    <div className="col-12">
+                                        <h2 className="text-center">Nothing To Show...</h2>
+                                    </div>
+                                </>
+                                :
+                                <div class="table-responsive">
+                                    <table class="table no-wrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="border-top-0">#</th>
+                                                <th class="border-top-0">Registeration No.</th>
+                                                <th class="border-top-0">Name</th>
+                                                <th class="border-top-0">Documents</th>
+                                                <th class="border-top-0">Created At</th>
+                                                {/* <th class="border-top-0">Action</th> */}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {undertakingdata.map((val, i) => {
+                                                return (
+                                                    <>
+                                                        <tr key={i}>
+                                                            <td>{i + 1}</td>
+                                                            <td class="txt-oflo">{val.registration_no}</td>
+                                                            <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                            <td><button class="btn" onClick={() =>history.push(`/undertakingdocuments/${val.registration_no}`)}><LaunchIcon /></button></td>
+                                                            <td>{val.created_at.slice(0, 10)}</td>
+                                                            {/* <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                <Button className="student-btn-del" onClick={() => deleteSchool(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
-                                                        </td>
-                                                    </tr>
-                                                </>
-                                            )
-                                        })}
-                                    </tbody>
-                                </table>
-                            </div>
+                                                        </td> */}
+                                                        </tr>
+                                                    </>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -309,7 +270,7 @@ const MySection = () => {
         </>
     );
 };
-export default MySection;
+export default UndertakingDocuments;
 
 
 

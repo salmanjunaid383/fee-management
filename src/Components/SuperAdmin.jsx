@@ -35,6 +35,17 @@ const SuperAdmin = () => {
     const [schooldata, setSchooldata] = useState([]);
     const history = useHistory();
     const [allSelected, setAllSelected] = useState(false);
+    const [show3, setShow3] = useState(false);
+    const handleClose3 = () => setShow3(false);
+    const handleShow3 = () => setShow3(true);
+    const changeClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow3();
+    }
+    const remove1 = () => {
+        localStorage.removeItem("user_id")
+        handleClose3();
+    }
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
@@ -94,6 +105,27 @@ const SuperAdmin = () => {
                     alert(error.response.data.message);
                 }
             })
+    }
+    const changePassword = () => {
+        if (password == confirmpassword) {
+            axios.put(`http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem("user_id")}`, { password: password })
+                .then(response => {
+                    console.log(response)
+                    setPassword('')
+                    setConfirmpassword('')
+                    reload();
+                    remove1();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
+        }
+        else {
+            alert("Enter Correct Password")
+        }
+
     }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools`)
@@ -374,6 +406,26 @@ const SuperAdmin = () => {
                                         <button onClick={deleteAdministrator} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal show={show3} onHide={remove1}>
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Change Password</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row billing-main">
+                                            <div className="col-8 billing-box">
+                                                <TextField className="pb-3 bg-white" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
+                                                <TextField className="pb-3" type="password" onChange={(e) => setConfirmpassword(e.target.value)} label="Confirm Password" variant="filled" />
+
+                                            </div>
+                                        </div>
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove1}>
+                                            Close
+                                            </button>
+                                        <button onClick={changePassword} className="btn btn-primary">Change</button>
+                                    </Modal.Footer>
+                                </Modal>
                                 <table class="table no-wrap">
                                     <thead>
                                         <tr>
@@ -382,6 +434,7 @@ const SuperAdmin = () => {
                                             <th class="border-top-0">Contact No.</th>
                                             <th class="border-top-0">Address</th>
                                             <th class="border-top-0">Email</th>
+                                            <th class="border-top-0">Password</th>
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
@@ -397,6 +450,8 @@ const SuperAdmin = () => {
                                                                 <td>{val.contact}</td>
                                                                 <td>{val.address}</td>
                                                                 <td class="txt-oflo">{val.email}</td>
+                                                                <td><Button className="text-bold" onClick={() => changeClick(val.id)}><span>Change</span></Button></td>
+
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary">
                                                                         <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>

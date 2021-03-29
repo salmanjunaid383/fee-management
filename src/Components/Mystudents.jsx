@@ -6,6 +6,8 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import LaunchIcon from '@material-ui/icons/Launch';
+
 import DescriptionIcon from '@material-ui/icons/Description';
 import logo from './jb1.png'
 import StnData from './Crud.jsx'
@@ -69,6 +71,17 @@ const Mystudents = () => {
     var mydata = [];
     const history = useHistory();
     const school_id = localStorage.getItem("school_id");
+    const [show3, setShow3] = useState(false);
+    const handleClose3 = () => setShow3(false);
+    const handleShow3 = () => setShow3(true);
+    const changeClick = (id) => {
+        localStorage.setItem("user_id", id)
+        handleShow3();
+    }
+    const remove1 = () => {
+        localStorage.removeItem("user_id")
+        handleClose3();
+    }
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
@@ -166,6 +179,27 @@ const Mystudents = () => {
                     alert(error.response.data.message);
                 }
             })
+    }
+    const changePassword = () => {
+        if (password == confirmpassword) {
+            axios.put(`http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem("user_id")}`, { password: password })
+                .then(response => {
+                    console.log(response)
+                    setPassword('')
+                    setConfirmpassword('')
+                    reload();
+                    remove1();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
+        }
+        else{
+            alert("Enter Correct Password")
+        }
+
     }
 
 
@@ -461,6 +495,26 @@ const Mystudents = () => {
                                         <button onClick={deleteData} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
+                                <Modal show={show3} onHide={remove1}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Change Password</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <div className="row billing-main">
+                                        <div className="col-8 billing-box">
+                                            <TextField className="pb-3 bg-white" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
+                                            <TextField className="pb-3" type="password" onChange={(e) => setConfirmpassword(e.target.value)} label="Confirm Password" variant="filled" />
+
+                                        </div>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <button class="btn btn-secondary" onClick={remove1}>
+                                        Close
+                                            </button>
+                                    <button onClick={changePassword} className="btn btn-primary">Change</button>
+                                </Modal.Footer>
+                            </Modal>
                             </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
@@ -470,6 +524,8 @@ const Mystudents = () => {
                                             <th class="border-top-0">GR NO</th>
                                             <th class="border-top-0">NAME</th>
                                             <th class="border-top-0">GENDER</th>
+                                            <th class="border-top-0">Details</th>
+                                            <th class="border-top-0">Password</th>
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
@@ -481,6 +537,10 @@ const Mystudents = () => {
                                                     <td>{val.G_R_NO}</td>
                                                     <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
                                                     <td>{val.gender}</td>
+                                                    <td><button class="btn" onClick={() =>history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></button></td>
+
+                                                    <td><Button className="text-bold" onClick={() => changeClick(val.id)}><span>Change</span></Button></td>
+
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
                                                     <td>

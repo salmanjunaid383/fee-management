@@ -48,10 +48,15 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
         <>
             <div className="printform-main mx-auto border border-dark">
                 <div className="container">
-                    <h1 className="text-center">ADMISSION FORM</h1>
+                    <h1 className="text-center">STUDENT DATA</h1>
                     <div className="row">
                         <div className="col-12 text-right">
-                            <p>GR No: <span>00000</span> </p>
+                            {student.G_R_NO == null ?
+                            <p>GR No: <span>0000</span> </p>
+                            :
+                            <p>GR No: <span>{student.G_R_NO}</span> </p>
+
+                            }
                         </div>
                         <h2>Student's Particular</h2>
                         <div className="col-4">
@@ -72,7 +77,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
 
                         </div>
                         <div className="col-4">
-                            <p>Email: <span className="print-capitalize">{student.email}</span></p>
+                            <p>Email: <span className="">{student.email}</span></p>
 
                         </div>
                         <div className="col-4">
@@ -117,7 +122,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                             <p>Qualification: <span className="print-capitalize">{parent.father_qualification}</span></p>
                         </div>
                         <div className="col-4">
-                            <p>Email: <span className="print-capitalize">{parent.father_email}</span></p>
+                            <p>Email: <span className="">{parent.father_email}</span></p>
 
                         </div>
                         <div className="col-4">
@@ -163,7 +168,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                             <p>Qualification: <span className="print-capitalize">{parent.mother_qualification}</span></p>
                         </div>
                         <div className="col-4">
-                            <p>Email: <span className="print-capitalize">{parent.mother_email}</span></p>
+                            <p>Email: <span className="">{parent.mother_email}</span></p>
 
                         </div>
                         <div className="col-4">
@@ -216,7 +221,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                                         <p>Qualification: <span className="print-capitalize">{guardian.qualification}</span></p>
                                     </div>
                                     <div className="col-4">
-                                        <p>Email: <span className="print-capitalize">{guardian.email}</span></p>
+                                        <p>Email: <span className="">{guardian.email}</span></p>
 
                                     </div>
                                     <div className="col-4">
