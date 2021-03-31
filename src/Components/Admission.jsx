@@ -166,6 +166,7 @@ const Admissions = () => {
                                     <button type="button" onClick={() => history.push("/admission")} class="btn my-3 mx-1 btn-primary btn-lg">Admission Charges</button>
                                     <button type="button" onClick={() => history.push("/documents")} class="btn my-3 mx-1 btn-primary btn-lg">Documents</button>
                                     <button type="button" onClick={() => history.push("/admissionrequest")} class="btn my-3 mx-1 btn-primary btn-lg">Pending Admissions</button>
+                                    <button type="button" onClick={() => history.push("/schoolundertaking")} class="btn my-3 mx-1 btn-primary btn-lg">Undertaking</button>
 
                                     {/* <button type="button" class="btn my-3 mx-1 btn-primary btn-lg"><Link to="/" className="text-white">Admission</Link></button> */}
                                 </div>

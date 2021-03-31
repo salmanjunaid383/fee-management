@@ -197,7 +197,7 @@ const Mystudents = () => {
                 })
         }
         else{
-            alert("Enter Correct Password")
+            alert("Password Does not Match")
         }
 
     }
@@ -533,10 +533,10 @@ const Mystudents = () => {
                                         {studentdata.map((val, i) => {
                                             return (
                                                 <tr key={i}>
-                                                    <td>{val.id}</td>
+                                                    <td>{i+1}</td>
                                                     <td>{val.G_R_NO}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                    <td>{val.gender}</td>
+                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                    <td className="print-capitalize">{val.gender}</td>
                                                     <td><button class="btn" onClick={() =>history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></button></td>
 
                                                     <td><Button className="text-bold" onClick={() => changeClick(val.id)}><span>Change</span></Button></td>

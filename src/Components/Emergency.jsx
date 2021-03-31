@@ -69,7 +69,7 @@ const Emergency = () => {
             .then(response => {
                 console.log(response.data);
                 localStorage.setItem("emergency_id", response.data.id)
-                history.push(`/printform/${response.data.form_no}`)
+                history.push(`/submitform/${response.data.form_no}`)
                 // setStudentdata(response.data);
             })
             .catch((error) => {

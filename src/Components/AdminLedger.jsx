@@ -52,7 +52,10 @@ const AdminLedger = () => {
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
     const [searchTerm, setSearchTerm] = React.useState('');
-    const [searchResults, setSearchResults] = React.useState([]);
+    const [sectiondata, setSectiondata] = useState([]);
+    const [classdata, setClassdata] = useState([]);
+    const [classid, setClassid] = useState('');
+    const [sectionid, setSectionid] = useState('');
     // const handleChange = event => {
     //     setSearchTerm(event.target.value);
     // };
@@ -71,6 +74,16 @@ const AdminLedger = () => {
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+            axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
+            .then(response => {
+                console.log(response.data)
+                setClassdata(response.data)
             })
             .catch((error) => {
                 if (error.response) {
@@ -98,13 +111,25 @@ const AdminLedger = () => {
                     alert(error.response.data.message);
                 }
             })
+            
 
     }
+    const search = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
+            .then(response => {
+                console.log(response.data)
+                setSectiondata(response.data)
+            })
+            .catch(error => console.log(error))
+    }
+    // console.log(studentdata[0].section_id)
 
 
 
-
-
+    const reset = () => {
+        setSectionid('');
+        setSearchTerm('');
+    }
 
     const logOut = () => {
         localStorage.clear();
@@ -206,12 +231,50 @@ const AdminLedger = () => {
                     </div>
                     <div class="right-body">
 
-                        <div class="message">
-
-                            <div className="col-12 text-center mt-1">
+                        <div class="message"><div className="row">
+                            <div className="col-6 text-left mt-1">
                                 <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" variant="filled" />
+                                <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
 
                             </div>
+                            <div className="col-6 text-right">
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        // value={id}
+                                        onChange={(e) => setClassid(e.target.value)}
+                                    >
+                                        {classdata.map((val, i) => {
+                                            return (
+                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                            )
+
+                                        })}
+                                    </Select>
+                                </FormControl>
+                                <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        // value={id}
+                                        onChange={(e) => setSectionid((e.target.value).toString())}
+                                    >
+                                        {sectiondata.map((val, i) => {
+                                            return (
+                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                            )
+
+                                        })}
+                                    </Select>
+                                </FormControl>
+
+                            </div>
+
+                        </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
@@ -224,22 +287,32 @@ const AdminLedger = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {studentdata.filter((val)=> {
-                                            if(searchTerm == ''){
+                                        {studentdata.filter((val) => {
+                                            if (searchTerm == '') {
                                                 return val;
                                             }
-                                            else if(val.G_R_NO.includes(searchTerm)){
-                                                return  val
+                                            else if (val.section_id.toString().includes(searchTerm)) {
+                                                return val;
                                             }
-                                            else if(`${val.first_name} ${val.middle_name} ${val.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())){
+                                            else if (val.G_R_NO.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                            else if (`${val.first_name} ${val.middle_name} ${val.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).filter((val)=>{
+                                            if (sectionid == '') {
+                                                return val;
+                                            }
+                                            else if (val.section_id.toString().includes(sectionid)) {
                                                 return val;
                                             }
                                         }).map((val, i) => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.G_R_NO}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                    <td>{val.gender}</td>
+                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                    <td className="print-capitalize">{val.gender}</td>
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
 

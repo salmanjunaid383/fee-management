@@ -255,7 +255,7 @@ const Documents = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.required_document} onChange={(e) => setDocument(e.target.value)} label="Section" variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="text" defaultValue={prevdata.required_document} onChange={(e) => setDocument(e.target.value)} label="Document" variant="filled" />
                                             </div>
                                         </div>
 
@@ -310,7 +310,7 @@ const Documents = () => {
                                                     <>
                                                         <tr key={i}>
                                                             <td>{i + 1}</td>
-                                                            <td class="txt-oflo">{val.required_document}</td>
+                                                            <td class="txt-oflo print-capitalize">{val.required_document}</td>
                                                             <td>{val.created_at.slice(0, 10)}</td>
                                                             <td>
                                                                 <ButtonGroup disableElevation variant="contained" color="primary">

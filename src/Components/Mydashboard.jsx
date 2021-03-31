@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './dashboard.css';
 import { Link, useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
 import AddIcon from '@material-ui/icons/Add';
@@ -22,49 +22,49 @@ const Mydashboard = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [schoolName, setSchoolName]= useState();
-    const [phone, setPhone]= useState();
-    const [address, setAddress]= useState();
-    const [email, setEmail]= useState();
-    const [administratordata, setadministratordata]= useState([]);
-    const [studentdata, setStudentdata]= useState([]);
-    const [schooldata, setSchooldata]= useState([]);
+    const [schoolName, setSchoolName] = useState();
+    const [phone, setPhone] = useState();
+    const [address, setAddress] = useState();
+    const [email, setEmail] = useState();
+    const [administratordata, setadministratordata] = useState([]);
+    const [studentdata, setStudentdata] = useState([]);
+    const [schooldata, setSchooldata] = useState([]);
     const admin_id = localStorage.getItem("admin_id");
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
-    
+
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
-        .then(response => {
-            console.log(response);
-            setStudentdata(response.data);
-        })
-        .catch((error) => {
-            if (error.response) {
-              alert(error.response.data.message);
-            }
-          })
-    },[])
+            .then(response => {
+                console.log(response);
+                setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+    }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools/${admin_id}`)
-        .then(response => {
-            console.log(response.data)
-            setSchooldata(response.data)
-        })
-        .catch((error) => {
-            if (error.response) {
-              alert(error.response.data.message);
-            }
-          })
-    },[]) 
+            .then(response => {
+                console.log(response.data)
+                setSchooldata(response.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+    }, [])
     const logOut = () => {
         localStorage.clear();
         history.push("/");
     }
-    
-      
-        
-    
+
+
+
+
     return (
         <>
             <div class="dashboard">
@@ -72,16 +72,16 @@ const Mydashboard = () => {
                     <div class="navigation">
                         <div class="wrapper2">
                             <div class="abilan">
-                                <img src={logo}/>
+                                <img src={logo} />
                             </div>
-        
+
                             <Link class="nav-link" to="/dashboard"><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas active fa-columns"></i>
                                 </div>
                                 <div class="icon-name1 active">Dashboard</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/school"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-school"></i>
@@ -100,7 +100,7 @@ const Mydashboard = () => {
                                 <div class="big-inbox">
                                     School Administrator
                                 </div>
-                            <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
@@ -136,7 +136,7 @@ const Mydashboard = () => {
                                 <div>
                                 </div>
                             </div> */}
-                            {/* <div class="card">
+                        {/* <div class="card">
                                 <div class="mails">
                                     <div class="mail-names">
                                         Visits
@@ -150,15 +150,15 @@ const Mydashboard = () => {
                             </div> */}
                         {/* </div> */}
                         <div class="message">
-                        
+
                             <div class="table-responsive">
-                                        
-                                        
 
 
-                                                   
 
-         
+
+
+
+
 
                                 <table class="table no-wrap">
                                     <thead>
@@ -170,17 +170,17 @@ const Mydashboard = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        { schooldata.map ((val, i)=> {
+                                        {schooldata.map((val, i) => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.name}`}</td>
-                                                    <td>{val.contact}</td>
+                                                    <td class="txt-oflo print-capitalize">{`${val.name}`}</td>
+                                                    <td className="">{val.contact}</td>
                                                     <td class="txt-oflo">{val.email}</td>
                                                 </tr>
-                                                    )
-                                                })}
-                                                
+                                            )
+                                        })}
+
 
                                     </tbody>
                                 </table>

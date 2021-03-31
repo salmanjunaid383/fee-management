@@ -48,9 +48,7 @@ const CampusDashboard = () => {
                     alert(error.response.data.message);
                 }
             })
-    }, [])
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/schools/${admin_id}`)
+            axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setSchooldata(response.data)
@@ -61,6 +59,18 @@ const CampusDashboard = () => {
                 }
             })
     }, [])
+    // useEffect(() => {
+    //     axios.get(`http://fee-management-api.nastechltd.co/api/schools/${admin_id}`)
+    //         .then(response => {
+    //             console.log(response.data)
+    //             setSchooldata(response.data)
+    //         })
+    //         .catch((error) => {
+    //             if (error.response) {
+    //                 alert(error.response.data.message);
+    //             }
+    //         })
+    // }, [])
 
 
     const logOut = () => {
@@ -167,8 +177,8 @@ const CampusDashboard = () => {
                     <div class="right-header">
                         <div class="top-bar">
                             <div class="top-bar-justify">
-                                <div class="big-inbox">
-                                    School Administrator
+                                <div class="big-inbox print-capitalize">
+                                    {schooldata.name}
                         </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 

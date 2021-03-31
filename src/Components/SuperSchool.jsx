@@ -73,8 +73,34 @@ const SuperSchool = () => {
             admin.push(admindata)
         }
     }
-    const sendData = () => {
+    // const sendData = () => {
+    //     const formData = new FormData();
+    //     formData.append('file', selectedFile);
+    //     formData.append('admin_id', adminid);
+    //     formData.append('contact', phone);
+    //     formData.append('address', address);
+    //     formData.append('email', email);
+    //     formData.append('name', schoolName);
+    //     axios({
+    //         method: "post",
+    //         url: "http://fee-management-api.nastechltd.co/api/schools",
+    //         data: formData,
+    //         headers: { "Content-Type": "multipart/form-data" },
+    //     })
+    //         .then(response => {
+    //             //handle success
+    //             console.log(response);
+    //             setSelectedFile();
 
+    //             alert("Submitted!!")
+
+    //         })
+    //         .catch(error => {
+    //             //handle error
+    //             console.log(error);
+    //         });
+    // }
+    const sendData = () => {
         const formData = new FormData();
         formData.append('file', selectedFile);
         formData.append('admin_id', adminid);
@@ -82,7 +108,7 @@ const SuperSchool = () => {
         formData.append('contact', phone);
         formData.append('address', address);
         formData.append('email', email);
-        // console.log(formData.get('File'))
+        console.log(formData.get('name'))
         if (schoolName == '') {
             alert("Enter School Name")
         }
@@ -128,13 +154,20 @@ const SuperSchool = () => {
                 alert("Enter Valid Email")
             }
         }
-
     }
 
+
     // const sendData = () => {
-    //     axios.post('http://fee-management-api.nastechltd.co/api/schools', data)
+    //     axios.post('http://fee-management-api.nastechltd.co/api/schools', {
+    //         file: selectedFile,
+    //         admin_id: adminid,
+    //         contact: phone,
+    //         address: address,
+    //         email: email,
+    //         name: schoolName
+    //     })
     //         .then(response => {
-    //             console.log(response);
+    //             console.log(response)
     //             console.log(response.data.id);
     //             setSchoolName();
     //             setPhone();
@@ -142,7 +175,7 @@ const SuperSchool = () => {
     //             setEmail();
     //             setAdminid()
     //             handleClose();
-    //             reload();
+    //             // reload();
     //         })
     //         .catch(error => {
     //             console.log(error)
@@ -151,20 +184,20 @@ const SuperSchool = () => {
     // }
 
 
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/schools`)
-            .then(response => {
-                console.log(response.data)
-                setSchooldata(response.data)
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-    }, [])
+    // useEffect(() => {
+    //     axios.get(`http://fee-management-api.nastechltd.co/api/schools`)
+    //         .then(response => {
+    //             console.log(response.data)
+    //             setSchooldata(response.data)
+    //         })
+    //         .catch((error) => {
+    //             if (error.response) {
+    //                 alert(error.response.data.message);
+    //             }
+    //         })
+    // }, [])
 
-
+    var count = 0;
 
     const logOut = () => {
         localStorage.clear();
@@ -282,8 +315,8 @@ const SuperSchool = () => {
                                                     {
                                                         (val.type).slice(11, 40) == "SchoolAdministrator" ?
                                                             <tr key={i}>
-                                                                <td>{val.id}</td>
-                                                                <td class="txt-oflo">{`${val.first_name} ${val.last_name}'s Schools`}</td>
+                                                                <td>{count=1+count}</td>
+                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}'s Schools`}</td>
                                                                 <td><Button onClick={() => history.push(`/adminschool/${val.id}`)}><DescriptionIcon /></Button></td>
                                                                 <td>{val.contact}</td>
                                                                 <td class="txt-oflo">{val.email}</td>

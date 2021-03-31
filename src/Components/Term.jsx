@@ -414,7 +414,7 @@ const Term = () => {
                                                     return (
                                                         <>
                                                             <tr key={i}>
-                                                                <td>{val.id}</td>
+                                                                <td>{i+1}</td>
                                                                 <td>{val.term_name}</td>
                                                                 <td>{timeConverter(val.start_date)}</td>
                                                                 <td class="txt-oflo">{timeConverter(val.end_date)}</td>

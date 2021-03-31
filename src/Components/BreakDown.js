@@ -273,11 +273,11 @@ const BreakDown = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas  fa-columns"></i>
+                                    <i class="fas fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 ">Documents</div>
+                                <div class="icon-name1">Admission</div>
                             </div></Link>
                             {/* <div class="folder-icons">
                                 <div class="icon1">
@@ -291,12 +291,6 @@ const BreakDown = () => {
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Pending Admissions</div>
-                            </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -309,18 +303,11 @@ const BreakDown = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-
-                            <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Period</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/structure"><div class="folder-icons">
+                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet active"></i>
                                 </div>
-                                <div class="icon-name active">Fee Structure</div>
+                                <div class="icon-name active">Fee</div>
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
@@ -334,18 +321,7 @@ const BreakDown = () => {
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
-                            <Link class="nav-link" to="/admission"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Admission Charges</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/discounted"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Discounted</div>
-                            </div></Link>
+
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -571,7 +547,7 @@ const BreakDown = () => {
                                                 <>
                                                     <tr key={i}>
                                                         <td>{i + 1}</td>
-                                                        <td class="txt-oflo">{val.description}</td>
+                                                        <td class="txt-oflo print-capitalize">{val.description}</td>
                                                         <td>{val.charges}</td>
                                                         <td>{val.created_at.slice(0, 10)}</td>
                                                         <td>
@@ -609,7 +585,7 @@ const BreakDown = () => {
                                                     <tr key={i}>
                                                         <td>{i + 1}</td>
                                                         <td>{val.month}</td>
-                                                        <td class="txt-oflo">{val.description}</td>
+                                                        <td class="txt-oflo print-capitalize">{val.description}</td>
                                                         <td>{val.charges}</td>
                                                         <td>{val.created_at.slice(0, 10)}</td>
                                                         <td>

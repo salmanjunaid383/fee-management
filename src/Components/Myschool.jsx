@@ -159,10 +159,10 @@ const history = useHistory();
                                             return(
                                                 <tr key={i}>
                                             <td>{val.id}</td>
-                                            <td class="txt-oflo">{val.name}</td>
-                                            <td>{val.address}</td>
+                                            <td class="txt-oflo print-capitalize">{val.name}</td>
+                                            <td className="print-capitalize">{val.address}</td>
                                             <td>{val.contact}</td>
-                                            <td><Link to="campusdashboard"><button onClick={()=>localStorage.setItem("school_id", val.id)} class="btn btn-primary">Enter School</button></Link></td>
+                                            <td><Link to="campusdashboard"><button onClick={()=>localStorage.setItem("school_id", val.id)} class="btn btn-primary">Visit School</button></Link></td>
                                             {/* <td>
                                             <ButtonGroup disableElevation variant="contained" color="primary">
       <Button className="student-btn-up" onClick={()=>history.push(`/schoolupdate/${val.id}`)}  ><UpdateIcon className="text-white"/></Button>

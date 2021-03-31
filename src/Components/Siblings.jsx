@@ -31,69 +31,57 @@ const Siblings = () => {
         setInputList(list);
     }
     const history = useHistory();
-    useEffect(() => {
-        if (sibling_id != null) {
-            axios.get(`http://fee-management-api.nastechltd.co/api/siblings/${form_no}`)
-                .then(response => {
-                    console.log(response.data)
-                    setPrevdata(response.data)
-                    // setPrevdata(response.data)
-                    // setGuardianname(response.data._name);
-                    // setQualification(response.data.qualification)
-                    // setNationality(response.data.nationality)
-                    // setOccupation(response.data.occupation)
-                    // setReligion(response.data.religion)
-                    // setAddressresidential(response.data.residential_address)
-                    // setEmail(response.data.email)
-                    // setCnic(response.data.CNIC)
-                    // setCell(response.data.cell_no)
-                    // setTel(response.data.tel_no)
+    // useEffect(() => {
+    //     if (sibling_id != null) {
+    //         axios.get(`http://fee-management-api.nastechltd.co/api/siblings/${form_no}`)
+    //             .then(response => {
+    //                 console.log(response.data)
+    //                 setPrevdata(response.data)
+    // setPrevdata(response.data)
+    // setGuardianname(response.data._name);
+    // setQualification(response.data.qualification)
+    // setNationality(response.data.nationality)
+    // setOccupation(response.data.occupation)
+    // setReligion(response.data.religion)
+    // setAddressresidential(response.data.residential_address)
+    // setEmail(response.data.email)
+    // setCnic(response.data.CNIC)
+    // setCell(response.data.cell_no)
+    // setTel(response.data.tel_no)
 
 
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        alert(error.response.data.message);
-                    }
-                })
-        }
-    }, [])
+    //             })
+    //             .catch((error) => {
+    //                 if (error.response) {
+    //                     alert(error.response.data.message);
+    //                 }
+    //             })
+    //     }
+    // }, [])
     const data = {
         siblings: inputList,
         form_no: form_no
         // remarks : remarks
     }
     const sendData = () => {
-        if (sibling_id == null) {
-            axios.post(`http://fee-management-api.nastechltd.co/api/siblings`, data)
-                .then(response => {
-                    console.log(response.data);
-                    localStorage.setItem("sibling_id", response.data.id)
-                    history.push("/emergency")
-                    // setStudentdata(response.data);
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        alert(error.response.data.message);
-                    }
-                })
-        }
-        else{
-            axios.put(`http://fee-management-api.nastechltd.co/api/siblings/${sibling_id}`, data)
-                .then(response => {
-                    console.log(response.data);
-                    localStorage.setItem("sibling_id", response.data.id)
-                    // history.push("/siblings")
-                    // setStudentdata(response.data);
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        alert(error.response.data.message);
-                    }
-                })
-        }
+        axios.post(`http://fee-management-api.nastechltd.co/api/siblings`, data)
+            .then(response => {
+                console.log(response.data);
+                localStorage.setItem("sibling_id", response.data.id)
+                history.push("/emergency")
+                setInputList([{ name: "", age: "", class: "" }]);
 
+                // setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
+
+
+
 
 
 
@@ -113,19 +101,19 @@ const Siblings = () => {
                                     <div key={i} class="row">
                                         <div className="col-3">
                                             <label for="name">Name:</label>
-                                            <input id="name" defaultValue={'pe'} type="text" name="name" value={item.name} onChange={e => handleChange(e, i)} className="form-control" placeholder="Full Name" />
+                                            <input id="name" type="text" name="name" value={item.name} onChange={e => handleChange(e, i)} className="form-control" placeholder="Full Name" />
                                         </div>
                                         <div className="col-3">
                                             <label for="age">Age:</label>
-                                            <input id="age" defaultValue={'pe'} type="number" name="age" value={item.age} onChange={e => handleChange(e, i)} className="form-control" placeholder="Age" />
+                                            <input id="age" type="number" name="age" value={item.age} onChange={e => handleChange(e, i)} className="form-control" placeholder="Age" />
                                         </div>
                                         <div className="col-3">
                                             <label for="class">Class:</label>
-                                            <input id="class" defaultValue={'pe'} type="number" name="class" value={item.class} onChange={e => handleChange(e, i)} className="form-control" placeholder="Class" />
+                                            <input id="class" type="number" name="class" value={item.class} onChange={e => handleChange(e, i)} className="form-control" placeholder="Class" />
                                         </div>
                                         <div class="col-1 mt-4">
                                             {inputList.length !== 1 &&
-                                                <button type="button" onClick={()=>removeField(i)} class="btn btn-primary mt-2">Remove</button>
+                                                <button type="button" onClick={() => removeField(i)} class="btn btn-primary mt-2">Remove</button>
                                             }
 
                                         </div>

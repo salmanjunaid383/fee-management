@@ -254,7 +254,7 @@ const MyClass = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
-                                            <div class="col-12 billing-box">
+                                            <div class="col-6 billing-box">
                                                 <TextField className="pb-3 bg-white" type="text" onChange={(e) => setSchoolClass(e.target.value)} label="Class" variant="filled" />
                                             </div>
                                         </div>

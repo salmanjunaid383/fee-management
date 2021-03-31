@@ -105,29 +105,43 @@ const FeePeriod = () => {
     }
 
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/billing_period/${prevdata.id}`, {
-            phase: billing,
-            generation_date: generate,
-            due_date: due,
-            late_fee_charge: latefee,
-            school_id: localStorage.getItem("school_id")
+        if (billing < 0 || billing > 12) {
+            alert("Months Can Only Be From 1-12")
+        }
+        else if (generate < 0 || generate > 28) {
+            alert("Generation date can only be from 1-28")
+        }
+        else if (due < 0 || due > 28) {
+            alert("Due date can only be from 1-28")
+        }
+        else if (latefee < 0) {
+            alert("charges can't be negative")
+        }
+        else {
+            axios.put(`http://fee-management-api.nastechltd.co/api/billing_period/${prevdata.id}`, {
+                phase: billing,
+                generation_date: generate,
+                due_date: due,
+                late_fee_charge: latefee,
+                school_id: localStorage.getItem("school_id")
 
-        })
-            .then(response => {
-                console.log(response.data);
-                setPrevdata('');
-                setDue();
-                setGenerate();
-                setBilling();
-                setLatefee();
-                handleClose();
-                reload();
             })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+                .then(response => {
+                    console.log(response.data);
+                    setPrevdata('');
+                    setDue();
+                    setGenerate();
+                    setBilling();
+                    setLatefee();
+                    handleClose();
+                    reload();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        alert(error.response.data.message);
+                    }
+                })
+        }
 
     }
 
@@ -148,7 +162,7 @@ const FeePeriod = () => {
         else if (due < 0 || due > 28) {
             alert("Due date can only be from 1-28")
         }
-        else if( latefee < 0){
+        else if (latefee < 0) {
             alert("charges can't be negative")
         }
         else {
@@ -244,7 +258,7 @@ const FeePeriod = () => {
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>

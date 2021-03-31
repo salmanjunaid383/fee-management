@@ -11,6 +11,7 @@ import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import logo from './jb1.png'
 import axios from 'axios'
+import MultiSelect from "react-multi-select-component";
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -39,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MyExpense = () => {
     const [expensedata, setExpensedata] = useState([]);
+    const [selected, setSelected] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -106,7 +108,10 @@ const MyExpense = () => {
             })
     }, [])
 
+    const options = studentdata.map(val => ({
+        label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
 
+    }))
     const handleCharges = (e) => {
         setCharges(e.target.value)
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
@@ -128,10 +133,9 @@ const MyExpense = () => {
 
     const data = {
         school_id: school_id,
-        student_id: studentid,
+        students: selected,
         charges: charges,
         description: description,
-        name: studentname,
         paid: 0
     }
     const sendData = () => {
@@ -367,29 +371,20 @@ const MyExpense = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <FormControl className={classes.formControl}>
-                                                    <InputLabel id="demo-simple-select-label">Student</InputLabel>
-                                                    <Select
-                                                        labelId="demo-simple-select-label"
-                                                        id="demo-simple-select"
-                                                        // value={id}
-                                                        onChange={(e) => setStudentid(e.target.value)}
-                                                    >
-                                                        {studentdata.map((val, i) => {
-                                                            return (
-                                                                <MenuItem value={val.id}>{`${val.first_name} ${val.middle_name} ${val.last_name}`}</MenuItem>
-                                                            )
-
-                                                        })}
-                                                    </Select>
-                                                </FormControl>
                                                 <TextField className="pb-3" type="number" onChange={(e) => handleCharges(e)} label="Charges" variant="filled" />
+                                                <MultiSelect
+                                                    className="mb-1"
+                                                    options={options}
+                                                    value={selected}
+                                                    onChange={setSelected}
+                                                    labelledBy={"Select"}
+                                                />
                                             </div>
-
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3" type="text" label="Description" onChange={(e) => setDescription(e.target.value)} variant="filled" />
 
                                             </div>
+
                                         </div>
                                     </Modal.Body>
                                     <Modal.Footer>
@@ -460,9 +455,9 @@ const MyExpense = () => {
                                                 <>
 
                                                     <tr key={i}>
-                                                        <td>{val.id}</td>
-                                                        <td class="txt-oflo">{val.name}</td>
-                                                        <td>{val.description}</td>
+                                                        <td>{i+1}</td>
+                                                        <td class="txt-oflo print-capitalize">{val.name}</td>
+                                                        <td className="print-capitalize">{val.description}</td>
                                                         <td>{val.charges}</td>
                                                         <td>
                                                             {val.paid == 1 ?
@@ -472,13 +467,22 @@ const MyExpense = () => {
                                                                     <Button className="expense-btn-p " onClick={() => sendpay(val.id)}><span class="text-white text-bolder mb-1">Pay</span></Button>
                                                                 </ButtonGroup>}
                                                         </td>
-
-                                                        <td>
+                                                                {val.paid == 1 ?
+                                                                <td>
+                                                                <ButtonGroup disableElevation variant="contained" color="primary">
+                                                                    <Button style={{visibility : 'hidden'}} className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
+                                                                    <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                </ButtonGroup>
+                                                            </td>
+                                                            :
+                                                            <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
                                                                 <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>
+                                                                }
+                                                        
                                                     </tr>
                                                 </>
                                             )

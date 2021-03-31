@@ -99,7 +99,7 @@ const Finance = () => {
                 })
         }
         else{
-            alert("Enter Correct Password")
+            alert("Password Does not Match")
         }
 
     }
@@ -139,7 +139,7 @@ const Finance = () => {
     };
     const sendData = () => {
         if (password != confirmpassword) {
-            alert("Incorrect Password");
+            alert("Password Does not Match");
         }
         else if (fname == '') {
             alert("Enter First Name")
@@ -240,6 +240,7 @@ const Finance = () => {
         localStorage.clear();
         history.push("/")
     }
+    var count = 0;
     return (
         <>
             <div class="dashboard">
@@ -488,9 +489,9 @@ const Finance = () => {
                                                     {
                                                         (val.type).slice(11, 40) == "Finance" ?
                                                             <tr key={i}>
-                                                                <td>{val.id}</td>
-                                                                <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
-                                                                <td>{val.gender}</td>
+                                                                <td>{`${count=1+count}`}</td>
+                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
+                                                                <td className="print-capitalize">{val.gender}</td>
                                                                 <td>{val.contact}</td>
                                                                 <td class="txt-oflo">{val.email}</td>
                                                                 {/* <td><Button><VpnKeyIcon/></Button></td> */}

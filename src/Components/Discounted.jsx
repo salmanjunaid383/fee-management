@@ -381,7 +381,7 @@ const Discounted = () => {
                                                 <>
                                                     <tr key={i}>
                                                         <td>{val.id}</td>
-                                                        <td class="txt-oflo">{val.name}</td>
+                                                        <td class="txt-oflo print-capitalize">{val.name}</td>
 
                                                         <td>{val.discount}</td>
 

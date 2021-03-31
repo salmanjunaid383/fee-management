@@ -19,7 +19,7 @@ import Myschool from './Components/Myschool';
 import AdminsSchool from './Components/AdminsSchool';
 import MyClass from './Components/MyClass';
 import Undertaking from './Components/Undertaking';
-import UndertakingDocuments from './Components/UndertakingDocuments';
+import Defaulters from './Components/Defaulters';
 import SchoolUndertaking from './Components/SchoolUndertaking';
 import PrintForm from './Components/PrintForm';
 import SubmitForm from './Components/SubmitForm';
@@ -31,6 +31,7 @@ import BreakDown from './Components/BreakDown';
 import Finance from './Components/Finance';
 import Student1 from './Components/Student1';
 import StudentLedger from './Components/StudentLedger';
+import StudentPassword from './Components/StudentPassword';
 import Ledger from './Components/Ledger';
 import AdminLedger from './Components/AdminLedger';
 import Documents from './Components/Documents';
@@ -77,6 +78,7 @@ const App = () => {
             <Route path="/section" component={MySection} />
             <Route path="/students" component={Mystudents} />
             <Route path="/studentledger/:studentid" component={StudentLedger} />
+            <Route path="/studentpassword/:studentid" component={StudentPassword} />
             <Route path="/ledger/:studentid" component={Ledger} />
             <Route path="/adminledger" component={AdminLedger} />
             <Route path="/finance" component={Finance} />
@@ -107,7 +109,7 @@ const App = () => {
             <Route path="/emergency" component={Emergency} />
             <Route path="/requirements/:formNo" component={Requirements} />
             <Route path="/undertaking/:formNo" component={Undertaking} />
-            <Route path="/undertakingdocuments/:formNo" component={UndertakingDocuments} />
+            <Route path="/defaulters" component={Defaulters} />
             <Route path="/schoolundertaking" component={SchoolUndertaking} />
             <Route path="/printform/:formNo" component={PrintForm} />
             <Route path="/submitform/:formNo" component={SubmitForm} />

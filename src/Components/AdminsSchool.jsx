@@ -98,7 +98,7 @@ const AdminsSchool = () => {
     }
 
 
-
+    var count = 0;
     const logOut = () => {
         localStorage.clear();
         history.push("/");
@@ -247,7 +247,7 @@ const AdminsSchool = () => {
                                         {data.map((val, i) => {
                                             return (
                                                 <tr key={i}>
-                                                    <td>{val.id}</td>
+                                                    <td>{count=1+count}</td>
                                                     <td class="txt-oflo">{val.name}</td>
                                                     <td>{val.address}</td>
                                                     <td>{val.contact}</td>

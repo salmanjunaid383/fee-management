@@ -14,6 +14,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
     const [feevoucher, setFeevoucher] = useState({});
     const [studentdata, setStudentdata] = useState({});
     const [classdata, setClassdata] = useState({});
+    const [schooldata, setSchooldata] = useState({});
     const { studentid } = useParams();
     function setPageSize(cssPageSize) {
         const style = document.createElement('style');
@@ -39,10 +40,29 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                 setIssuedate(response.data.issue_date);
                 setFeevoucher(response.data.feeVoucher);
                 setStudentdata(response.data.student);
-                setClassdata(response.data.class);
                 setRemainingbalance(response.data.remainingBalance);
                 setFeevoucherbreak(response.data.feeVoucherBreakDown);
                 setLatefee(response.data.fee_after_due_date)
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${response.data.student.school_id}`)
+                    .then(response => {
+                        console.log(response.data);
+                        setSchooldata(response.data)
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_section/${response.data.student.section_id}`)
+                    .then(response => {
+                        console.log(response.data);
+                        setClassdata(response.data)
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
             })
             .catch((error) => {
                 if (error.response) {
@@ -56,7 +76,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
             <div class="fee-voucher-main">
                 <div class="fee-voucher-left">
                     <div class="voucher-school">
-                        <p class="text-center mt-3 text-bolder voucher-text">Wonderland Grammar Secondary School</p>
+                        <p class="text-center mt-3 text-bolder voucher-text print-capitalize">{schooldata.name}</p>
                         <p class="text-center voucher-text">(Society For Advancement Of Learning in Pakistan)</p>
                         <p class="text-center text-bolder voucher-text">Bank Al Habib Ltd</p>
                         <p class="text-center text-bolder voucher-text">Collection A/C #0080-900542-01</p>
@@ -85,7 +105,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
-                                <p class=" voucher-text1">{classdata.name}</p>
+                                <p class=" voucher-text1">{`${classdata.class_name}/${classdata.name}`}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
@@ -173,7 +193,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
 
                         </div>
                         <div className="col-12">
-                            <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
+                            <p class="voucher-box-inline text-bolder voucher-box-left">{`Cell:${schooldata.contact}`}</p>
                             <p class="voucher-box-inline text-bolder voucher-box-right">Bank Copy</p>
                         </div>
 
@@ -181,7 +201,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                 </div>
                 <div class="fee-voucher-left">
                     <div class="voucher-school">
-                        <p class="text-center mt-3 text-bolder voucher-text">Wonderland Grammar Secondary School</p>
+                        <p class="text-center mt-3 text-bolder voucher-text print-capitalize">{schooldata.name}</p>
                         <p class="text-center voucher-text">(Society For Advancement Of Learning in Pakistan)</p>
                         <p class="text-center text-bolder voucher-text">Bank Al Habib Ltd</p>
                         <p class="text-center text-bolder voucher-text">Collection A/C #0080-900542-01</p>
@@ -209,7 +229,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
-                                <p class=" voucher-text1">{classdata.name}</p>
+                                <p class=" voucher-text1">{`${classdata.class_name}/${classdata.name}`}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
@@ -288,14 +308,15 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
 
                         </div>
                         <div className="col-12">
-                            <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
+                            <p class="voucher-box-inline text-bolder voucher-box-left">{`Cell:${schooldata.contact}`}</p>
                             <p class="voucher-box-inline text-bolder voucher-box-right">School Copy</p>
                         </div>
 
                     </div>
-                </div>                <div class="fee-voucher-left">
+                </div>
+                <div class="fee-voucher-left">
                     <div class="voucher-school">
-                        <p class="text-center mt-3 text-bolder voucher-text">Wonderland Grammar Secondary School</p>
+                        <p class="text-center mt-3 text-bolder voucher-text print-capitalize">{schooldata.name}</p>
                         <p class="text-center voucher-text">(Society For Advancement Of Learning in Pakistan)</p>
                         <p class="text-center text-bolder voucher-text">Bank Al Habib Ltd</p>
                         <p class="text-center text-bolder voucher-text">Collection A/C #0080-900542-01</p>
@@ -323,7 +344,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Class/Section</p>
-                                <p class=" voucher-text1">{classdata.name}</p>
+                                <p class=" voucher-text1">{`${classdata.class_name}/${classdata.name}`}</p>
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
@@ -412,7 +433,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
 
                         </div>
                         <div className="col-12">
-                            <p class="voucher-box-inline text-bolder voucher-box-left">Cell:0310 6360 737</p>
+                            <p class="voucher-box-inline text-bolder voucher-box-left">{`Cell:${schooldata.contact}`}</p>
                             <p class="voucher-box-inline text-bolder voucher-box-right">Student Copy</p>
                         </div>
 

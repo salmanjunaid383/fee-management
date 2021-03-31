@@ -46,7 +46,7 @@ const StudentLedger = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
             .then(response => {
                 // console.log(response.data)
-                setName(`${response.data.first_name} ${response.data.last_name}`);
+                setName(`${response.data.first_name} ${response.data.middle_name} ${response.data.last_name}`);
             })
             .catch((error) => {
                 if (error.response) {
@@ -105,6 +105,12 @@ const StudentLedger = () => {
                                 </div>
                                 <div class="icon-name">Fee Voucher</div>
                             </div></Link>
+                            <Link class="nav-link" to={`/studentpassword/${studentid}`}><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                                <div class="icon-name">Change Password</div>
+                            </div></Link>
 
 
                         </div>
@@ -114,7 +120,7 @@ const StudentLedger = () => {
                     <div class="right-header">
                         <div class="top-bar">
                             <div class="top-bar-justify">
-                                <div class="big-inbox">
+                                <div class="big-inbox print-capitalize">
                                     {`${name}'s `} Ledger
                                 </div>
                                     <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>

@@ -82,30 +82,30 @@ const SuperAdmin = () => {
                 }
             })
     }
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student`)
-            .then(response => {
-                console.log(response);
-                setStudentdata(response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-    }, [])
-    const relaod = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/student`)
-            .then(response => {
-                console.log(response);
-                setStudentdata(response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-    }
+    // useEffect(() => {
+    //     axios.get(`http://fee-management-api.nastechltd.co/api/student`)
+    //         .then(response => {
+    //             console.log(response);
+    //             setStudentdata(response.data);
+    //         })
+    //         .catch((error) => {
+    //             if (error.response) {
+    //                 alert(error.response.data.message);
+    //             }
+    //         })
+    // }, [])
+    // const relaod = () => {
+    //     axios.get(`http://fee-management-api.nastechltd.co/api/student`)
+    //         .then(response => {
+    //             console.log(response);
+    //             setStudentdata(response.data);
+    //         })
+    //         .catch((error) => {
+    //             if (error.response) {
+    //                 alert(error.response.data.message);
+    //             }
+    //         })
+    // }
     const changePassword = () => {
         if (password == confirmpassword) {
             axios.put(`http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem("user_id")}`, { password: password })
@@ -123,7 +123,7 @@ const SuperAdmin = () => {
                 })
         }
         else {
-            alert("Enter Correct Password")
+            alert("Password Does not Match")
         }
 
     }
@@ -150,7 +150,7 @@ const SuperAdmin = () => {
     };
     const sendData = () => {
         if (password != confirmpassword) {
-            alert("Incorrect Password");
+            alert("Password Does not Match");
         }
         else if (fname == '') {
             alert("Enter First Name")
@@ -252,6 +252,7 @@ const SuperAdmin = () => {
                 }
             })
     }
+    var count = 0;
     const logOut = () => {
         localStorage.clear();
         history.push("/");
@@ -445,10 +446,10 @@ const SuperAdmin = () => {
                                                     {
                                                         (val.type).slice(11, 40) == "SchoolAdministrator" ?
                                                             <tr key={i}>
-                                                                <td>{val.id}</td>
-                                                                <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
+                                                                <td>{count=1+count}</td>
+                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
                                                                 <td>{val.contact}</td>
-                                                                <td>{val.address}</td>
+                                                                <td className="print-capitalize">{val.address}</td>
                                                                 <td class="txt-oflo">{val.email}</td>
                                                                 <td><Button className="text-bold" onClick={() => changeClick(val.id)}><span>Change</span></Button></td>
 

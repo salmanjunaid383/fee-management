@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
     formControl: {
         margin: theme.spacing(1),
-        //   width: '30ch',
+        width: '20ch',
         minWidth: 120,
     },
     selectEmpty: {
@@ -49,12 +49,16 @@ const FeeVoucherAdmin = () => {
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
     const [feedata, setFeedata] = useState([]);
+    const [sectiondata, setSectiondata] = useState([]);
+    const [classdata, setClassdata] = useState([]);
+    const [classid, setClassid] = useState('');
+    const [sectionid, setSectionid] = useState('');
     const history = useHistory();
     const [searchTerm, setSearchTerm] = useState('');
     const school_id = localStorage.getItem("school_id")
-    
 
-    
+
+
 
 
     useEffect(() => {
@@ -62,6 +66,16 @@ const FeeVoucherAdmin = () => {
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+        axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
+            .then(response => {
+                console.log(response.data)
+                setClassdata(response.data)
             })
             .catch((error) => {
                 if (error.response) {
@@ -81,8 +95,63 @@ const FeeVoucherAdmin = () => {
                 }
             })
     }, [])
-    
-    
+    console.log(sectionid)
+    const search = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
+            .then(response => {
+                console.log(response.data)
+                setSectiondata(response.data)
+            })
+            .catch(error => console.log(error))
+    }
+
+    var mydata = [];
+    for (var i = 0; i < feedata.length; i++) {
+        var dd = {
+            student_id: feedata[i].student_id,
+            id: feedata[i].id,
+            voucher_no: feedata[i].voucher_no,
+            final_amount: feedata[i].final_amount,
+            paid: feedata[i].paid,
+            student_name: "",
+            G_R_NO: "",
+            gender: "",
+            section_id: ""
+
+
+        }
+        for (var j = 0; j < studentdata.length; j++) {
+            if (feedata[i].student_id == studentdata[j].id) {
+                dd.student_name = `${studentdata[j].first_name} ${studentdata[j].middle_name} ${studentdata[j].last_name}`;
+                dd.G_R_NO = studentdata[j].G_R_NO;
+                dd.gender = studentdata[j].gender;
+                dd.section_id = studentdata[j].section_id;
+
+
+            }
+        }
+        mydata.push(dd)
+    }
+    console.log(mydata)
+    const sendpay = (id) => {
+        axios.post(`http://fee-management-api.nastechltd.co/api/paid`, {
+            voucher_no: id
+        })
+            .then(response => {
+                console.log(response.data);
+                reload();
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
+    }
+    const reset = () => {
+        setSectionid('');
+        setSearchTerm('');
+    }
+
 
 
 
@@ -90,6 +159,16 @@ const FeeVoucherAdmin = () => {
 
 
     const reload = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setFeedata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
                 console.log(response);
@@ -100,14 +179,14 @@ const FeeVoucherAdmin = () => {
                     alert(error.response.data.message);
                 }
             })
-        
+
     }
 
 
 
-    
 
-    
+
+
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -154,7 +233,7 @@ const FeeVoucherAdmin = () => {
                                     <i class="fas fa-wallet"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
-                            </div></Link>                            
+                            </div></Link>
                             <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -198,7 +277,7 @@ const FeeVoucherAdmin = () => {
                                 <div class="big-inbox">
                                     Fee Voucher
                                 </div>
-                        <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
                         </div>
@@ -207,11 +286,49 @@ const FeeVoucherAdmin = () => {
                     <div class="right-body">
 
                         <div class="message">
-                        <div className="col-12 text-center mt-1">
-                                <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" variant="filled" />
+                            <div className="row">
+                                <div className="col-6 text-left mt-1">
+                                    <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" variant="filled" />
+                                    <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
+                                </div>
+                                <div className="col-6 text-right">
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            // value={id}
+                                            onChange={(e) => setClassid(e.target.value)}
+                                        >
+                                            {classdata.map((val, i) => {
+                                                return (
+                                                    <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                )
 
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                    <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            // value={id}
+                                            onChange={(e) => setSectionid((e.target.value).toString())}
+                                        >
+                                            {sectiondata.map((val, i) => {
+                                                return (
+                                                    <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                )
+
+                                            })}
+                                        </Select>
+                                    </FormControl>
+
+                                </div>
                             </div>
-                                        
+
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
@@ -219,33 +336,52 @@ const FeeVoucherAdmin = () => {
                                             <th class="border-top-0">G.R No</th>
                                             <th class="border-top-0">NAME</th>
                                             <th class="border-top-0">GENDER</th>
+                                            <th class="border-top-0">Status</th>
                                             {/* <th class="border-top-0">Details</th> */}
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {studentdata.filter((val)=>{
-                                            if(searchTerm == ''){
+                                        {mydata.filter((val) => {
+                                            if (searchTerm == '') {
                                                 return val;
                                             }
-                                            else if(val.G_R_NO.includes(searchTerm)){
-                                                return  val
+                                            else if (val.section_id.toString().includes(searchTerm)) {
+                                                return val;
                                             }
-                                            else if(`${val.first_name} ${val.middle_name} ${val.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())){
+                                            else if (val.G_R_NO.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                            else if (`${val.student_name}`.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).filter((val)=>{
+                                            if (sectionid == '') {
+                                                return val;
+                                            }
+                                            else if (val.section_id.toString().includes(sectionid)) {
                                                 return val;
                                             }
                                         }).map((val, i) => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.G_R_NO}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                    <td>{val.gender}</td>
+                                                    <td class="txt-oflo print-capitalize">{`${val.student_name}`}</td>
+                                                    <td className="print-capitalize">{val.gender}</td>
+                                                    <td>
+                                                        {val.paid == 1 ?
+                                                            <span class="text-primary text-bolder">Paid</span>
+                                                            :
+                                                            <ButtonGroup disableElevation variant="contained" color="primary">
+                                                                <Button className="expense-btn-p " onClick={() => sendpay(val.voucher_no)}><span class="text-white text-bolder mb-1">Pay</span></Button>
+                                                            </ButtonGroup>}
+                                                    </td>
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
-                                                    
-                                                    <td><Button onClick={() =>history.push(`/feevoucher/${val.id}`)}><PrintIcon /></Button></td>
-                                                        
-                                                    
+
+                                                    <td><Button onClick={() => history.push(`/feevoucher/${val.student_id}`)}><PrintIcon /></Button></td>
+
+
                                                 </tr>
                                             )
                                         })}

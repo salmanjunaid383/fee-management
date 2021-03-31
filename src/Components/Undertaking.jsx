@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 
 const Undertaking = ({ teamId, orientation = 'portrait' }) => {
     const [student, setStudent] = useState({});
+    const [schooldata, setSchooldata] = useState({});
     const [documents, setDocuments] = useState([]);
     const [date, setDate] = useState();
     const [myclass, setMyclass] = useState();
@@ -29,6 +30,16 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${formNo}`)
             .then(response => {
                 console.log(response);
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${response.data.form.school_id}`)
+                    .then(response => {
+                        console.log(response.data);
+                        setSchooldata(response.data)
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
                 axios.get(`http://fee-management-api.nastechltd.co/api/show_class/${response.data.form.class_id}`)
                 .then (response=>{
                     setMyclass(response.data.name)
@@ -49,7 +60,7 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            <h2 className="text-center">WONDERLAND GRAMMAR SECONDARY SCHOOL</h2>
+                            <h2 className="text-center print-capitalize">{schooldata.name}</h2>
                         </div>
                         <div className="col-6 text-left">
                             <p className="text-bolder">GR No:<span className="text-bolder">{student.G_R_NO}</span></p>
@@ -73,7 +84,7 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
                                 documents.map((val, i) => {
                                     return (
                                         <>
-                                            <p className="text-bolder ml-2">{val.document}</p>
+                                            <p className="text-bolder ml-2 Print-capitalize">{val.document}</p>
                                         </>
                                     )
                                 })

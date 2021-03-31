@@ -12,9 +12,10 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 
-const UndertakingDocuments = () => {
+const Defaulters = () => {
     const [document, setDocument] = useState();
-    const [undertakingdata, setUndertakingdata] = useState([]);
+    const [payable, setPayable] = useState([]);
+    const [locked, setLocked] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -26,10 +27,11 @@ const UndertakingDocuments = () => {
     const school_id = localStorage.getItem("school_id")
 
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_undertaking/${formNo}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/defaulter/${school_id}`)
             .then(response => {
                 console.log(response.data)
-                setUndertakingdata(response.data)
+                setPayable(response.data.payable_accounts)
+                setLocked(response.data.locked_account)
             })
             .catch((error) => {
                 if (error.response) {
@@ -38,24 +40,16 @@ const UndertakingDocuments = () => {
             })
     }, [])
 
+    const myData = payable.concat(locked);
+    console.log(myData)
 
 
 
 
 
 
-    const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_undertaking/${school_id}`)
-            .then(response => {
-                console.log(response.data)
-                setUndertakingdata(response.data)
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-    }
+
+    
 
 
 
@@ -75,29 +69,23 @@ const UndertakingDocuments = () => {
                                 </div>
                                 <div class="icon-name1 ">Dashboard</div>
                             </div></Link>
-                            <Link to="/documents" class="nav-link "><div class="folder-icons ">
+                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas fa-columns"></i>
                                 </div>
-                                <div class="icon-name1">Documents</div>
+                                <div class="icon-name1">Admission</div>
                             </div></Link>
-                            <Link to="/schoolundertaking" class="nav-link "><div class="folder-icons ">
+                            {/* <div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas active fa-columns"></i>
+                                    <i class="fas fa-school"></i>
                                 </div>
-                                <div class="icon-name1 active">Undertaking</div>
-                            </div></Link>
+                                <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
+                            </div> */}
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
                                 </div>
                                 <div class="icon-name">Class</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/admissionrequest"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Pending Admissions</div>
                             </div></Link>
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
@@ -112,18 +100,13 @@ const UndertakingDocuments = () => {
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
 
-                            <Link class="nav-link" to="/feeperiod"><div class="folder-icons">
+                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-wallet active"></i>
                                 </div>
-                                <div class="icon-name">Fee Period</div>
+                                <div class="icon-name active">Fee</div>
                             </div></Link>
-                            <Link class="nav-link" to="/structure"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Fee Structure</div>
-                            </div></Link>
+                            
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -136,18 +119,7 @@ const UndertakingDocuments = () => {
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
-                            <Link class="nav-link" to="/admission"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Admission Charges</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/discounted"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
-                                </div>
-                                <div class="icon-name">Discounted</div>
-                            </div></Link>
+                            
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-wallet"></i>
@@ -169,7 +141,7 @@ const UndertakingDocuments = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Student Undertaking
+                                    Defaulters
                                 </div>
                             </div>
                         </div>
@@ -220,7 +192,7 @@ const UndertakingDocuments = () => {
                                     </Modal.Footer>
                                 </Modal> */}
                             </div>
-                            {undertakingdata.length === 0 ?
+                            {myData.length === 0 ?
                                 <>
                                     <div className="col-12">
                                         <h2 className="text-center">Nothing To Show...</h2>
@@ -232,33 +204,32 @@ const UndertakingDocuments = () => {
                                         <thead>
                                             <tr>
                                                 <th class="border-top-0">#</th>
-                                                <th class="border-top-0">Registeration No.</th>
+                                                <th class="border-top-0">GR No.</th>
                                                 <th class="border-top-0">Name</th>
-                                                <th class="border-top-0">Documents</th>
-                                                <th class="border-top-0">Created At</th>
+                                                <th class="border-top-0">Gender</th>
+                                                {/* <th class="border-top-0">Created At</th> */}
                                                 {/* <th class="border-top-0">Action</th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {undertakingdata.map((val, i) => {
+                                            {myData.map((val, i) => {
                                                 return (
                                                     <>
                                                         <tr key={i}>
                                                             <td>{i + 1}</td>
-                                                            <td class="txt-oflo">{val.registration_no}</td>
+                                                            <td class="txt-oflo">{val.G_R_NO}</td>
                                                             <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                            <td><button class="btn" onClick={() =>history.push(`/undertakingdocuments/${val.registration_no}`)}><LaunchIcon /></button></td>
-                                                            <td>{val.created_at.slice(0, 10)}</td>
+                                                            <td>{val.gender}</td>
                                                             {/* <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
                                                                 <Button className="student-btn-del" onClick={() => deleteSchool(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
-                                                        </td> */}
-                                                        </tr>
+                                                        </td>  */}
+                                                         </tr>
                                                     </>
                                                 )
-                                            })}
+                                            })} 
                                         </tbody>
                                     </table>
                                 </div>
@@ -270,7 +241,7 @@ const UndertakingDocuments = () => {
         </>
     );
 };
-export default UndertakingDocuments;
+export default Defaulters;
 
 
 

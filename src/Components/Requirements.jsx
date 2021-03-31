@@ -105,6 +105,7 @@ const Requirements = () => {
                     formData.append('document', response.data.required_document);
                     formData.append('form_no', formNo);
                     formData.append('school_id', school_id);
+                    console.log(formData);  
                     axios({
                         method: "post",
                         url: "http://fee-management-api.nastechltd.co/api/student_document",
@@ -246,7 +247,7 @@ const Requirements = () => {
                                         <div className="row">
                                             <div className="ml-2 mt-2 col-4 form-check">
                                                 <input className="form-check-input" type="checkbox" value={val.id} onChange={(e) => changeHandlerbox(e)} id={val.id} />
-                                                <label className="form-check-label" for={val.id}>
+                                                <label className="form-check-label print-capitalize" for={val.id}>
                                                     {val.required_document}
                                                 </label>
                                             </div>
