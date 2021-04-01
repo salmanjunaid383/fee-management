@@ -93,7 +93,7 @@ const Ledger = () => {
 
                             <Link class="nav-link" to={`/ledger/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet active"></i>
+                                <i class="fas fa-calculator-alt active"></i>
                                 </div>
                                 <div class="icon-name active">Student Ledger</div>
                             </div></Link>
@@ -107,7 +107,7 @@ const Ledger = () => {
                     <div class="right-header">
                         <div class="top-bar">
                             <div class="top-bar-justify">
-                                <div class="big-inbox">
+                                <div class="big-inbox print-capitalize">
                                     {`${name}'s `} Ledger
                                 </div>
                                     <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>

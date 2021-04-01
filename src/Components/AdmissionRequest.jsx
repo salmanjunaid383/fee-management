@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import './dashboard.css';
 import { Link, useHistory } from 'react-router-dom';
-import UpdateIcon from '@material-ui/icons/Update';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import DescriptionIcon from '@material-ui/icons/Description';
 import logo from './jb1.png'
-import StnData from './Crud.jsx'
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
-import FormLabel from '@material-ui/core/FormLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-
-
-import firebase from './Firebase'
 import axios from 'axios';
+// import UpdateIcon from '@material-ui/icons/Update';
+// import AddIcon from '@material-ui/icons/Add';
+// import DeleteIcon from '@material-ui/icons/Delete';
+// import FormLabel from '@material-ui/core/FormLabel';
 
 
 
@@ -48,49 +44,46 @@ const AdmissionRequest = () => {
 
     const classes = useStyles();
     const [show, setShow] = useState(false);
-    const [show1, setShow1] = useState(false);
+    // const [show1, setShow1] = useState(false);
+    // const handleClose1 = () => setShow1(false);
+    // const handleShow1 = () => setShow1(true);
+    // const [password, setPassword] = useState();
+    // const [email, setEmail] = useState();
+    // const [confirmpassword, setConfirmpassword] = useState();
+    // const [contact, setContact] = useState();
+    // const [address, setAddress] = useState();
+    // const [gender, setGender] = useState();
+    // const [userdata, setUserdata] = useState([]);
     const handleClose = () => setShow(false);
-    const handleClose1 = () => setShow1(false);
     const handleShow = () => setShow(true);
-    const handleShow1 = () => setShow1(true);
     const [studentdata, setStudentdata] = useState([]);
-    const [classdata, setClassdata] = useState([]);
     const [sectiondata, setSectiondata] = useState([]);
-    const [classid, setClassid] = useState([]);
     const [sectionid, setSectionid] = useState();
-    const [email, setEmail] = useState();
     const [form_no, setForm_no] = useState();
     const [GR_no, setGR_no] = useState();
-    const [classname, setClassname] = useState();
-    const [password, setPassword] = useState();
-    const [confirmpassword, setConfirmpassword] = useState();
-    const [contact, setContact] = useState();
-    const [address, setAddress] = useState();
-    const [gender, setGender] = useState();
-    const [userdata, setUserdata] = useState([]);
-    var mydata = [];
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
 
-    if ((studentdata.length > 0) && (userdata.length > 0)) {
-        for (var i = 0; i < studentdata.length; i++) {
-            for (var j = 0; j < userdata.length; j++) {
-                var dd = {
-                    contact: `${studentdata[i].contact}`,
-                    address: `${studentdata[i].address}`,
-                    gender: `${studentdata[i].gender}`,
-                    id: `${studentdata[i].id}`,
-                    name: "",
-                    email: ""
-                };
-                if (studentdata[i].user_id === userdata[j].id) {
-                    dd.name = `${userdata[j].first_name} ${userdata[j].last_name}`;
-                    dd.email = `${userdata[j].email}`
-                }
-            }
-            mydata.push(dd)
-        }
-    }
+    // var mydata = [];
+    // if ((studentdata.length > 0) && (userdata.length > 0)) {
+    //     for (var i = 0; i < studentdata.length; i++) {
+    //         for (var j = 0; j < userdata.length; j++) {
+    //             var dd = {
+    //                 contact: `${studentdata[i].contact}`,
+    //                 address: `${studentdata[i].address}`,
+    //                 gender: `${studentdata[i].gender}`,
+    //                 id: `${studentdata[i].id}`,
+    //                 name: "",
+    //                 email: ""
+    //             };
+    //             if (studentdata[i].user_id === userdata[j].id) {
+    //                 dd.name = `${userdata[j].first_name} ${userdata[j].last_name}`;
+    //                 dd.email = `${userdata[j].email}`
+    //             }
+    //         }
+    //         mydata.push(dd)
+    //     }
+    // }
 
 
     useEffect(() => {
@@ -108,19 +101,7 @@ const AdmissionRequest = () => {
 
     }, [])
 
-    useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
-            .then(response => {
-                console.log(response.data)
-                setClassdata(response.data)
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
 
-    }, [])
 
 
 
@@ -186,23 +167,13 @@ const AdmissionRequest = () => {
                 console.log(response.data)
                 localStorage.setItem("registration_no", response.data.AdmissionForm.registration_no);
                 setForm_no(response.data.AdmissionForm.registration_no);
-                setClassid(response.data.AdmissionForm.class_id);
                 axios.get(`http://fee-management-api.nastechltd.co/api/section/${response.data.AdmissionForm.class_id}`)
                     .then(response => {
                         console.log(response.data)
                         setSectiondata(response.data)
                     })
                     .catch(error => console.log(error))
-                axios.get(`http://fee-management-api.nastechltd.co/api/show_class/${response.data.AdmissionForm.class_id}`)
-                    .then(response => {
-                        console.log(response.data)
-                        setClassname(response.data.name)
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            alert(error.response.data.message);
-                        }
-                    })
+
                 handleShow();
 
             })
@@ -237,8 +208,8 @@ const AdmissionRequest = () => {
         history.push("/")
     }
 
-    console.log(classid)
-    console.log(classname)
+    // console.log(classid)
+    // console.log(classname)
 
     return (
         <>
@@ -251,7 +222,6 @@ const AdmissionRequest = () => {
                                 <img
                                     src={logo} />
                             </div>
-
                             <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas  fa-columns"></i>
@@ -260,13 +230,14 @@ const AdmissionRequest = () => {
                             </div></Link>
                             <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas active fa-columns"></i>
+                                    <i class="fas fa-school active"></i>
                                 </div>
                                 <div class="icon-name1 active">Admission</div>
                             </div></Link>
+
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
+                                    <i class="fas fa-users-class"></i>
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
@@ -279,37 +250,37 @@ const AdmissionRequest = () => {
                             </div></Link>
                             <Link class="nav-link" to="/finance"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-user-tie"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
                             <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-money-check-alt"></i>
                                 </div>
                                 <div class="icon-name">Fee</div>
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-print"></i>
                                 </div>
                                 <div class="icon-name">Fee Voucher</div>
                             </div></Link>
                             <Link class="nav-link" to="/adminledger"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-calculator-alt"></i>
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 <div class="icon-name">Term</div>
                             </div></Link>
                             <Link class="nav-link" to="/expense"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-receipt"></i>
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>

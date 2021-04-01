@@ -1,29 +1,29 @@
 import { React, useEffect, useState } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 import logo from './jb1.png'
-import LaunchIcon from '@material-ui/icons/Launch';
+// import LaunchIcon from '@material-ui/icons/Launch';
+// import UpdateIcon from '@material-ui/icons/Update';
+// import AddIcon from '@material-ui/icons/Add';
+// import DeleteIcon from '@material-ui/icons/Delete';
+// import Button from '@material-ui/core/Button';
+// import ButtonGroup from '@material-ui/core/ButtonGroup';
+// import { Modal } from 'react-bootstrap';
+// import TextField from '@material-ui/core/TextField';
 import './dashboard.css';
-import UpdateIcon from '@material-ui/icons/Update';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import { Modal } from 'react-bootstrap';
-import TextField from '@material-ui/core/TextField';
 
 const Defaulters = () => {
-    const [document, setDocument] = useState();
+    // const [document, setDocument] = useState();
     const [payable, setPayable] = useState([]);
     const [locked, setLocked] = useState([]);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const [show1, setShow1] = useState(false);
-    const handleClose1 = () => setShow1(false);
-    const handleShow1 = () => setShow1(true);
+    // const [show, setShow] = useState(false);
+    // const handleClose = () => setShow(false);
+    // const handleShow = () => setShow(true);
+    // const [show1, setShow1] = useState(false);
+    // const handleClose1 = () => setShow1(false);
+    // const handleShow1 = () => setShow1(true);
     const history = useHistory();
-    const {formNo} = useParams();
+    // const {formNo} = useParams();
     const school_id = localStorage.getItem("school_id")
 
     useEffect(() => {
@@ -71,22 +71,18 @@ const Defaulters = () => {
                             </div></Link>
                             <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas fa-columns"></i>
+                                    <i class="fas fa-school"></i>
                                 </div>
                                 <div class="icon-name1">Admission</div>
                             </div></Link>
-                            {/* <div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-school"></i>
-                                </div>
-                                <div class="icon-name"><Link  class="nav-link"to="/school">Campuses</Link></div>
-                            </div> */}
+
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
+                                    <i class="fas fa-users-class"></i>
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
+
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -95,40 +91,37 @@ const Defaulters = () => {
                             </div></Link>
                             <Link class="nav-link" to="/finance"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-user-tie"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-
                             <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet active"></i>
+                                    <i class="fas fa-money-check-alt active"></i>
                                 </div>
                                 <div class="icon-name active">Fee</div>
                             </div></Link>
-                            
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-print"></i>
                                 </div>
                                 <div class="icon-name">Fee Voucher</div>
                             </div></Link>
                             <Link class="nav-link" to="/adminledger"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-calculator-alt"></i>
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
-                            
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 <div class="icon-name">Term</div>
                             </div></Link>
                             <Link class="nav-link" to="/expense"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-receipt"></i>
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>

@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
 const StudentLedger = () => {
     const history = useHistory();
     const [studentledger, setStudentledger] = useState([]);
-    const [name, setName]= useState();
-    const {studentid} = useParams();
+    const [name, setName] = useState();
+    const { studentid } = useParams();
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
             .then(response => {
@@ -93,21 +93,21 @@ const StudentLedger = () => {
                             </div>
 
 
-                            <Link class="nav-link" to={`/ledger/${studentid}`}><div class="folder-icons">
+                            <Link class="nav-link" to={`/studentledger/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet active"></i>
+                                    <i class="fas fa-calculator-alt active"></i>
                                 </div>
                                 <div class="icon-name active">Student Ledger</div>
                             </div></Link>
                             <Link class="nav-link" to={`/feevoucher/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-print"></i>
                                 </div>
                                 <div class="icon-name">Fee Voucher</div>
                             </div></Link>
                             <Link class="nav-link" to={`/studentpassword/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-key"></i>
                                 </div>
                                 <div class="icon-name">Change Password</div>
                             </div></Link>
@@ -123,7 +123,7 @@ const StudentLedger = () => {
                                 <div class="big-inbox print-capitalize">
                                     {`${name}'s `} Ledger
                                 </div>
-                                    <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>
                         </div>
                         <hr class="new-hr" />

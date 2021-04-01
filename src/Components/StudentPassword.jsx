@@ -92,21 +92,21 @@ const StudentPassword = () => {
                             </div>
 
 
-                            <Link class="nav-link" to={`/ledger/${studentid}`}><div class="folder-icons">
+                            <Link class="nav-link" to={`/studentledger/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-calculator-alt"></i>
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
                             <Link class="nav-link" to={`/feevoucher/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-print"></i>
                                 </div>
                                 <div class="icon-name">Fee Voucher</div>
                             </div></Link>
                             <Link class="nav-link" to={`/studentpassword/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas active fa-wallet"></i>
+                                    <i class="fas active fa-key"></i>
                                 </div>
                                 <div class="icon-name active">Change Password</div>
                             </div></Link>

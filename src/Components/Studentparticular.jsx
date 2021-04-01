@@ -199,7 +199,7 @@ const Studentparticular = () => {
                                         {classdata.map((val, i) => {
                                             return (
                                                 <>
-                                                    <option value={val.id}>{val.name}</option>
+                                                    <option key={i} value={val.id}>{val.name}</option>
                                                 </>
                                             )
                                         })}

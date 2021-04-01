@@ -10,7 +10,6 @@ import LaunchIcon from '@material-ui/icons/Launch';
 
 import DescriptionIcon from '@material-ui/icons/Description';
 import logo from './jb1.png'
-import StnData from './Crud.jsx'
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -20,7 +19,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 
 
-import firebase from './Firebase'
 import axios from 'axios';
 
 
@@ -56,7 +54,10 @@ const Mystudents = () => {
     const handleShow1 = () => setShow1(true);
     const [studentdata, setStudentdata] = useState([]);
     const [classdata, setClassdata] = useState([]);
-    const [classid, setClassid] = useState([]);
+    const [sectiondata, setSectiondata] = useState([]);
+    const [classid, setClassid] = useState('');
+    const [sectionid, setSectionid] = useState('');
+    // const [searchTerm, setSearchTerm] = useState('');
     const [email, setEmail] = useState();
     const [fname, setFname] = useState();
     const [lname, setLname] = useState();
@@ -113,8 +114,6 @@ const Mystudents = () => {
             mydata.push(dd)
         }
     }
-
-
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
@@ -126,8 +125,6 @@ const Mystudents = () => {
                     alert(error.response.data.message);
                 }
             })
-    }, [])
-    useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
             .then(response => {
                 console.log(response);
@@ -139,8 +136,6 @@ const Mystudents = () => {
                     alert(error.response.data.message);
                 }
             })
-    }, [])
-    useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
                 console.log(response.data)
@@ -152,6 +147,7 @@ const Mystudents = () => {
                 }
             })
     }, [])
+
 
 
 
@@ -196,7 +192,7 @@ const Mystudents = () => {
                     }
                 })
         }
-        else{
+        else {
             alert("Password Does not Match")
         }
 
@@ -266,6 +262,19 @@ const Mystudents = () => {
                 }
             })
     }
+    const search = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
+            .then(response => {
+                console.log(response.data)
+                setSectiondata(response.data)
+            })
+            .catch(error => console.log(error))
+    }
+    const reset = () => {
+        setClassid('');
+        // setSearchTerm('');
+        setSectionid('');
+    }
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -291,17 +300,18 @@ const Mystudents = () => {
                             </div></Link>
                             <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas fa-columns"></i>
+                                    <i class="fas fa-school"></i>
                                 </div>
                                 <div class="icon-name1">Admission</div>
                             </div></Link>
+
                             <Link class="nav-link" to="/class"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
+                                    <i class="fas fa-users-class"></i>
                                 </div>
                                 <div class="icon-name">Class</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate active"></i>
@@ -310,37 +320,37 @@ const Mystudents = () => {
                             </div></Link>
                             <Link class="nav-link" to="/finance"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-user-tie"></i>
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
-                            </div></Link>                            
+                            </div></Link>
                             <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-money-check-alt"></i>
                                 </div>
                                 <div class="icon-name">Fee</div>
                             </div></Link>
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-print"></i>
                                 </div>
                                 <div class="icon-name">Fee Voucher</div>
                             </div></Link>
                             <Link class="nav-link" to="/adminledger"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-calculator-alt"></i>
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
                             <Link class="nav-link" to="/term"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-calendar-alt"></i>
                                 </div>
                                 <div class="icon-name">Term</div>
                             </div></Link>
                             <Link class="nav-link" to="/expense"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-wallet"></i>
+                                    <i class="fas fa-receipt"></i>
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
@@ -496,25 +506,64 @@ const Mystudents = () => {
                                     </Modal.Footer>
                                 </Modal>
                                 <Modal show={show3} onHide={remove1}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Change Password</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <div className="row billing-main">
-                                        <div className="col-8 billing-box">
-                                            <TextField className="pb-3 bg-white" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
-                                            <TextField className="pb-3" type="password" onChange={(e) => setConfirmpassword(e.target.value)} label="Confirm Password" variant="filled" />
+                                    <Modal.Header closeButton>
+                                        <Modal.Title>Change Password</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                        <div className="row billing-main">
+                                            <div className="col-8 billing-box">
+                                                <TextField className="pb-3 bg-white" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
+                                                <TextField className="pb-3" type="password" onChange={(e) => setConfirmpassword(e.target.value)} label="Confirm Password" variant="filled" />
 
+                                            </div>
                                         </div>
-                                    </div>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <button class="btn btn-secondary" onClick={remove1}>
-                                        Close
+                                    </Modal.Body>
+                                    <Modal.Footer>
+                                        <button class="btn btn-secondary" onClick={remove1}>
+                                            Close
                                             </button>
-                                    <button onClick={changePassword} className="btn btn-primary">Change</button>
-                                </Modal.Footer>
-                            </Modal>
+                                        <button onClick={changePassword} className="btn btn-primary">Change</button>
+                                    </Modal.Footer>
+                                </Modal>
+                            </div>
+                            <div className="row">
+                                <div className="col-12 text-center">
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={classid}
+                                            onChange={(e) => setClassid(e.target.value)}
+                                        >
+                                            {classdata.map((val, i) => {
+                                                return (
+                                                    <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                )
+
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                    <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={sectionid}
+                                            onChange={(e) => setSectionid((e.target.value).toString())}
+                                        >
+                                            {sectiondata.map((val, i) => {
+                                                return (
+                                                    <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                )
+
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                    <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
+
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table no-wrap">
@@ -530,14 +579,21 @@ const Mystudents = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {studentdata.map((val, i) => {
+                                        {studentdata.filter((val) => {
+                                            if (sectionid == '') {
+                                                return val;
+                                            }
+                                            else if (val.section_id.toString().includes(sectionid)) {
+                                                return val;
+                                            }
+                                        }).map((val, i) => {
                                             return (
                                                 <tr key={i}>
-                                                    <td>{i+1}</td>
+                                                    <td>{i + 1}</td>
                                                     <td>{val.G_R_NO}</td>
                                                     <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
                                                     <td className="print-capitalize">{val.gender}</td>
-                                                    <td><button class="btn" onClick={() =>history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></button></td>
+                                                    <td><button class="btn" onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></button></td>
 
                                                     <td><Button className="text-bold" onClick={() => changeClick(val.id)}><span>Change</span></Button></td>
 

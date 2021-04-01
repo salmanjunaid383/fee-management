@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory, Link, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 
 
 
 const Studentparticular = () => {
 
     const history = useHistory();
-    const [schooldata, setSchooldata] = useState([]);
+    // const [schooldata, setSchooldata] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -27,7 +27,7 @@ const Studentparticular = () => {
                 else if (response.data.is_oppend == 0) {
                     handleShow();
                 }
-                setSchooldata(response.data);
+                // setSchooldata(response.data);
             })
             .catch(error => (console.log(error)))
 

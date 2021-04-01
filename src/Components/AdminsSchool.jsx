@@ -6,10 +6,10 @@ import TextField from '@material-ui/core/TextField';
 import logo from "./jb1.png";
 import './dashboard.css';
 import UpdateIcon from '@material-ui/icons/Update';
-import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+// import AddIcon from '@material-ui/icons/Add';
 
 const AdminsSchool = () => {
     const [data, setData] = useState([]);
@@ -19,6 +19,7 @@ const AdminsSchool = () => {
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
     const [schoolName, setSchoolName] = useState();
+    const [name, setName] = useState('');
     const [phone, setPhone] = useState();
     const [address, setAddress] = useState();
     const [prevdata, setPrevdata] = useState('');
@@ -32,6 +33,12 @@ const AdminsSchool = () => {
             .then(response => {
                 console.log(response.data);
                 setData(response.data);
+            })
+            .catch(error => console.log(error))
+            axios.get(`http://fee-management-api.nastechltd.co/api/user/${adminid}`)
+            .then(response => {
+                console.log(response.data);
+                setName(`${response.data.first_name} ${response.data.last_name}`);
             })
             .catch(error => console.log(error))
 
@@ -176,8 +183,8 @@ const AdminsSchool = () => {
                     <div class="right-header">
                         <div class="top-bar">
                             <div class="top-bar-justify">
-                                <div class="big-inbox">
-                                    Schools
+                                <div class="big-inbox print-capitalize">
+                                    {`${name}'s Schools`}
                                 </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>
@@ -248,8 +255,8 @@ const AdminsSchool = () => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{count=1+count}</td>
-                                                    <td class="txt-oflo">{val.name}</td>
-                                                    <td>{val.address}</td>
+                                                    <td class="txt-oflo print-capitalize">{val.name}</td>
+                                                    <td className="print-capitalize">{val.address}</td>
                                                     <td>{val.contact}</td>
                                                     <td>
                                                         <ButtonGroup disableElevation variant="contained" color="primary">

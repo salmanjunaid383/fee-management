@@ -1,8 +1,6 @@
 import React from 'react';
-// import Dashboard from './Components/Dashboard';
-// import Student from './Components/Students';
+
 import Login from './Components/Login';
-// import Profile from './Components/Profile';
 import Studentparticular from './Components/Studentparticular';
 import Fatherparticular from './Components/Fatherparticular';
 import Motherparticular from './Components/Motherparticular';
@@ -10,9 +8,6 @@ import Guardianparticular from './Components/Guardianparticular';
 import Siblings from './Components/Siblings';
 import Emergency from './Components/Emergency';
 import Requirements from './Components/Requirements';
-import Signup from './Components/Signup';
-import Paro from './Components/Crud';
-import Superlogin from './Components/Superlogin';
 import Mydashboard from './Components/Mydashboard';
 import CampusDashboard from './Components/CampusDashboard';
 import Myschool from './Components/Myschool';
@@ -29,28 +24,19 @@ import FeeVoucherAdmin from './Components/FeeVoucherAdmin';
 import Mystudents from './Components/Mystudents';
 import BreakDown from './Components/BreakDown';
 import Finance from './Components/Finance';
-import Student1 from './Components/Student1';
 import StudentLedger from './Components/StudentLedger';
 import StudentPassword from './Components/StudentPassword';
 import Ledger from './Components/Ledger';
 import AdminLedger from './Components/AdminLedger';
 import Documents from './Components/Documents';
-import AddExpenseTracking from './Components/AddExpenseTracking';
 import MyExpense from './Components/ExpenseTracking';
-import StudentUpdate from './Components/StudentUpdate';
-import ClassUpdate from './Components/ClassUpdate';
-import SchoolUpdate from './Components/SchoolUpdate';
-import SchoolEntry from './Components/SchoolEntry';
 import AdmissionCharges from './Components/AdmissionCharges';
 import AdmissionRequest from './Components/AdmissionRequest';
 import AdmissionForm from './Components/AdmissionForm';
 import Admission from './Components/Admission';
-import EmployeeUpdate from './Components/EmployeeUpdate';
-import SchoolClass from './Components/ClassEntry';
 import Fee from './Components/FeeGenerator';
 import FeeComponents from './Components/Fee';
 import FeePeriod from './Components/FeePeriod';
-import ShowFeePeriod from './Components/ShowFeePeriod';
 import Structure from './Components/FeeStructure';
 import Discounted from './Components/Discounted';
 import SuperAdmin from './Components/SuperAdmin';
@@ -66,10 +52,12 @@ const App = () => {
         <Switch>
             {/* <Route  path="/dashboard" component={Dashboard} />
             <Route path="/students" component={Student} /> */}
+            {/* <Route  path="/signup" component={Signup} /> */}
+            {/* <Route exact path="/profile" component={Paro} /> */}
+            {/* <Route path="/adminlogin" component={Superlogin} /> */}
+            {/* <Route path="/student1/:studentid" component={Student1} /> */}
+            {/* <Route path="/paro" component={Paro} /> */}
              <Route exact path="/" component={Login} /> 
-            <Route  path="/signup" component={Signup} />
-            <Route exact path="/profile" component={Paro} />
-            <Route path="/adminlogin" component={Superlogin} />
             <Route path="/dashboard" component={Mydashboard} />
             <Route path="/campusdashboard" component={CampusDashboard} />
             <Route path="/school" component={Myschool} />
@@ -82,7 +70,6 @@ const App = () => {
             <Route path="/ledger/:studentid" component={Ledger} />
             <Route path="/adminledger" component={AdminLedger} />
             <Route path="/finance" component={Finance} />
-            <Route path="/student1/:studentid" component={Student1} />
             <Route path="/expense" component={MyExpense} />
             <Route path="/fee" component={Fee} />
             <Route path="/feecomponents" component={FeeComponents} />
@@ -100,7 +87,6 @@ const App = () => {
             <Route path="/documents" component={Documents} />
             <Route path="/term" component={Term} />
             <Route path="/super" component={SuperAdmin} />
-            <Route path="/paro" component={Paro} />
             <Route path="/studentparticular" component={Studentparticular} />
             <Route path="/fatherparticular/:formNo" component={Fatherparticular} /> 
             <Route path="/motherparticular" component={Motherparticular} /> 
