@@ -6,7 +6,8 @@ import logo from './jb1.png'
 // import UpdateIcon from '@material-ui/icons/Update';
 // import AddIcon from '@material-ui/icons/Add';
 // import DeleteIcon from '@material-ui/icons/Delete';
-// import Button from '@material-ui/core/Button';
+import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
 // import ButtonGroup from '@material-ui/core/ButtonGroup';
 // import { Modal } from 'react-bootstrap';
 // import TextField from '@material-ui/core/TextField';
@@ -200,6 +201,7 @@ const Defaulters = () => {
                                                 <th class="border-top-0">GR No.</th>
                                                 <th class="border-top-0">Name</th>
                                                 <th class="border-top-0">Gender</th>
+                                                <th class="border-top-0">Send Mail</th>
                                                 {/* <th class="border-top-0">Created At</th> */}
                                                 {/* <th class="border-top-0">Action</th> */}
                                             </tr>
@@ -213,6 +215,7 @@ const Defaulters = () => {
                                                             <td class="txt-oflo">{val.G_R_NO}</td>
                                                             <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
                                                             <td>{val.gender}</td>
+                                                            <td><Button><SendIcon/></Button></td>
                                                             {/* <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>

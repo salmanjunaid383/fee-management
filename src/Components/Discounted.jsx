@@ -60,7 +60,7 @@ const Discounted = () => {
     const [classid, setClassid] = useState('');
     const [discounteddata, setDiscounteddata] = useState([]);
     const [selected, setSelected] = useState([]);
-    const [discount, setDiscount] = useState();
+    const [discount, setDiscount] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
@@ -149,11 +149,20 @@ const Discounted = () => {
         if (discount < 0) {
             alert("Discount Can't be Negative")
         }
+        else if (discount == ''){
+            alert("Enter Discount")
+
+        }
+        else if (selected.length == 0){
+            alert("Select Student(s)")
+
+        }
         else {
             axios.post(`http://fee-management-api.nastechltd.co/api/discount`, data)
                 .then(response => {
                     console.log(response);
-                    setDiscount();
+                    setDiscount('');
+                    setSelected([]);
                     reload();
                     handleClose();
                 })
@@ -184,7 +193,7 @@ const Discounted = () => {
             .then(response => {
                 console.log(response);
                 setPrevdata('')
-                setDiscount();
+                setDiscount('');
                 reload();
                 handleClose1();
 

@@ -11,13 +11,13 @@
 }
 
 #print_undertaking_btn{
-    position: absolute;
-  top: 5;
+  position: relative;
+  /* top: 55px; */
   width: 7%;
-  right: 400px;
+  left: 1018px;
 }
 @media print {
-    #print-undertaking-btn {
+    #print_undertaking_btn {
       display: none;
     }
   }

@@ -55,9 +55,9 @@ const MyExpense = () => {
     const [studentdata, setStudentdata] = useState([]);
     const [studentname, setStudentname] = useState();
     const [studentid, setStudentid] = useState('');
-    const [charges, setCharges] = useState();
+    const [charges, setCharges] = useState('');
     const [paid, setPaid] = useState();
-    const [description, setDescription] = useState();
+    const [description, setDescription] = useState('');
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
     const [show2, setShow2] = useState(false);
@@ -83,7 +83,7 @@ const MyExpense = () => {
         //             alert(error.response.data.message);
         //         }
         //     })
-            axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setClassdata(response.data)
@@ -145,20 +145,19 @@ const MyExpense = () => {
         label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
 
     }))
-    const handleCharges = (e) => {
-        setCharges(e.target.value)
-        axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
-            .then(response => {
-                // console.log(response.data)
-                setStudentname(`${response.data.first_name} ${response.data.middle_name} ${response.data.last_name}`);
+    // const handleCharges = (e) => {
+    //     axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
+    //         .then(response => {
+    //             // console.log(response.data)
+    //             setStudentname(`${response.data.first_name} ${response.data.middle_name} ${response.data.last_name}`);
 
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-    }
+    //         })
+    //         .catch((error) => {
+    //             if (error.response) {
+    //                 alert(error.response.data.message);
+    //             }
+    //         })
+    // }
 
 
 
@@ -175,14 +174,22 @@ const MyExpense = () => {
         if (charges < 0) {
             alert("charges can't be Negative")
         }
+        else if (charges == '') {
+            alert("Enter Charges")
+        }
+        else if (description == '') {
+            alert("Enter Description")
+        }
+        else if (selected.length == 0) {
+            alert("Select Student(s)")
+        }
         else {
             axios.post(`http://fee-management-api.nastechltd.co/api/expense_tracking`, data)
                 .then(response => {
                     console.log(response);
-                    setDescription();
-                    setStudentid();
-                    setStudentname();
-                    setCharges();
+                    setDescription('');
+                    setSelected([]);
+                    setCharges('');
                     handleClose();
                     reload();
 
@@ -268,10 +275,8 @@ const MyExpense = () => {
                 localStorage.removeItem("description")
                 localStorage.removeItem("name")
                 localStorage.removeItem("student_id")
-                setDescription();
-                setStudentid();
-                setStudentname();
-                setCharges();
+                setDescription('');
+                setCharges('');
                 reload();
                 handleClose1();
             })
@@ -403,7 +408,7 @@ const MyExpense = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
-                                        <div className="col-12">
+                                            <div className="col-12">
                                                 <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Class</InputLabel>
                                                     <Select
@@ -441,7 +446,7 @@ const MyExpense = () => {
 
                                             </div>
                                             <div class="col-6 mt-2 billing-box">
-                                                <TextField className="pb-3" type="number" onChange={(e) => handleCharges(e)} label="Charges" variant="filled" />
+                                                <TextField className="pb-3" type="number" onChange={(e) => setCharges(e.target.value)} label="Charges" variant="filled" />
                                                 <MultiSelect
                                                     className="mb-1"
                                                     options={options}
@@ -525,7 +530,7 @@ const MyExpense = () => {
                                                 <>
 
                                                     <tr key={i}>
-                                                        <td>{i+1}</td>
+                                                        <td>{i + 1}</td>
                                                         <td class="txt-oflo print-capitalize">{val.name}</td>
                                                         <td className="print-capitalize">{val.description}</td>
                                                         <td>{val.charges}</td>
@@ -537,22 +542,22 @@ const MyExpense = () => {
                                                                     <Button className="expense-btn-p " onClick={() => sendpay(val.id)}><span class="text-white text-bolder mb-1">Pay</span></Button>
                                                                 </ButtonGroup>}
                                                         </td>
-                                                                {val.paid == 1 ?
-                                                                <td>
+                                                        {val.paid == 1 ?
+                                                            <td>
                                                                 <ButtonGroup disableElevation variant="contained" color="primary">
-                                                                    <Button style={{visibility : 'hidden'}} className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
+                                                                    <Button style={{ visibility: 'hidden' }} className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
                                                                     <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                                 </ButtonGroup>
                                                             </td>
                                                             :
                                                             <td>
-                                                            <ButtonGroup disableElevation variant="contained" color="primary">
-                                                                <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
-                                                                <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
-                                                            </ButtonGroup>
-                                                        </td>
-                                                                }
-                                                        
+                                                                <ButtonGroup disableElevation variant="contained" color="primary">
+                                                                    <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
+                                                                    <Button className="student-btn-del" onClick={() => handleClick(val.id)} ><DeleteIcon className="text-white" /></Button>
+                                                                </ButtonGroup>
+                                                            </td>
+                                                        }
+
                                                     </tr>
                                                 </>
                                             )

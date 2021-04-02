@@ -52,9 +52,9 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                     <div className="row">
                         <div className="col-12 text-right">
                             {student.G_R_NO == null ?
-                            <p>GR No: <span>0000</span> </p>
-                            :
-                            <p>GR No: <span>{student.G_R_NO}</span> </p>
+                                <p>GR No: <span>0000</span> </p>
+                                :
+                                <p>GR No: <span>{student.G_R_NO}</span> </p>
 
                             }
                         </div>
@@ -109,7 +109,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                         </div>
 
                     </div>
-                    <div className="row mt-5">
+                    <div className="row mt-3">
                         <h2>Father's Particular</h2>
 
                         <div className="col-4">
@@ -155,7 +155,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
 
                     </div>
 
-                    <div className="row mt-5">
+                    <div className="row mt-3">
                         <h2>Mother's Particular</h2>
 
                         <div className="col-4">
@@ -207,7 +207,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
 
                             :
                             <>
-                                <div className="row mt-5">
+                                <div className="row mt-3">
 
                                     <h2>Guardians's Particular</h2>
 
@@ -260,28 +260,29 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                         null
                         :
                         <>
-                            {siblings.map((val, i) => {
-                                return (
-                                    <div className="row mt-5">
-                                        <h2>Siblings Studying</h2>
+                            <div className="row mt-3">
+                                <h2>Siblings Studying</h2>
+                                {siblings.map((val, i) => {
+                                    return (
+                                        <>
+                                            <div className="col-4">
+                                                <p>Name: <span className="print-capitalize">{val.name}</span></p>
+                                            </div>
+                                            <div className="col-4">
+                                                <p>Age: <span className="print-capitalize">{val.age}</span></p>
+                                            </div>
+                                            <div className="col-4">
+                                                <p>Class: <span className="print-capitalize">{val.class}</span></p>
+                                            </div>
+                                        </>
 
-                                        <div className="col-4">
-                                            <p>Name: <span className="print-capitalize">{val.name}</span></p>
-                                        </div>
-                                        <div className="col-4">
-                                            <p>Age: <span className="print-capitalize">{val.age}</span></p>
-                                        </div>
-                                        <div className="col-4">
-                                            <p>Class: <span className="print-capitalize">{val.class}</span></p>
-                                        </div>
-                                    </div>
-
-                                )
-                            })}
+                                    )
+                                })}
+                            </div>
                         </>
                     }
 
-                    <div className="row mt-5">
+                    <div className="row mt-3">
                         <h2>Incase of Emergency</h2>
 
                         <div className="col-5">
@@ -310,7 +311,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
 
                 </div>
                 <div className="row">
-                    <div id="print_btn" className="col-12 print-submit-btn"><button onClick={()=>window.print()} className="btn btn-success">Print</button></div>
+                    <div id="print_btn" className="col-12 print-submit-btn"><button onClick={() => window.print()} className="btn btn-success">Print</button></div>
 
                 </div>
             </div>

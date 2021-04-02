@@ -161,7 +161,7 @@ const Guardianparticular = () => {
                             </div>
                             <div className="row">
                                 <div className="col-6 text-left mt-3">
-                                    <Link to="/fatherparticular"><button className="btn btn-success w25">Back</button></Link>
+                                    <Link to={`/fatherparticular/${form_no}`}><button className="btn btn-success w25">Back</button></Link>
                                 </div>
                                 {cnic == undefined ?
                                     <>

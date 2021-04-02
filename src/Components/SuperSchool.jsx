@@ -136,6 +136,7 @@ const SuperSchool = () => {
                     .then(function (response) {
                         //handle success
                         console.log(response);
+                        history.push(`/adminschool/${adminid}`)
                         setSelectedFile();
                         setSchoolName('');
                         setPhone('');

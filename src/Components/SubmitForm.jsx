@@ -104,7 +104,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                         </div>
 
                     </div>
-                    <div className="row mt-5">
+                    <div className="row mt-3">
                         <h2>Father's Particular</h2>
 
                         <div className="col-4">
@@ -150,7 +150,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
 
                     </div>
 
-                    <div className="row mt-5">
+                    <div className="row mt-3">
                         <h2>Mother's Particular</h2>
 
                         <div className="col-4">
@@ -202,7 +202,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
 
                             :
                             <>
-                                <div className="row mt-5">
+                                <div className="row mt-3">
 
                                     <h2>Guardians's Particular</h2>
 
@@ -255,11 +255,11 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                         null
                         :
                         <>
-                            {siblings.map((val, i) => {
-                                return (
-                                    <div className="row mt-5">
-                                        <h2>Siblings Studying</h2>
-
+                            <div className="row mt-3">
+                                <h2>Siblings Studying</h2>
+                                {siblings.map((val, i) => {
+                                    return (
+                                        <>
                                         <div className="col-4">
                                             <p>Name: <span className="print-capitalize">{val.name}</span></p>
                                         </div>
@@ -269,14 +269,15 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                                         <div className="col-4">
                                             <p>Class: <span className="print-capitalize">{val.class}</span></p>
                                         </div>
-                                    </div>
+                                        </>
 
-                                )
-                            })}
+                                    )
+                                })}
+                            </div>
                         </>
                     }
 
-                    <div className="row mt-5">
+                    <div className="row mt-3">
                         <h2>Incase of Emergency</h2>
 
                         <div className="col-5">
@@ -305,7 +306,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
 
                 </div>
                 <div className="row">
-                    <div className="col-12 print-submit-btn"><button onClick={()=>history.push(`/requirements/${formNo}`)} className="btn btn-success">Submit</button></div>
+                    <div className="col-12 print-submit-btn"><button onClick={() => history.push(`/requirements/${formNo}`)} className="btn btn-success">Submit</button></div>
 
                 </div>
             </div>

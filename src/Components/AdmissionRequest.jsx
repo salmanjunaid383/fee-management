@@ -203,6 +203,7 @@ const AdmissionRequest = () => {
     //         })
     //         .catch(error => console.log(error))
     // }
+    var count = 0;
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -371,9 +372,9 @@ const AdmissionRequest = () => {
                                                     {val.G_R_NO == null ?
                                                         <>
                                                             <tr key={i}>
-                                                                <td>{val.id}</td>
-                                                                <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                                <td>{val.gender}</td>
+                                                                <td>{count=1+count}</td>
+                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                                <td className="print-capitalize">{val.gender}</td>
                                                                 <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>
 
                                                                 <td>
