@@ -84,6 +84,7 @@ const Requirements = () => {
                         localStorage.clear();
                         break;
                     }
+                    
                 }
                 if (response.data.undertaking.length === 0) {
                     history.push(`/`)
