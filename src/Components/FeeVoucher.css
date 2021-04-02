@@ -3,6 +3,17 @@
   display: flex;
   
 }
+#print-voucher-btn{
+  position: absolute;
+  top: 0;
+  width: 7%;
+  left: 450px;
+}
+@media print {
+  #print-voucher-btn {
+    display: none;
+  }
+}
 .fee-voucher-middle,.fee-voucher-left,.fee-voucher-right{
   width: 490px;
   border: 2px solid black;

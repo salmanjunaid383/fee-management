@@ -57,6 +57,7 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
     return (
         <>
             <div className="undertaking-main border mx-auto border-dark">
+            <button className="btn btn-danger text-bold" id="print_undertaking_btn" onClick={()=>window.print()}>Print</button>
                 <div className="container">
                     <div className="row">
                         <div className="col-12">

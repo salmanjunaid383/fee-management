@@ -20,6 +20,7 @@ import PrintForm from './Components/PrintForm';
 import SubmitForm from './Components/SubmitForm';
 import MySection from './Components/Section';
 import FeeVoucher from './Components/FeeVoucher';
+import CustomFeeVoucher from './Components/CustomFeeVoucher';
 import FeeVoucherAdmin from './Components/FeeVoucherAdmin';
 import Mystudents from './Components/Mystudents';
 import BreakDown from './Components/BreakDown';
@@ -76,6 +77,7 @@ const App = () => {
             <Route path="/breakdown" component={BreakDown} />
             <Route path="/feeperiod" component={FeePeriod} />
             <Route path="/feevoucher/:studentid" component={FeeVoucher} />
+            <Route path="/customfeevoucher" component={CustomFeeVoucher} />
             <Route path="/feevoucheradmin" component={FeeVoucherAdmin} />
             <Route path="/structure" component={Structure} />
             <Route path="/admission" component={AdmissionCharges} />

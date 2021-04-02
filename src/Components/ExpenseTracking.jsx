@@ -47,6 +47,10 @@ const MyExpense = () => {
     const [show1, setShow1] = useState(false);
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
+    const [sectiondata, setSectiondata] = useState([]);
+    const [classdata, setClassdata] = useState([]);
+    const [sectionid, setSectionid] = useState('');
+    const [classid, setClassid] = useState('');
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
     const [studentname, setStudentname] = useState();
@@ -68,11 +72,21 @@ const MyExpense = () => {
         handleClose2();
     }
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
-            .then(response => {
-                console.log(response);
-                // setStudentdata(response.data);
+        // axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
+        //     .then(response => {
+        //         console.log(response);
+        //         // setStudentdata(response.data);
 
+        //     })
+        //     .catch((error) => {
+        //         if (error.response) {
+        //             alert(error.response.data.message);
+        //         }
+        //     })
+            axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
+            .then(response => {
+                console.log(response.data)
+                setClassdata(response.data)
             })
             .catch((error) => {
                 if (error.response) {
@@ -107,8 +121,27 @@ const MyExpense = () => {
                 }
             })
     }, [])
-
-    const options = studentdata.map(val => ({
+    const search = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
+            .then(response => {
+                console.log(response.data)
+                setSectiondata(response.data)
+            })
+            .catch(error => console.log(error))
+    }
+    const reset = () => {
+        setClassid('');
+        // setSearchTerm('');
+        setSectionid('');
+    }
+    const options = studentdata.filter((val) => {
+        if (sectionid == '') {
+            return val;
+        }
+        else if (val.section_id.toString().includes(sectionid)) {
+            return val;
+        }
+    }).map(val => ({
         label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
 
     }))
@@ -370,7 +403,44 @@ const MyExpense = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
-                                            <div class="col-6 billing-box">
+                                        <div className="col-12">
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={classid}
+                                                        onChange={(e) => setClassid(e.target.value)}
+                                                    >
+                                                        {classdata.map((val, i) => {
+                                                            return (
+                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                            )
+
+                                                        })}
+                                                    </Select>
+                                                </FormControl>
+                                                <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={sectionid}
+                                                        onChange={(e) => setSectionid((e.target.value).toString())}
+                                                    >
+                                                        {sectiondata.map((val, i) => {
+                                                            return (
+                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                            )
+
+                                                        })}
+                                                    </Select>
+                                                </FormControl>
+                                                <button onClick={reset} className="btn btn-primary mt-3 ml-2">Reset</button>
+
+                                            </div>
+                                            <div class="col-6 mt-2 billing-box">
                                                 <TextField className="pb-3" type="number" onChange={(e) => handleCharges(e)} label="Charges" variant="filled" />
                                                 <MultiSelect
                                                     className="mb-1"
@@ -380,7 +450,7 @@ const MyExpense = () => {
                                                     labelledBy={"Select"}
                                                 />
                                             </div>
-                                            <div class="col-6 billing-box">
+                                            <div class="col-6 mt-2 billing-box">
                                                 <TextField className="pb-3" type="text" label="Description" onChange={(e) => setDescription(e.target.value)} variant="filled" />
 
                                             </div>

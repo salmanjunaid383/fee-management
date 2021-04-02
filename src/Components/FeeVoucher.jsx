@@ -74,6 +74,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
     return (
         <>
             <div class="fee-voucher-main">
+                <button className="btn btn-danger text-bold" id="print-voucher-btn" onClick={()=>window.print()}>Print</button>
                 <div class="fee-voucher-left">
                     <div class="voucher-school">
                         <p class="text-center mt-3 text-bolder voucher-text print-capitalize">{schooldata.name}</p>

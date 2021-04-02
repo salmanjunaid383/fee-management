@@ -138,6 +138,7 @@ const FeeComponents = () => {
                                     <button type="button" onClick={() => history.push("/structure")} class="btn my-3 mx-1 btn-primary btn-lg">Fee Structure</button>
                                     <button type="button" onClick={() => history.push("/discounted")} class="btn my-3 mx-1 btn-primary btn-lg">Discount</button>
                                     <button type="button" onClick={() => history.push("/defaulters")} class="btn my-3 mx-1 btn-primary btn-lg">Defaulters</button>
+                                    <button type="button" onClick={() => history.push("/customfeevoucher")} class="btn my-3 mx-1 btn-primary btn-lg">Custom Voucher</button>
 
                                     {/* <button type="button" class="btn my-3 mx-1 btn-primary btn-lg"><Link to="/" className="text-white">Admission</Link></button> */}
                                 </div>

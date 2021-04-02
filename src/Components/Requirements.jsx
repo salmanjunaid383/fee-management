@@ -30,76 +30,71 @@ const Requirements = () => {
     }, [])
     const check = () => {
         for (var i = 0; i < documentdata.length; i++) {
-            for (var j = 0; j < sent.length; j++) {
-                // if(sent === undefined){
-                //     console.log("bump");
-                //     continue;
-                // }
-                if (documentdata[i].id == sent[j]){
-                    console.log(sent[j]);
-                    continue;
-                }
-                else{
-                    axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentdata[i].id}`)
-                        .then(response => {
-                            const formData = new FormData();
-                            formData.append('file', null);
-                            formData.append('document_id', response.data.id);
-                            formData.append('document', response.data.required_document);
-                            formData.append('form_no', formNo);
-                            formData.append('school_id', school_id);
-                            axios({
-                                method: "post",
-                                url: "http://fee-management-api.nastechltd.co/api/student_document",
-                                data: formData,
-                                headers: { "Content-Type": "multipart/form-data" },
-                            })
-                                .then(function (response) {
-                                    //handle success
-                                    console.log(response);
-                                    setSelectedFile();
-                                    setDocumentid();
-                                    setDocument();
-
-                                })
-                                .catch(function (response) {
-                                    //handle error
-                                    console.log(response);
-                                });
-                        })
-                        .catch((error) => {
-                            if (error.response) {
-                                alert(error.response.data.message);
-                            }
-                        })
-                }
+            if (documentdata[i].id == sent[i]) {
+                console.log("ho")
+                continue;
             }
+            else if (sent[i] == undefined) {
+                console.log("bump")
+                axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentdata[i].id}`)
+                    .then(response => {
+                        const formData = new FormData();
+                        formData.append('file', null);
+                        formData.append('document_id', response.data.id);
+                        formData.append('document', response.data.required_document);
+                        formData.append('form_no', formNo);
+                        formData.append('school_id', school_id);
+                        axios({
+                            method: "post",
+                            url: "http://fee-management-api.nastechltd.co/api/student_document",
+                            data: formData,
+                            headers: { "Content-Type": "multipart/form-data" },
+                        })
+                            .then(function (response) {
+                                //handle success
+                                console.log(response);
+                                setSelectedFile();
+                                setDocumentid();
+                                setDocument();
+
+                            })
+                            .catch(function (response) {
+                                //handle error
+                                console.log(response);
+                            });
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            alert(error.response.data.message);
+                        }
+                    })
+            }
+            else if (documentdata[i].id != sent[i]) {
+                console.log(sent[i])
+            }
+
         }
-        console.log("hi")
-        // axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${formNo}`)
-        //     .then(response => {
-        //         console.log(response.data)
-        //         for (var i = 0; i < response.data.undertaking.length; i++) {
-        //             if (response.data.undertaking[i].file == null) {
-        //                 history.push(`/undertaking/${formNo}`)
-        //                 localStorage.clear();
-        //                 break;
-        //             }
-        //         }
-        //         if (response.data.undertaking.length == 0) {
-        //             history.push(`/`)
-        //             localStorage.clear();
-        //         }
-
-
-
-        //         // setDocument(response.data.required_document)
-        //     })
-        //     .catch((error) => {
-        //         if (error.response) {
-        //             alert(error.response.data.message);
-        //         }
-        //     })
+        // console.log("hi")
+        axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${formNo}`)
+            .then(response => {
+                console.log(response.data)
+                for (var i = 0; i < response.data.undertaking.length; i++) {
+                    if (response.data.undertaking[i].file === null) {
+                        history.push(`/undertaking/${formNo}`)
+                        localStorage.clear();
+                        break;
+                    }
+                }
+                if (response.data.undertaking.length === 0) {
+                    history.push(`/`)
+                    localStorage.clear();
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
     }
     const changeHandler = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -110,7 +105,6 @@ const Requirements = () => {
         setDocumentid(e.target.value);
 
     };
-    console.log(sent)
     const handleSubmission = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentid}`)
             .then(response => {

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-// import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import logo from './jb1.png'
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Select from '@material-ui/core/Select';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 // import LaunchIcon from '@material-ui/icons/Launch';
-// import FormLabel from '@material-ui/core/FormLabel';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -28,25 +28,25 @@ import MultiSelect from "react-multi-select-component";
 //       },
 //     },
 //   }));
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         '& > *': {
-//             margin: theme.spacing(1),
-//             width: '30ch'
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '30ch'
 
-//         },
-//     },
-//     formControl: {
-//         margin: theme.spacing(1),
-//         minWidth: 120,
-//     },
-//     selectEmpty: {
-//         marginTop: theme.spacing(2),
-//     },
-// }));
+        },
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 const Discounted = () => {
-    // const classes = useStyles();
+    const classes = useStyles();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -54,8 +54,11 @@ const Discounted = () => {
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
     const [studentdata, setStudentdata] = useState([]);
+    const [sectiondata, setSectiondata] = useState([]);
+    const [classdata, setClassdata] = useState([]);
+    const [sectionid, setSectionid] = useState('');
+    const [classid, setClassid] = useState('');
     const [discounteddata, setDiscounteddata] = useState([]);
-    // const [studentid, setStudentid] = useState();
     const [selected, setSelected] = useState([]);
     const [discount, setDiscount] = useState();
     const [prevdata, setPrevdata] = useState('');
@@ -79,6 +82,16 @@ const Discounted = () => {
                 setStudentdata(response.data);
             })
             .catch(error => (console.log(error)))
+        axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
+            .then(response => {
+                console.log(response.data)
+                setClassdata(response.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    alert(error.response.data.message);
+                }
+            })
 
     }, [])
     useEffect(() => {
@@ -99,10 +112,29 @@ const Discounted = () => {
             })
             .catch(error => (console.log(error)))
     }
+    const search = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
+            .then(response => {
+                console.log(response.data)
+                setSectiondata(response.data)
+            })
+            .catch(error => console.log(error))
+    }
+    const reset = () => {
+        setClassid('');
+        // setSearchTerm('');
+        setSectionid('');
+    }
 
 
-
-    const options = studentdata.map(val => ({
+    const options = studentdata.filter((val) => {
+        if (sectionid == '') {
+            return val;
+        }
+        else if (val.section_id.toString().includes(sectionid)) {
+            return val;
+        }
+    }).map(val => ({
         label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
 
     }))
@@ -288,6 +320,44 @@ const Discounted = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
+                                            <div className="col-12">
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={classid}
+                                                        onChange={(e) => setClassid(e.target.value)}
+                                                    >
+                                                        {classdata.map((val, i) => {
+                                                            return (
+                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                            )
+
+                                                        })}
+                                                    </Select>
+                                                </FormControl>
+                                                <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={sectionid}
+                                                        onChange={(e) => setSectionid((e.target.value).toString())}
+                                                    >
+                                                        {sectiondata.map((val, i) => {
+                                                            return (
+                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                            )
+
+                                                        })}
+                                                    </Select>
+                                                </FormControl>
+                                                <button onClick={reset} className="btn btn-primary mt-3 ml-2">Reset</button>
+
+                                            </div>
+
                                             <div class="col-8 billing-box">
                                                 {/* <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Student</InputLabel>
