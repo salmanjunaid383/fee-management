@@ -13,9 +13,24 @@ import FormLabel from '@material-ui/core/FormLabel';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 const Finance = () => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const [employeedata, setEmployeedata] = useState([]);
     const history = useHistory();
     const [show, setShow] = useState(false);
@@ -65,7 +80,8 @@ const Finance = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -78,7 +94,8 @@ const Finance = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -94,12 +111,14 @@ const Finance = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        alert(error.response.data.message);
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
                     }
                 })
         }
-        else{
-            alert("Password Does not Match")
+        else {
+            setMessageinfo("Password Does not Match")
+            handleMessage();
         }
 
     }
@@ -123,7 +142,8 @@ const Finance = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -139,25 +159,32 @@ const Finance = () => {
     };
     const sendData = () => {
         if (password != confirmpassword) {
-            alert("Password Does not Match");
+            setMessageinfo("Password Does not Match");
+            handleMessage();
         }
         else if (fname == '') {
-            alert("Enter First Name")
+            setMessageinfo("Enter First Name")
+            handleMessage();
         }
         else if (lname == '') {
-            alert("Enter Last Name")
+            setMessageinfo("Enter Last Name")
+            handleMessage();
         }
         else if (contact == '') {
-            alert("Enter Contact No.")
+            setMessageinfo("Enter Contact No.")
+            handleMessage();
         }
         else if (address == '') {
-            alert("Enter Address")
+            setMessageinfo("Enter Address")
+            handleMessage();
         }
         else if (password == '') {
-            alert("Enter Password")
+            setMessageinfo("Enter Password")
+            handleMessage();
         }
         else if (gender == '') {
-            alert("Select Gender")
+            setMessageinfo("Select Gender")
+            handleMessage();
         }
         else {
             if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
@@ -177,12 +204,14 @@ const Finance = () => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            alert(error.response.data.message);
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
                         }
                     })
             }
             else {
-                alert("Enter Valid Email")
+                setMessageinfo("Enter Valid Email")
+                handleMessage();
             }
 
         }
@@ -202,39 +231,69 @@ const Finance = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/user/${prevdata.id}`, {
-            first_name: fname,
-            last_name: lname,
-            email: email,
-            contact: contact,
-            address: address,
-            gender: gender
+        if (fname == '') {
+            setMessageinfo("Enter First Name")
+            handleMessage();
+        }
+        else if (lname == '') {
+            setMessageinfo("Enter Last Name")
+            handleMessage();
+        }
+        else if (contact == '') {
+            setMessageinfo("Enter Contact No.")
+            handleMessage();
+        }
+        else if (address == '') {
+            setMessageinfo("Enter Address")
+            handleMessage();
+        }
+        else if (gender == '') {
+            setMessageinfo("Select Gender")
+            handleMessage();
+        }
+        else {
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                axios.put(`http://fee-management-api.nastechltd.co/api/user/${prevdata.id}`, {
+                    first_name: fname,
+                    last_name: lname,
+                    email: email,
+                    contact: contact,
+                    address: address,
+                    gender: gender
 
-        })
-            .then(response => {
-                console.log(response);
-                setPrevdata('');
-                setFname('');
-                setLname('');
-                setContact('');
-                setAddress('');
-                setEmail('');
-                setGender('');
-                setPassword('');
-                reload();
-                handleClose1();
+                })
+                    .then(response => {
+                        console.log(response);
+                        setPrevdata('');
+                        setFname('');
+                        setLname('');
+                        setContact('');
+                        setAddress('');
+                        setEmail('');
+                        setGender('');
+                        setPassword('');
+                        reload();
+                        handleClose1();
 
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
+            }
+            else {
+                setMessageinfo("Enter Valid Email")
+                handleMessage();
+            }
+        }
     }
     const logOut = () => {
         localStorage.clear();
@@ -487,12 +546,12 @@ const Finance = () => {
                                     <tbody>
                                         {employeedata.map((val, i) => {
                                             return (
-                                                <>  
-                                                
+                                                <>
+
                                                     {
                                                         (val.type).slice(11, 40) == "Finance" ?
-                                                        <tr key={i}>
-                                                                <td>{`${count=1+count}`}</td>
+                                                            <tr key={i}>
+                                                                <td>{`${count = 1 + count}`}</td>
                                                                 <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
                                                                 <td className="print-capitalize">{val.gender}</td>
                                                                 <td>{val.contact}</td>
@@ -521,6 +580,14 @@ const Finance = () => {
                         </div>
                     </div>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
         </>
     );

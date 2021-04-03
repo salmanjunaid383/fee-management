@@ -3,8 +3,24 @@ import './FeeVoucher.css';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage =() => {
+        setMessage({ open: true,vertical: 'top',horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const [discount, setDiscount] = useState();
     const [duedate, setDuedate] = useState();
     const [issuedate, setIssuedate] = useState();
@@ -50,7 +66,8 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            alert(error.response.data.message);
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
                         }
                     })
                 axios.get(`http://fee-management-api.nastechltd.co/api/show_section/${response.data.student.section_id}`)
@@ -60,13 +77,15 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            alert(error.response.data.message);
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
                         }
                     })
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -440,6 +459,14 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
 
                     </div>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
 
         </>

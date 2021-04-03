@@ -17,6 +17,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 
 
@@ -39,6 +41,20 @@ const useStyles = makeStyles((theme) => ({
 
 
 const MyExpense = () => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const [expensedata, setExpensedata] = useState([]);
     const [selected, setSelected] = useState([]);
     const [show, setShow] = useState(false);
@@ -72,17 +88,6 @@ const MyExpense = () => {
         handleClose2();
     }
     useEffect(() => {
-        // axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
-        //     .then(response => {
-        //         console.log(response);
-        //         // setStudentdata(response.data);
-
-        //     })
-        //     .catch((error) => {
-        //         if (error.response) {
-        //             alert(error.response.data.message);
-        //         }
-        //     })
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
                 console.log(response.data)
@@ -90,7 +95,8 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
 
@@ -104,7 +110,8 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
 
@@ -117,7 +124,8 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -154,7 +162,7 @@ const MyExpense = () => {
     //         })
     //         .catch((error) => {
     //             if (error.response) {
-    //                 alert(error.response.data.message);
+    //  handleMessage();               
     //             }
     //         })
     // }
@@ -172,16 +180,20 @@ const MyExpense = () => {
     }
     const sendData = () => {
         if (charges < 0) {
-            alert("charges can't be Negative")
+            setMessageinfo("charges can't be Negative")
+            handleMessage();
         }
         else if (charges == '') {
-            alert("Enter Charges")
+            setMessageinfo("Enter Charges")
+            handleMessage();
         }
         else if (description == '') {
-            alert("Enter Description")
+            setMessageinfo("Enter Description")
+            handleMessage();
         }
         else if (selected.length == 0) {
-            alert("Select Student(s)")
+            setMessageinfo("Select Student(s)")
+            handleMessage();
         }
         else {
             axios.post(`http://fee-management-api.nastechltd.co/api/expense_tracking`, data)
@@ -196,7 +208,8 @@ const MyExpense = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        alert(error.response.data.message);
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
                     }
                 })
         }
@@ -210,7 +223,8 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -233,7 +247,8 @@ const MyExpense = () => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            alert(error.response.data.message);
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
                         }
                     })
             })
@@ -256,35 +271,51 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem("id")}`, {
-            charges: charges,
-            description: description,
-            name: localStorage.getItem("name"),
-            paid: paid,
-            student_id: localStorage.getItem("student_id")
-        })
-            .then(response => {
-                console.log(response);
-                localStorage.removeItem("id")
-                localStorage.removeItem("charges")
-                localStorage.removeItem("description")
-                localStorage.removeItem("name")
-                localStorage.removeItem("student_id")
-                setDescription('');
-                setCharges('');
-                reload();
-                handleClose1();
+        if (charges < 0) {
+            setMessageinfo("charges can't be Negative")
+            handleMessage();
+        }
+        else if (charges == '') {
+            setMessageinfo("Enter Charges")
+            handleMessage();
+        }
+        else if (description == '') {
+            setMessageinfo("Enter Description")
+            handleMessage();
+        }
+        else {
+            axios.put(`http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem("id")}`, {
+                charges: charges,
+                description: description,
+                name: localStorage.getItem("name"),
+                paid: paid,
+                student_id: localStorage.getItem("student_id")
             })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+                .then(response => {
+                    console.log(response);
+                    localStorage.removeItem("id")
+                    localStorage.removeItem("charges")
+                    localStorage.removeItem("description")
+                    localStorage.removeItem("name")
+                    localStorage.removeItem("student_id")
+                    setDescription('');
+                    setCharges('');
+                    reload();
+                    handleClose1();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
+        }
     }
     const deleteExpense = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem("user_id")}`)
@@ -295,7 +326,8 @@ const MyExpense = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -562,20 +594,18 @@ const MyExpense = () => {
                                                 </>
                                             )
                                         })}
-
-
-
-
-
-
-
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
-
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

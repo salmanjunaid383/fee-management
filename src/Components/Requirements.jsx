@@ -2,12 +2,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './personal.css';
 import { useHistory, useParams } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
+
 // import WebcamCapture from './Webcam'
 // import Webcam from 'react-webcam';
 
 
 
 const Requirements = () => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const [documentdata, setDocumentdata] = useState([{}]);
     const [document, setDocument] = useState();
     const [selectedFile, setSelectedFile] = useState();
@@ -24,7 +40,8 @@ const Requirements = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -65,7 +82,8 @@ const Requirements = () => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            alert(error.response.data.message);
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
                         }
                     })
             }
@@ -84,7 +102,7 @@ const Requirements = () => {
                         localStorage.clear();
                         break;
                     }
-                    
+
                 }
                 if (response.data.undertaking.length === 0) {
                     history.push(`/`)
@@ -93,7 +111,8 @@ const Requirements = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -128,144 +147,25 @@ const Requirements = () => {
                         setSelectedFile();
                         setDocumentid();
                         setDocument();
-                        alert("Submitted!!")
+                        setMessageinfo("Submitted!!")
+                        handleMessage();
 
                     })
                     .catch(function (response) {
                         //handle error
                         console.log(response);
                     });
-                // setDocument(response.data.required_document);
-                // if (selectedFile == undefined) {
-                //     const formData = new FormData();
-                //     formData.append('file', null);
-                //     formData.append('document_id', documentid);
-                //     formData.append('form_no', formNo);
-                //     formData.append('document', response.data.required_document);
-                //     formData.append('school_id', school_id);
-
-                //     axios({
-                //         method: "post",
-                //         url: "http://fee-management-api.nastechltd.co/api/student_document",
-                //         data: formData,
-                //         headers: { "Content-Type": "multipart/form-data" },
-                //     })
-                //         .then(function (response) {
-                //             //handle success
-                //             console.log(response);
-                //             setSelectedFile();
-                //             setDocumentid();
-                //             setDocument();
-
-                //             alert("Submitted!!")
-
-                //         })
-                //         .catch(function (response) {
-                //             //handle error
-                //             console.log(response);
-                //         });
-
-                // }
-                // else {
-
-                // }
-                // console.log(response.data)
 
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
-
-        // const data = {
-        //             file : formData,
-        //             form_no : 552191,
-        //             document_id : 3,
-        //             document: "b-form"
-        //             }
-
-        // fetch(
-        //     'http://fee-management-api.nastechltd.co/api/student_document',
-        //     {
-        //         method: 'POST',
-        //         body: formData,
-        //     }
-        // )
-        //     .then((response) => response.json())
-        //     .then((result) => {
-        //         console.log('Success:', result);
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //     });
-    };
+    }
 
 
-
-
-    // const changeHandler = (e) => {
-    //     setSelectedFile(e.target.files);
-    //     // setIsSelected(true);
-
-    //     let reader = new FileReader();
-    //     reader.readAsDataURL(selectedFile[0])
-
-    //     reader.onload = (e) => {
-    //         console.warn("file", e.target.result)
-    //         const formdata = { file: e.target.result }
-    //         return (
-    //             axios.post(`http://fee-management-api.nastechltd.co/api/student_document`,
-    //                 {
-
-    //                     file: formdata,
-    //                     form_no: 552191,
-    //                     document_id: 3,
-    //                     document: "b-form"
-
-    //                 })
-    //                 .then(response => console.log(response.data))
-    //                 .catch(error => console.log(error))
-    //         )
-    //     }
-    // };
-
-
-
-
-    // const formData = new FormData();
-    // formData.append('File', selectedFile);
-    // const handleSubmission = () => {
-
-    //     var data = {
-    //         file : formData,
-    //         form_no : 552191,
-    //         document_id : 3,
-    //         document: "b-form"
-    //         }
-    //     axios.post(`http://fee-management-api.nastechltd.co/api/student_document`,data)
-    //     .then(response => console.log(response.data))
-    //     .catch(error => console.log(error))
-    // }
-    // console.log(selectedFile)
-
-    // const formData = new FormData();
-    // formData.append('username', 'Chris');
-    // console.log(formData)
-
-    // const sendData = () => {
-    //     const formData = new FormData();
-    //     formData.append('File', selectedFile);
-    //     axios.post(`http://fee-management-api.nastechltd.co/api/student_document`,{
-    //     file : File,
-    //     student_id : 1,
-    //     document_id : 1,
-    //     document: "b-form"
-    //     })
-    //     .then(response => console.log(response.data))
-    //     .catch(error => console.log(error))
-    //     console.log(formData)
-    // }
 
 
 
@@ -339,6 +239,14 @@ const Requirements = () => {
 
                     </form>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
 
 

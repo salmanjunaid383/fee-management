@@ -12,11 +12,16 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import FormLabel from '@material-ui/core/FormLabel';
 import axios from 'axios';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 
 const SuperAdmin = () => {
-    const [show, setShow] = useState(false);
+    const [studentdata, setStudentdata] = useState([]);
+    const [schooldata, setSchooldata] = useState([]);
+    const [allSelected, setAllSelected] = useState(false);
     const [deleteA, setDeleteA] = useState(false);
+    const [show, setShow] = useState(false);
     const [show1, setShow1] = useState(false);
     const handleClose = () => setShow(false);
     const handleClose1 = () => setShow1(false);
@@ -31,13 +36,24 @@ const SuperAdmin = () => {
     const [address, setAddress] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const [administratordata, setAdministratordata] = useState([]);
-    const [studentdata, setStudentdata] = useState([]);
-    const [schooldata, setSchooldata] = useState([]);
     const history = useHistory();
-    const [allSelected, setAllSelected] = useState(false);
     const [show3, setShow3] = useState(false);
     const handleClose3 = () => setShow3(false);
     const handleShow3 = () => setShow3(true);
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const changeClick = (id) => {
         localStorage.setItem("user_id", id)
         handleShow3();
@@ -66,7 +82,9 @@ const SuperAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+
                 }
             })
     }, [])
@@ -78,7 +96,8 @@ const SuperAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -90,7 +109,8 @@ const SuperAdmin = () => {
     //         })
     //         .catch((error) => {
     //             if (error.response) {
-    //                 alert(error.response.data.message);
+    //                 
+    // setMessageinfo(error.response.data.message);
     //             }
     //         })
     // }, [])
@@ -102,7 +122,9 @@ const SuperAdmin = () => {
     //         })
     //         .catch((error) => {
     //             if (error.response) {
-    //                 alert(error.response.data.message);
+    // handleMessage();
+    //                 
+    // setMessageinfo(error.response.data.message);
     //             }
     //         })
     // }
@@ -118,12 +140,16 @@ const SuperAdmin = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        alert(error.response.data.message);
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+
                     }
                 })
+            setMessageinfo("Password Does not Match")
         }
         else {
-            alert("Password Does not Match")
+            handleMessage();
+
         }
 
     }
@@ -135,7 +161,9 @@ const SuperAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+
                 }
             })
     }, [])
@@ -150,22 +178,34 @@ const SuperAdmin = () => {
     };
     const sendData = () => {
         if (password != confirmpassword) {
-            alert("Password Does not Match");
+            setMessageinfo("Password Does not Match");
+            handleMessage();
+
         }
         else if (fname == '') {
-            alert("Enter First Name")
+            setMessageinfo("Enter First Name")
+            handleMessage();
+
         }
         else if (lname == '') {
-            alert("Enter Last Name")
+            setMessageinfo("Enter Last Name")
+            handleMessage();
+
         }
         else if (contact == '') {
-            alert("Enter Contact No.")
+            setMessageinfo("Enter Contact No.")
+            handleMessage();
+
         }
         else if (address == '') {
-            alert("Enter Address")
+            setMessageinfo("Enter Address")
+            handleMessage();
+
         }
         else if (password == '') {
-            alert("Enter Password")
+            setMessageinfo("Enter Password")
+            handleMessage();
+
         }
         else {
             if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
@@ -184,12 +224,16 @@ const SuperAdmin = () => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            alert(error.response.data.message);
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+
                         }
                     })
             }
             else {
-                alert("Enter valid Email")
+                setMessageinfo("Enter valid Email")
+                handleMessage();
+
             }
         }
     }
@@ -203,7 +247,9 @@ const SuperAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+
                 }
             })
     }
@@ -222,35 +268,68 @@ const SuperAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+
                 }
             })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/user/${prevdata.id}`, {
-            first_name: fname,
-            last_name: lname,
-            email: email,
-            contact: contact,
-            address: address
-        })
-            .then(response => {
-                console.log(response);
-                setPrevdata('');
-                setAddress('');
-                setPassword('');
-                setFname('');
-                setLname('');
-                setContact('');
-                setEmail('');
-                reload();
-                handleClose1();
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+
+        if (fname == '') {
+            setMessageinfo("Enter First Name")
+            handleMessage();
+
+        }
+        else if (lname == '') {
+            setMessageinfo("Enter Last Name")
+            handleMessage();
+
+        }
+        else if (contact == '') {
+            setMessageinfo("Enter Contact No.")
+            handleMessage();
+
+        }
+        else if (address == '') {
+            setMessageinfo("Enter Address")
+            handleMessage();
+
+        }
+        else {
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                axios.put(`http://fee-management-api.nastechltd.co/api/user/${prevdata.id}`, {
+                    first_name: fname,
+                    last_name: lname,
+                    email: email,
+                    contact: contact,
+                    address: address
+                })
+                    .then(response => {
+                        console.log(response);
+                        setPrevdata('');
+                        setAddress('');
+                        setPassword('');
+                        setFname('');
+                        setLname('');
+                        setContact('');
+                        setEmail('');
+                        reload();
+                        handleClose1();
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+
+                        }
+                    })
+            }
+            else {
+                setMessageinfo("Enter valid Email")
+                handleMessage();
+            }
+        }
     }
     var count = 0;
     const logOut = () => {
@@ -446,7 +525,7 @@ const SuperAdmin = () => {
                                                     {
                                                         (val.type).slice(11, 40) == "SchoolAdministrator" ?
                                                             <tr key={i}>
-                                                                <td>{count=1+count}</td>
+                                                                <td>{count = 1 + count}</td>
                                                                 <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
                                                                 <td>{val.contact}</td>
                                                                 <td className="print-capitalize">{val.address}</td>
@@ -474,6 +553,14 @@ const SuperAdmin = () => {
                         </div>
                     </div>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
 
 

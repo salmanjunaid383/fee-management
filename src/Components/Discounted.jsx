@@ -17,6 +17,8 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import MultiSelect from "react-multi-select-component";
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 
 
@@ -46,6 +48,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Discounted = () => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -81,7 +97,12 @@ const Discounted = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
                 console.log(response.data)
@@ -89,7 +110,8 @@ const Discounted = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    handleMessage();
+                    setMessageinfo(error.response.data.message);
                 }
             })
 
@@ -100,7 +122,12 @@ const Discounted = () => {
                 console.log(response);
                 setDiscounteddata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
 
     }, [])
 
@@ -110,7 +137,12 @@ const Discounted = () => {
                 console.log(response);
                 setDiscounteddata(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     const search = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
@@ -147,14 +179,17 @@ const Discounted = () => {
 
     const sendData = () => {
         if (discount < 0) {
-            alert("Discount Can't be Negative")
+            handleMessage();
+            setMessageinfo("Discount Can't be Negative")
         }
-        else if (discount == ''){
-            alert("Enter Discount")
+        else if (discount == '') {
+            handleMessage();
+            setMessageinfo("Enter Discount")
 
         }
-        else if (selected.length == 0){
-            alert("Select Student(s)")
+        else if (selected.length == 0) {
+            handleMessage();
+            setMessageinfo("Select Student(s)")
 
         }
         else {
@@ -168,7 +203,8 @@ const Discounted = () => {
                 })
                 .catch(error => {
                     console.log(error);
-                    alert("Enter Valid Field(s)")
+                    handleMessage();
+                    setMessageinfo("Enter Valid Field(s)")
                 })
         }
     }
@@ -182,26 +218,44 @@ const Discounted = () => {
                 setDiscount(response.data.discount)
                 handleShow1();
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
 
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/discount/${prevdata.id}`, {
-            student_id: prevdata.student_id,
-            discount: discount
-        })
-            .then(response => {
-                console.log(response);
-                setPrevdata('')
-                setDiscount('');
-                reload();
-                handleClose1();
+        if (discount < 0) {
+            handleMessage();
+            setMessageinfo("Discount Can't be Negative")
+        }
+        else if (discount == '') {
+            handleMessage();
+            setMessageinfo("Enter Discount")
 
+        }
+        else {
+            axios.put(`http://fee-management-api.nastechltd.co/api/discount/${prevdata.id}`, {
+                student_id: prevdata.student_id,
+                discount: discount
             })
-            .catch(error => {
-                console.log(error);
-                alert("Enter Valid Field(s)")
-            })
+                .then(response => {
+                    console.log(response);
+                    setPrevdata('')
+                    setDiscount('');
+                    reload();
+                    handleClose1();
+
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
+        }
     }
     const deleteDiscount = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/discount/${localStorage.getItem("user_id")}`)
@@ -210,7 +264,12 @@ const Discounted = () => {
                 remove();
                 reload();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     // ect(() => {
     //     axios.get(`http://fee-management-api.nastechltd.co/api/monthly_charges`)
@@ -222,6 +281,7 @@ const Discounted = () => {
     //         .catch(error => console.log(error))
     // }, [])
     // console.log(studentid)
+    var count=0;
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -460,7 +520,7 @@ const Discounted = () => {
                                             return (
                                                 <>
                                                     <tr key={i}>
-                                                        <td>{val.id}</td>
+                                                        <td>{count=1+count}</td>
                                                         <td class="txt-oflo print-capitalize">{val.name}</td>
 
                                                         <td>{val.discount}</td>
@@ -482,21 +542,15 @@ const Discounted = () => {
                                     </tbody>
                                 </table>
                             </div>
-
-
-
-
-
-
-
-
-
-
-
-
                         </div>
-
-
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

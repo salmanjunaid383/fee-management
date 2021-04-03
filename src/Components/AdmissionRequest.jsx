@@ -13,6 +13,8 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
+import Snackbar from '@material-ui/core/Snackbar';
+
 // import UpdateIcon from '@material-ui/icons/Update';
 // import AddIcon from '@material-ui/icons/Add';
 // import DeleteIcon from '@material-ui/icons/Delete';
@@ -41,7 +43,20 @@ const useStyles = makeStyles((theme) => ({
 
 
 const AdmissionRequest = () => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
 
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const classes = useStyles();
     const [show, setShow] = useState(false);
     // const [show1, setShow1] = useState(false);
@@ -95,7 +110,8 @@ const AdmissionRequest = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
 
@@ -116,7 +132,8 @@ const AdmissionRequest = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
 
@@ -154,7 +171,8 @@ const AdmissionRequest = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
         // console.log(data)
@@ -172,14 +190,19 @@ const AdmissionRequest = () => {
                         console.log(response.data)
                         setSectiondata(response.data)
                     })
-                    .catch(error => console.log(error))
-
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
                 handleShow();
 
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -372,7 +395,7 @@ const AdmissionRequest = () => {
                                                     {val.G_R_NO == null ?
                                                         <>
                                                             <tr key={i}>
-                                                                <td>{count=1+count}</td>
+                                                                <td>{count = 1 + count}</td>
                                                                 <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
                                                                 <td className="print-capitalize">{val.gender}</td>
                                                                 <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>
@@ -395,6 +418,14 @@ const AdmissionRequest = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

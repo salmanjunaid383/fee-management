@@ -9,9 +9,25 @@ import UpdateIcon from '@material-ui/icons/Update';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Snackbar from '@material-ui/core/Snackbar';
+
 // import AddIcon from '@material-ui/icons/Add';
 
 const AdminsSchool = () => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage =() => {
+        setMessage({ open: true,vertical: 'top',horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const [data, setData] = useState([]);
     const history = useHistory();
     const { adminid } = useParams();
@@ -34,13 +50,23 @@ const AdminsSchool = () => {
                 console.log(response.data);
                 setData(response.data);
             })
-            .catch(error => console.log(error))
-            axios.get(`http://fee-management-api.nastechltd.co/api/user/${adminid}`)
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+        axios.get(`http://fee-management-api.nastechltd.co/api/user/${adminid}`)
             .then(response => {
                 console.log(response.data);
                 setName(`${response.data.first_name} ${response.data.last_name}`);
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
 
     }, [])
     const reload = () => {
@@ -48,7 +74,12 @@ const AdminsSchool = () => {
             .then(response => {
                 setData(response.data);
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
 
     }
 
@@ -60,9 +91,11 @@ const AdminsSchool = () => {
                 handleClose2();
                 reload();
             })
-            .catch(error => {
-                console.log(error)
-                alert("First Delete the Classes");
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
             })
     }
     const handleClick = (id) => {
@@ -84,24 +117,54 @@ const AdminsSchool = () => {
                 setEmail(response.data.email)
                 handleShow1();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/schools/${prevdata.id}`, {
-            name: schoolName,
-            email: email,
-            contact: phone,
-            address: address
+        if (schoolName == '') {
+            setMessageinfo("Enter School Name")
+            handleMessage();
+        }
+        else if (address == '') {
+            setMessageinfo("Enter School Address")
+            handleMessage();
+        }
+        else if (phone == '') {
+            setMessageinfo("Enter School Contact No.")
+            handleMessage();
+        }
+        else {
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                axios.put(`http://fee-management-api.nastechltd.co/api/schools/${prevdata.id}`, {
+                    name: schoolName,
+                    email: email,
+                    contact: phone,
+                    address: address
 
-        })
-            .then(response => {
-                console.log(response);
-                setPrevdata('');
-                reload();
-                handleClose1();
+                })
+                    .then(response => {
+                        console.log(response);
+                        setPrevdata('');
+                        reload();
+                        handleClose1();
 
-            })
-            .catch(error => console.log(error))
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
+            }
+            else {
+                setMessageinfo("Enter Valid Email")
+                handleMessage();
+            }
+        }
     }
 
 
@@ -254,7 +317,7 @@ const AdminsSchool = () => {
                                         {data.map((val, i) => {
                                             return (
                                                 <tr key={i}>
-                                                    <td>{count=1+count}</td>
+                                                    <td>{count = 1 + count}</td>
                                                     <td class="txt-oflo print-capitalize">{val.name}</td>
                                                     <td className="print-capitalize">{val.address}</td>
                                                     <td>{val.contact}</td>
@@ -277,6 +340,14 @@ const AdminsSchool = () => {
                         </div>
                     </div>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
         </>
     );

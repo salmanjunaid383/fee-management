@@ -2,14 +2,30 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './personal.css';
 import { Link, useHistory } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
+
 // import WebcamCapture from './Webcam'
 // import Webcam from 'react-webcam';
 
 
 
 const Guardianparticular = () => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const history = useHistory();
-    const [cnic, setCnic] = useState();
+    const [cnic, setCnic] = useState('');
     const [guardianname, setGuardianname] = useState('');
     const [email, setEmail] = useState('');
     const [addressresidential, setAddressresidential] = useState('');
@@ -43,7 +59,8 @@ const Guardianparticular = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        alert(error.response.data.message);
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
                     }
                 })
         }
@@ -67,41 +84,121 @@ const Guardianparticular = () => {
     }
     const sendData = () => {
         if (guardian_id == null) {
-            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-                axios.post(`http://fee-management-api.nastechltd.co/api/student_guardian`, data)
-                    .then(response => {
-                        console.log(response.data);
-                        localStorage.setItem("guardian_id", response.data.id)
-                        history.push("/siblings")
-                        // setStudentdata(response.data);
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            alert(error.response.data.message);
-                        }
-                    })
+            if (guardianname == '') {
+                setMessageinfo("Enter Name")
+                handleMessage();
             }
-            else{
-                alert("Enter Valid Email")
+            else if (qualification == '') {
+                setMessageinfo("Enter Qualification")
+                handleMessage();
+            }
+            else if (religion == '') {
+                setMessageinfo("Enter Religion")
+                handleMessage();
+            }
+            else if (nationality == '') {
+                setMessageinfo("Enter Nationality")
+                handleMessage();
+            }
+            else if (occupation == '') {
+                setMessageinfo("Enter Occupation")
+                handleMessage();
+            }
+            else if (tel == '') {
+                setMessageinfo("Enter Telephone")
+                handleMessage();
+            }
+            else if (cell == '') {
+                setMessageinfo("Enter Cellphone")
+                handleMessage();
+            }
+            else if (cnic == '') {
+                setMessageinfo("Enter CNIC")
+                handleMessage();
+            }
+            else if (addressresidential == '') {
+                setMessageinfo("Enter Residential Address")
+                handleMessage();
+            }
+            else {
+                if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                    axios.post(`http://fee-management-api.nastechltd.co/api/student_guardian`, data)
+                        .then(response => {
+                            console.log(response.data);
+                            localStorage.setItem("guardian_id", response.data.id)
+                            history.push("/siblings")
+                            // setStudentdata(response.data);
+                        })
+                        .catch((error) => {
+                            if (error.response) {
+                                setMessageinfo(error.response.data.message);
+                                handleMessage();
+                            }
+                        })
+                }
+                else {
+                    setMessageinfo("Enter Valid Email")
+                    handleMessage();
+                }
             }
         }
         else {
-            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-                axios.put(`http://fee-management-api.nastechltd.co/api/student_guardian/${guardian_id}`, data)
-                    .then(response => {
-                        console.log(response.data);
-                        localStorage.setItem("guardian_id", response.data.id)
-                        history.push("/siblings")
-                        // setStudentdata(response.data);
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            alert(error.response.data.message);
-                        }
-                    })
+            if (guardianname == '') {
+                setMessageinfo("Enter Name")
+                handleMessage();
             }
-            else{
-                alert("Enter Valid Email")
+            else if (qualification == '') {
+                setMessageinfo("Enter Qualification")
+                handleMessage();
+            }
+            else if (religion == '') {
+                setMessageinfo("Enter Religion")
+                handleMessage();
+            }
+            else if (nationality == '') {
+                setMessageinfo("Enter Nationality")
+                handleMessage();
+            }
+            else if (occupation == '') {
+                setMessageinfo("Enter Occupation")
+                handleMessage();
+            }
+            else if (tel == '') {
+                setMessageinfo("Enter Telephone")
+                handleMessage();
+            }
+            else if (cell == '') {
+                setMessageinfo("Enter Cellphone")
+                handleMessage();
+            }
+            else if (cnic == '') {
+                setMessageinfo("Enter CNIC")
+                handleMessage();
+            }
+            else if (addressresidential == '') {
+                setMessageinfo("Enter Residential Address")
+                handleMessage();
+            }
+            else {
+                if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                    axios.put(`http://fee-management-api.nastechltd.co/api/student_guardian/${guardian_id}`, data)
+                        .then(response => {
+                            console.log(response.data);
+                            localStorage.setItem("guardian_id", response.data.id)
+                            history.push("/siblings")
+                            // setStudentdata(response.data);
+                        })
+                        .catch((error) => {
+                            if (error.response) {
+                                setMessageinfo(error.response.data.message);
+                                handleMessage();
+                            }
+                        })
+                }
+                else {
+                    setMessageinfo("Enter Valid Email")
+                    handleMessage();
+                }
             }
         }
 
@@ -182,6 +279,14 @@ const Guardianparticular = () => {
 
                     </form>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
 
 

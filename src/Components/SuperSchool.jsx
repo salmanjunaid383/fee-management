@@ -17,6 +17,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -48,6 +50,20 @@ const SuperSchool = () => {
     const [adminid, setAdminid] = useState('');
     const [selectedFile, setSelectedFile] = useState();
     const [administratordata, setAdministratordata] = useState([]);
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
 
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user`)
@@ -57,7 +73,8 @@ const SuperSchool = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -92,7 +109,8 @@ const SuperSchool = () => {
     //             console.log(response);
     //             setSelectedFile();
 
-    //             alert("Submitted!!")
+    //             setMessageinfo("Submitted!!")
+    // handleMessage();//             setMessageinfo("Submitted!!")
 
     //         })
     //         .catch(error => {
@@ -110,19 +128,24 @@ const SuperSchool = () => {
         formData.append('email', email);
         console.log(formData.get('name'))
         if (schoolName == '') {
-            alert("Enter School Name")
+            setMessageinfo("Enter School Name")
+            handleMessage();
         }
         else if (address == '') {
-            alert("Enter School Address")
+            setMessageinfo("Enter School Address")
+            handleMessage();
         }
         else if (phone == '') {
-            alert("Enter School Contact No.")
+            setMessageinfo("Enter School Contact No.")
+            handleMessage();
         }
         else if (adminid == '') {
-            alert("Select School Admin")
+            setMessageinfo("Select School Admin")
+            handleMessage();
         }
         else if (selectedFile == undefined) {
-            alert("Select School School Logo")
+            setMessageinfo("Select School School Logo")
+            handleMessage();
         }
         else {
             if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
@@ -147,12 +170,14 @@ const SuperSchool = () => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            alert(error.response.data.message);
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
                         }
                     })
             }
             else {
-                alert("Enter Valid Email")
+                setMessageinfo("Enter Valid Email")
+                handleMessage();
             }
         }
     }
@@ -180,7 +205,8 @@ const SuperSchool = () => {
     //         })
     //         .catch(error => {
     //             console.log(error)
-    //             alert("Invali Field(s)")
+    // etMessageinfo("Invali Field(s)")
+    // handleMessage();//         }//             s
     //         })
     // }
 
@@ -193,7 +219,8 @@ const SuperSchool = () => {
     //         })
     //         .catch((error) => {
     //             if (error.response) {
-    //                 alert(error.response.data.message);
+    // setMessageinfo(error.response.data.message);
+    //  handleMessage();    //                            
     //             }
     //         })
     // }, [])
@@ -316,7 +343,7 @@ const SuperSchool = () => {
                                                     {
                                                         (val.type).slice(11, 40) == "SchoolAdministrator" ?
                                                             <tr key={i}>
-                                                                <td>{count=1+count}</td>
+                                                                <td>{count = 1 + count}</td>
                                                                 <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}'s Schools`}</td>
                                                                 <td><Button onClick={() => history.push(`/adminschool/${val.id}`)}><DescriptionIcon /></Button></td>
                                                                 <td>{val.contact}</td>
@@ -343,6 +370,14 @@ const SuperSchool = () => {
                         </div>
                     </div>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
         </>
     );
