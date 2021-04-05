@@ -16,8 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-
-
+import Snackbar from '@material-ui/core/Snackbar';
 import axios from 'axios';
 
 
@@ -44,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const FeeVoucherAdmin = () => {
-
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
     const [feedata, setFeedata] = useState([]);
@@ -55,11 +53,19 @@ const FeeVoucherAdmin = () => {
     const history = useHistory();
     const [searchTerm, setSearchTerm] = useState('');
     const school_id = localStorage.getItem("school_id")
-
-
-
-
-
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
@@ -68,7 +74,8 @@ const FeeVoucherAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -78,7 +85,8 @@ const FeeVoucherAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -90,12 +98,13 @@ const FeeVoucherAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
     console.log(sectionid)
-    
+
     var mydata = [];
     for (var i = 0; i < feedata.length; i++) {
         var dd = {
@@ -108,8 +117,8 @@ const FeeVoucherAdmin = () => {
             G_R_NO: "",
             gender: "",
             section_id: ""
-            
-            
+
+
         }
         for (var j = 0; j < studentdata.length; j++) {
             if (feedata[i].student_id == studentdata[j].id) {
@@ -117,8 +126,8 @@ const FeeVoucherAdmin = () => {
                 dd.G_R_NO = studentdata[j].G_R_NO;
                 dd.gender = studentdata[j].gender;
                 dd.section_id = studentdata[j].section_id;
-                
-                
+
+
             }
         }
         mydata.push(dd)
@@ -128,15 +137,16 @@ const FeeVoucherAdmin = () => {
         axios.post(`http://fee-management-api.nastechltd.co/api/paid`, {
             voucher_no: id
         })
-        .then(response => {
-            console.log(response.data);
-            reload();
-        })
-        .catch((error) => {
-            if (error.response) {
-                alert(error.response.data.message);
-            }
-        })
+            .then(response => {
+                console.log(response.data);
+                reload();
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     const search = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
@@ -166,7 +176,8 @@ const FeeVoucherAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
@@ -176,7 +187,8 @@ const FeeVoucherAdmin = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
 
@@ -391,6 +403,14 @@ const FeeVoucherAdmin = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

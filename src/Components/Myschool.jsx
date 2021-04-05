@@ -71,12 +71,12 @@ const history = useHistory();
                                     src={logo} />
                             </div>
 
-                            <Link class="nav-link" to="/dashboard"><div class="folder-icons ">
+                            {/* <Link class="nav-link" to="/dashboard"><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas fa-columns"></i>
                                 </div>
                                 <div class="icon-name1">Dashboard</div>
-                            </div></Link>
+                            </div></Link> */}
 
                             <Link to="/school" class="nav-link active "><div class="folder-icons">
                                 <div class="icon1">

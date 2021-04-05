@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
 import { Modal } from 'react-bootstrap';
 // import TextField from '@material-ui/core/TextField';
 
@@ -15,9 +16,20 @@ const Studentparticular = () => {
     const handleShow = () => setShow(true);
     const { schoolid } = useParams();
     localStorage.setItem("school_id", schoolid);
-
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
-
         axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${schoolid}`)
             .then(response => {
                 console.log(response);
@@ -29,10 +41,12 @@ const Studentparticular = () => {
                 }
                 // setSchooldata(response.data);
             })
-            .catch(error => (console.log(error)))
-
-
-
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }, [])
 
 
@@ -64,8 +78,17 @@ const Studentparticular = () => {
                     </Modal.Footer>
                 </Modal>
             </div>
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={4000}
+                onClose={CloseMessage}
+                message={messageinfo}
+                key={vertical + horizontal}
+            />
 
-        </>);
+        </>
+    );
 };
 
 export default Studentparticular;

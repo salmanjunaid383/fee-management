@@ -7,9 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
 import AddIcon from '@material-ui/icons/Add';
 import logo from "./jb1.png";
-
-
-
+import Snackbar from '@material-ui/core/Snackbar';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -32,7 +30,19 @@ const Mydashboard = () => {
     const admin_id = localStorage.getItem("admin_id");
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
-
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
@@ -41,7 +51,8 @@ const Mydashboard = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -53,7 +64,8 @@ const Mydashboard = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -186,6 +198,14 @@ const Mydashboard = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

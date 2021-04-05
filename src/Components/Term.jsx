@@ -10,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Snackbar from '@material-ui/core/Snackbar';
 import Select1 from 'react-select'
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -53,12 +54,12 @@ const Term = () => {
     const [studentdata, setStudentdata] = useState([]);
     const [classdata, setClassdata] = useState([]);
     const [term, setTerm] = useState([]);
-    const [startingdate, setStartingdate] = useState();
-    const [endingdate, setEndingdate] = useState();
+    const [startingdate, setStartingdate] = useState('');
+    const [endingdate, setEndingdate] = useState('');
     const [startdatefinal, setStartdatefinal] = useState();
     const [enddatefinal, setEnddatefinal] = useState();
     const [monthyear, setMonthyear] = useState();
-    const [description, setDescription] = useState();
+    const [description, setDescription] = useState('');
     const [classid, setClassid] = useState();
     const school_id = localStorage.getItem("school_id");
     const history = useHistory();
@@ -66,7 +67,19 @@ const Term = () => {
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
     const [prevdata, setPrevdata] = useState('');
-
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const handleClick = (id) => {
         localStorage.setItem("user_id", id)
         handleShow2();
@@ -81,7 +94,12 @@ const Term = () => {
                 console.log(response);
                 setTerm(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -89,8 +107,12 @@ const Term = () => {
                 console.log(response.data)
                 setClassdata(response.data)
             })
-            .catch(error => console.log(error))
-
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }, [])
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
@@ -98,8 +120,12 @@ const Term = () => {
                 console.log(response);
                 setStudentdata(response.data);
             })
-            .catch(error => (console.log(error)))
-
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }, [])
 
     const reload = () => {
@@ -108,7 +134,12 @@ const Term = () => {
                 console.log(response);
                 setTerm(response.data);
             })
-            .catch(error => (console.log(error)))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     const deleteTerm = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/term/${localStorage.getItem("user_id")}`)
@@ -117,7 +148,12 @@ const Term = () => {
                 remove();
                 reload();
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
 
     const update = (id) => {
@@ -137,20 +173,20 @@ const Term = () => {
     const getStartDate = (UNIX_timestamp) => {
         var a = new Date(UNIX_timestamp * 1000);
         var year = a.getFullYear();
-        var month = ('0'+(a.getMonth()+1)).slice(-2);
-        var date = ('0'+a.getDate()).slice(-2);
+        var month = ('0' + (a.getMonth() + 1)).slice(-2);
+        var date = ('0' + a.getDate()).slice(-2);
         setStartingdate(`${year}-${month}-${date}`);
-        
+
     }
     console.log(startingdate)
     const getEndDate = (UNIX_timestamp) => {
         var b = new Date(UNIX_timestamp * 1000);
         var yearb = b.getFullYear();
-        var monthb = ('0'+(b.getMonth()+1)).slice(-2);
-        var dateb = ('0'+b.getDate()).slice(-2);
+        var monthb = ('0' + (b.getMonth() + 1)).slice(-2);
+        var dateb = ('0' + b.getDate()).slice(-2);
         setEndingdate(`${yearb}-${monthb}-${dateb}`)
         console.log(endingdate)
-        
+
     }
     console.log(endingdate)
 
@@ -170,12 +206,17 @@ const Term = () => {
 
 
     const sendUpdated = () => {
-        if (startingdate == undefined) {
-            alert("Select Starting Date")
+        if (startingdate === '') {
+            setMessageinfo("Select Starting Date")
+            handleMessage();
         }
-        else if (endingdate == undefined) {
-            alert("Select ending Date")
-
+        else if (endingdate === '') {
+            setMessageinfo("Select Ending Date")
+            handleMessage();
+        }
+        else if (description === '') {
+            setMessageinfo("Enter Term Name")
+            handleMessage();
         }
         else {
             axios.put(`http://fee-management-api.nastechltd.co/api/term/${prevdata.id}`, {
@@ -194,7 +235,12 @@ const Term = () => {
                     reload();
                     handleClose();
                 })
-                .catch(error => (console.log(error)))
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
         }
     }
 
@@ -229,21 +275,34 @@ const Term = () => {
 
     }
     const sendData = () => {
-
-
-        axios.post(`http://fee-management-api.nastechltd.co/api/term`, data)
-            .then(response => {
-                console.log(response);
-                setStartingdate();
-                setEndingdate();
-                setDescription();
-                reload();
-            })
-            .catch(error => console.log(error))
-
-
-
-        // console.log(data)
+        if (startingdate === '') {
+            setMessageinfo("Select Starting Date")
+            handleMessage();
+        }
+        else if (endingdate === '') {
+            setMessageinfo("Select Ending Date")
+            handleMessage();
+        }
+        else if (description === '') {
+            setMessageinfo("Enter Term Name")
+            handleMessage();
+        }
+        else {
+            axios.post(`http://fee-management-api.nastechltd.co/api/term`, data)
+                .then(response => {
+                    console.log(response);
+                    setStartingdate();
+                    setEndingdate();
+                    setDescription();
+                    reload();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
+        }
     }
 
     const logOut = () => {
@@ -410,7 +469,7 @@ const Term = () => {
                                                     return (
                                                         <>
                                                             <tr key={i}>
-                                                                <td>{i+1}</td>
+                                                                <td>{i + 1}</td>
                                                                 <td>{val.term_name}</td>
                                                                 <td>{timeConverter(val.start_date)}</td>
                                                                 <td class="txt-oflo">{timeConverter(val.end_date)}</td>
@@ -446,25 +505,18 @@ const Term = () => {
                                     </div>
                                     <div class="text-center my-4">  <button onClick={sendData} class="btn btn-generate btn-success">Submit</button></div>
                                 </>
-
-
-
-
-
-
-
-
-
-
-
-
                             }
-
                         </div>
-
-
                     </div>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
         </>
     );

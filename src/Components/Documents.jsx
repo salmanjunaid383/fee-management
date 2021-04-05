@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const Documents = () => {
     const [document, setDocument] = useState();
@@ -35,7 +36,19 @@ const Documents = () => {
         localStorage.removeItem("user_id")
         handleClose2();
     }
-
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_document/${school_id}`)
             .then(response => {
@@ -44,7 +57,8 @@ const Documents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -63,7 +77,8 @@ const Documents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -78,7 +93,8 @@ const Documents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -96,7 +112,8 @@ const Documents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -112,7 +129,8 @@ const Documents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -126,7 +144,8 @@ const Documents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
 
@@ -330,6 +349,14 @@ const Documents = () => {
                         </div>
                     </div>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
         </>
     );

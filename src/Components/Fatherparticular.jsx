@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './personal.css';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
 // import WebcamCapture from './Webcam'
 // import Webcam from 'react-webcam';
 
@@ -35,6 +36,19 @@ const Fatherparticular = () => {
     const { formNo } = useParams();
     const parent_id = localStorage.getItem("parent_id");
     localStorage.setItem("form_no", formNo)
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
 
         if (parent_id != null) {
@@ -66,7 +80,8 @@ const Fatherparticular = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        alert(error.response.data.message);
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
                     }
                 })
         }
@@ -106,8 +121,80 @@ const Fatherparticular = () => {
     }
 
     const sendData = () => {
-        if ((Fathercnic.length > 0) && (Fatheremail.length > 0) && (Fatherqualification.length > 0) && (Fathername.length > 0) && (Fatheroccupation.length > 0) && (Fathernationality.length > 0) && (Fatherreligion.length > 0) && (Fathercell.length > 0) && (Fathertel.length > 0) && (Fatheraddressoffice.length > 0) && (Mothercnic.length > 0) && (Motheremail.length > 0) && (Motherqualification.length > 0) && (Mothername.length > 0) && (Motheroccupation.length > 0) && (Mothernationality.length > 0) && (Motherreligion.length > 0) && (Mothercell.length > 0) && (Mothertel.length > 0) && (Motheraddress.length > 0)) {
-            if (parent_id == null) {
+        if (parent_id == null) {
+            if (Fathername == '') {
+                setMessageinfo("Enter Father Name")
+                handleMessage();
+            }
+            else if (Fatherqualification == '') {
+                setMessageinfo("Enter Father's Qualification")
+                handleMessage();
+            }
+            else if (Fatherreligion == '') {
+                setMessageinfo("Enter Father's Religion")
+                handleMessage();
+            }
+            else if (Fathernationality == '') {
+                setMessageinfo("Enter Father's Nationality")
+                handleMessage();
+            }
+            else if (Fatheroccupation == '') {
+                setMessageinfo("Enter Father's Occupation")
+                handleMessage();
+            }
+            else if (Fathertel == '') {
+                setMessageinfo("Enter Father's Telephone")
+                handleMessage();
+            }
+            else if (Fathercell == '') {
+                setMessageinfo("Enter Father's Cellphone")
+                handleMessage();
+            }
+            else if (Fathercnic == '') {
+                setMessageinfo("Enter Father's CNIC")
+                handleMessage();
+            }
+            else if (Fatheraddressoffice == '') {
+                setMessageinfo("Enter Father's Address")
+                handleMessage();
+            }
+            else if (Mothername == '') {
+                setMessageinfo("Enter Mother Name")
+                handleMessage();
+            }
+            else if (Motherqualification == '') {
+                setMessageinfo("Enter Mother's Qualification")
+                handleMessage();
+            }
+            else if (Motherreligion == '') {
+                setMessageinfo("Enter Mother's Religion")
+                handleMessage();
+            }
+            else if (Mothernationality == '') {
+                setMessageinfo("Enter Mother's Nationality")
+                handleMessage();
+            }
+            else if (Motheroccupation == '') {
+                setMessageinfo("Enter Mother's Occupation")
+                handleMessage();
+            }
+            else if (Mothertel == '') {
+                setMessageinfo("Enter Mother's Telephone")
+                handleMessage();
+            }
+            else if (Mothercell == '') {
+                setMessageinfo("Enter Mother's Cellphone")
+                handleMessage();
+            }
+            else if (Mothercnic == '') {
+                setMessageinfo("Enter Mother's CNIC")
+                handleMessage();
+            }
+            else if (Motheraddress == '') {
+                setMessageinfo("Enter Mother's address")
+                handleMessage();
+            }
+            else {
                 if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Fatheremail) && /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Motheremail)) {
                     axios.post(`http://fee-management-api.nastechltd.co/api/student_parent`, data)
                         .then(response => {
@@ -118,15 +205,89 @@ const Fatherparticular = () => {
                         })
                         .catch((error) => {
                             if (error.response) {
-                                alert(error.response.data.message);
+                                setMessageinfo(error.response.data.message);
+                                handleMessage();
                             }
                         })
                 }
-                else{
-                    alert("Enter Valid Email(s)")
+                else {
+                    setMessageinfo("Enter Valid Email(s)")
+                    handleMessage();
                 }
-
-
+            }
+        }
+        else {
+            if (Fathername == '') {
+                setMessageinfo("Enter Father Name")
+                handleMessage();
+            }
+            else if (Fatherqualification == '') {
+                setMessageinfo("Enter Father's Qualification")
+                handleMessage();
+            }
+            else if (Fatherreligion == '') {
+                setMessageinfo("Enter Father's Religion")
+                handleMessage();
+            }
+            else if (Fathernationality == '') {
+                setMessageinfo("Enter Father's Nationality")
+                handleMessage();
+            }
+            else if (Fatheroccupation == '') {
+                setMessageinfo("Enter Father's Occupation")
+                handleMessage();
+            }
+            else if (Fathertel == '') {
+                setMessageinfo("Enter Father's Telephone")
+                handleMessage();
+            }
+            else if (Fathercell == '') {
+                setMessageinfo("Enter Father's Cellphone")
+                handleMessage();
+            }
+            else if (Fathercnic == '') {
+                setMessageinfo("Enter Father's CNIC")
+                handleMessage();
+            }
+            else if (Fatheraddressoffice == '') {
+                setMessageinfo("Enter Father's Address")
+                handleMessage();
+            }
+            else if (Mothername == '') {
+                setMessageinfo("Enter Mother Name")
+                handleMessage();
+            }
+            else if (Motherqualification == '') {
+                setMessageinfo("Enter Mother's Qualification")
+                handleMessage();
+            }
+            else if (Motherreligion == '') {
+                setMessageinfo("Enter Mother's Religion")
+                handleMessage();
+            }
+            else if (Mothernationality == '') {
+                setMessageinfo("Enter Mother's Nationality")
+                handleMessage();
+            }
+            else if (Motheroccupation == '') {
+                setMessageinfo("Enter Mother's Occupation")
+                handleMessage();
+            }
+            else if (Mothertel == '') {
+                setMessageinfo("Enter Mother's Telephone")
+                handleMessage();
+            }
+            else if (Mothercell == '') {
+                setMessageinfo("Enter Mother's Cellphone")
+                handleMessage();
+            }
+            else if (Mothercnic == '') {
+                setMessageinfo("Enter Mother's CNIC")
+                handleMessage();
+            }
+            else if (Motheraddress == '') {
+                setMessageinfo("Enter Mother's address")
+                handleMessage();
             }
             else {
                 if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Fatheremail) && /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Motheremail)) {
@@ -139,20 +300,21 @@ const Fatherparticular = () => {
                         })
                         .catch((error) => {
                             if (error.response) {
-                                alert(error.response.data.message);
+                                setMessageinfo(error.response.data.message);
+                                handleMessage();
                             }
                         })
                 }
-                else{
-                    alert("Enter Valid Email(s)")
+                else {
+                    setMessageinfo("Enter Valid Email(s)")
+                    handleMessage();
                 }
             }
         }
-        else {
-            alert("enter valid fileds")
-        }
-
     }
+
+
+
 
 
 
@@ -278,6 +440,14 @@ const Fatherparticular = () => {
                         </fieldset>
                     </form>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
 
 

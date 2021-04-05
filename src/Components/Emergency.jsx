@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './personal.css';
 import { Link, useHistory } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
 // import WebcamCapture from './Webcam'
 // import Webcam from 'react-webcam';
 
@@ -21,6 +22,19 @@ const Emergency = () => {
     const sibling_id = localStorage.getItem("sibling_id")
     const history = useHistory();
     const emergency_id = localStorage.getItem("emergency_id");
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         if (emergency_id != null) {
             axios.get(`http://fee-management-api.nastechltd.co/api/emergency/${emergency_id}`)
@@ -38,20 +52,21 @@ const Emergency = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        alert(error.response.data.message);
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
                     }
                 })
         }
     }, [])
 
 
-    
+
 
 
 
 
     const data = {
-        form_no : form_no,
+        form_no: form_no,
         name: name,
         CNIC: cnic,
         address: address,
@@ -63,62 +78,88 @@ const Emergency = () => {
 
     const sendData = () => {
         // console.log(data)
-        if((cnic.length > 0) && (relation.length > 0) && (name.length > 0) && (cell.length > 0) && (tel.length > 0) && (address.length > 0)) {
-            if (emergency_id == null){
-            axios.post(`http://fee-management-api.nastechltd.co/api/emergency`, data)
-            .then(response => {
-                console.log(response.data);
-                localStorage.setItem("emergency_id", response.data.id)
-                history.push(`/submitform/${response.data.form_no}`)
-                // setStudentdata(response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-        }
-        else{
-            axios.put(`http://fee-management-api.nastechltd.co/api/emergency/${emergency_id}`, data)
-            .then(response => {
-                console.log(response.data);
-                localStorage.setItem("emergency_id", response.data.id)
-                history.push(`/submitform/${response.data.form_no}`)
-                // setStudentdata(response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
-        }
+        if (emergency_id == null) {
+            if (name == '') {
+                setMessageinfo("Enter Name")
+                handleMessage();
+            }
+            else if (tel == '') {
+                setMessageinfo("Enter Telephone")
+                handleMessage();
+            }
+            else if (cell == '') {
+                setMessageinfo("Enter Cellphone")
+                handleMessage();
+            }
+            else if (cnic == '') {
+                setMessageinfo("Enter CNIC")
+                handleMessage();
+            }
+            else if (address == '') {
+                setMessageinfo("Enter Residential Address")
+                handleMessage();
+            }
+            else if (relation == '') {
+                setMessageinfo("Enter Relation")
+                handleMessage();
+            }
+            else {
+                axios.post(`http://fee-management-api.nastechltd.co/api/emergency`, data)
+                    .then(response => {
+                        console.log(response.data);
+                        localStorage.setItem("emergency_id", response.data.id)
+                        history.push(`/submitform/${response.data.form_no}`)
+                        // setStudentdata(response.data);
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
+            }
         }
         else {
-            alert("Enter Valid Field(s)")
+            if (name == '') {
+                setMessageinfo("Enter Name")
+                handleMessage();
+            }
+            else if (tel == '') {
+                setMessageinfo("Enter Telephone")
+                handleMessage();
+            }
+            else if (cell == '') {
+                setMessageinfo("Enter Cellphone")
+                handleMessage();
+            }
+            else if (cnic == '') {
+                setMessageinfo("Enter CNIC")
+                handleMessage();
+            }
+            else if (address == '') {
+                setMessageinfo("Enter Residential Address")
+                handleMessage();
+            }
+            else if (relation == '') {
+                setMessageinfo("Enter Relation")
+                handleMessage();
+            }
+            else {
+                axios.put(`http://fee-management-api.nastechltd.co/api/emergency/${emergency_id}`, data)
+                    .then(response => {
+                        console.log(response.data);
+                        localStorage.setItem("emergency_id", response.data.id)
+                        history.push(`/submitform/${response.data.form_no}`)
+                        // setStudentdata(response.data);
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
+            }
         }
-        // localStorage.setItem('emergency', JSON.stringify(data))
-        // axios.post(`http://fee-management-api.nastechltd.co/api/admission_form`, data)
-        //     .then(response => {
-
-        //         // history.push(`/requirements/${response.data}`)
-        //     })
-        //     .catch(error => console.log(error))
-
-        // axios.post(`http://fee-management-api.nastechltd.co/api/student_guardian`, {
-        //     CNIC: "567890",
-        // cell: "76890",
-        // email: "klakla@gmail.com",
-        // name: "rtyuio",
-        // nationality: "jukil",
-        // occupation: "trtyuio",
-        // qualification: "tryuio",
-        // religion: "tjhkl",
-        // residential_address: "ertyuio",
-        // tel: "567890"})
-        // .then(response => {
-        //     console.log(response)
-        // })
-        // .error (error => console.log(error))
 
     }
 
@@ -155,7 +196,7 @@ const Emergency = () => {
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Cell:</label>
-                                    <input id="guardPhone" defaultValue={prevdata.cell_no} type="number" className="form-control" placeholder="Cell" onChange={(e)=> setCell(e.target.value)} />
+                                    <input id="guardPhone" defaultValue={prevdata.cell_no} type="number" className="form-control" placeholder="Cell" onChange={(e) => setCell(e.target.value)} />
                                 </div>
                             </div>
                             <div className="row">
@@ -174,6 +215,14 @@ const Emergency = () => {
 
                     </form>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
 
 

@@ -73,9 +73,9 @@ const AdmissionRequest = () => {
     const handleShow = () => setShow(true);
     const [studentdata, setStudentdata] = useState([]);
     const [sectiondata, setSectiondata] = useState([]);
-    const [sectionid, setSectionid] = useState();
+    const [sectionid, setSectionid] = useState('');
     const [form_no, setForm_no] = useState();
-    const [GR_no, setGR_no] = useState();
+    const [GR_no, setGR_no] = useState('');
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
 
@@ -161,27 +161,33 @@ const AdmissionRequest = () => {
     };
     // console.log(contact)
     const sendData = () => {
-
-
-        axios.post('http://fee-management-api.nastechltd.co/api/student', data)
-            .then(response => {
-                handleClose();
-                reload();
-                localStorage.removeItem("registration_no")
-            })
-            .catch((error) => {
-                if (error.response) {
-                    setMessageinfo(error.response.data.message);
-                    handleMessage();
-                }
-            })
+        if (GR_no === '') {
+            setMessageinfo("Enter GR NO.")
+            handleMessage();
+        }
+        else if (sectionid === '') {
+            setMessageinfo("Select Class/Section")
+            handleMessage();
+        }
+        else {
+            axios.post('http://fee-management-api.nastechltd.co/api/student', data)
+                .then(response => {
+                    handleClose();
+                    reload();
+                    localStorage.removeItem("registration_no")
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
+        }
         // console.log(data)
     }
     const add = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/admission_form/${id}`)
             .then(response => {
-
-
                 console.log(response.data)
                 localStorage.setItem("registration_no", response.data.AdmissionForm.registration_no);
                 setForm_no(response.data.AdmissionForm.registration_no);
@@ -339,7 +345,7 @@ const AdmissionRequest = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("registration_no")} onChange={(e) => setForm_no(e.target.value)} label="Registeration No." variant="filled" />
+                                                <TextField className="pb-3 bg-white" type="number" defaultValue={localStorage.getItem("registration_no")} onChange={(e) => setForm_no(e.target.value)} label="Registeration No." disabled variant="filled" />
                                                 <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Class</InputLabel>
                                                     <Select
@@ -396,7 +402,11 @@ const AdmissionRequest = () => {
                                                         <>
                                                             <tr key={i}>
                                                                 <td>{count = 1 + count}</td>
+                                                                {val.middle_name === null ?
+                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
+                                                                :
                                                                 <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                                }
                                                                 <td className="print-capitalize">{val.gender}</td>
                                                                 <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>
 

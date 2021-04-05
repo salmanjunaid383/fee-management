@@ -16,10 +16,9 @@ const Login = () => {
         horizontal: 'right',
     });
     const { vertical, horizontal, open } = message;
-    const handleMessage =() => {
-        setMessage({ open: true,vertical: 'top',horizontal: 'right' });
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
     };
-
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
@@ -30,11 +29,11 @@ const Login = () => {
         password: password
     }
     const sendData = () => {
-        if (email == '') {
+        if (email === '') {
             setMessageinfo("Enter Email")
             handleMessage();
         }
-        else if (password == '') {
+        else if (password === '') {
             setMessageinfo("Enter Password")
             handleMessage();
 
@@ -46,14 +45,18 @@ const Login = () => {
                     localStorage.setItem("token", response.data)
                     var token = response.data
                     var decoded = jwt_decode(token)
-                    if (decoded.role == 'SuperAdmin') {
+                    if (decoded.role === 'SuperAdmin') {
                         history.push("/super")
                     }
-                    else if (decoded.role == 'Administrator') {
+                    else if (decoded.role === 'Administrator') {
                         localStorage.setItem("admin_id", decoded.sub)
-                        history.push("/dashboard")
+                        history.push("/school")
                     }
-                    else if (decoded.role == 'Student') {
+                    else if (decoded.role === 'Finance_employee') {
+                        localStorage.setItem("employee_id", decoded.sub)
+                        history.push("/employeedashboard")
+                    }
+                    else if (decoded.role === 'Student') {
                         history.push(`/studentledger/${decoded.sub}`)
 
                     }

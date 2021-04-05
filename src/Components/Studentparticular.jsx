@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory, Link, useParams } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 
@@ -14,7 +15,7 @@ const Studentparticular = () => {
     const [prevdata, setPrevdata] = useState('');
     const [email, setEmail] = useState('');
     const [gender, setGender] = useState('');
-    const [classid, setClassid] = useState();
+    const [classid, setClassid] = useState('');
     const [singleclass, setSingleclass] = useState({});
     const [classdata, setClassdata] = useState([]);
     const [dob, setDOB] = useState('');
@@ -25,10 +26,21 @@ const Studentparticular = () => {
     const [tel, setTel] = useState('');
     const [cell, setCell] = useState('');
     const { schoolid } = useParams();
-    const [buttonshow, setButtonshow] = useState(false);
     const school_id = localStorage.getItem("school_id");
     const form_id = localStorage.getItem("form_id");
-
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
@@ -38,7 +50,8 @@ const Studentparticular = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
         if (form_id != null) {
@@ -66,13 +79,15 @@ const Studentparticular = () => {
                         })
                         .catch((error) => {
                             if (error.response) {
-                                alert(error.response.data.message);
+                                setMessageinfo(error.response.data.message);
+                                handleMessage();
                             }
                         })
                 })
                 .catch((error) => {
                     if (error.response) {
-                        alert(error.response.data.message);
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
                     }
                 })
         }
@@ -98,8 +113,53 @@ const Studentparticular = () => {
 
     const sendData = () => {
         // localStorage.setItem('student', JSON.stringify(data))
-        if ((fname.length > 0) && (lastschool.length > 0) && (lname.length > 0) && (email.length > 0) && (gender.length > 0) && (dob.length > 0) && (pob.length > 0) && (fathername.length > 0) && (mname.length > 0) && (cell.length > 0) && (tel.length > 0) && (addresspermanent.length > 0) && (addresspresent.length > 0)) {
-            if (form_id == null) {
+        if (form_id == null) {
+            if (fname == '') {
+                setMessageinfo("Enter First Name")
+                handleMessage();
+            }
+            
+            else if (lname == '') {
+                setMessageinfo("Enter Last Name")
+                handleMessage();
+            }
+            else if (fathername == '') {
+                setMessageinfo("Enter Father Name")
+                handleMessage();
+            }
+            else if (classid == '') {
+                setMessageinfo("Select Class")
+                handleMessage();
+            }
+            else if (tel == '') {
+                setMessageinfo("Enter Telephone")
+                handleMessage();
+            }
+            else if (gender == '') {
+                setMessageinfo("Select Gender")
+                handleMessage();
+            }
+            else if (cell == '') {
+                setMessageinfo("Enter Cellphone")
+                handleMessage();
+            }
+            else if (dob == '') {
+                setMessageinfo("Enter Date of Birth")
+                handleMessage();
+            }
+            else if (pob == '') {
+                setMessageinfo("Enter Place of Birth")
+                handleMessage();
+            }
+            else if (addresspermanent == '') {
+                setMessageinfo("Enter Permanent Address")
+                handleMessage();
+            }
+            else if (addresspresent == '') {
+                setMessageinfo("Enter Present Address")
+                handleMessage();
+            }
+            else {
                 if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
                     axios.post(`http://fee-management-api.nastechltd.co/api/admission_form`, data)
                         .then(response => {
@@ -111,14 +171,63 @@ const Studentparticular = () => {
                         })
                         .catch((error) => {
                             if (error.response) {
-                                alert(error.response.data.message);
+                                setMessageinfo(error.response.data.message);
+                                handleMessage();
                             }
                         })
                 }
                 else {
-                    alert("Enter Valid Email")
-                }
+                    setMessageinfo("Enter Valid Email")
+                    handleMessage();
 
+                }
+            }
+        }
+        else {
+            if (fname == '') {
+                setMessageinfo("Enter First Name")
+                handleMessage();
+            }
+            
+            else if (lname == '') {
+                setMessageinfo("Enter Last Name")
+                handleMessage();
+            }
+            else if (fathername == '') {
+                setMessageinfo("Enter Father Name")
+                handleMessage();
+            }
+            else if (classid == '') {
+                setMessageinfo("Select Class")
+                handleMessage();
+            }
+            else if (tel == '') {
+                setMessageinfo("Enter Telephone")
+                handleMessage();
+            }
+            else if (gender == '') {
+                setMessageinfo("Select Gender")
+                handleMessage();
+            }
+            else if (cell == '') {
+                setMessageinfo("Enter Cellphone")
+                handleMessage();
+            }
+            else if (dob == '') {
+                setMessageinfo("Enter Date of Birth")
+                handleMessage();
+            }
+            else if (pob == '') {
+                setMessageinfo("Enter Place of Birth")
+                handleMessage();
+            }
+            else if (addresspermanent == '') {
+                setMessageinfo("Enter Permanent Address")
+                handleMessage();
+            }
+            else if (addresspresent == '') {
+                setMessageinfo("Enter Present Address")
+                handleMessage();
             }
             else {
                 if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
@@ -131,38 +240,21 @@ const Studentparticular = () => {
                         })
                         .catch((error) => {
                             if (error.response) {
-                                alert(error.response.data.message);
+                                setMessageinfo(error.response.data.message);
+                                handleMessage();
                             }
                         })
                 }
-                else{
-                    alert("Enter Valid Email")
+                else {
+                    setMessageinfo("Enter Valid Email")
+                    handleMessage();
 
                 }
-
             }
-
-        }
-        else {
-            alert("Enter Valid Fields")
-            // console.log(data)
-            // console.log(fname.length)
-            // console.log(mname.length)
-            // console.log(lname.length)
-            // console.log(fathername.length)
-            // console.log(addresspermanent.length)
-            // console.log(addresspresent.length)
-            // console.log(email.length)
-            // console.log(gender.length)
-            // console.log(dob.length)
-            // console.log(pob.length)
-            // console.log(lastschool.length)
-            // console.log(cell.length)
-            // console.log(tel.length)
         }
     }
 
-    // console.log(classid)
+
 
 
 
@@ -317,20 +409,18 @@ const Studentparticular = () => {
                                 <div className="col-12 text-right mt-3">
                                     <button onClick={sendData} className="btn btn-success w25">Next</button>
                                 </div>
-
-
-
                             </div>
-
                         </fieldset>
-
-
-
-
-
-
                     </form>
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />  
             </div>
 
         </>);

@@ -260,7 +260,7 @@ const Guardianparticular = () => {
                                 <div className="col-6 text-left mt-3">
                                     <Link to={`/fatherparticular/${form_no}`}><button className="btn btn-success w25">Back</button></Link>
                                 </div>
-                                {cnic == undefined ?
+                                {cnic === '' ?
                                     <>
                                         <div className="col-6 text-right mt-3">
                                             <button onClick={() => history.push("/siblings")} className="btn btn-success w25">Next</button>

@@ -12,6 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import logo from './jb1.png'
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -40,8 +41,21 @@ const useStyles = makeStyles((theme) => ({
 const Ledger = () => {
     const history = useHistory();
     const [studentledger, setStudentledger] = useState([]);
-    const [name, setName]= useState();
-    const {studentid} = useParams();
+    const [name, setName] = useState();
+    const { studentid } = useParams();
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
             .then(response => {
@@ -50,7 +64,8 @@ const Ledger = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
         axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger/${studentid}`)
@@ -60,7 +75,8 @@ const Ledger = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -93,11 +109,11 @@ const Ledger = () => {
 
                             <Link class="nav-link" to={`/ledger/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">
-                                <i class="fas fa-calculator-alt active"></i>
+                                    <i class="fas fa-calculator-alt active"></i>
                                 </div>
                                 <div class="icon-name active">Student Ledger</div>
                             </div></Link>
-                            
+
 
 
                         </div>
@@ -110,7 +126,7 @@ const Ledger = () => {
                                 <div class="big-inbox print-capitalize">
                                     {`${name}'s `} Ledger
                                 </div>
-                                    <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>
                         </div>
                         <hr class="new-hr" />
@@ -162,6 +178,14 @@ const Ledger = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

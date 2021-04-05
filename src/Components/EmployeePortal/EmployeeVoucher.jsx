@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import './dashboard.css';
+import '../dashboard.css';
 import { Link, useHistory } from 'react-router-dom';
 import PrintIcon from '@material-ui/icons/Print';
 // import UpdateIcon from '@material-ui/icons/Update';
-import AddIcon from '@material-ui/icons/Add';
+// import AddIcon from '@material-ui/icons/Add';
 // import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
-// import ButtonGroup from '@material-ui/core/ButtonGroup';
-// import DescriptionIcon from '@material-ui/icons/Description';
-import logo from './jb1.png'
-import { Modal } from 'react-bootstrap';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import DescriptionIcon from '@material-ui/icons/Description';
+import logo from '../jb1.png'
+// import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 // import FormLabel from '@material-ui/core/FormLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -18,6 +18,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Snackbar from '@material-ui/core/Snackbar';
 import axios from 'axios';
+
+
+
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,14 +40,12 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
 }));
-const CustomFeeVoucher = () => {
+
+
+const EmployeeFeeVoucher = () => {
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const [amount, setAmount] = useState('');
-    const [dueDate, setDueDate] = useState('');
+    const [feedata, setFeedata] = useState([]);
     const [sectiondata, setSectiondata] = useState([]);
     const [classdata, setClassdata] = useState([]);
     const [classid, setClassid] = useState('');
@@ -62,7 +63,6 @@ const CustomFeeVoucher = () => {
     const handleMessage = () => {
         setMessage({ open: true, vertical: 'top', horizontal: 'right' });
     };
-
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
@@ -90,44 +90,63 @@ const CustomFeeVoucher = () => {
                 }
             })
     }, [])
+    useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setFeedata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+    }, [])
     console.log(sectionid)
 
+    var mydata = [];
+    for (var i = 0; i < feedata.length; i++) {
+        var dd = {
+            student_id: feedata[i].student_id,
+            id: feedata[i].id,
+            voucher_no: feedata[i].voucher_no,
+            final_amount: feedata[i].final_amount,
+            paid: feedata[i].paid,
+            student_name: "",
+            G_R_NO: "",
+            gender: "",
+            section_id: ""
 
-    const sendNew = (id) => {
-        handleShow();
-        localStorage.setItem("user_id", id)
-    }
-    const remove = () => {
-        localStorage.removeItem("user_id");
-        handleClose();
-    }
-    const generate = () => {
-        if (amount === '') {
-            setMessageinfo("Enter Amount")
-            handleMessage();
+
         }
-        else if (amount < 0) {
-            setMessageinfo("Amount can't ne Negative")
-            handleMessage();
+        for (var j = 0; j < studentdata.length; j++) {
+            if (feedata[i].student_id == studentdata[j].id) {
+                dd.student_name = `${studentdata[j].first_name} ${studentdata[j].middle_name} ${studentdata[j].last_name}`;
+                dd.G_R_NO = studentdata[j].G_R_NO;
+                dd.gender = studentdata[j].gender;
+                dd.section_id = studentdata[j].section_id;
+
+
+            }
         }
-        else {
-            axios.post(`http://fee-management-api.nastechltd.co/api/custom_voucher`, {
-                student_id: localStorage.getItem("user_id"),
-                total_amount: amount,
-                due_date: dueDate
+        mydata.push(dd)
+    }
+    console.log(mydata)
+    const sendpay = (id) => {
+        axios.post(`http://fee-management-api.nastechltd.co/api/paid`, {
+            voucher_no: id
+        })
+            .then(response => {
+                console.log(response.data);
+                reload();
             })
-                .then(response => {
-                    console.log(response.data);
-                    remove();
-                    reload();
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        setMessageinfo(error.response.data.message);
-                        handleMessage();
-                    }
-                })
-        }
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     const search = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
@@ -150,7 +169,17 @@ const CustomFeeVoucher = () => {
 
 
     const reload = () => {
-
+        axios.get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setFeedata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
                 console.log(response);
@@ -185,65 +214,32 @@ const CustomFeeVoucher = () => {
                             <div class="abilan">
                                 <img
                                     src={logo} />
-                            </div>
-
-                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
+                            </div><Link to="/employeedashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas  fa-columns"></i>
+                                    <i class="fas fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 ">Dashboard</div>
+                                <div class="icon-name1">Dashboard</div>
                             </div></Link>
-                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
+                            
+                            <Link class="nav-link" to="/employeefeecomponents"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-school"></i>
+                                    <i class="fas fa-money-check-alt"></i>
                                 </div>
-                                <div class="icon-name1">Admission</div>
+                                <div class="icon-name">Fee</div>
                             </div></Link>
-
-                            <Link class="nav-link" to="/class"><div class="folder-icons">
+                            <Link class="nav-link" to="/employeefeevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-users-class"></i>
+                                    <i class="fas fa-print active"></i>
                                 </div>
-                                <div class="icon-name">Class</div>
+                                <div class="icon-name active">Fee Voucher</div>
                             </div></Link>
-
-                            <Link class="nav-link" to="/students"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Students</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/finance"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <div class="icon-name">Finance Employee</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-money-check-alt active"></i>
-                                </div>
-                                <div class="icon-name active">Fee</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-print"></i>
-                                </div>
-                                <div class="icon-name">Fee Voucher</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
+                            <Link class="nav-link" to="/employeeadminledger"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-calculator-alt"></i>
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
-                            <Link class="nav-link" to="/term"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div class="icon-name">Term</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/expense"><div class="folder-icons">
+                            <Link class="nav-link" to="/employeeexpense"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-receipt"></i>
                                 </div>
@@ -260,7 +256,7 @@ const CustomFeeVoucher = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">
-                                    Custom Fee Voucher
+                                    Fee Voucher
                                 </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
@@ -271,29 +267,6 @@ const CustomFeeVoucher = () => {
                     <div class="right-body">
 
                         <div class="message">
-                            <Modal show={show} onHide={remove}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Generate Custom Voucher</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <div className="row billing-main">
-                                        <div class="col-8 billing-box">
-                                            <TextField className="pb-3 bg-white" type="number" onChange={(e) => setAmount(e.target.value)} label="Total Amount" variant="filled" />
-
-                                        </div>
-
-                                        <div class="col-8 billing-box">
-                                            <TextField className="pb-3 bg-white" type="date" onChange={(e) => setDueDate(e.target.value)} label="Due Date" defaultValue="01-01-2021" variant="filled" />
-                                        </div>
-                                    </div>
-                                </Modal.Body>
-                                <Modal.Footer>
-                                    <button class="btn btn-secondary" onClick={remove}>
-                                        Close
-                                            </button>
-                                    <button onClick={generate} className="btn btn-primary">Yes</button>
-                                </Modal.Footer>
-                            </Modal>
                             <div className="row">
                                 <div className="col-6 text-left mt-1">
                                     <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
@@ -344,13 +317,13 @@ const CustomFeeVoucher = () => {
                                             <th class="border-top-0">G.R No</th>
                                             <th class="border-top-0">NAME</th>
                                             <th class="border-top-0">GENDER</th>
-                                            <th class="border-top-0">Generate</th>
+                                            <th class="border-top-0">Status</th>
                                             {/* <th class="border-top-0">Details</th> */}
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {studentdata.filter((val) => {
+                                        {mydata.filter((val) => {
                                             if (searchTerm == '') {
                                                 return val;
                                             }
@@ -374,21 +347,20 @@ const CustomFeeVoucher = () => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.G_R_NO}</td>
-                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name} `}</td>
+                                                    <td class="txt-oflo print-capitalize">{`${val.student_name}`}</td>
                                                     <td className="print-capitalize">{val.gender}</td>
-                                                    <td><Button onClick={() => sendNew(val.id)}><AddIcon /></Button></td>
-                                                    {/* <td>
+                                                    <td>
                                                         {val.paid == 1 ?
                                                             <span class="text-primary text-bolder">Paid</span>
                                                             :
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="expense-btn-p " onClick={() => sendpay(val.voucher_no)}><span class="text-white text-bolder mb-1">Pay</span></Button>
                                                             </ButtonGroup>}
-                                                    </td> */}
+                                                    </td>
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
 
-                                                    <td><Button onClick={() => history.push(`/feevoucher/${val.id}`)}><PrintIcon /></Button></td>
+                                                    <td><Button onClick={() => history.push(`/feevoucher/${val.student_id}`)}><PrintIcon /></Button></td>
 
 
                                                 </tr>
@@ -398,20 +370,20 @@ const CustomFeeVoucher = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
-                    <Snackbar
-                        anchorOrigin={{ vertical, horizontal }}
-                        open={open}
-                        autoHideDuration={4000}
-                        onClose={CloseMessage}
-                        message={messageinfo}
-                        key={vertical + horizontal}
-                    />
                 </div>
             </div>
         </>
     );
 };
-export default CustomFeeVoucher;
+export default EmployeeFeeVoucher;
 
 

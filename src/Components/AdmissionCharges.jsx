@@ -9,6 +9,7 @@ import logo from './jb1.png'
 import { useState } from 'react';
 import axios from 'axios'
 import { Modal } from 'react-bootstrap';
+import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
 // import AddIcon from '@material-ui/icons/Add';
 
@@ -24,6 +25,19 @@ const AdmissionCharges = () => {
     const handleShow1 = () => setShow1(true);
     const [prevdata, setPrevdata] = useState('');
     const history = useHistory();
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_admission_charges/${school_id}`)
             .then(response => {
@@ -32,7 +46,8 @@ const AdmissionCharges = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -44,12 +59,18 @@ const AdmissionCharges = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
 
     }
     const sendAdmission = () => {
+        if(chargesadmission < 0){
+            setMessageinfo("Charges can't be Negative");
+            handleMessage();
+        }
+        else{
         axios.post(`http://fee-management-api.nastechltd.co/api/admission_charges`,
             {
 
@@ -65,9 +86,11 @@ const AdmissionCharges = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
+        }
 
     };
     const update = (id) => {
@@ -80,11 +103,17 @@ const AdmissionCharges = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
     const sendUpdated = () => {
+        if(chargesadmission < 0){
+            setMessageinfo("Charges can't be Negative");
+            handleMessage();
+        }
+        else{
         axios.put(`http://fee-management-api.nastechltd.co/api/admission_charges/${prevdata.id}`, {
             charges: chargesadmission,
             school_id: school_id
@@ -98,9 +127,11 @@ const AdmissionCharges = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
+        }
     }
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
@@ -124,7 +155,8 @@ const AdmissionCharges = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -330,6 +362,14 @@ const AdmissionCharges = () => {
                                 }
                             </div>
                         </div>
+                        <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
                     </div>
                 </div>
             </div>

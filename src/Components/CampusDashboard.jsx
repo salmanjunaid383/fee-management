@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './dashboard.css';
 import { Link, useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Snackbar from '@material-ui/core/Snackbar';
 import logo from "./jb1.png";
 import axios from 'axios';
 // import { Modal } from 'react-bootstrap';
@@ -24,6 +25,19 @@ const CampusDashboard = () => {
     const school_id = localStorage.getItem("school_id")
     // const admin_id = localStorage.getItem("admin_id");
     const history = useHistory();
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     // useEffect(() => {
     //     axios.get(`http://fee-management-api.nastechltd.co/api/school_administrator`)
     //     .then(response => {
@@ -44,14 +58,15 @@ const CampusDashboard = () => {
         //             alert(error.response.data.message);
         //         }
         //     })
-            axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setSchooldata(response.data)
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -83,7 +98,6 @@ const CampusDashboard = () => {
                                 <img
                                     src={logo} />
                             </div>
-
                             <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
                                     <i class="fas fa-columns active"></i>
@@ -146,10 +160,6 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-
-
-
-
                         </div>
                     </div>
                 </div>
@@ -159,7 +169,7 @@ const CampusDashboard = () => {
                             <div class="top-bar-justify">
                                 <div class="big-inbox print-capitalize">
                                     {schooldata.name}
-                        </div>
+                                </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
 
                             </div>
@@ -253,6 +263,14 @@ const CampusDashboard = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

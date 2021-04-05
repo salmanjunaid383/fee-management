@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const MySection = () => {
     const [schoolClass, setSchoolClass] = useState();
@@ -36,53 +37,101 @@ const MySection = () => {
         localStorage.removeItem("user_id")
         handleClose2();
     }
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/section/${class_id}`)
             .then(response => {
                 console.log(response.data)
                 setSectiondata(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }, [])
 
     const sendData = () => {
+        if(section === ''){
+            setMessageinfo("Enter Section");
+            handleMessage();
+        }
+        else{
         axios.post(`http://fee-management-api.nastechltd.co/api/section`, {
             name: section,
-            class_id :class_id,
-            class_name : class_name
+            class_id: class_id,
+            class_name: class_name
 
         })
             .then(response => {
                 console.log(response);
                 reload();
                 handleClose();
+                setSection('')
+
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+        }
     }
-    const update = (id) =>{
+    const update = (id) => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_section/${id}`)
-          .then(response => {
-                  console.log(response.data)
-                  localStorage.setItem("id",response.data.id)
-                  localStorage.setItem("name",response.data.name)
-                  setSection(response.data.name)
-                  handleShow1();
-          })
-          .catch(error => console.log(error) )
+            .then(response => {
+                console.log(response.data)
+                localStorage.setItem("id", response.data.id)
+                localStorage.setItem("name", response.data.name)
+                setSection(response.data.name)
+                handleShow1();
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     const sendUpdated = () => {
+        if(section === ''){
+            setMessageinfo("Enter Section");
+            handleMessage();
+        }
+        else{
         axios.put(`http://fee-management-api.nastechltd.co/api/section/${localStorage.getItem("id")}`, {
-            name : section
+            name: section
 
         })
-        .then (response => 
-            {console.log(response);
+            .then(response => {
+                console.log(response);
                 localStorage.removeItem("id")
                 localStorage.removeItem("name")
+                setSection('')
                 reload();
                 handleClose1();
             })
-        .catch (error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+        }
     }
 
 
@@ -94,8 +143,12 @@ const MySection = () => {
                 console.log(response.data)
                 setSectiondata(response.data)
             })
-            .catch(error => console.log(error))
-
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     const deleteSection = (id) => {
         axios.delete(`http://fee-management-api.nastechltd.co/api/section/${localStorage.getItem("user_id")}`)
@@ -104,9 +157,11 @@ const MySection = () => {
                 remove();
                 reload();
             })
-            .catch(error => {
-                console.log(error)
-                alert("First Delete Students Of This Class")
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
             })
 
     }
@@ -187,7 +242,7 @@ const MySection = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -196,7 +251,7 @@ const MySection = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox">Sections</div>
-                            <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>
 
                         </div>
@@ -299,6 +354,14 @@ const MySection = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

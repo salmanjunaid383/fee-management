@@ -10,11 +10,23 @@ import Emergency from './Components/Emergency';
 import Requirements from './Components/Requirements';
 import Mydashboard from './Components/Mydashboard';
 import CampusDashboard from './Components/CampusDashboard';
+import EmployeeDashboard from './Components/EmployeePortal/EmployeeDashboard';
+import EmployeeFee from './Components/EmployeePortal/EmployeeFee';
+import EmployeeLedger from './Components/EmployeePortal/EmployeeLedger';
+import EmployeeVoucher from './Components/EmployeePortal/EmployeeVoucher';
+import EmployeePeriod from './Components/EmployeePortal/EmployeePeriod';
+import EmployeeDiscount from './Components/EmployeePortal/EmployeeDiscount';
+import EmployeeDefaulters from './Components/EmployeePortal/EmployeeDefaulters';
+import EmployeeStructure from './Components/EmployeePortal/EmployeeStructure';
+import EmployeeBreakdown from './Components/EmployeePortal/EmployeeBreakdown';
+import EmployeeExpense from './Components/EmployeePortal/EmployeeExpense';
+import EmployeeAddStructure from './Components/EmployeePortal/EmployeeAddStructure';
 import Myschool from './Components/Myschool';
 import AdminsSchool from './Components/AdminsSchool';
 import MyClass from './Components/MyClass';
 import Undertaking from './Components/Undertaking';
 import Defaulters from './Components/Defaulters';
+import DefaulterNotice from './Components/DefaulterNotice';
 import SchoolUndertaking from './Components/SchoolUndertaking';
 import PrintForm from './Components/PrintForm';
 import SubmitForm from './Components/SubmitForm';
@@ -98,9 +110,21 @@ const App = () => {
             <Route path="/requirements/:formNo" component={Requirements} />
             <Route path="/undertaking/:formNo" component={Undertaking} />
             <Route path="/defaulters" component={Defaulters} />
+            <Route path="/defaulternotice" component={DefaulterNotice} />
             <Route path="/schoolundertaking" component={SchoolUndertaking} />
             <Route path="/printform/:formNo" component={PrintForm} />
             <Route path="/submitform/:formNo" component={SubmitForm} />
+            <Route path="/employeedashboard" component={EmployeeDashboard} />
+            <Route path="/employeefeecomponents" component={EmployeeFee} />
+            <Route path="/employeefeevoucheradmin" component={EmployeeVoucher} />
+            <Route path="/employeeadminledger" component={EmployeeLedger} />
+            <Route path="/employeeperiod" component={EmployeePeriod} />
+            <Route path="/employeestructure" component={EmployeeStructure} />
+            <Route path="/employeeaddstructure" component={EmployeeAddStructure} />
+            <Route path="/employeebreakdown" component={EmployeeBreakdown} />
+            <Route path="/employeedefaulter" component={EmployeeDefaulters} />
+            <Route path="/employeediscount" component={EmployeeDiscount} />
+            <Route path="/employeeexpense" component={EmployeeExpense} />
         </Switch>
 
     </>

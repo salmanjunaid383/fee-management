@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './personal.css';
 import { Link, useHistory } from 'react-router-dom';
+import Snackbar from '@material-ui/core/Snackbar';
 // import WebcamCapture from './Webcam'
 // import Webcam from 'react-webcam';
 
@@ -11,9 +12,21 @@ const Siblings = () => {
     const form_no = localStorage.getItem("form_no");
     const sibling_id = localStorage.getItem("sibling_id");
     const [inputList, setInputList] = useState([
-        { name: "", age: "", class: "" }
-    ]
-    );
+        { name: '', age: '', class: '' }
+    ]);
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const [prevdata, setPrevdata] = useState([]);
     // console.log(inputList[0].name);
     const handleChange = (e, index) => {
@@ -23,7 +36,7 @@ const Siblings = () => {
         setInputList(list);
     }
     const handleAdd = () => {
-        setInputList([...inputList, { name: "", age: "", class: "" }]);
+        setInputList([...inputList, { name: '', age: '', class: '' }]);
     }
     const removeField = (index) => {
         const list = [...inputList];
@@ -53,7 +66,8 @@ const Siblings = () => {
     //             })
     //             .catch((error) => {
     //                 if (error.response) {
-    //                     alert(error.response.data.message);
+    // setMessageinfo(error.response.data.message);
+    //  handleMessage();                   
     //                 }
     //             })
     //     }
@@ -64,20 +78,41 @@ const Siblings = () => {
         // remarks : remarks
     }
     const sendData = () => {
-        axios.post(`http://fee-management-api.nastechltd.co/api/siblings`, data)
-            .then(response => {
-                console.log(response.data);
-                localStorage.setItem("sibling_id", response.data.id)
-                history.push("/emergency")
-                setInputList([{ name: "", age: "", class: "" }]);
+        for (var i = 0; i < inputList.length; i++) {
+            if (inputList[i].name === '') {
+                setMessageinfo("Enter Name")
+                handleMessage();
+            }
+            else if (inputList[i].age === '') {
+                setMessageinfo("Enter Age")
+                handleMessage();
+            }
+            else if (inputList[i].age < 0) {
+                setMessageinfo("Age can't be Negative")
+                handleMessage();
+            }
+            else if (inputList[i].class === '') {
+                setMessageinfo("Enter Class")
+                handleMessage();
+            }
+            else {
+                axios.post(`http://fee-management-api.nastechltd.co/api/siblings`, data)
+                    .then(response => {
+                        console.log(response.data);
+                        localStorage.setItem("sibling_id", response.data.id)
+                        history.push("/emergency")
+                        setInputList([{ name: '', age: '', class: '' }]);
 
-                // setStudentdata(response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+                        // setStudentdata(response.data);
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
+            }
+        }
     }
 
 
@@ -152,6 +187,14 @@ const Siblings = () => {
                         </fieldset>
 
                     </form>
+                    <Snackbar
+                        anchorOrigin={{ vertical, horizontal }}
+                        open={open}
+                        autoHideDuration={4000}
+                        onClose={CloseMessage}
+                        message={messageinfo}
+                        key={vertical + horizontal}
+                    />
                 </div>
             </div>
 

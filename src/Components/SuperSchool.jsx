@@ -144,7 +144,7 @@ const SuperSchool = () => {
             handleMessage();
         }
         else if (selectedFile == undefined) {
-            setMessageinfo("Select School School Logo")
+            setMessageinfo("Select School Logo")
             handleMessage();
         }
         else {

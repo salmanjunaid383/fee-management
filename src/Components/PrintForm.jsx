@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import './PrintForm.css';
 import { useHistory, useParams } from 'react-router';
+import Snackbar from '@material-ui/core/Snackbar';
 import { capitalize } from '@material-ui/core';
 
 const PrintForm = ({ teamId, orientation = 'portrait' }) => {
@@ -12,6 +13,19 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
     const [emergency, setEmergency] = useState({});
     const [siblings, setSiblings] = useState([]);
     const history = useHistory();
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     function setPageSize(cssPageSize) {
         const style = document.createElement('style');
         style.innerHTML = `@page {size: ${cssPageSize}}`;
@@ -39,7 +53,8 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -314,6 +329,14 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                     <div id="print_btn" className="col-12 print-submit-btn"><button onClick={() => window.print()} className="btn btn-success">Print</button></div>
 
                 </div>
+                <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
             </div>
         </>
     )

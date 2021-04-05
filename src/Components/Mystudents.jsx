@@ -7,7 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import LaunchIcon from '@material-ui/icons/Launch';
-
+import Snackbar from '@material-ui/core/Snackbar';
 import DescriptionIcon from '@material-ui/icons/Description';
 import logo from './jb1.png'
 import { Modal } from 'react-bootstrap';
@@ -17,12 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-
-
 import axios from 'axios';
-
-
-
 import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -94,7 +89,19 @@ const Mystudents = () => {
         localStorage.removeItem("user_id")
         handleClose2();
     }
-
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     if ((studentdata.length > 0) && (userdata.length > 0)) {
         for (var i = 0; i < studentdata.length; i++) {
             for (var j = 0; j < userdata.length; j++) {
@@ -122,7 +129,8 @@ const Mystudents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
@@ -133,7 +141,8 @@ const Mystudents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -143,7 +152,8 @@ const Mystudents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -162,7 +172,8 @@ const Mystudents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
         axios.get(`http://fee-management-api.nastechltd.co/api/finance/${school_id}`)
@@ -172,7 +183,8 @@ const Mystudents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -188,12 +200,14 @@ const Mystudents = () => {
                 })
                 .catch((error) => {
                     if (error.response) {
-                        alert(error.response.data.message);
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
                     }
                 })
         }
         else {
-            alert("Password Does not Match")
+            setMessageinfo("Password Does not Match")
+            handleMessage();
         }
 
     }
@@ -209,7 +223,8 @@ const Mystudents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -233,34 +248,73 @@ const Mystudents = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
     // console.log(fname)
     const sendUpdated = () => {
-        axios.put(`http://fee-management-api.nastechltd.co/api/user/${prevdata.id}`, {
-            first_name: fname,
-            last_name: lname,
-            middle_name: mname,
-            email: email,
-            contact: contact,
-            address: address,
-            gender: gender
+        if (fname === '') {
+            setMessageinfo("Enter First Name")
+            handleMessage();
+        }
+        else if (lname === '') {
+            setMessageinfo("Enter Last Name")
+            handleMessage();
 
-        })
-            .then(response => {
-                console.log(response);
-                setPrevdata('')
-                reload();
-                handleClose1();
+        }
+        else if (email === '') {
+            setMessageinfo("Enter Email")
+            handleMessage();
 
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+        }
+        else if (contact === '') {
+            setMessageinfo("Enter Contact NO.")
+            handleMessage();
+
+        }
+        else if (address === '') {
+            setMessageinfo("Enter Address")
+            handleMessage();
+
+        }
+        else if (gender === '') {
+            setMessageinfo("Select Gender")
+            handleMessage();
+
+        }
+        else {
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                axios.put(`http://fee-management-api.nastechltd.co/api/user/${prevdata.id}`, {
+                    first_name: fname,
+                    last_name: lname,
+                    middle_name: mname,
+                    email: email,
+                    contact: contact,
+                    address: address,
+                    gender: gender
+
+                })
+                    .then(response => {
+                        console.log(response);
+                        setPrevdata('')
+                        reload();
+                        handleClose1();
+
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
+            }
+            else {
+                setMessageinfo("Enter Valid Email");
+                handleMessage();
+            }
+        }
     }
     const search = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
@@ -591,8 +645,11 @@ const Mystudents = () => {
                                                 <tr key={i}>
                                                     <td>{i + 1}</td>
                                                     <td>{val.G_R_NO}</td>
-                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                    <td className="print-capitalize">{val.gender}</td>
+                                                    {val.middle_name === null ?
+                                                        <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
+                                                        :
+                                                        <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                    }                                                    <td className="print-capitalize">{val.gender}</td>
                                                     <td><button class="btn" onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></button></td>
 
                                                     <td><Button className="text-bold" onClick={() => changeClick(val.id)}><span>Change</span></Button></td>
@@ -612,6 +669,14 @@ const Mystudents = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

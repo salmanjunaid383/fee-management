@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './dashboard.css';
+import '../dashboard.css';
 import { Link, useHistory } from 'react-router-dom';
 import LaunchIcon from '@material-ui/icons/Launch';
 import Button from '@material-ui/core/Button';
-import logo from './jb1.png'
+import logo from '../jb1.png'
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const AdminLedger = () => {
+const EmployeeLedger = () => {
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
     const history = useHistory();
@@ -159,71 +159,37 @@ const AdminLedger = () => {
                                     src={logo} />
                             </div>
 
-                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
+                            <Link to="/employeedashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
-                                    <i class="fas  fa-columns"></i>
+                                    <i class="fas fa-columns"></i>
                                 </div>
-                                <div class="icon-name1 ">Dashboard</div>
+                                <div class="icon-name1">Dashboard</div>
                             </div></Link>
-                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
-                                <div class="icon1">
-                                    <i class="fas fa-school"></i>
-                                </div>
-                                <div class="icon-name1">Admission</div>
-                            </div></Link>
-
-                            <Link class="nav-link" to="/class"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-users-class"></i>
-                                </div>
-                                <div class="icon-name">Class</div>
-                            </div></Link>
-
-                            <Link class="nav-link" to="/students"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Students</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/finance"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <div class="icon-name">Finance Employee</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
+                            
+                            <Link class="nav-link" to="/employeefeecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-money-check-alt"></i>
                                 </div>
                                 <div class="icon-name">Fee</div>
                             </div></Link>
-                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
+                            <Link class="nav-link" to="/employeefeevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-print"></i>
                                 </div>
                                 <div class="icon-name">Fee Voucher</div>
                             </div></Link>
-                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
+                            <Link class="nav-link" to="/employeeadminledger"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-calculator-alt active"></i>
                                 </div>
                                 <div class="icon-name active">Student Ledger</div>
                             </div></Link>
-                            <Link class="nav-link" to="/term"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div class="icon-name">Term</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/expense"><div class="folder-icons">
+                            <Link class="nav-link" to="/employeeexpense"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-receipt"></i>
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -358,6 +324,6 @@ const AdminLedger = () => {
         </>
     );
 };
-export default AdminLedger;
+export default EmployeeLedger;
 
 

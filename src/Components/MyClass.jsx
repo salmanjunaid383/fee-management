@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 const MyClass = () => {
     const [schoolClass, setSchoolClass] = useState();
@@ -36,7 +38,7 @@ const MyClass = () => {
         handleClose2();
     }
     const [sections, setSections] = useState([
-        { name: "" }
+        { name: '' }
     ]);
     const handleChange = (e, index) => {
         const { name, value } = e.target;
@@ -45,14 +47,26 @@ const MyClass = () => {
         setSections(list);
     }
     const handleAdd = () => {
-        setSections([...sections, { name: "" }]);
+        setSections([...sections, { name: '' }]);
     }
     const removeField = (index) => {
         const list = [...sections];
         list.splice(index, 1);
         setSections(list);
     }
-
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
@@ -61,7 +75,8 @@ const MyClass = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
@@ -72,22 +87,33 @@ const MyClass = () => {
         sections: sections
     }
     const sendData = (e) => {
-        axios.post('http://fee-management-api.nastechltd.co/api/schools_class', data)
-            .then(response => {
-                console.log(response)
-                console.log(response.data.id)
-                setSchoolClass();
-                setSections([{ name: "" }]);
-                handleClose();
-                reload();
+        if (schoolClass === '') {
+            setMessageinfo("Enter Class")
+            handleMessage();
+        }
+        else if(sections[0].name === ''){
+            setMessageinfo("Enter Section(s)")
+            handleMessage();
+        }
+        else {
+            axios.post('http://fee-management-api.nastechltd.co/api/schools_class', data)
+                .then(response => {
+                    console.log(response)
+                    console.log(response.data.id)
+                    setSchoolClass();
+                    setSections([{ name: '' }]);
+                    handleClose();
+                    reload();
 
 
-            })
-            .catch((error) => {
-                if (error.response) {
-                    alert(error.response.data.message);
-                }
-            })
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
+        }
     }
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
@@ -97,7 +123,8 @@ const MyClass = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -110,7 +137,8 @@ const MyClass = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -125,11 +153,17 @@ const MyClass = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
     const sendUpdated = () => {
+        if (schoolClass === '') {
+            setMessageinfo("Enter Class")
+            handleMessage();
+        }
+        else{
         axios.put(`http://fee-management-api.nastechltd.co/api/schools_class/${prevdata.id}`, {
             name: schoolClass
 
@@ -143,9 +177,11 @@ const MyClass = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
+        }
     }
 
     const logOut = () => {
@@ -273,8 +309,8 @@ const MyClass = () => {
                                                             }
                                                         </div>
                                                         <div className="col-2 text-left p-0">
-                                                        {sections.length !== 1 &&
-                                                                <button type="button" onClick={()=>removeField(i)} class="btn btn-primary mt-3">Remove</button>
+                                                            {sections.length !== 1 &&
+                                                                <button type="button" onClick={() => removeField(i)} class="btn btn-primary mt-3">Remove</button>
                                                             }
                                                         </div>
                                                     </div>
@@ -352,7 +388,7 @@ const MyClass = () => {
                                                         <td>{i + 1}</td>
                                                         <td class="txt-oflo">{val.name}</td>
 
-                                                        <td><Link to="/section"><button class="btn" onClick={()=>{localStorage.setItem("class_id",val.id);localStorage.setItem("class_name",val.name)}}><LaunchIcon/></button></Link></td>
+                                                        <td><Link to="/section"><button class="btn" onClick={() => { localStorage.setItem("class_id", val.id); localStorage.setItem("class_name", val.name) }}><LaunchIcon /></button></Link></td>
 
                                                         <td>{val.created_at.slice(0, 10)}</td>
                                                         <td>
@@ -372,6 +408,14 @@ const MyClass = () => {
                                 </table>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>
