@@ -119,78 +119,91 @@ const Fatherparticular = () => {
         mother_residential_address: Motheraddress,
         mother_email: Motheremail
     }
-
+ console.log(Fathercnic.length)
+ console.log(Mothercnic.length)
     const sendData = () => {
         if (parent_id == null) {
-            if (Fathername == '') {
+            if (Fathername === '') {
                 setMessageinfo("Enter Father Name")
                 handleMessage();
             }
-            else if (Fatherqualification == '') {
+            else if (Fatherqualification === '') {
                 setMessageinfo("Enter Father's Qualification")
                 handleMessage();
             }
-            else if (Fatherreligion == '') {
+            else if (Fatherreligion === '') {
                 setMessageinfo("Enter Father's Religion")
                 handleMessage();
             }
-            else if (Fathernationality == '') {
+            else if (Fathernationality === '') {
                 setMessageinfo("Enter Father's Nationality")
                 handleMessage();
             }
-            else if (Fatheroccupation == '') {
+            else if (Fatheroccupation === '') {
                 setMessageinfo("Enter Father's Occupation")
                 handleMessage();
             }
-            else if (Fathertel == '') {
+            else if (Fathertel === '') {
                 setMessageinfo("Enter Father's Telephone")
                 handleMessage();
             }
-            else if (Fathercell == '') {
+            else if (Fathercell === '') {
                 setMessageinfo("Enter Father's Cellphone")
                 handleMessage();
             }
-            else if (Fathercnic == '') {
+            else if (Fathercnic === '') {
                 setMessageinfo("Enter Father's CNIC")
                 handleMessage();
             }
-            else if (Fatheraddressoffice == '') {
+            else if (Fathercnic.length < 13 || Fathercnic.length > 13) {
+                setMessageinfo("Enter Father's Valid CNIC")
+                handleMessage();
+            }
+            else if (Fatheraddressoffice === '') {
                 setMessageinfo("Enter Father's Address")
                 handleMessage();
             }
-            else if (Mothername == '') {
+            else if (Mothername === '') {
                 setMessageinfo("Enter Mother Name")
                 handleMessage();
             }
-            else if (Motherqualification == '') {
+            else if (Motherqualification === '') {
                 setMessageinfo("Enter Mother's Qualification")
                 handleMessage();
             }
-            else if (Motherreligion == '') {
+            else if (Motherreligion === '') {
                 setMessageinfo("Enter Mother's Religion")
                 handleMessage();
             }
-            else if (Mothernationality == '') {
+            else if (Mothernationality === '') {
                 setMessageinfo("Enter Mother's Nationality")
                 handleMessage();
             }
-            else if (Motheroccupation == '') {
+            else if (Motheroccupation === '') {
                 setMessageinfo("Enter Mother's Occupation")
                 handleMessage();
             }
-            else if (Mothertel == '') {
+            else if (Mothertel === '') {
                 setMessageinfo("Enter Mother's Telephone")
                 handleMessage();
             }
-            else if (Mothercell == '') {
+            else if (Mothercell === '') {
                 setMessageinfo("Enter Mother's Cellphone")
                 handleMessage();
             }
-            else if (Mothercnic == '') {
+            else if (Mothercnic === '') {
                 setMessageinfo("Enter Mother's CNIC")
                 handleMessage();
             }
-            else if (Motheraddress == '') {
+            else if (Mothercnic.length < 13 || Mothercnic.length > 13) {
+                setMessageinfo("Enter Mother's Valid CNIC")
+                handleMessage();
+            }
+            else if (Mothercnic === Fathercnic) {
+                setMessageinfo("CNIC must be unique")
+                handleMessage();
+            }
+            else if (Motheraddress === '') {
                 setMessageinfo("Enter Mother's address")
                 handleMessage();
             }
@@ -217,75 +230,87 @@ const Fatherparticular = () => {
             }
         }
         else {
-            if (Fathername == '') {
+            if (Fathername === '') {
                 setMessageinfo("Enter Father Name")
                 handleMessage();
             }
-            else if (Fatherqualification == '') {
+            else if (Fatherqualification === '') {
                 setMessageinfo("Enter Father's Qualification")
                 handleMessage();
             }
-            else if (Fatherreligion == '') {
+            else if (Fatherreligion === '') {
                 setMessageinfo("Enter Father's Religion")
                 handleMessage();
             }
-            else if (Fathernationality == '') {
+            else if (Fathernationality === '') {
                 setMessageinfo("Enter Father's Nationality")
                 handleMessage();
             }
-            else if (Fatheroccupation == '') {
+            else if (Fatheroccupation === '') {
                 setMessageinfo("Enter Father's Occupation")
                 handleMessage();
             }
-            else if (Fathertel == '') {
+            else if (Fathertel === '') {
                 setMessageinfo("Enter Father's Telephone")
                 handleMessage();
             }
-            else if (Fathercell == '') {
+            else if (Fathercell === '') {
                 setMessageinfo("Enter Father's Cellphone")
                 handleMessage();
             }
-            else if (Fathercnic == '') {
+            else if (Fathercnic === '') {
                 setMessageinfo("Enter Father's CNIC")
                 handleMessage();
             }
-            else if (Fatheraddressoffice == '') {
+            else if (Fathercnic.length < 13 || Fathercnic.length > 13) {
+                setMessageinfo("Enter Father's Valid CNIC")
+                handleMessage();
+            }
+            else if (Fatheraddressoffice === '') {
                 setMessageinfo("Enter Father's Address")
                 handleMessage();
             }
-            else if (Mothername == '') {
+            else if (Mothername === '') {
                 setMessageinfo("Enter Mother Name")
                 handleMessage();
             }
-            else if (Motherqualification == '') {
+            else if (Motherqualification === '') {
                 setMessageinfo("Enter Mother's Qualification")
                 handleMessage();
             }
-            else if (Motherreligion == '') {
+            else if (Motherreligion === '') {
                 setMessageinfo("Enter Mother's Religion")
                 handleMessage();
             }
-            else if (Mothernationality == '') {
+            else if (Mothernationality === '') {
                 setMessageinfo("Enter Mother's Nationality")
                 handleMessage();
             }
-            else if (Motheroccupation == '') {
+            else if (Motheroccupation === '') {
                 setMessageinfo("Enter Mother's Occupation")
                 handleMessage();
             }
-            else if (Mothertel == '') {
+            else if (Mothertel === '') {
                 setMessageinfo("Enter Mother's Telephone")
                 handleMessage();
             }
-            else if (Mothercell == '') {
+            else if (Mothercell === '') {
                 setMessageinfo("Enter Mother's Cellphone")
                 handleMessage();
             }
-            else if (Mothercnic == '') {
+            else if (Mothercnic === '') {
                 setMessageinfo("Enter Mother's CNIC")
                 handleMessage();
             }
-            else if (Motheraddress == '') {
+            else if (Mothercnic.length < 13 || Mothercnic.length > 13) {
+                setMessageinfo("Enter Mother's Valid CNIC")
+                handleMessage();
+            }
+            else if (Mothercnic === Fathercnic) {
+                setMessageinfo("CNIC must be unique")
+                handleMessage();
+            }
+            else if (Motheraddress === '') {
                 setMessageinfo("Enter Mother's address")
                 handleMessage();
             }

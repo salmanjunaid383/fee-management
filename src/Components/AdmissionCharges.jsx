@@ -66,30 +66,30 @@ const AdmissionCharges = () => {
 
     }
     const sendAdmission = () => {
-        if(chargesadmission < 0){
+        if (chargesadmission < 0) {
             setMessageinfo("Charges can't be Negative");
             handleMessage();
         }
-        else{
-        axios.post(`http://fee-management-api.nastechltd.co/api/admission_charges`,
-            {
+        else {
+            axios.post(`http://fee-management-api.nastechltd.co/api/admission_charges`,
+                {
 
-                school_id: school_id,
-                charges: chargesadmission
+                    school_id: school_id,
+                    charges: chargesadmission
 
-            })
-            .then(response => {
-                console.log(response)
-                setChargesadmission();
-                reload();
-                handleClose();
-            })
-            .catch((error) => {
-                if (error.response) {
-                    setMessageinfo(error.response.data.message);
-                    handleMessage();
-                }
-            })
+                })
+                .then(response => {
+                    console.log(response)
+                    setChargesadmission();
+                    reload();
+                    handleClose();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
         }
 
     };
@@ -109,28 +109,28 @@ const AdmissionCharges = () => {
             })
     }
     const sendUpdated = () => {
-        if(chargesadmission < 0){
+        if (chargesadmission < 0) {
             setMessageinfo("Charges can't be Negative");
             handleMessage();
         }
-        else{
-        axios.put(`http://fee-management-api.nastechltd.co/api/admission_charges/${prevdata.id}`, {
-            charges: chargesadmission,
-            school_id: school_id
-        })
-            .then(response => {
-                console.log(response.data)
-                setPrevdata('');
-                setChargesadmission();
-                reload();
-                handleClose1();
+        else {
+            axios.put(`http://fee-management-api.nastechltd.co/api/admission_charges/${prevdata.id}`, {
+                charges: chargesadmission,
+                school_id: school_id
             })
-            .catch((error) => {
-                if (error.response) {
-                    setMessageinfo(error.response.data.message);
-                    handleMessage();
-                }
-            })
+                .then(response => {
+                    console.log(response.data)
+                    setPrevdata('');
+                    setChargesadmission();
+                    reload();
+                    handleClose1();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
         }
     }
     const [show2, setShow2] = useState(false);
@@ -260,6 +260,16 @@ const AdmissionCharges = () => {
 
                         <div class="message">
                             <div class="add-student">
+                                {
+                                    admissiondata.length == 0 ?
+
+                                        <div class="text-center mb-2">
+                                            <button onClick={handleShow} class="btn btn-primary">Define Admission Charges</button>
+                                        </div>
+                                        :
+                                        null
+
+                                }
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Add Charges</Modal.Title>
@@ -350,26 +360,17 @@ const AdmissionCharges = () => {
 
                                     </tbody>
                                 </table>
-                                {
-                                    admissiondata.length == 0 ?
 
-                                        <div class="text-center mb-2">
-                                            <button onClick={handleShow} class="btn btn-primary">Define Admission Charges</button>
-                                        </div>
-                                        :
-                                        null
-
-                                }
                             </div>
                         </div>
                         <Snackbar
-                    anchorOrigin={{ vertical, horizontal }}
-                    open={open}
-                    autoHideDuration={4000}
-                    onClose={CloseMessage}
-                    message={messageinfo}
-                    key={vertical + horizontal}
-                />
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

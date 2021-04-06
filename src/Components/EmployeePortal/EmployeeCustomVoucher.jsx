@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './dashboard.css';
+import '../dashboard.css';
 import { Link, useHistory } from 'react-router-dom';
 import PrintIcon from '@material-ui/icons/Print';
 // import UpdateIcon from '@material-ui/icons/Update';
@@ -8,7 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 // import ButtonGroup from '@material-ui/core/ButtonGroup';
 // import DescriptionIcon from '@material-ui/icons/Description';
-import logo from './jb1.png'
+import logo from '../jb1.png'
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 // import FormLabel from '@material-ui/core/FormLabel';
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
 }));
-const CustomFeeVoucher = () => {
+const EmployeeCustomVoucher = () => {
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
     const [show, setShow] = useState(false);
@@ -124,9 +124,9 @@ const CustomFeeVoucher = () => {
             })
                 .then(response => {
                     console.log(response.data);
+                    remove();
                     setAmount('');
                     setDueDate('');
-                    remove();
                     reload();
                 })
                 .catch((error) => {
@@ -143,7 +143,12 @@ const CustomFeeVoucher = () => {
                 console.log(response.data)
                 setSectiondata(response.data)
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
     const reset = () => {
         setClassid('');
@@ -420,6 +425,6 @@ const CustomFeeVoucher = () => {
         </>
     );
 };
-export default CustomFeeVoucher;
+export default EmployeeCustomVoucher;
 
 

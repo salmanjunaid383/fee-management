@@ -58,7 +58,7 @@ const DefaulterNotice = ({ teamId, orientation = 'portrait' }) => {
                             <h2 className="text-center print-capitalize">{schooldata.name}</h2>
                         </div>
                         <div className="col-12 mt-2">
-                            <h2 className="text-center"><u>Undertaking by the Parents</u></h2>
+                            <h2 className="text-center"><u>Reminder for the Parents</u></h2>
                         </div>
                     </div>
                     <div className="row mt-5">

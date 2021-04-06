@@ -130,17 +130,41 @@ const FeeComponents = () => {
                     </div>
                     <div class="right-body">
                         <div class="message">
-                        <div className="show_fee">
-                                <div className="">
+                            <div className="show_fee">
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-calendar-times"></i></div>
+                                        <button type="button" onClick={() => history.push("/feeperiod")} class="btn mb-0 mt-0 w-100 btn-primary btn-lg">Fee Period</button>
 
-                                    
-                                    <button type="button" onClick={() => history.push("/feeperiod")} class="btn my-3 mx-1 btn-primary btn-lg">Fee Period</button>
-                                    <button type="button" onClick={() => history.push("/structure")} class="btn my-3 mx-1 btn-primary btn-lg">Fee Structure</button>
-                                    <button type="button" onClick={() => history.push("/discounted")} class="btn my-3 mx-1 btn-primary btn-lg">Discount</button>
-                                    <button type="button" onClick={() => history.push("/defaulters")} class="btn my-3 mx-1 btn-primary btn-lg">Defaulters</button>
-                                    <button type="button" onClick={() => history.push("/customfeevoucher")} class="btn my-3 mx-1 btn-primary btn-lg">Custom Voucher</button>
+                                    </div>
+                                </div>
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-money-check-alt"></i></div>
+                                        <button type="button" onClick={() => history.push("/structure")} class="btn my-0 w-100 btn-primary btn-lg">Fee Structure</button>
 
-                                    {/* <button type="button" class="btn my-3 mx-1 btn-primary btn-lg"><Link to="/" className="text-white">Admission</Link></button> */}
+                                    </div>
+                                </div>
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-user-tag"></i></div>
+                                        <button type="button" onClick={() => history.push("/discounted")} class="btn mb-0 mt-0 w-100 btn-primary btn-lg">Discount</button>
+
+                                    </div>
+                                </div>
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-user-slash"></i></div>
+                                        <button type="button" onClick={() => history.push("/defaulters")} class="btn my-0 w-100 btn-primary btn-lg">Defaulters</button>
+
+                                    </div>
+                                </div>
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-file-invoice-dollar"></i></div>
+                                        <button type="button" onClick={() => history.push("/customfeevoucher")} class="btn my-0 w-100 btn-primary btn-lg">Custom Feevoucher</button>
+
+                                    </div>
                                 </div>
 
                             </div>

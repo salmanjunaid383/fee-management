@@ -129,7 +129,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
-                                <p class=" voucher-text1">{duedate}</p>
+                                <p class=" voucher-text1">{feevoucher.due_date}</p>
                             </div>
                         </div>
                         {/* <div class="row">
@@ -253,7 +253,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
-                                <p class=" voucher-text1">{duedate}</p>
+                                <p class=" voucher-text1">{feevoucher.due_date}</p>
                             </div>
                         </div>
 
@@ -368,7 +368,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Due Date</p>
-                                <p class=" voucher-text1">{duedate}</p>
+                                <p class=" voucher-text1">{feevoucher.due_date}</p>
                             </div>
                         </div>
                         {/* <div class="row">

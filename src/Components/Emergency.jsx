@@ -95,6 +95,10 @@ const Emergency = () => {
                 setMessageinfo("Enter CNIC")
                 handleMessage();
             }
+            else if (cnic.length < 13 || cnic.length > 13) {
+                setMessageinfo("Enter Valid CNIC")
+                handleMessage();
+            }
             else if (address == '') {
                 setMessageinfo("Enter Residential Address")
                 handleMessage();
@@ -134,6 +138,10 @@ const Emergency = () => {
             }
             else if (cnic == '') {
                 setMessageinfo("Enter CNIC")
+                handleMessage();
+            }
+            else if (cnic.length < 13 || cnic.length > 13) {
+                setMessageinfo("Enter Valid CNIC")
                 handleMessage();
             }
             else if (address == '') {

@@ -14,6 +14,7 @@ import EmployeeDashboard from './Components/EmployeePortal/EmployeeDashboard';
 import EmployeeFee from './Components/EmployeePortal/EmployeeFee';
 import EmployeeLedger from './Components/EmployeePortal/EmployeeLedger';
 import EmployeeVoucher from './Components/EmployeePortal/EmployeeVoucher';
+import EmployeeCustomVoucher from './Components/EmployeePortal/EmployeeCustomVoucher';
 import EmployeePeriod from './Components/EmployeePortal/EmployeePeriod';
 import EmployeeDiscount from './Components/EmployeePortal/EmployeeDiscount';
 import EmployeeDefaulters from './Components/EmployeePortal/EmployeeDefaulters';
@@ -32,6 +33,7 @@ import PrintForm from './Components/PrintForm';
 import SubmitForm from './Components/SubmitForm';
 import MySection from './Components/Section';
 import FeeVoucher from './Components/FeeVoucher';
+import ForgetPassword from './Components/ForgetPassword';
 import CustomFeeVoucher from './Components/CustomFeeVoucher';
 import FeeVoucherAdmin from './Components/FeeVoucherAdmin';
 import Mystudents from './Components/Mystudents';
@@ -88,6 +90,7 @@ const App = () => {
             <Route path="/feecomponents" component={FeeComponents} />
             <Route path="/breakdown" component={BreakDown} />
             <Route path="/feeperiod" component={FeePeriod} />
+            <Route path="/forgetpassword" component={ForgetPassword} />
             <Route path="/feevoucher/:studentid" component={FeeVoucher} />
             <Route path="/customfeevoucher" component={CustomFeeVoucher} />
             <Route path="/feevoucheradmin" component={FeeVoucherAdmin} />
@@ -125,6 +128,7 @@ const App = () => {
             <Route path="/employeedefaulter" component={EmployeeDefaulters} />
             <Route path="/employeediscount" component={EmployeeDiscount} />
             <Route path="/employeeexpense" component={EmployeeExpense} />
+            <Route path="/employeecustomvoucher" component={EmployeeCustomVoucher} />
         </Switch>
 
     </>

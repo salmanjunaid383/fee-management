@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     formControl: {
-        margin: theme.spacing(1),
-        //   width: '30ch',
+        marginTop: theme.spacing(1),
+        width: '218px',
         minWidth: 120,
     },
     selectEmpty: {
@@ -75,9 +75,17 @@ const AdmissionRequest = () => {
     const [sectiondata, setSectiondata] = useState([]);
     const [sectionid, setSectionid] = useState('');
     const [form_no, setForm_no] = useState();
+    const [dueDate, setDueDate] = useState('');
     const [GR_no, setGR_no] = useState('');
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
+
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
+        "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var StartDate = new Date(dueDate);
+    var startdate = StartDate.getDate()
+    var startmonth = months[StartDate.getMonth()];
+    var startyear = StartDate.getFullYear().toString().substr(-2);
 
     // var mydata = [];
     // if ((studentdata.length > 0) && (userdata.length > 0)) {
@@ -157,7 +165,8 @@ const AdmissionRequest = () => {
         school_id: school_id,
         form_no: form_no,
         G_R_NO: GR_no,
-        section_id: sectionid
+        section_id: sectionid,
+        due_date: `${startdate}-${startmonth}-${startyear}`
     };
     // console.log(contact)
     const sendData = () => {
@@ -370,6 +379,7 @@ const AdmissionRequest = () => {
 
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3" type="text" onChange={(e) => setGR_no(e.target.value)} label="GR Number" variant="filled" />
+                                                <TextField className="pb-3 mt-2" type="date" onChange={(e) => setDueDate(e.target.value)} label="Due Date" defaultValue="2021-01-01" helperText="Due Date for Admission Voucher" variant="filled" />
                                             </div>
 
                                         </div>
@@ -403,9 +413,9 @@ const AdmissionRequest = () => {
                                                             <tr key={i}>
                                                                 <td>{count = 1 + count}</td>
                                                                 {val.middle_name === null ?
-                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
-                                                                :
-                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
+                                                                    :
+                                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
                                                                 }
                                                                 <td className="print-capitalize">{val.gender}</td>
                                                                 <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>

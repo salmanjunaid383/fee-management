@@ -162,20 +162,53 @@ const Admissions = () => {
                     </div>
                     <div class="right-body">
                         <div class="message">
-                            <div className="show_fee">
-                                <div className="">
+                            <div className="row">
 
+                                <div className="col-12 text-right">
                                     {isOppened == 0 ?
-                                        <button type="button" onClick={openAdmission} class="btn btn-primary my-3 btn-lg">Open Admission</button>
+                                        <>
+                                            <p className="m-0 mr-2 pb-2 d-inline-block text-primary text-bold">Are You Sure You Want To Open Admissions?</p>
+                                            <button type="button" onClick={openAdmission} class="btn btn-success mt-1 mb-3 d-inline-block"><i class="fas text-white mr-1 fa-check"></i>Open Admission</button>
+                                        </>
                                         :
-                                        <button type="button" onClick={openAdmission} class="btn btn-primary my-3 btn-lg">Close Admission</button>
+                                        <>
+                                            <p className="m-0 mr-2 pb-2 d-inline-block text-primary text-bold">Are You Sure You Want To Close Admissions?</p>
+                                            <button type="button" onClick={openAdmission} class="btn btn-danger mb-3 d-inline-block mt-1"><i class="fas fa-times text-white mr-1"></i>Close Admission</button>
+                                        </>
                                     }
-                                    <button type="button" onClick={() => history.push("/admission")} class="btn my-3 mx-1 btn-primary btn-lg">Admission Charges</button>
-                                    <button type="button" onClick={() => history.push("/documents")} class="btn my-3 mx-1 btn-primary btn-lg">Documents</button>
-                                    <button type="button" onClick={() => history.push("/admissionrequest")} class="btn my-3 mx-1 btn-primary btn-lg">Pending Admissions</button>
-                                    <button type="button" onClick={() => history.push("/schoolundertaking")} class="btn my-3 mx-1 btn-primary btn-lg">Undertaking</button>
 
-                                    {/* <button type="button" class="btn my-3 mx-1 btn-primary btn-lg"><Link to="/" className="text-white">Admission</Link></button> */}
+                                </div>
+                            </div>
+                            <div className="show_fee">
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-file-alt"></i></div>
+                                        <button type="button" onClick={() => history.push("/schoolundertaking")} class="btn mb-0 mt-0 w-100 btn-primary btn-lg">Undertaking</button>
+
+                                    </div>
+                                </div>
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-user-plus"></i></div>
+                                        <button type="button" onClick={() => history.push("/admissionrequest")} class="btn my-0 w-100 btn-primary btn-lg">Pending Admissions</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="show_fee">
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-folder-plus"></i></div>
+                                        <button type="button" onClick={() => history.push("/admissionrequest")} class="btn my-0 w-100 btn-primary btn-lg">Documents</button>
+
+                                    </div>
+                                </div>
+                                <div class="card p-2" style={{ width: '18rem' }}>
+                                    <div class="card-body w-100 p-0">
+                                        <div className="text-center mb-2"><i class="fas fa-7x fa-file-invoice-dollar"></i></div>
+                                        <button type="button" onClick={() => history.push("/admission")} class="btn my-0 w-100 btn-primary btn-lg">Admission Charges</button>
+
+                                    </div>
                                 </div>
 
                             </div>

@@ -100,8 +100,6 @@ const Term = () => {
                     handleMessage();
                 }
             })
-    }, [])
-    useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
                 console.log(response.data)
@@ -113,8 +111,6 @@ const Term = () => {
                     handleMessage();
                 }
             })
-    }, [])
-    useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
                 console.log(response);
@@ -127,6 +123,7 @@ const Term = () => {
                 }
             })
     }, [])
+
 
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_term/${school_id}`)
@@ -229,9 +226,9 @@ const Term = () => {
                 .then(response => {
                     console.log(response.data);
                     setPrevdata('')
-                    setStartingdate();
-                    setEndingdate();
-                    setDescription();
+                    setStartingdate('');
+                    setEndingdate('');
+                    setDescription('');
                     reload();
                     handleClose();
                 })
@@ -291,9 +288,9 @@ const Term = () => {
             axios.post(`http://fee-management-api.nastechltd.co/api/term`, data)
                 .then(response => {
                     console.log(response);
-                    setStartingdate();
-                    setEndingdate();
-                    setDescription();
+                    setStartingdate('');
+                    setEndingdate('');
+                    setDescription('');
                     reload();
                 })
                 .catch((error) => {

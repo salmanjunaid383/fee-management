@@ -14,7 +14,28 @@ import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
 import Snackbar from '@material-ui/core/Snackbar';
 import './dashboard.css';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '30ch'
 
+        },
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        //   width: '30ch',
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+}));
 const Defaulters = () => {
     // const [document, setDocument] = useState();
     // const [show, setShow] = useState(false);
@@ -24,9 +45,28 @@ const Defaulters = () => {
     // const handleClose1 = () => setShow1(false);
     // const handleShow1 = () => setShow1(true);
     // const {formNo} = useParams();
+    const classes = useStyles();
     const [payable, setPayable] = useState([]);
     const [locked, setLocked] = useState([]);
     const history = useHistory();
+    const [classdata, setClassdata] = useState([]);
+    const [sectiondata, setSectiondata] = useState([]);
+    const [classid, setClassid] = useState('');
+    const [sectionid, setSectionid] = useState('');
+    const search = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
+            .then(response => {
+                console.log(response.data)
+                setSectiondata(response.data)
+            })
+            .catch(error => console.log(error))
+    }
+    const reset = () => {
+        setClassid('');
+        // setSearchTerm('');
+        setSectionid('');
+    }
+    const [all, setAll] = useState([]);
     const school_id = localStorage.getItem("school_id")
     const [messageinfo, setMessageinfo] = useState('');
     const [message, setMessage] = useState({
@@ -54,38 +94,34 @@ const Defaulters = () => {
                     handleMessage();
                 }
             })
+        axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
+            .then(response => {
+                console.log(response.data)
+                setClassdata(response.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }, [])
 
-    // const sendEmail = () => {
-    //     axios.post(`http://fee-management-api.nastechltd.co/api/email_undertaking`, {
-    //         voucher_no: id
-    //     })
-    //         .then(response => {
-    //             console.log(response.data);
-    //             reload();
-    //         })
-    //         .catch((error) => {
-    //             if (error.response) {
-    //                 setMessageinfo(error.response.data.message);
-    //                 handleMessage();
-    //             }
-    //         })
-    // }
+    const sendEmail = (id) => {
+        axios.post(`http://fee-management-api.nastechltd.co/api/email_defaulter/${id}`)
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+    }
 
     const myData = payable.concat(locked);
     console.log(myData)
-
-
-
-
-
-
-
-
-
-
-
-
     return (
         <>
             <div class="dashboard">
@@ -175,7 +211,7 @@ const Defaulters = () => {
                     <div class="right-body">
                         <div class="message">
                             <div class="add-student">
-                                {/* <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon />Add Document</button> */}
+                                {/* <button type="button" onClick={selectAll} class="btn btn-primary btn-lg">Add Document</button> */}
                                 {/* <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Add Document</Modal.Title>
@@ -224,47 +260,95 @@ const Defaulters = () => {
                                     </div>
                                 </>
                                 :
-                                <div class="table-responsive">
-                                    <table class="table no-wrap">
-                                        <thead>
-                                            <tr>
-                                                <th class="border-top-0">#</th>
-                                                <th class="border-top-0">GR No.</th>
-                                                <th class="border-top-0">Name</th>
-                                                <th class="border-top-0">Gender</th>
-                                                {/* <th class="border-top-0">Send Mail</th> */}
-                                                {/* <th class="border-top-0">Created At</th> */}
-                                                <th class="border-top-0">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {myData.map((val, i) => {
-                                                return (
-                                                    <>
-                                                        <tr key={i}>
-                                                            <td>{i + 1}</td>
-                                                            <td class="txt-oflo">{val.G_R_NO}</td>
-                                                            {val.middle_name === null ?
-                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
-                                                                :
-                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                            }
-                                                            <td>{val.gender}</td>
-                                                            {/* <td><Button onClick={() => history.push("/defaulternotice")}><SendIcon /></Button></td> */}
-                                                            <td><Button onClick={() => history.push("/defaulternotice")}><PrintIcon /></Button></td>
-                                                            {/* <td>
+                                <>
+                                    <div className="row">
+                                        <div className="col-12 text-center">
+                                            <FormControl className={classes.formControl}>
+                                                <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={classid}
+                                                    onChange={(e) => setClassid(e.target.value)}
+                                                >
+                                                    {classdata.map((val, i) => {
+                                                        return (
+                                                            <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                        )
+
+                                                    })}
+                                                </Select>
+                                            </FormControl>
+                                            <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
+                                            <FormControl className={classes.formControl}>
+                                                <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-label"
+                                                    id="demo-simple-select"
+                                                    value={sectionid}
+                                                    onChange={(e) => setSectionid((e.target.value).toString())}
+                                                >
+                                                    {sectiondata.map((val, i) => {
+                                                        return (
+                                                            <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                        )
+
+                                                    })}
+                                                </Select>
+                                            </FormControl>
+                                            <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
+
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table no-wrap">
+                                            <thead>
+                                                <tr>
+                                                    <th class="border-top-0">#</th>
+                                                    <th class="border-top-0">GR No.</th>
+                                                    <th class="border-top-0">Name</th>
+                                                    <th class="border-top-0">Gender</th>
+                                                    <th class="border-top-0">Send Mail</th>
+                                                    {/* <th class="border-top-0">Created At</th> */}
+                                                    <th class="border-top-0">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {myData.filter((val) => {
+                                                    if (sectionid == '') {
+                                                        return val;
+                                                    }
+                                                    else if (val.section_id.toString().includes(sectionid)) {
+                                                        return val;
+                                                    }
+                                                }).map((val, i) => {
+                                                    return (
+                                                        <>
+                                                            <tr key={i}>
+                                                                <td>{i + 1}</td>
+                                                                <td class="txt-oflo">{val.G_R_NO}</td>
+                                                                {val.middle_name === null ?
+                                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
+                                                                    :
+                                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                                }
+                                                                <td>{val.gender}</td>
+                                                                <td><Button onClick={(e) => sendEmail(val.id)}><SendIcon /></Button></td>
+                                                                <td><Button onClick={() => history.push("/defaulternotice")}><PrintIcon /></Button></td>
+                                                                {/* <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>
                                                                 <Button className="student-btn-del" onClick={() => deleteSchool(val.id)} ><DeleteIcon className="text-white" /></Button>
                                                             </ButtonGroup>
                                                         </td>  */}
-                                                        </tr>
-                                                    </>
-                                                )
-                                            })}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                            </tr>
+                                                        </>
+                                                    )
+                                                })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </>
                             }
                         </div>
                     </div>

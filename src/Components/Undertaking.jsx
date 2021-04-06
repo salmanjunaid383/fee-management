@@ -2,6 +2,8 @@ import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import './Undertaking.css';
 import { useParams } from 'react-router';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 const Undertaking = ({ teamId, orientation = 'portrait' }) => {
     const [student, setStudent] = useState({});
@@ -9,8 +11,20 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
     const [documents, setDocuments] = useState([]);
     const [date, setDate] = useState();
     const [myclass, setMyclass] = useState();
-    const {formNo} = useParams()
-    console.log(formNo)
+    const { formNo } = useParams()
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     function setPageSize(cssPageSize) {
         const style = document.createElement('style');
         style.innerHTML = `@page {size: ${cssPageSize}}`;
@@ -37,27 +51,29 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            alert(error.response.data.message);
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
                         }
                     })
                 axios.get(`http://fee-management-api.nastechltd.co/api/show_class/${response.data.form.class_id}`)
-                .then (response=>{
-                    setMyclass(response.data.name)
-                })
+                    .then(response => {
+                        setMyclass(response.data.name)
+                    })
                 setStudent(response.data.form);
                 setDocuments(response.data.undertaking);
                 setDate(response.data.undertaking[0].date);
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
     return (
         <>
             <div className="undertaking-main mx-auto">
-            <button className="btn btn-danger text-bold" id="print_undertaking_btn" onClick={()=>window.print()}>Print</button>
+                <button className="btn btn-danger text-bold" id="print_undertaking_btn" onClick={() => window.print()}>Print</button>
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
@@ -96,7 +112,14 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
                         </div>
                         <p className="undertaking-overline mt-3">Signature of the Father/Mother</p>
                     </div>
-
+                    <Snackbar
+                        anchorOrigin={{ vertical, horizontal }}
+                        open={open}
+                        autoHideDuration={4000}
+                        onClose={CloseMessage}
+                        message={messageinfo}
+                        key={vertical + horizontal}
+                    />
                 </div>
             </div>
         </>

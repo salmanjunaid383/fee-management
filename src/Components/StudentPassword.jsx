@@ -12,6 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import logo from './jb1.png'
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -39,29 +40,49 @@ const useStyles = makeStyles((theme) => ({
 
 const StudentPassword = () => {
     const history = useHistory();
-    const [password, setPassword] = useState();
-    const [confirmpassword, setConfirmpassword] = useState();
+    const [password, setPassword] = useState('');
+    const [confirmpassword, setConfirmpassword] = useState('');
     const { studentid } = useParams();
-    
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
     const changePassword = () => {
-        if (password == confirmpassword) {
-            axios.put(`http://fee-management-api.nastechltd.co/api/password/${studentid}`, { password: password })
-                .then(response => {
-                    console.log(response)
-                    setPassword('')
-                    setConfirmpassword('');
-                    history.push(`/ledger/${studentid}`)
-                    // reload();
-                    // remove1();
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        alert(error.response.data.message);
-                    }
-                })
+        if (password === '') {
+            setMessageinfo("Enter New Password")
+            handleMessage();
         }
         else {
-            alert("Password Does not Match")
+            if (password === confirmpassword) {
+                axios.put(`http://fee-management-api.nastechltd.co/api/password/${studentid}`, { password: password })
+                    .then(response => {
+                        console.log(response)
+                        setPassword('')
+                        setConfirmpassword('');
+                        history.push(`/ledger/${studentid}`)
+                        // reload();
+                        // remove1();
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
+            }
+            else {
+                setMessageinfo("Password Does not Match")
+                handleMessage();
+            }
         }
 
     }
@@ -141,6 +162,14 @@ const StudentPassword = () => {
                                 </div>
                             </div>
                         </div>
+                        <Snackbar
+                            anchorOrigin={{ vertical, horizontal }}
+                            open={open}
+                            autoHideDuration={4000}
+                            onClose={CloseMessage}
+                            message={messageinfo}
+                            key={vertical + horizontal}
+                        />
                     </div>
                 </div>
             </div>

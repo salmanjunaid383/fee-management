@@ -116,6 +116,10 @@ const Guardianparticular = () => {
                 setMessageinfo("Enter CNIC")
                 handleMessage();
             }
+            else if (cnic.length < 13 || cnic.length > 13) {
+                setMessageinfo("Enter Valid CNIC")
+                handleMessage();
+            }
             else if (addressresidential == '') {
                 setMessageinfo("Enter Residential Address")
                 handleMessage();
@@ -173,6 +177,10 @@ const Guardianparticular = () => {
             }
             else if (cnic == '') {
                 setMessageinfo("Enter CNIC")
+                handleMessage();
+            }
+            else if (cnic.length < 13 || cnic.length > 13) {
+                setMessageinfo("Enter Valid CNIC")
                 handleMessage();
             }
             else if (addressresidential == '') {

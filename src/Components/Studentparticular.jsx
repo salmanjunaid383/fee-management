@@ -110,6 +110,9 @@ const Studentparticular = () => {
         tel_no: tel,
         class_id: classid
     }
+    var today = new Date();
+    var birthDate = new Date(dob);
+    var age_now = today.getFullYear() - birthDate.getFullYear();
 
     const sendData = () => {
         // localStorage.setItem('student', JSON.stringify(data))
@@ -118,7 +121,7 @@ const Studentparticular = () => {
                 setMessageinfo("Enter First Name")
                 handleMessage();
             }
-            
+
             else if (lname == '') {
                 setMessageinfo("Enter Last Name")
                 handleMessage();
@@ -145,6 +148,10 @@ const Studentparticular = () => {
             }
             else if (dob == '') {
                 setMessageinfo("Enter Date of Birth")
+                handleMessage();
+            }
+            else if (age_now < 2) {
+                setMessageinfo("Enter Valid Date")
                 handleMessage();
             }
             else if (pob == '') {
@@ -188,7 +195,7 @@ const Studentparticular = () => {
                 setMessageinfo("Enter First Name")
                 handleMessage();
             }
-            
+
             else if (lname == '') {
                 setMessageinfo("Enter Last Name")
                 handleMessage();
@@ -215,6 +222,10 @@ const Studentparticular = () => {
             }
             else if (dob == '') {
                 setMessageinfo("Enter Date of Birth")
+                handleMessage();
+            }
+            else if (age_now < 2) {
+                setMessageinfo("Enter Valid Date")
                 handleMessage();
             }
             else if (pob == '') {
@@ -420,7 +431,7 @@ const Studentparticular = () => {
                     onClose={CloseMessage}
                     message={messageinfo}
                     key={vertical + horizontal}
-                />  
+                />
             </div>
 
         </>);

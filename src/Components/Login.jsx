@@ -84,7 +84,7 @@ const Login = () => {
                         <div class="input-icons">
                             <input type="text" class="input-field" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required autoFocus />
                             <input type="password" class="input-field" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
-
+                            <Link to="/forgetpassword"><small>Forgotten Password</small></Link>
                         </div>
                         <button type="submit" onClick={sendData} class="submit-btn">Log In</button>
 
