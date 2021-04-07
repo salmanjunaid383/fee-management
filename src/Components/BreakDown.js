@@ -11,8 +11,33 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(0),
+            width: '30ch'
+
+        },
+    },
+    formControl: {
+        margin: theme.spacing(0),
+        width: '20ch',
+        // minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(0),
+    },
+    navigation: {
+        marginTop: theme.spacing(2)
+    }
+}));
 
 const BreakDown = () => {
+    const classes = useStyles();
     const [monthly, setMonthly] = useState([]);
     const [monthlydescription, setMonthlydescription] = useState();
     const [monthlycharges, setMonthlycharges] = useState();
@@ -365,6 +390,17 @@ const BreakDown = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
+                    <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/feecomponents">
+                                    Fee
+                                </Link>
+                                <Link className="text-decoration-none" color="inherit" to="/structure">
+                                    Fee Structure
+                                </Link>
+                                <Typography color="textPrimary">Fee Structure Breakdown</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 <Modal show={show} onHide={handleClose}>

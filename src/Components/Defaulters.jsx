@@ -19,6 +19,9 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { makeStyles } from '@material-ui/core/styles';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -34,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     },
     selectEmpty: {
         marginTop: theme.spacing(2),
+    },
+    navigation: {
+        marginTop: theme.spacing(2)
     },
 }));
 const Defaulters = () => {
@@ -209,6 +215,14 @@ const Defaulters = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/feecomponents">
+                                    Fee
+                                </Link>
+                                <Typography color="textPrimary">Defaulters</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 {/* <button type="button" onClick={selectAll} class="btn btn-primary btn-lg">Add Document</button> */}

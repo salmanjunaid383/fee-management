@@ -11,6 +11,9 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import logo from '../jb1.png';
 import Snackbar from '@material-ui/core/Snackbar';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 
 
@@ -20,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
             width: '35ch',
         },
+    },
+    navigation: {
+        marginTop: theme.spacing(2),
     },
 }));
 
@@ -237,7 +243,7 @@ const EmployeePeriod = () => {
                                 </div>
                                 <div class="icon-name1">Dashboard</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/employeefeecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-money-check-alt active"></i>
@@ -282,7 +288,14 @@ const EmployeePeriod = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/employeefeecomponents">
+                                    Fee
+                                </Link>
+                                <Typography color="textPrimary">Fee Period</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 <Modal show={show} onHide={handleClose}>

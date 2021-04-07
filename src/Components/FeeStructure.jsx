@@ -8,13 +8,24 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import logo from './jb1.png'
 import { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import axios from 'axios';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import { SportsEsportsOutlined } from '@material-ui/icons';
 import Snackbar from '@material-ui/core/Snackbar';
 
+const useStyles = makeStyles((theme) => ({
+    navigation: {
+        marginTop: theme.spacing(2)
+    }
+}));
+
 const Structure = () => {
+    const classes = useStyles();
     const [feedata, setFeedata] = useState([]);
     const [classdata, setClassdata] = useState([]);
     const [chargesdata, setChargesdata] = useState([]);
@@ -320,7 +331,14 @@ const Structure = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/feecomponents">
+                                    Fee
+                                </Link>
+                                <Typography color="textPrimary">Fee Structure</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student1">
                                 <Link to="/fee"> <button type="button" class="btn mb-1 btn-primary btn-lg"><AddIcon /> Add Structure</button></Link>

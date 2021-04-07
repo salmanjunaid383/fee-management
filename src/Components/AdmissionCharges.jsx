@@ -11,9 +11,21 @@ import axios from 'axios'
 import { Modal } from 'react-bootstrap';
 import Snackbar from '@material-ui/core/Snackbar';
 import TextField from '@material-ui/core/TextField';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 // import AddIcon from '@material-ui/icons/Add';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > * + *': {
+            marginTop: theme.spacing(2),
+        },
+    },
+}));
 
 const AdmissionCharges = () => {
+    const classes = useStyles();
     const school_id = localStorage.getItem("school_id");
     const [chargesadmission, setChargesadmission] = useState();
     const [admissiondata, setAdmissiondata] = useState([]);
@@ -257,7 +269,14 @@ const AdmissionCharges = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-
+                        <div className={`${classes.root}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link color="inherit" to="/admissioncomponents">
+                                    Admissions
+                                </Link>
+                                <Typography color="textPrimary">Admission Charges</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 {

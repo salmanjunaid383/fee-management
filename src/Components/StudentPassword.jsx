@@ -57,34 +57,33 @@ const StudentPassword = () => {
         setMessage({ ...message, open: false });
     };
     const changePassword = () => {
-        if (password === '') {
-            setMessageinfo("Enter New Password")
+        if (password !== confirmpassword) {
+            setMessageinfo("Password Does not Match")
+            handleMessage();
+        }
+        else if (password === '') {
+            setMessageinfo("Enter Password")
             handleMessage();
         }
         else {
-            if (password === confirmpassword) {
-                axios.put(`http://fee-management-api.nastechltd.co/api/password/${studentid}`, { password: password })
-                    .then(response => {
-                        console.log(response)
-                        setPassword('')
-                        setConfirmpassword('');
-                        history.push(`/ledger/${studentid}`)
-                        // reload();
-                        // remove1();
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            setMessageinfo(error.response.data.message);
-                            handleMessage();
-                        }
-                    })
-            }
-            else {
-                setMessageinfo("Password Does not Match")
-                handleMessage();
-            }
+            axios.put(`http://fee-management-api.nastechltd.co/api/password/${studentid}`, { password: password })
+                .then(response => {
+                    console.log(response)
+                    setPassword('')
+                    setConfirmpassword('');
+                    setMessageinfo("Password Changed");
+                    handleMessage();
+                    history.push(`/ledger/${studentid}`)
+                    // reload();
+                    // remove1();
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
         }
-
     }
     const logOut = () => {
         localStorage.clear();
@@ -152,9 +151,10 @@ const StudentPassword = () => {
 
                         <div class="message">
                             <div className="row billing-main">
-                                <div className="col-8 billing-box">
-                                    <TextField className="pb-3 bg-white" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
-                                    <TextField className="pb-3" type="password" onChange={(e) => setConfirmpassword(e.target.value)} label="Confirm Password" variant="filled" />
+                                <div className="col-12 text-center">
+                                    <TextField className="my-3 bg-white w-25" type="password" onChange={(e) => setPassword(e.target.value)} label="Password" variant="filled" />
+                                    <br />
+                                    <TextField className="my-3 w-25" type="password" onChange={(e) => setConfirmpassword(e.target.value)} label="Confirm Password" variant="filled" />
 
                                 </div>
                                 <div className="col-12 text-center py-3">

@@ -3,7 +3,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
-import logo from "./jb1.png";
+import logo from "./jb2.png";
 import './dashboard.css';
 import UpdateIcon from '@material-ui/icons/Update';
 import DeleteIcon from '@material-ui/icons/Delete';

@@ -14,7 +14,9 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import axios from 'axios';
 import Snackbar from '@material-ui/core/Snackbar';
-
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 // import UpdateIcon from '@material-ui/icons/Update';
 // import AddIcon from '@material-ui/icons/Add';
 // import DeleteIcon from '@material-ui/icons/Delete';
@@ -37,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 120,
     },
     selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+    navigation: {
         marginTop: theme.spacing(2),
     },
 }));
@@ -178,11 +183,18 @@ const AdmissionRequest = () => {
             setMessageinfo("Select Class/Section")
             handleMessage();
         }
+        else if (dueDate === '') {
+            setMessageinfo("Select Due Date")
+            handleMessage();
+        }
         else {
             axios.post('http://fee-management-api.nastechltd.co/api/student', data)
                 .then(response => {
                     handleClose();
                     reload();
+                    setDueDate('');
+                    setSectionid('');
+                    setGR_no('');
                     localStorage.removeItem("registration_no")
                 })
                 .catch((error) => {
@@ -343,7 +355,14 @@ const AdmissionRequest = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link color="inherit" to="/admissioncomponents">
+                                    Admissions
+                                </Link>
+                                <Typography color="textPrimary">Admission Requests</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 {/* <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Student</button> */}

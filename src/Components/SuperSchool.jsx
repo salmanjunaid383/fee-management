@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
-import logo from "./jb1.png";
+import logo from "./jb2.png";
 import './dashboard.css';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';

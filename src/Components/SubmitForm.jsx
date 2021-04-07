@@ -275,15 +275,15 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                                 {siblings.map((val, i) => {
                                     return (
                                         <>
-                                        <div className="col-4">
-                                            <p>Name: <span className="print-capitalize">{val.name}</span></p>
-                                        </div>
-                                        <div className="col-4">
-                                            <p>Age: <span className="print-capitalize">{val.age}</span></p>
-                                        </div>
-                                        <div className="col-4">
-                                            <p>Class: <span className="print-capitalize">{val.class}</span></p>
-                                        </div>
+                                            <div className="col-4">
+                                                <p>Name: <span className="print-capitalize">{val.name}</span></p>
+                                            </div>
+                                            <div className="col-4">
+                                                <p>Age: <span className="print-capitalize">{val.age}</span></p>
+                                            </div>
+                                            <div className="col-4">
+                                                <p>Class: <span className="print-capitalize">{val.class}</span></p>
+                                            </div>
                                         </>
 
                                     )
@@ -321,7 +321,10 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
 
                 </div>
                 <div className="row">
-                    <div className="col-12 print-submit-btn"><button onClick={() => history.push(`/requirements/${formNo}`)} className="btn btn-success">Submit</button></div>
+                    <div className="col-12 print-submit-btn">
+                        <button className="btn btn-warning text-white mr-2" onClick={()=>history.push('/emergency')}>Edit</button>
+                        <button onClick={() => history.push(`/requirements/${formNo}`)} className="btn btn-success">Submit</button>
+                    </div>
 
                 </div>
                 <Snackbar

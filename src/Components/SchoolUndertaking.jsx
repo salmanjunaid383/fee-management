@@ -4,6 +4,9 @@ import axios from 'axios';
 import logo from './jb1.png'
 import LaunchIcon from '@material-ui/icons/Launch';
 import './dashboard.css';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -11,10 +14,41 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
+import PublishIcon from '@material-ui/icons/Publish';
+import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > * + *': {
+            marginTop: theme.spacing(2),
+        },
+    },
+    navigation: {
+        marginTop: theme.spacing(2),
+    },
+    modal: {
+        width : '600px',
+    },
+}));
 
 const SchoolUndertaking = () => {
+    const [messageinfo, setMessageinfo] = useState('');
+    const [message, setMessage] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'right',
+    });
+    const { vertical, horizontal, open } = message;
+    const handleMessage = () => {
+        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+    };
+    const CloseMessage = () => {
+        setMessage({ ...message, open: false });
+    };
+    const classes = useStyles();
     const [document, setDocument] = useState();
     const [undertakingdata, setUndertakingdata] = useState([]);
+    const [documentdata, setDocumentdata] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -23,7 +57,17 @@ const SchoolUndertaking = () => {
     const handleShow1 = () => setShow1(true);
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
+    const [selectedFile, setSelectedFile] = useState();
+    const [documentid, setDocumentid] = useState();
+    const changeHandler = (e) => {
+        setSelectedFile(e.target.files[0]);
 
+    };
+
+    const changeHandlerbox = async (e) => {
+        setDocumentid(e.target.value);
+
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_undertaking/${school_id}`)
             .then(response => {
@@ -32,12 +76,31 @@ const SchoolUndertaking = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }, [])
-
-
+    const handleClick = (id) => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${id}`)
+            .then(response => {
+                console.log(response);
+                setDocumentdata(response.data.undertaking);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+        localStorage.setItem("user_id", id)
+        handleShow();
+    }
+    console.log(documentdata);
+    const remove = () => {
+        localStorage.removeItem("user_id")
+        handleClose();
+    }
 
 
 
@@ -51,7 +114,8 @@ const SchoolUndertaking = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    alert(error.response.data.message);
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
                 }
             })
     }
@@ -146,30 +210,62 @@ const SchoolUndertaking = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link color="inherit" to="/admissioncomponents">
+                                    Admissions
+                                </Link>
+                                <Typography color="textPrimary">Undertaking</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 {/* <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon />Add Document</button> */}
-                                {/* <Modal show={show} onHide={handleClose}>
-                                    <Modal.Header closeButton>
+                                <Modal className="w-100" show={show} onHide={handleClose}size="lg">
+                                    <Modal.Header  closeButton>
                                         <Modal.Title>Add Document</Modal.Title>
                                     </Modal.Header>
-                                    <Modal.Body>
-                                        <div class="row billing-main">
-                                            <div class="col-6 billing-box">
-                                                <TextField className="pb-3 bg-white" type="text" onChange={(e) => setDocument(e.target.value)} label="Document Name" variant="filled" />
-                                            </div>
-                                        </div>
+                                    <Modal.Body >{documentdata.map((val, i) => {
+                                        return (
+                                            <>
+                                                <div className="row">
+                                                    <div className="ml-2 mt-2 col-3 form-check">
+                                                        <input className="form-check-input" type="checkbox" value={val.id} onChange={(e) => changeHandlerbox(e)} id={val.id} />
+                                                        <label className="form-check-label print-capitalize" for={val.id}>
+                                                            {val.document}
+                                                        </label>
+                                                    </div>
+                                                    <div className="col-6">
+
+                                                        <input class="form-control" name="file" type="file" id={`${val.id}file`} onChange={(e) => changeHandler(e)} />
+
+                                                    </div>
+                                                    <div className="col-2 my-1">
+                                                        {documentid == val.id ?
+                                                            <>
+                                                                <button className="btn btn-success">Upload</button>
+                                                            </>
+                                                            :
+                                                            <button disabled className="btn btn-success">Upload</button>
+
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                            </>
+                                        )
+                                    })}
 
 
                                     </Modal.Body>
-                                    <Modal.Footer>
+                                    <Modal.Footer >
                                         <button class="btn btn-secondary" onClick={handleClose}>
                                             Close
                                             </button>
-                                        <button onClick={sendData} className="btn btn-primary">Add</button>
+                                        <button className="btn btn-primary">Add</button>
                                     </Modal.Footer>
                                 </Modal>
-                                <Modal show={show1} onHide={handleClose1}>
+                                {/* <Modal show={show1} onHide={handleClose1}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Update Document</Modal.Title>
                                     </Modal.Header>
@@ -204,9 +300,9 @@ const SchoolUndertaking = () => {
                                                 <th class="border-top-0">#</th>
                                                 <th class="border-top-0">Registeration No.</th>
                                                 <th class="border-top-0">Name</th>
+                                                <th class="border-top-0">Upload</th>
                                                 <th class="border-top-0">Documents</th>
                                                 <th class="border-top-0">Created At</th>
-                                                {/* <th class="border-top-0">Action</th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -217,7 +313,8 @@ const SchoolUndertaking = () => {
                                                             <td>{i + 1}</td>
                                                             <td class="txt-oflo">{val.registration_no}</td>
                                                             <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                            <td><button class="btn" onClick={() =>history.push(`/undertaking/${val.registration_no}`)}><LaunchIcon /></button></td>
+                                                            <td><button class="btn" onClick={() => handleClick(`${val.registration_no}`)}><PublishIcon /></button></td>
+                                                            <td><button class="btn" onClick={() => history.push(`/undertaking/${val.registration_no}`)}><LaunchIcon /></button></td>
                                                             <td>{val.created_at.slice(0, 10)}</td>
                                                             {/* <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
@@ -235,6 +332,14 @@ const SchoolUndertaking = () => {
                             }
                         </div>
                     </div>
+                    <Snackbar
+                        anchorOrigin={{ vertical, horizontal }}
+                        open={open}
+                        autoHideDuration={4000}
+                        onClose={CloseMessage}
+                        message={messageinfo}
+                        key={vertical + horizontal}
+                    />
                 </div>
             </div>
         </>

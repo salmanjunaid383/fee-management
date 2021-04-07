@@ -100,12 +100,22 @@ const Finance = () => {
             })
     }
     const changePassword = () => {
-        if (password == confirmpassword) {
+        if (password !== confirmpassword){
+            setMessageinfo("Password Does not Match")
+            handleMessage();
+        }
+        else if (password === ''){
+            setMessageinfo("Enter Password")
+            handleMessage();
+        } 
+        else{
             axios.put(`http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem("user_id")}`, { password: password })
                 .then(response => {
                     console.log(response)
                     setPassword('')
                     setConfirmpassword('')
+                    setMessageinfo("Password Changed");
+                    handleMessage();
                     reload();
                     remove1();
                 })
@@ -115,10 +125,6 @@ const Finance = () => {
                         handleMessage();
                     }
                 })
-        }
-        else {
-            setMessageinfo("Password Does not Match")
-            handleMessage();
         }
 
     }

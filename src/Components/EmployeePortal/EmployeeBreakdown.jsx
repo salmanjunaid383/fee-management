@@ -11,8 +11,18 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    navigation: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 const EmployeeBreakDown = () => {
+    const classes = useStyles();
     const [monthly, setMonthly] = useState([]);
     const [monthlydescription, setMonthlydescription] = useState();
     const [monthlycharges, setMonthlycharges] = useState();
@@ -293,7 +303,7 @@ const EmployeeBreakDown = () => {
                                 </div>
                                 <div class="icon-name1">Dashboard</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/employeefeecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-money-check-alt active"></i>
@@ -334,6 +344,17 @@ const EmployeeBreakDown = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/employeefeecomponents">
+                                    Fee
+                                </Link>
+                                <Link className="text-decoration-none" color="inherit" to="/employeestructure">
+                                    Fee Structure
+                                </Link>
+                                <Typography color="textPrimary">Fee Structure Breakdown</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 <Modal show={show} onHide={handleClose}>
@@ -588,13 +609,13 @@ const EmployeeBreakDown = () => {
                         </div>
                     </div>
                     <Snackbar
-                    anchorOrigin={{ vertical, horizontal }}
-                    open={open}
-                    autoHideDuration={4000}
-                    onClose={CloseMessage}
-                    message={messageinfo}
-                    key={vertical + horizontal}
-                />
+                        anchorOrigin={{ vertical, horizontal }}
+                        open={open}
+                        autoHideDuration={4000}
+                        onClose={CloseMessage}
+                        message={messageinfo}
+                        key={vertical + horizontal}
+                    />
                 </div>
             </div>
         </>

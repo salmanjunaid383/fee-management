@@ -125,7 +125,7 @@ const Siblings = () => {
     return (
         <>
 
-            <div className="container-fluid form_body">
+            <div className="container-fluid requirement_body form_body">
                 <div className="container ">
                     <h1 className="text-center text-dark">STUDENT ADMISSION FORM</h1>
                     <form onSubmit={(e) => e.preventDefault()} >

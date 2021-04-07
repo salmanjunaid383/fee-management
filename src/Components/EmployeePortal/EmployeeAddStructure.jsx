@@ -11,6 +11,9 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { makeStyles } from '@material-ui/core/styles';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -26,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     },
     selectEmpty: {
         marginTop: theme.spacing(0),
+    },
+    navigation: {
+        marginTop: theme.spacing(2),
     },
 }));
 
@@ -261,6 +267,17 @@ const EmployeeAddStructure = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
+                    <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/employeefeecomponents">
+                                    Fee
+                                </Link>
+                                <Link className="text-decoration-none" color="inherit" to="/employeestructure">
+                                    Fee Structure
+                                </Link>
+                                <Typography color="textPrimary">Add Fee Structure</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <h2 class="text-center secondary">Fee Structure</h2>
                             <div class="monthly-charges">

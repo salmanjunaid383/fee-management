@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import TextField from '@material-ui/core/TextField';
 import axios from 'axios';
 import logo from './jb1.png'
@@ -37,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
             width: '30ch'
 
         },
+    },
+    navigation: {
+        marginTop: theme.spacing(2)
     },
     formControl: {
         margin: theme.spacing(1),
@@ -281,7 +287,7 @@ const Discounted = () => {
     //         .catch(error => console.log(error))
     // }, [])
     // console.log(studentid)
-    var count=0;
+    var count = 0;
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -379,7 +385,14 @@ const Discounted = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/feecomponents">
+                                    Fee
+                                </Link>
+                                <Typography color="textPrimary">Discount</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Discount</button>
@@ -520,7 +533,7 @@ const Discounted = () => {
                                             return (
                                                 <>
                                                     <tr key={i}>
-                                                        <td>{count=1+count}</td>
+                                                        <td>{count = 1 + count}</td>
                                                         <td class="txt-oflo print-capitalize">{val.name}</td>
 
                                                         <td>{val.discount}</td>

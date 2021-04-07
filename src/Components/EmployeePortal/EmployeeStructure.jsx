@@ -13,8 +13,18 @@ import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import { SportsEsportsOutlined } from '@material-ui/icons';
 import Snackbar from '@material-ui/core/Snackbar';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    navigation: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 const EmployeeStructure = () => {
+    const classes = useStyles();
     const [feedata, setFeedata] = useState([]);
     const [classdata, setClassdata] = useState([]);
     const [chargesdata, setChargesdata] = useState([]);
@@ -244,7 +254,7 @@ const EmployeeStructure = () => {
                                 </div>
                                 <div class="icon-name1">Dashboard</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/employeefeecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-money-check-alt active"></i>
@@ -289,7 +299,14 @@ const EmployeeStructure = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/employeefeecomponents">
+                                    Fee
+                                </Link>
+                                <Typography color="textPrimary">Fee Structure</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student1">
                                 <Link to="/employeeaddstructure"> <button type="button" class="btn mb-1 btn-primary btn-lg"><AddIcon /> Add Structure</button></Link>

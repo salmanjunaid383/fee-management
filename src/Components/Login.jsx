@@ -2,9 +2,13 @@ import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import './superlogin.css';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Switch, useHistory, Redirect } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
+// import GuardedRoute from './GuardedRoute';
+// import Myschool from './Myschool';
+// import { Switch, } from 'react-router-dom';
+
 
 
 const Login = () => {
@@ -51,6 +55,7 @@ const Login = () => {
                     else if (decoded.role === 'Administrator') {
                         localStorage.setItem("admin_id", decoded.sub)
                         history.push("/school")
+
                     }
                     else if (decoded.role === 'Finance_employee') {
                         localStorage.setItem("employee_id", decoded.sub)
@@ -60,6 +65,7 @@ const Login = () => {
                         history.push(`/studentledger/${decoded.sub}`)
 
                     }
+                    
 
                 })
 

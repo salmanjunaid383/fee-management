@@ -34,6 +34,7 @@ import SubmitForm from './Components/SubmitForm';
 import MySection from './Components/Section';
 import FeeVoucher from './Components/FeeVoucher';
 import ForgetPassword from './Components/ForgetPassword';
+import ResetPassword from './Components/ResetPassword';
 import CustomFeeVoucher from './Components/CustomFeeVoucher';
 import FeeVoucherAdmin from './Components/FeeVoucherAdmin';
 import Mystudents from './Components/Mystudents';
@@ -57,11 +58,11 @@ import Discounted from './Components/Discounted';
 import SuperAdmin from './Components/SuperAdmin';
 import SuperSchool from './Components/SuperSchool';
 import Term from './Components/Term';
-import { Route, Switch,  } from 'react-router-dom'
+import { Route, Switch, } from 'react-router-dom';
+// import GuardedRoute from './Components/GuardedRoute';
 
 const App = () => {
     return <>
-
 
 
         <Switch>
@@ -72,7 +73,8 @@ const App = () => {
             {/* <Route path="/adminlogin" component={Superlogin} /> */}
             {/* <Route path="/student1/:studentid" component={Student1} /> */}
             {/* <Route path="/paro" component={Paro} /> */}
-             <Route exact path="/" component={Login} /> 
+            <Route exact path="/" component={Login} />
+            {/* <GuardedRoute path='/school' component={Myschool} auth={isAutheticated} /> */}
             <Route path="/dashboard" component={Mydashboard} />
             <Route path="/campusdashboard" component={CampusDashboard} />
             <Route path="/school" component={Myschool} />
@@ -91,22 +93,23 @@ const App = () => {
             <Route path="/breakdown" component={BreakDown} />
             <Route path="/feeperiod" component={FeePeriod} />
             <Route path="/forgetpassword" component={ForgetPassword} />
+            <Route path="/resetpassword/:userid" component={ResetPassword} />
             <Route path="/feevoucher/:studentid" component={FeeVoucher} />
             <Route path="/customfeevoucher" component={CustomFeeVoucher} />
             <Route path="/feevoucheradmin" component={FeeVoucherAdmin} />
             <Route path="/structure" component={Structure} />
             <Route path="/admission" component={AdmissionCharges} />
-            <Route path="/admissionrequest" component={AdmissionRequest}/>
-            <Route path="/admissioncomponents" component={Admission}/>
-            <Route path="/admissionform/:schoolid" component={AdmissionForm}/>
-            <Route path="/adminschool/:adminid" component={AdminsSchool}/>
+            <Route path="/admissionrequest" component={AdmissionRequest} />
+            <Route path="/admissioncomponents" component={Admission} />
+            <Route path="/admissionform/:schoolid" component={AdmissionForm} />
+            <Route path="/adminschool/:adminid" component={AdminsSchool} />
             <Route path="/discounted" component={Discounted} />
             <Route path="/documents" component={Documents} />
             <Route path="/term" component={Term} />
             <Route path="/super" component={SuperAdmin} />
             <Route path="/studentparticular" component={Studentparticular} />
-            <Route path="/fatherparticular/:formNo" component={Fatherparticular} /> 
-            <Route path="/motherparticular" component={Motherparticular} /> 
+            <Route path="/fatherparticular/:formNo" component={Fatherparticular} />
+            <Route path="/motherparticular" component={Motherparticular} />
             <Route path="/guardianparticular" component={Guardianparticular} />
             <Route path="/siblings" component={Siblings} />
             <Route path="/emergency" component={Emergency} />

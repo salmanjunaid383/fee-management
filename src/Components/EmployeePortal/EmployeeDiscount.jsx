@@ -18,6 +18,9 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import MultiSelect from "react-multi-select-component";
 import Snackbar from '@material-ui/core/Snackbar';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 
 
@@ -43,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 120,
     },
     selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+    navigation: {
         marginTop: theme.spacing(2),
     },
 }));
@@ -347,7 +353,14 @@ const EmployeeDiscount = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-
+                    <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link className="text-decoration-none" color="inherit" to="/employeefeecomponents">
+                                    Fee
+                                </Link>
+                                <Typography color="textPrimary">Discount</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Discount</button>

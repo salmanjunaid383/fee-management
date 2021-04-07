@@ -1,12 +1,14 @@
 import { React, useEffect, useState } from 'react';
 import axios from 'axios';
 import './Undertaking.css';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import Snackbar from '@material-ui/core/Snackbar';
 
 
 const Undertaking = ({ teamId, orientation = 'portrait' }) => {
     const [student, setStudent] = useState({});
+    const history = useHistory();
+    const school_id = localStorage.getItem("school_id")
     const [schooldata, setSchooldata] = useState({});
     const [documents, setDocuments] = useState([]);
     const [date, setDate] = useState();
@@ -59,6 +61,12 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
                     .then(response => {
                         setMyclass(response.data.name)
                     })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
                 setStudent(response.data.form);
                 setDocuments(response.data.undertaking);
                 setDate(response.data.undertaking[0].date);
@@ -76,6 +84,9 @@ const Undertaking = ({ teamId, orientation = 'portrait' }) => {
                 <button className="btn btn-danger text-bold" id="print_undertaking_btn" onClick={() => window.print()}>Print</button>
                 <div className="container">
                     <div className="row">
+                        <div className="col-12 text-right">
+                            {school_id === null ? <button className="btn btn-primary" onClick={() => history.push("/")}>Home</button> : null}
+                        </div>
                         <div className="col-12">
                             <h2 className="text-center print-capitalize">{schooldata.name}</h2>
                         </div>

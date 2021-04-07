@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import logo from './jb1.png'
 // import LaunchIcon from '@material-ui/icons/Launch';
@@ -12,8 +12,23 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Typography from '@material-ui/core/Typography';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { makeStyles } from '@material-ui/core/styles';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > * + *': {
+            marginTop: theme.spacing(2),
+        },
+    },
+    navigation: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 const Documents = () => {
+    const classes = useStyles();
     const [document, setDocument] = useState();
     const [documentdata, setDocumentdata] = useState([]);
     const [show, setShow] = useState(false);
@@ -245,6 +260,14 @@ const Documents = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
+                        <div className={`${classes.navigation}`}>
+                            <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
+                                <Link color="inherit" to="/admissioncomponents">
+                                    Admissions
+                                </Link>
+                                <Typography color="textPrimary">Documents</Typography>
+                            </Breadcrumbs>
+                        </div>
                         <div class="message">
                             <div class="add-student">
                                 <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon />Add Document</button>

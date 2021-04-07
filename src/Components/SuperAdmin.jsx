@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './dashboard.css';
 import { Link, useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logo from "./jb1.png";
+import logo from "./jb2.png";
 import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
@@ -54,14 +54,14 @@ const SuperAdmin = () => {
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
-    const changeClick = (id) => {
-        localStorage.setItem("user_id", id)
-        handleShow3();
-    }
-    const remove1 = () => {
-        localStorage.removeItem("user_id")
-        handleClose3();
-    }
+    // const changeClick = (id) => {
+    //     localStorage.setItem("user_id", id)
+    //     handleShow3();
+    // }
+    // const remove1 = () => {
+    //     localStorage.removeItem("user_id")
+    //     handleClose3();
+    // }
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
@@ -128,31 +128,31 @@ const SuperAdmin = () => {
     //             }
     //         })
     // }
-    const changePassword = () => {
-        if (password == confirmpassword) {
-            axios.put(`http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem("user_id")}`, { password: password })
-                .then(response => {
-                    console.log(response)
-                    setPassword('')
-                    setConfirmpassword('')
-                    reload();
-                    remove1();
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        setMessageinfo(error.response.data.message);
-                        handleMessage();
+    // const changePassword = () => {
+    //     if (password == confirmpassword) {
+    //         axios.put(`http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem("user_id")}`, { password: password })
+    //             .then(response => {
+    //                 console.log(response)
+    //                 setPassword('')
+    //                 setConfirmpassword('')
+    //                 reload();
+    //                 remove1();
+    //             })
+    //             .catch((error) => {
+    //                 if (error.response) {
+    //                     setMessageinfo(error.response.data.message);
+    //                     handleMessage();
 
-                    }
-                })
-            setMessageinfo("Password Does not Match")
-        }
-        else {
-            handleMessage();
+    //                 }
+    //             })
+    //         setMessageinfo("Password Does not Match")
+    //     }
+    //     else {
+    //         handleMessage();
 
-        }
+    //     }
 
-    }
+    // }
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/schools`)
             .then(response => {
@@ -486,7 +486,7 @@ const SuperAdmin = () => {
                                         <button onClick={deleteAdministrator} className="btn btn-primary">Yes</button>
                                     </Modal.Footer>
                                 </Modal>
-                                <Modal show={show3} onHide={remove1}>
+                                {/* <Modal show={show3} onHide={remove1}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Change Password</Modal.Title>
                                     </Modal.Header>
@@ -505,7 +505,7 @@ const SuperAdmin = () => {
                                             </button>
                                         <button onClick={changePassword} className="btn btn-primary">Change</button>
                                     </Modal.Footer>
-                                </Modal>
+                                </Modal> */}
                                 <table class="table no-wrap">
                                     <thead>
                                         <tr>
@@ -514,7 +514,7 @@ const SuperAdmin = () => {
                                             <th class="border-top-0">Contact No.</th>
                                             <th class="border-top-0">Address</th>
                                             <th class="border-top-0">Email</th>
-                                            <th class="border-top-0">Password</th>
+                                            {/* <th class="border-top-0">Password</th> */}
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
@@ -530,7 +530,7 @@ const SuperAdmin = () => {
                                                                 <td>{val.contact}</td>
                                                                 <td className="print-capitalize">{val.address}</td>
                                                                 <td class="txt-oflo">{val.email}</td>
-                                                                <td><Button className="text-bold" onClick={() => changeClick(val.id)}><span>Change</span></Button></td>
+                                                                {/* <td><Button className="text-bold" onClick={() => changeClick(val.id)}><span>Change</span></Button></td> */}
 
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary">
