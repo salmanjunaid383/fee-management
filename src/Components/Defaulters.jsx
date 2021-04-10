@@ -128,6 +128,10 @@ const Defaulters = () => {
 
     const myData = payable.concat(locked);
     console.log(myData)
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
     return (
         <>
             <div class="dashboard">
@@ -210,6 +214,7 @@ const Defaulters = () => {
                                 <div class="big-inbox">
                                     Defaulters
                                 </div>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>
                         </div>
                         <hr class="new-hr" />

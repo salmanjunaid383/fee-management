@@ -29,14 +29,18 @@ const Requirements = () => {
     const [selectedFile, setSelectedFile] = useState();
     const [documentid, setDocumentid] = useState();
     const [sent, setSent] = useState([]);
+    const [notify,setNotify] = useState('Next')
+    // const [mydata, setMydata] = useState([]);
     const history = useHistory();
     const { formNo } = useParams();
     const school_id = localStorage.getItem("school_id");
+    var mydata = [];
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_document/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setDocumentdata(response.data)
+
             })
             .catch((error) => {
                 if (error.response) {
@@ -44,6 +48,7 @@ const Requirements = () => {
                     handleMessage();
                 }
             })
+
     }, [])
     const changeHandler = (e) => {
         setSelectedFile(e.target.files[0]);
@@ -51,9 +56,15 @@ const Requirements = () => {
     };
 
     const changeHandlerbox = async (e) => {
+        // mydata=[];
+
         setDocumentid(e.target.value);
 
     };
+    for (var i = 0; i < documentdata.length; i++) {
+        mydata.push(documentdata[i].id)
+    }
+
     const handleSubmission = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentid}`)
             .then(response => {
@@ -62,7 +73,11 @@ const Requirements = () => {
                 formData.append('document_id', documentid);
                 formData.append('document', response.data.required_document);
                 formData.append('form_no', formNo);
-                formData.append('school_id', school_id);
+                formData.append('school_id', school_id); var mydata = [];
+                for (var i = 0; i < documentdata.length; i++) {
+                    mydata.push(documentdata[i].id)
+                }
+                console.log(mydata)
                 axios({
                     method: "post",
                     url: "http://fee-management-api.nastechltd.co/api/student_document",
@@ -71,7 +86,7 @@ const Requirements = () => {
                 })
                     .then(function (response) {
                         //handle success
-                        setSent([...sent, response.data.document_id])
+                        setSent([...sent, parseInt(response.data.document_id)])
                         console.log(response.data.document_id);
                         setSelectedFile();
                         setDocumentid();
@@ -94,90 +109,55 @@ const Requirements = () => {
             })
     }
     const check = () => {
+        setNotify('Please Wait...')
         console.log(sent);
-        for (var i = 0; i < documentdata.length; i++) {
-            if (sent.length === 0) {
-                console.log(documentdata[i].id)
-                console.log("bump")
-                axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentdata[i].id}`)
-                    .then(response => {
-                        const formData = new FormData();
-                        formData.append('file', null);
-                        formData.append('document_id', response.data.id);
-                        formData.append('document', response.data.required_document);
-                        formData.append('form_no', formNo);
-                        formData.append('school_id', school_id);
-                        axios({
-                            method: "post",
-                            url: "http://fee-management-api.nastechltd.co/api/student_document",
-                            data: formData,
-                            headers: { "Content-Type": "multipart/form-data" },
-                        })
-                            .then(function (response) {
-                                //handle success
-                                console.log(response);
-                                setSelectedFile();
-                                setDocumentid();
-                                setDocument();
-
-                            })
-                            .catch(function (response) {
-                                //handle error
-                                console.log(response);
-                            });
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            setMessageinfo(error.response.data.message);
-                            handleMessage();
-                        }
-                    })
-            }
-            for (var l = 0; l < sent.length; l++) {
-                if (documentdata[i].id == sent[l].value) {
-                    console.log(documentdata[i].id)
+        for (var l = 0; l < sent.length; l++) {
+            for (var i = 0; i < mydata.length; i++) {
+                if (mydata[i] === sent[l]) {
+                    console.log(mydata)
+                    mydata.splice(i, 1);
+                    console.log(mydata)
+                }
+                else {
                     continue;
                 }
 
-                else if (documentdata[i].id != sent[l]) {
-                    console.log(documentdata[i].id)
-                    console.log("bump")
-                    axios.get(`http://fee-management-api.nastechltd.co/api/document/${documentdata[i].id}`)
-                        .then(response => {
-                            const formData = new FormData();
-                            formData.append('file', null);
-                            formData.append('document_id', response.data.id);
-                            formData.append('document', response.data.required_document);
-                            formData.append('form_no', formNo);
-                            formData.append('school_id', school_id);
-                            axios({
-                                method: "post",
-                                url: "http://fee-management-api.nastechltd.co/api/student_document",
-                                data: formData,
-                                headers: { "Content-Type": "multipart/form-data" },
-                            })
-                                .then(function (response) {
-                                    //handle success
-                                    console.log(response);
-                                    setSelectedFile();
-                                    setDocumentid();
-                                    setDocument();
-
-                                })
-                                .catch(function (response) {
-                                    //handle error
-                                    console.log(response);
-                                });
-                        })
-                        .catch((error) => {
-                            if (error.response) {
-                                setMessageinfo(error.response.data.message);
-                                handleMessage();
-                            }
-                        })
-                }
-                
             }
+        }
+        for (var i = 0; i < mydata.length; i++) {
+            axios.get(`http://fee-management-api.nastechltd.co/api/document/${mydata[i]}`)
+                .then(response => {
+                    const formData = new FormData();
+                    formData.append('file', null);
+                    formData.append('document_id', response.data.id);
+                    formData.append('document', response.data.required_document);
+                    formData.append('form_no', formNo);
+                    formData.append('school_id', school_id);
+                    axios({
+                        method: "post",
+                        url: "http://fee-management-api.nastechltd.co/api/student_document",
+                        data: formData,
+                        headers: { "Content-Type": "multipart/form-data" },
+                    })
+                        .then(function (response) {
+                            //handle success
+                            console.log(response);
+                            setSelectedFile();
+                            setDocumentid();
+                            setDocument();
+
+                        })
+                        .catch(function (response) {
+                            //handle error
+                            console.log(response);
+                        });
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        setMessageinfo(error.response.data.message);
+                        handleMessage();
+                    }
+                })
         }
         setTimeout(() => {
             axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${formNo}`)
@@ -218,7 +198,7 @@ const Requirements = () => {
         }, 2000);
         // console.log("hi")
     }
-
+    console.log(mydata)
 
 
 
@@ -284,7 +264,7 @@ const Requirements = () => {
 
                             <div className="row">
                                 <div className="col-12 text-right mt-3">
-                                    <button onClick={check} className="btn btn-success w25">Next</button>
+                                    <button onClick={check} className="btn btn-success w25">{notify}</button>
                                 </div>
                             </div>
 

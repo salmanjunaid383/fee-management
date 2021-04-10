@@ -129,7 +129,10 @@ const EmployeeDefaulters = () => {
 
 
 
-
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
 
 
 
@@ -189,6 +192,8 @@ const EmployeeDefaulters = () => {
                                 <div class="big-inbox">
                                     Defaulters
                                 </div>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />

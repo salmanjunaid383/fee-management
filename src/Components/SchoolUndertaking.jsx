@@ -27,10 +27,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
     modal: {
-        width : '600px',
+        width: '600px',
     },
 }));
-
 const SchoolUndertaking = () => {
     const [messageinfo, setMessageinfo] = useState('');
     const [message, setMessage] = useState({
@@ -46,7 +45,7 @@ const SchoolUndertaking = () => {
         setMessage({ ...message, open: false });
     };
     const classes = useStyles();
-    const [document, setDocument] = useState();
+    const [document, setDocument] = useState('');
     const [undertakingdata, setUndertakingdata] = useState([]);
     const [documentdata, setDocumentdata] = useState([]);
     const [show, setShow] = useState(false);
@@ -58,7 +57,7 @@ const SchoolUndertaking = () => {
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
     const [selectedFile, setSelectedFile] = useState();
-    const [documentid, setDocumentid] = useState();
+    const [documentid, setDocumentid] = useState('');
     const changeHandler = (e) => {
         setSelectedFile(e.target.files[0]);
 
@@ -96,7 +95,48 @@ const SchoolUndertaking = () => {
         localStorage.setItem("user_id", id)
         handleShow();
     }
-    console.log(documentdata);
+    const handleSubmission = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/student_document/${documentid}`)
+            .then(response => {
+                console.log(response.data)
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('document_id', response.data.document_id);
+                formData.append('document', response.data.document);
+                formData.append('form_no', localStorage.getItem("user_id"));
+                formData.append('school_id', school_id);
+                console.log(formData.get('document'))
+                axios({
+                    method: "post",
+                    url: `http://fee-management-api.nastechltd.co/api/update_document/${response.data.id}`,
+                    data: formData,
+                    headers: { "Content-Type": "multipart/form-data" },
+                })
+                    .then(function (response) {
+                        //handle success
+                        console.log(response.data.document_id);
+                        setSelectedFile();
+                        setDocumentid('');
+                        reload();
+                        setDocument('');
+                        setMessageinfo("Submitted!!")
+                        handleMessage();
+
+                    })
+                    .catch(function (response) {
+                        //handle error
+                        console.log(response);
+                    });
+
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+    }
+    // console.log(documentdata);
     const remove = () => {
         localStorage.removeItem("user_id")
         handleClose();
@@ -118,11 +158,28 @@ const SchoolUndertaking = () => {
                     handleMessage();
                 }
             })
+        axios.get(`http://fee-management-api.nastechltd.co/api/undertaking/${localStorage.getItem("user_id")}`)
+            .then(response => {
+                console.log(response);
+                if (response.data.undertaking.length === 0) {
+                    remove();
+                }
+                setDocumentdata(response.data.undertaking);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
     }
 
 
 
-
+    const logOut = () => {
+        localStorage.clear();
+        history.push("/")
+    }
     return (
         <>
             <div class="dashboard">
@@ -205,6 +262,8 @@ const SchoolUndertaking = () => {
                                 <div class="big-inbox">
                                     Student Undertaking
                                 </div>
+                                <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
+
                             </div>
                         </div>
                         <hr class="new-hr" />
@@ -221,8 +280,8 @@ const SchoolUndertaking = () => {
                         <div class="message">
                             <div class="add-student">
                                 {/* <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon />Add Document</button> */}
-                                <Modal className="w-100" show={show} onHide={handleClose}size="lg">
-                                    <Modal.Header  closeButton>
+                                <Modal className="w-100" show={show} onHide={remove} size="lg">
+                                    <Modal.Header closeButton>
                                         <Modal.Title>Add Document</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body >{documentdata.map((val, i) => {
@@ -236,14 +295,18 @@ const SchoolUndertaking = () => {
                                                         </label>
                                                     </div>
                                                     <div className="col-6">
-
-                                                        <input class="form-control" name="file" type="file" id={`${val.id}file`} onChange={(e) => changeHandler(e)} />
+                                                        {documentid == val.id ?
+                                                            <>
+                                                                <input class="form-control" name="file" type="file" id={`${val.id}file`} onChange={(e) => changeHandler(e)} />
+                                                            </>
+                                                            :
+                                                            null}
 
                                                     </div>
                                                     <div className="col-2 my-1">
                                                         {documentid == val.id ?
                                                             <>
-                                                                <button className="btn btn-success">Upload</button>
+                                                                <button onClick={handleSubmission} className="btn btn-success">Upload</button>
                                                             </>
                                                             :
                                                             <button disabled className="btn btn-success">Upload</button>
@@ -259,10 +322,7 @@ const SchoolUndertaking = () => {
 
                                     </Modal.Body>
                                     <Modal.Footer >
-                                        <button class="btn btn-secondary" onClick={handleClose}>
-                                            Close
-                                            </button>
-                                        <button className="btn btn-primary">Add</button>
+                                        <button class="btn btn-secondary" onClick={remove}>Close </button>
                                     </Modal.Footer>
                                 </Modal>
                                 {/* <Modal show={show1} onHide={handleClose1}>

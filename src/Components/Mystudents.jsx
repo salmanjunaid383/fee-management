@@ -63,6 +63,7 @@ const Mystudents = () => {
     const [address, setAddress] = useState();
     const [gender, setGender] = useState();
     const [userdata, setUserdata] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [prevdata, setPrevdata] = useState('');
     var mydata = [];
     const history = useHistory();
@@ -189,15 +190,15 @@ const Mystudents = () => {
             })
     }
     const changePassword = () => {
-        if (password !== confirmpassword){
+        if (password !== confirmpassword) {
             setMessageinfo("Password Does not Match")
             handleMessage();
         }
-        else if (password === ''){
+        else if (password === '') {
             setMessageinfo("Enter Password")
             handleMessage();
-        } 
-        else{
+        }
+        else {
             axios.put(`http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem("user_id")}`, { password: password })
                 .then(response => {
                     console.log(response)
@@ -332,7 +333,7 @@ const Mystudents = () => {
     }
     const reset = () => {
         setClassid('');
-        // setSearchTerm('');
+        setSearchTerm('');
         setSectionid('');
     }
     const logOut = () => {
@@ -587,7 +588,11 @@ const Mystudents = () => {
                                 </Modal>
                             </div>
                             <div className="row">
-                                <div className="col-12 text-center">
+                                <div className="col-6 text-left mt-1">
+                                    <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
+                                    <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
+                                </div>
+                                <div className="col-6 text-right">
                                     <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-simple-select-label">Class</InputLabel>
                                         <Select
@@ -621,8 +626,6 @@ const Mystudents = () => {
                                             })}
                                         </Select>
                                     </FormControl>
-                                    <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
-
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -640,6 +643,19 @@ const Mystudents = () => {
                                     </thead>
                                     <tbody>
                                         {studentdata.filter((val) => {
+                                            if (searchTerm == '') {
+                                                return val;
+                                            }
+                                            else if (val.section_id.toString().includes(searchTerm)) {
+                                                return val;
+                                            }
+                                            else if (val.G_R_NO.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                            else if (`${val.first_name} ${val.middle_name} ${val.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).filter((val) => {
                                             if (sectionid == '') {
                                                 return val;
                                             }

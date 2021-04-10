@@ -98,35 +98,35 @@ const EmployeeFeeComponents = () => {
                             <div className="show_fee">
                                 <div class="card p-2" style={{ width: '18rem' }}>
                                     <div class="card-body w-100 p-0">
-                                        <div className="text-center mb-2"><i class="fas fa-7x fa-calendar-times"></i></div>
+                                        <div className="text-center mb-2"><i class="txt-icon fas fa-7x fa-calendar-times"></i></div>
                                         <button type="button" onClick={() => history.push("/employeeperiod")} class="btn mb-0 mt-0 w-100 btn-primary btn-lg">Fee Period</button>
 
                                     </div>
                                 </div>
                                 <div class="card p-2" style={{ width: '18rem' }}>
                                     <div class="card-body w-100 p-0">
-                                        <div className="text-center mb-2"><i class="fas fa-7x fa-money-check-alt"></i></div>
+                                        <div className="text-center mb-2"><i class="txt-icon fas fa-7x fa-money-check-alt"></i></div>
                                         <button type="button" onClick={() => history.push("/employeestructure")} class="btn my-0 w-100 btn-primary btn-lg">Fee Structure</button>
 
                                     </div>
                                 </div>
                                 <div class="card p-2" style={{ width: '18rem' }}>
                                     <div class="card-body w-100 p-0">
-                                        <div className="text-center mb-2"><i class="fas fa-7x fa-user-tag"></i></div>
+                                        <div className="text-center mb-2"><i class="txt-icon fas fa-7x fa-user-tag"></i></div>
                                         <button type="button" onClick={() => history.push("/employeediscount")} class="btn mb-0 mt-0 w-100 btn-primary btn-lg">Discount</button>
 
                                     </div>
                                 </div>
                                 <div class="card p-2" style={{ width: '18rem' }}>
                                     <div class="card-body w-100 p-0">
-                                        <div className="text-center mb-2"><i class="fas fa-7x fa-user-slash"></i></div>
+                                        <div className="text-center mb-2"><i class="txt-icon fas fa-7x fa-user-slash"></i></div>
                                         <button type="button" onClick={() => history.push("/employeedefaulter")} class="btn my-0 w-100 btn-primary btn-lg">Defaulters</button>
 
                                     </div>
                                 </div>
                                 <div class="card p-2" style={{ width: '18rem' }}>
                                     <div class="card-body w-100 p-0">
-                                        <div className="text-center mb-2"><i class="fas fa-7x fa-file-invoice-dollar"></i></div>
+                                        <div className="text-center mb-2"><i class="txt-icon fas fa-7x fa-file-invoice-dollar"></i></div>
                                         <button type="button" onClick={() => history.push("/employeecustomvoucher")} class="btn my-0 w-100 btn-primary btn-lg">Custom Feevoucher</button>
 
                                     </div>

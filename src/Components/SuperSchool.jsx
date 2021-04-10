@@ -305,7 +305,7 @@ const SuperSchool = () => {
                                             <TextField className="pb-3 bg-white" type="text" onChange={(e) => setSchoolName(e.target.value)} label="School Name" variant="filled" />
                                             <TextField className="pb-3 bg-white" type="number" onChange={(e) => setPhone(e.target.value)} label="Contact No." variant="filled" />
                                             <label htmlFor="logo">Upload School Logo:</label>
-                                            <input id="logo" type="file" name="logo" onChange={(e) => setSelectedFile(e.target.files[0])} className="form-control w-100" />
+                                            <input id="logo" type="file" accept="image/*" name="logo" onChange={(e) => setSelectedFile(e.target.files[0])} className="form-control w-100" />
                                         </div>
 
                                         <div class="col-6 billing-box">

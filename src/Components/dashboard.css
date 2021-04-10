@@ -147,9 +147,9 @@ overflow: auto;
   margin-left: 20px;
   color: grey!important;
 }
-.fas{
+/* .fas{
   color:grey!important;
-}
+} */
 .icon-name {
   margin-left: 20px;
   color:grey !important;
@@ -157,6 +157,9 @@ overflow: auto;
 .billing-box{
   display: flex;
   flex-direction: column;
+}
+.txt-icon{
+  color : #3d7859
 }
 .billing-main{
   display: flex;
@@ -396,7 +399,9 @@ color: #ce092c !important;
   height: 100vh;
   background-color: #f2f3f7;
 }
-
+button.txt-wite-icon{
+  color: white;
+}
 .w25{
   width: 146px !important;
 }

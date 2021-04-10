@@ -79,6 +79,7 @@ const Discounted = () => {
     const [sectiondata, setSectiondata] = useState([]);
     const [classdata, setClassdata] = useState([]);
     const [sectionid, setSectionid] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [classid, setClassid] = useState('');
     const [discounteddata, setDiscounteddata] = useState([]);
     const [selected, setSelected] = useState([]);
@@ -395,7 +396,13 @@ const Discounted = () => {
                         </div>
                         <div class="message">
                             <div class="add-student">
-                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Discount</button>
+                                <div className="col-12">
+                                    <div className="float-start">
+                                        <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="Search by Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
+                                        <button onClick={reset} className="btn btn-primary mt-3 ml-5 mr-5">Reset</button>
+                                    </div>
+                                    <button type="button" onClick={handleShow} class="btn btn-primary btn-lg float-end"><AddIcon /> Add Discount</button>
+                                </div>
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Add Discount</Modal.Title>
@@ -529,7 +536,14 @@ const Discounted = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {discounteddata.map((val, i) => {
+                                        {discounteddata.filter((val) => {
+                                            if (searchTerm === '') {
+                                                return val;
+                                            }
+                                            else if (`${val.name}`.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).map((val, i) => {
                                             return (
                                                 <>
                                                     <tr key={i}>

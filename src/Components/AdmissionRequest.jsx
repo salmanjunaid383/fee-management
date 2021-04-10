@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AdmissionRequest = () => {
     const [messageinfo, setMessageinfo] = useState('');
+    const [notify, setNotify] = useState('Add Student')
     const [message, setMessage] = useState({
         open: false,
         vertical: 'top',
@@ -188,6 +189,7 @@ const AdmissionRequest = () => {
             handleMessage();
         }
         else {
+            setNotify('Please wait...')
             axios.post('http://fee-management-api.nastechltd.co/api/student', data)
                 .then(response => {
                     handleClose();
@@ -196,6 +198,8 @@ const AdmissionRequest = () => {
                     setSectionid('');
                     setGR_no('');
                     localStorage.removeItem("registration_no")
+                    setMessageinfo("Student Successfully Added");
+                    handleMessage();
                 })
                 .catch((error) => {
                     if (error.response) {
@@ -407,7 +411,7 @@ const AdmissionRequest = () => {
                                         <button class="btn btn-secondary" onClick={handleClose}>
                                             Close
                                             </button>
-                                        <button onClick={sendData} className="btn btn-primary">Add</button>
+                                        <button onClick={sendData} className="btn btn-primary">{notify}</button>
                                     </Modal.Footer>
                                 </Modal>
 

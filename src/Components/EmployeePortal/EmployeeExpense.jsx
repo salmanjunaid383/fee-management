@@ -61,6 +61,7 @@ const EmployeeExpense = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [show1, setShow1] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const handleClose1 = () => setShow1(false);
     const handleShow1 = () => setShow1(true);
     const [sectiondata, setSectiondata] = useState([]);
@@ -139,7 +140,7 @@ const EmployeeExpense = () => {
     }
     const reset = () => {
         setClassid('');
-        // setSearchTerm('');
+        setSearchTerm('');
         setSectionid('');
     }
     const options = studentdata.filter((val) => {
@@ -354,7 +355,7 @@ const EmployeeExpense = () => {
                                 </div>
                                 <div class="icon-name1">Dashboard</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/employeefeecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-money-check-alt"></i>
@@ -402,7 +403,14 @@ const EmployeeExpense = () => {
 
                         <div class="message">
                             <div class="add-student">
-                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add</button>
+                                <div className="col-12">
+                                    <div className="float-start">
+                                        <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="Search by Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
+                                        <button onClick={reset} className="btn btn-primary mt-3 ml-5 mr-5">Reset</button>
+                                    </div>
+                                    <button type="button" onClick={handleShow} class="btn btn-primary btn-lg float-end"><AddIcon /> Add</button>
+
+                                </div>
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title className="text-center">Add Expense</Modal.Title>
@@ -464,10 +472,10 @@ const EmployeeExpense = () => {
                                         </div>
                                     </Modal.Body>
                                     <Modal.Footer>
-                                        <button class="btn btn-secondary" onClick={handleClose}>
+                                        <button class="btn btn-secondary" onClick={(e)=>{handleClose();reset()}}>
                                             Close
                                         </button>
-                                        <button onClick={sendData} className="btn btn-primary">Create</button>
+                                        <button onClick={sendData} className="btn btn-primary">Add</button>
                                     </Modal.Footer>
                                 </Modal>
                                 <Modal show={show1} onHide={handleClose1}>
@@ -526,7 +534,14 @@ const EmployeeExpense = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {expensedata.map((val, i) => {
+                                        {expensedata.filter((val) => {
+                                            if (searchTerm === '') {
+                                                return val;
+                                            }
+                                            else if (`${val.first_name} ${val.middle_name} ${val.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).map((val, i) => {
                                             return (
                                                 <>
 

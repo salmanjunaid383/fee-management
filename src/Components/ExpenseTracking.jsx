@@ -57,6 +57,7 @@ const MyExpense = () => {
     };
     const [expensedata, setExpensedata] = useState([]);
     const [selected, setSelected] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -139,7 +140,7 @@ const MyExpense = () => {
     }
     const reset = () => {
         setClassid('');
-        // setSearchTerm('');
+        setSearchTerm('');
         setSectionid('');
     }
     const options = studentdata.filter((val) => {
@@ -202,6 +203,7 @@ const MyExpense = () => {
                     setDescription('');
                     setSelected([]);
                     setCharges('');
+                    reset();
                     handleClose();
                     reload();
 
@@ -331,8 +333,6 @@ const MyExpense = () => {
                 }
             })
     }
-
-
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -433,7 +433,14 @@ const MyExpense = () => {
 
                         <div class="message">
                             <div class="add-student">
-                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add</button>
+                                <div className="col-12">
+                                    <div className="float-start">
+                                        <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="Search by Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
+                                        <button onClick={reset} className="btn btn-primary mt-3 ml-5 mr-5">Reset</button>
+                                    </div>
+                                    <button type="button" onClick={handleShow} class="btn btn-primary btn-lg float-end"><AddIcon /> Add</button>
+
+                                </div>
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title className="text-center">Add Expense</Modal.Title>
@@ -495,7 +502,7 @@ const MyExpense = () => {
                                         </div>
                                     </Modal.Body>
                                     <Modal.Footer>
-                                        <button class="btn btn-secondary" onClick={handleClose}>
+                                        <button class="btn btn-secondary" onClick={(e) => { handleClose(); reset(); }}>
                                             Close
                                         </button>
                                         <button onClick={sendData} className="btn btn-primary">Create</button>
@@ -557,7 +564,14 @@ const MyExpense = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {expensedata.map((val, i) => {
+                                        {expensedata.filter((val) => {
+                                            if (searchTerm === '') {
+                                                return val;
+                                            }
+                                            else if (`${val.first_name} ${val.middle_name} ${val.last_name}`.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).map((val, i) => {
                                             return (
                                                 <>
 

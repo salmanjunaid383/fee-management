@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 const EmployeeDiscount = () => {
     const [messageinfo, setMessageinfo] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
     const [message, setMessage] = useState({
         open: false,
         vertical: 'top',
@@ -160,7 +161,7 @@ const EmployeeDiscount = () => {
     }
     const reset = () => {
         setClassid('');
-        // setSearchTerm('');
+        setSearchTerm('');
         setSectionid('');
     }
 
@@ -287,7 +288,7 @@ const EmployeeDiscount = () => {
     //         .catch(error => console.log(error))
     // }, [])
     // console.log(studentid)
-    var count=0;
+    var count = 0;
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -308,7 +309,7 @@ const EmployeeDiscount = () => {
                                 </div>
                                 <div class="icon-name1">Dashboard</div>
                             </div></Link>
-                            
+
                             <Link class="nav-link" to="/employeefeecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-money-check-alt active"></i>
@@ -353,7 +354,7 @@ const EmployeeDiscount = () => {
                         <hr class="new-hr" />
                     </div>
                     <div class="right-body">
-                    <div className={`${classes.navigation}`}>
+                        <div className={`${classes.navigation}`}>
                             <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
                                 <Link className="text-decoration-none" color="inherit" to="/employeefeecomponents">
                                     Fee
@@ -363,8 +364,13 @@ const EmployeeDiscount = () => {
                         </div>
                         <div class="message">
                             <div class="add-student">
-                                <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Discount</button>
-                                <Modal show={show} onHide={handleClose}>
+                                <div className="col-12">
+                                    <div className="float-start">
+                                        <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="Search by Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
+                                        <button onClick={reset} className="btn btn-primary mt-3 ml-5 mr-5">Reset</button>
+                                    </div>
+                                    <button type="button" onClick={handleShow} class="btn btn-primary btn-lg float-end"><AddIcon /> Add Discount</button>
+                                </div>                                <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
                                         <Modal.Title>Add Discount</Modal.Title>
                                     </Modal.Header>
@@ -497,11 +503,18 @@ const EmployeeDiscount = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {discounteddata.map((val, i) => {
+                                        {discounteddata.filter((val) => {
+                                            if (searchTerm === '') {
+                                                return val;
+                                            }
+                                            else if (`${val.name}`.toLowerCase().includes(searchTerm.toLowerCase())) {
+                                                return val;
+                                            }
+                                        }).map((val, i) => {
                                             return (
                                                 <>
                                                     <tr key={i}>
-                                                        <td>{count=1+count}</td>
+                                                        <td>{count = 1 + count}</td>
                                                         <td class="txt-oflo print-capitalize">{val.name}</td>
 
                                                         <td>{val.discount}</td>
