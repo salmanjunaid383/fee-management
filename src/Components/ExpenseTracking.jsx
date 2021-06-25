@@ -150,10 +150,19 @@ const MyExpense = () => {
         else if (val.section_id.toString().includes(sectionid)) {
             return val;
         }
-    }).map(val => ({
-        label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
+    }).map(val => (
+        val.middle_name === null ?
+            {
+                label: `${val.first_name} ${val.last_name}`, value: val.id
 
-    }))
+            }
+            :
+            {
+                label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
+
+            }
+    ))
+
     // const handleCharges = (e) => {
     //     axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
     //         .then(response => {

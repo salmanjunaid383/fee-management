@@ -17,6 +17,7 @@ const Fatherparticular = () => {
     const [Fatheremail, setFatherEmail] = useState('');
     const [Fatheraddressoffice, setFatherAddressoffice] = useState('');
     const [Fathercell, setFatherCell] = useState('');
+    const [Fathercell2, setFatherCell2] = useState('');
     const [Fathertel, setFatherTel] = useState('');
     const [Fatherqualification, setFatherQualification] = useState('');
     const [Fatheroccupation, setFatherOccupation] = useState('');
@@ -27,6 +28,7 @@ const Fatherparticular = () => {
     const [Motheremail, setMotherEmail] = useState('');
     const [Motheraddress, setMotherAddress] = useState('');
     const [Mothercell, setMotherCell] = useState('');
+    const [Mothercell2, setMotherCell2] = useState('');
     const [Mothertel, setMotherTel] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const [Motherqualification, setMotherQualification] = useState('');
@@ -64,7 +66,8 @@ const Fatherparticular = () => {
                     setMotherAddress(response.data.mother_residential_address)
                     setMotherEmail(response.data.mother_email)
                     setMotherCnic(response.data.mother_CNIC)
-                    setMotherCell(response.data.mother_cell_no)
+                    setMotherCell(response.data.mother_cell_1)
+                    setMotherCell2(response.data.mother_cell_2)
                     setMotherTel(response.data.mother_tel_no)
                     setFatherName(response.data.father_name);
                     setFatherQualification(response.data.father_qualification)
@@ -74,7 +77,8 @@ const Fatherparticular = () => {
                     setFatherAddressoffice(response.data.father_office_address)
                     setFatherEmail(response.data.father_email)
                     setFatherCnic(response.data.father_CNIC)
-                    setFatherCell(response.data.father_cell_no)
+                    setFatherCell(response.data.father_cell_1)
+                    setFatherCell2(response.data.father_cell_2)
                     setFatherTel(response.data.father_tel_no)
 
                 })
@@ -104,7 +108,8 @@ const Fatherparticular = () => {
         father_nationality: Fathernationality,
         father_occupation: Fatheroccupation,
         father_tel_no: Fathertel,
-        father_cell_no: Fathercell,
+        father_cell_1: Fathercell,
+        father_cell_2: Fathercell2,
         father_CNIC: Fathercnic,
         father_office_address: Fatheraddressoffice,
         father_email: Fatheremail,
@@ -114,7 +119,8 @@ const Fatherparticular = () => {
         mother_nationality: Mothernationality,
         mother_occupation: Motheroccupation,
         mother_tel_no: Mothertel,
-        mother_cell_no: Mothercell,
+        mother_cell_1: Mothercell,
+        mother_cell_2: Mothercell2,
         mother_CNIC: Mothercnic,
         mother_residential_address: Motheraddress,
         mother_email: Motheremail
@@ -208,6 +214,8 @@ const Fatherparticular = () => {
                 handleMessage();
             }
             else {
+                console.log(data)
+
                 if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Fatheremail) && /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Motheremail)) {
                     axios.post(`http://fee-management-api.nastechltd.co/api/student_parent`, data)
                         .then(response => {
@@ -376,11 +384,13 @@ const Fatherparticular = () => {
                                     <input id="guardPhone" defaultValue={prevdata.father_tel_no} type="number" className="form-control" placeholder="Telephone" onChange={(e) => setFatherTel(e.target.value)} />
                                 </div>
                                 <div className="col-4">
-                                    <label for="guardPhone">Cell:</label>
-                                    <input id="guardPhone" defaultValue={prevdata.father_cell_no} type="number" className="form-control" placeholder="Cellphone" onChange={(e) => setFatherCell(e.target.value)} />
+                                    <label for="guardPhone">Cell1:</label>
+                                    <input id="guardPhone" defaultValue={prevdata.father_cell_1} type="number" className="form-control" placeholder="Cellphone 1" onChange={(e) => setFatherCell(e.target.value)} />
                                 </div>
-
-
+                                <div className="col-4">
+                                    <label for="guardPhone">Cell 2:</label>
+                                    <input id="guardPhone" defaultValue={prevdata.father_cell_2} type="number" className="form-control" placeholder="Cellphone 2" onChange={(e) => setFatherCell2(e.target.value)} />
+                                </div>
                                 <div className="col-4">
                                     <label for="guardCnic">CNIC:</label>
                                     <input id="guardCnic" defaultValue={prevdata.father_CNIC} type="number" className="form-control" placeholder='Without "-" ' onChange={(e) => setFatherCnic(e.target.value)} />
@@ -423,8 +433,12 @@ const Fatherparticular = () => {
                                     <input id="guardPhone" defaultValue={prevdata.mother_tel_no} type="number" className="form-control" placeholder="Phone" onChange={(e) => setMotherTel(e.target.value)} />
                                 </div>
                                 <div className="col-4">
-                                    <label for="guardPhone">Cell:</label>
-                                    <input id="guardPhone" defaultValue={prevdata.mother_cell_no} type="number" className="form-control" placeholder="Cellphone" onChange={(e) => setMotherCell(e.target.value)} />
+                                    <label for="guardPhone">Cell 1:</label>
+                                    <input id="guardPhone" defaultValue={prevdata.mother_cell_1} type="number" className="form-control" placeholder="Cellphone 1" onChange={(e) => setMotherCell(e.target.value)} />
+                                </div>
+                                <div className="col-4">
+                                    <label for="guardPhone">Cell 2:</label>
+                                    <input id="guardPhone" defaultValue={prevdata.mother_cell_2} type="number" className="form-control" placeholder="Cellphone 2" onChange={(e) => setMotherCell2(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardCnic">CNIC:</label>

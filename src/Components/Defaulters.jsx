@@ -53,6 +53,7 @@ const Defaulters = () => {
     // const {formNo} = useParams();
     const classes = useStyles();
     const [payable, setPayable] = useState([]);
+    const [all, setAll] = useState([{}]);
     const [locked, setLocked] = useState([]);
     const history = useHistory();
     const [classdata, setClassdata] = useState([]);
@@ -72,7 +73,7 @@ const Defaulters = () => {
         // setSearchTerm('');
         setSectionid('');
     }
-    const [all, setAll] = useState([]);
+    // const [all, setAll] = useState([]);
     const school_id = localStorage.getItem("school_id")
     const [messageinfo, setMessageinfo] = useState('');
     const [message, setMessage] = useState({
@@ -90,9 +91,8 @@ const Defaulters = () => {
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/defaulter/${school_id}`)
             .then(response => {
-                console.log(response.data)
-                setPayable(response.data.payable_accounts)
-                setLocked(response.data.locked_account)
+                console.log(response)
+                setPayable(response.data)
             })
             .catch((error) => {
                 if (error.response) {
@@ -112,11 +112,18 @@ const Defaulters = () => {
                 }
             })
     }, [])
+    const selectAll = () => {
+        setAll(payable.map((val, i) => ({
+            id: val.id,
+        })))
+    }
 
-    const sendEmail = (id) => {
-        axios.post(`http://fee-management-api.nastechltd.co/api/email_defaulter/${id}`)
+    console.log(all);
+    const sendEmailAll = () => {
+        axios.post(`http://fee-management-api.nastechltd.co/api/email_defaulter`, { defaulter_emails: all })
             .then(response => {
-                console.log(response.data);
+                console.log(all);
+                console.log(response);
             })
             .catch((error) => {
                 if (error.response) {
@@ -125,9 +132,18 @@ const Defaulters = () => {
                 }
             })
     }
-
-    const myData = payable.concat(locked);
-    console.log(myData)
+    const sendEmail = (id) => {
+        axios.post(`http://fee-management-api.nastechltd.co/api/email_defaulter/${id}`)
+            .then(response => {
+                console.log(response);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+    }
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -272,7 +288,7 @@ const Defaulters = () => {
                                     </Modal.Footer>
                                 </Modal> */}
                             </div>
-                            {myData.length === 0 ?
+                            {payable.length === 0 ?
                                 <>
                                     <div className="col-12">
                                         <h2 className="text-center">Nothing To Show...</h2>
@@ -281,42 +297,48 @@ const Defaulters = () => {
                                 :
                                 <>
                                     <div className="row">
-                                        <div className="col-12 text-center">
-                                            <FormControl className={classes.formControl}>
-                                                <InputLabel id="demo-simple-select-label">Class</InputLabel>
-                                                <Select
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    value={classid}
-                                                    onChange={(e) => setClassid(e.target.value)}
-                                                >
-                                                    {classdata.map((val, i) => {
-                                                        return (
-                                                            <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
-                                                        )
+                                        <div className="col-12">
+                                            <div className="all mt-3 float-start d-inline-block">
+                                                <input class="form-check-input mt-2" type="checkbox" value="" id="selectAll" onClick={selectAll} />
+                                                <label class="form-check-label" for="selectAll">Select All</label>
+                                                <button className="btn btn-primary ml-3" onClick={sendEmailAll}>Send</button>
+                                            </div>
+                                            <div className="float-end">
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-simple-select-label">Class</InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={classid}
+                                                        onChange={(e) => setClassid(e.target.value)}
+                                                    >
+                                                        {classdata.map((val, i) => {
+                                                            return (
+                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                            )
 
-                                                    })}
-                                                </Select>
-                                            </FormControl>
-                                            <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
-                                            <FormControl className={classes.formControl}>
-                                                <InputLabel id="demo-simple-select-label">Section</InputLabel>
-                                                <Select
-                                                    labelId="demo-simple-select-label"
-                                                    id="demo-simple-select"
-                                                    value={sectionid}
-                                                    onChange={(e) => setSectionid((e.target.value).toString())}
-                                                >
-                                                    {sectiondata.map((val, i) => {
-                                                        return (
-                                                            <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
-                                                        )
+                                                        })}
+                                                    </Select>
+                                                </FormControl>
+                                                <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
+                                                <FormControl className={classes.formControl}>
+                                                    <InputLabel id="demo-simple-select-label">Section</InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-label"
+                                                        id="demo-simple-select"
+                                                        value={sectionid}
+                                                        onChange={(e) => setSectionid((e.target.value).toString())}
+                                                    >
+                                                        {sectiondata.map((val, i) => {
+                                                            return (
+                                                                <MenuItem value={val.id}>{`${val.name}`}</MenuItem>
+                                                            )
 
-                                                    })}
-                                                </Select>
-                                            </FormControl>
-                                            <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
-
+                                                        })}
+                                                    </Select>
+                                                </FormControl>
+                                                <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
@@ -333,7 +355,7 @@ const Defaulters = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {myData.filter((val) => {
+                                                {payable.filter((val) => {
                                                     if (sectionid == '') {
                                                         return val;
                                                     }

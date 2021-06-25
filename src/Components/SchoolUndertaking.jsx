@@ -372,8 +372,11 @@ const SchoolUndertaking = () => {
                                                         <tr key={i}>
                                                             <td>{i + 1}</td>
                                                             <td class="txt-oflo">{val.registration_no}</td>
-                                                            <td class="txt-oflo">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
-                                                            <td><button class="btn" onClick={() => handleClick(`${val.registration_no}`)}><PublishIcon /></button></td>
+                                                            {val.middle_name === null ?
+                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
+                                                                :
+                                                                <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                            }                                                            <td><button class="btn" onClick={() => handleClick(`${val.registration_no}`)}><PublishIcon /></button></td>
                                                             <td><button class="btn" onClick={() => history.push(`/undertaking/${val.registration_no}`)}><LaunchIcon /></button></td>
                                                             <td>{val.created_at.slice(0, 10)}</td>
                                                             {/* <td>

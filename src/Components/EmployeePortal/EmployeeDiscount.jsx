@@ -72,6 +72,7 @@ const EmployeeDiscount = () => {
     const classes = useStyles();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
+    const [discountType, setDiscountType] = useState('');
     const handleShow = () => setShow(true);
     const [show1, setShow1] = useState(false);
     const handleClose1 = () => setShow1(false);
@@ -173,14 +174,24 @@ const EmployeeDiscount = () => {
         else if (val.section_id.toString().includes(sectionid)) {
             return val;
         }
-    }).map(val => ({
-        label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
+    }).map(val => (
+        val.middle_name === null ?
+            {
+                label: `${val.first_name} ${val.last_name}`, value: val.id
 
-    }))
+            }
+            :
+            {
+                label: `${val.first_name} ${val.middle_name} ${val.last_name}`, value: val.id
+
+            }
+    ))
     const data = {
         students: selected,
         discount: discount,
-        school_id: school_id
+        school_id: school_id,
+        discount_type : discountType
+
 
     }
 
@@ -199,12 +210,18 @@ const EmployeeDiscount = () => {
             setMessageinfo("Select Student(s)")
 
         }
+        else if (discountType == '') {
+            handleMessage();
+            setMessageinfo("Enter Discount Type")
+
+        }
         else {
             axios.post(`http://fee-management-api.nastechltd.co/api/discount`, data)
                 .then(response => {
                     console.log(response);
                     setDiscount('');
                     setSelected([]);
+                    setDiscountType('');
                     reload();
                     handleClose();
                 })
@@ -221,7 +238,7 @@ const EmployeeDiscount = () => {
             .then(response => {
                 console.log(response.data);
                 setPrevdata(response.data)
-
+                setDiscountType(response.data.discount_type);
                 setDiscount(response.data.discount)
                 handleShow1();
             })
@@ -243,15 +260,22 @@ const EmployeeDiscount = () => {
             setMessageinfo("Enter Discount")
 
         }
+        else if (discountType == '') {
+            handleMessage();
+            setMessageinfo("Enter Discount Type")
+
+        }
         else {
             axios.put(`http://fee-management-api.nastechltd.co/api/discount/${prevdata.id}`, {
                 student_id: prevdata.student_id,
-                discount: discount
+                discount: discount,
+                discount_type: discountType
             })
                 .then(response => {
                     console.log(response);
                     setPrevdata('')
                     setDiscount('');
+                    setDiscountType('');
                     reload();
                     handleClose1();
 
@@ -413,7 +437,16 @@ const EmployeeDiscount = () => {
                                                 <button onClick={reset} className="btn btn-primary mt-3 ml-2">Reset</button>
 
                                             </div>
-
+                                            <div className="col-8 text-center">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" name="discountType" type="radio" id="oneTime" onChange={(e)=> setDiscountType(e.target.value)} value="one_time" />
+                                                    <label class="form-check-label" for="oneTime">One Time</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" name="discountType" type="radio" id="always" onChange={(e)=> setDiscountType(e.target.value)} value="always" />
+                                                    <label class="form-check-label" for="always">Always</label>
+                                                </div>
+                                            </div>
                                             <div class="col-8 billing-box">
                                                 {/* <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Student</InputLabel>
@@ -459,7 +492,35 @@ const EmployeeDiscount = () => {
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
-                                            <div className="col-8">
+                                        {prevdata.discount_type === 'one_time' ?
+                                                <>
+                                                    <div className="col-8 text-center">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" checked id="inlineRadio1" onChange={(e) => setDiscountType(e.target.value)} value="one_time" />
+                                                            <label class="form-check-label" for="inlineRadio1">One Time</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" onChange={(e) => setDiscountType(e.target.value)} value="always" />
+                                                            <label class="form-check-label" for="inlineRadio2">Always</label>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                                :
+                                                <>
+                                                    <div className="col-8 text-center">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" onChange={(e) => setDiscountType(e.target.value)} value="one_time" />
+                                                            <label class="form-check-label" for="inlineRadio1">One Time</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" checked id="inlineRadio2" onChange={(e) => setDiscountType(e.target.value)} value="always" />
+                                                            <label class="form-check-label" for="inlineRadio2">Always</label>
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            }
+
+                                            <div className="col-8 text-center">
                                                 <TextField type="number" helperText="Discount Amount" defaultValue={prevdata.discount} onChange={(e) => setDiscount(e.target.value)} label="Discount" variant="filled" />
 
                                             </div>
@@ -499,6 +560,7 @@ const EmployeeDiscount = () => {
                                             <th class="border-top-0">Name</th>
                                             <th class="border-top-0">Amount</th>
                                             <th class="border-top-0">Created At</th>
+                                            <th class="border-top-0">Type</th>
                                             <th class="border-top-0">Action</th>
                                         </tr>
                                     </thead>
@@ -520,6 +582,7 @@ const EmployeeDiscount = () => {
                                                         <td>{val.discount}</td>
 
                                                         <td>{val.created_at.slice(0, 10)}</td>
+                                                        <td>{val.discount_type}</td>
                                                         <td>
                                                             <ButtonGroup disableElevation variant="contained" color="primary">
                                                                 <Button className="student-btn-up" onClick={() => update(val.id)}  ><UpdateIcon className="text-white" /></Button>

@@ -22,6 +22,12 @@ const CampusDashboard = () => {
     // const [data, setData] = useState([]);
     // const [studentdata, setStudentdata] = useState([]);
     const [schooldata, setSchooldata] = useState([]);
+    const [isOppened, setIsOppened] = useState();
+    const [totalClasses, setTotalClasses] = useState();
+    const [totalStudents, setTotalStudents] = useState();
+    const [totalEmployees, setTotalEmployees] = useState();
+    const [totalDefaulters, setTotalDefaulters] = useState();
+    const [totalAdmissions, setTotalAdmissions] = useState();
     const school_id = localStorage.getItem("school_id")
     // const admin_id = localStorage.getItem("admin_id");
     const history = useHistory();
@@ -38,16 +44,77 @@ const CampusDashboard = () => {
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
-    // useEffect(() => {
-    //     axios.get(`http://fee-management-api.nastechltd.co/api/school_administrator`)
-    //     .then(response => {
-    //         console.log(response.data)
-    //         setData(response.data)
-    //     })
-    //     .catch(error => console.log(error) )
-
-    // },[])
     useEffect(() => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
+            .then(response => {
+                // console.log(response.data.is_oppend)
+                setSchooldata(response.data)
+                setIsOppened(response.data.is_oppend)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+            axios.get(`http://fee-management-api.nastechltd.co/api/total_classes/${school_id}`)
+            .then(response => {
+                // console.log(response.data.is_oppend)
+                setTotalClasses(response.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+            axios.get(`http://fee-management-api.nastechltd.co/api/total_defaulter/${school_id}`)
+            .then(response => {
+                console.log(response.data)
+                setTotalDefaulters(response.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+            axios.get(`http://fee-management-api.nastechltd.co/api/total_students/${school_id}`)
+            .then(response => {
+                // console.log(response.data)
+                setTotalStudents(response.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+            axios.get(`http://fee-management-api.nastechltd.co/api/total_employees/${school_id}`)
+            .then(response => {
+                // console.log(response.data)
+                setTotalEmployees(response.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+            axios.get(`http://fee-management-api.nastechltd.co/api/pending_admissions/${school_id}`)
+            .then(response => {
+                // console.log(response.data)
+                setTotalAdmissions(response.data)
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+
+    }, [])
+    // useEffect(() => {
         // axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
         //     .then(response => {
         //         console.log(response);
@@ -58,18 +125,8 @@ const CampusDashboard = () => {
         //             alert(error.response.data.message);
         //         }
         //     })
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
-            .then(response => {
-                console.log(response.data)
-                setSchooldata(response.data)
-            })
-            .catch((error) => {
-                if (error.response) {
-                    setMessageinfo(error.response.data.message);
-                    handleMessage();
-                }
-            })
-    }, [])
+        
+    // }, [])
     // useEffect(() => {
     //     axios.get(`http://fee-management-api.nastechltd.co/api/schools/${admin_id}`)
     //         .then(response => {
@@ -219,48 +276,75 @@ const CampusDashboard = () => {
                                 </div>
                             </div> */}
                         {/* </div> */}
-                        <div class="message">
-                            {/* <div class="add-student">
-                                {isOppened == 0 ?
-                                    <button type="button" onClick={openAdmission} class="btn text-bolder btn-primary btn-small">Open Admission</button>
-                                    :
-                                    <button type="button" onClick={openAdmission} class="btn text-bolder btn-primary btn-small">Close Admission</button>
+                        <div class="campus-sts">
+                            <div className="show_fee p-5">
+                                <div class="card p-2 shadow" style={{ width: '19rem', height: '8rem' }}>
+                                    <div class="card-body w-100">
+                                        <div className="float-start ">
+                                            <h3>Classes</h3>
+                                            <p>{totalClasses}</p>
+                                        </div>
+                                        <div className="float-end mb-2"> <i class="fas fa-5x fa-users-class"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card p-2 shadow" style={{ width: '19rem', height: '8rem' }}>
+                                    <div class="card-body w-100">
+                                        <div className="float-start ">
+                                            <h3>Employees</h3>
+                                            <p>{totalEmployees}</p>
+                                        </div>
+                                        <div className="float-end mb-2"><i class="fas campus-txt-icon fa-5x fa-user-tie"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card p-2 shadow" style={{ width: '19rem', height: '8rem' }}>
+                                    <div class="card-body w-100">
+                                        <div className="float-start ">
+                                            <h3 className="text-primary">Students</h3>
+                                            <p>{totalStudents}</p>
+                                        </div>
+                                        <div className="float-end mb-2"><i class="fas fa-5x icon-name fa-user-graduate"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card p-2 shadow" style={{ width: '19rem', height: '8rem' }}>
+                                    <div class="card-body w-100">
+                                        {isOppened === 1 ?
+                                            <>
+                                                <div className="float-start ">
+                                                    <h3>Admissions</h3>
+                                                    <p className="text-success text-bold">Oppened</p>
+                                                </div>
+                                                <div className="float-end mb-2"><i class="fas fa-5x text-success fa-check"></i></div>
+                                            </>
+                                            :
+                                            <>
+                                                <div className="float-start ">
+                                                    <h3>Admissions</h3>
+                                                    <p className="text-danger text-bold">Closed</p>
 
-                                }
-                            </div> */}
-                            <div class="table-responsive">
-
-
-
-
-
-
-                                <table class="table no-wrap">
-                                    <thead>
-                                        <tr>
-                                            <th class="border-top-0">#</th>
-                                            <th class="border-top-0">NAME</th>
-                                            <th class="border-top-0">Gender</th>
-                                            <th class="border-top-0">Email</th>
-                                            <th class="border-top-0">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {/* {data.map((val, i) => {
-                                            return (
-                                                <tr key={i}>
-                                                    <td>{val.id}</td>
-                                                    <td class="txt-oflo">{`${val.first_name} ${val.last_name}`}</td>
-                                                    <td>{val.gender}</td>
-                                                    <td class="txt-oflo">{val.email}</td>
-                                                    <td><button className="btn btn-primary">Add School</button></td>
-                                                </tr>
-                                            )
-                                        })} */}
-
-
-                                    </tbody>
-                                </table>
+                                                </div>
+                                                <div className="float-end mb-2"><i class="fas fa-times fa-5x text-danger"></i></div>
+                                            </>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="card p-2 shadow" style={{ width: '19rem', height: '8rem' }}>
+                                    <div class="row card-body w-100">
+                                        <div className="float-start col-8">
+                                            <h4>Pending Admissions</h4>
+                                            <p className="text-bold text-danger">{totalAdmissions}</p>
+                                        </div>
+                                        <div className="float-end mb-2 col-4"><i class="txt-icon fas fa-5x fa-user-plus"></i></div>
+                                    </div>
+                                </div>
+                                <div class="card p-2 shadow" style={{ width: '19rem', height: '8rem' }}>
+                                    <div class="card-body w-100">
+                                        <div className="float-start ">
+                                            <h3>Defaulters</h3>
+                                            <p className="text-danger">{totalDefaulters}</p>
+                                        </div>
+                                        <div className="float-end mb-2"><i class="txt-icon fas fa-5x fa-user-slash"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <Snackbar

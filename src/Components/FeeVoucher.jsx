@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import './FeeVoucher.css';
 import axios from 'axios';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 
@@ -21,6 +21,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
+    const history = useHistory();
     const [discount, setDiscount] = useState();
     const [duedate, setDuedate] = useState();
     const [issuedate, setIssuedate] = useState();
@@ -37,7 +38,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
         style.innerHTML = `@page {size: ${cssPageSize}}`;
         style.id = 'page-orientation';
         document.head.appendChild(style);
-    }
+    };
 
     // Set orientation of page being printed
     useEffect(() => {
@@ -86,9 +87,13 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                 if (error.response) {
                     setMessageinfo(error.response.data.message);
                     handleMessage();
+                    setTimeout(()=>{
+                        history.goBack();
+                    },1500)
                 }
             })
     }, [])
+    
 
     return (
         <>
@@ -114,7 +119,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Issue Date</p>
-                                <p class=" voucher-text1">{issuedate}</p>
+                                <p class=" voucher-text1">{feevoucher.issue_date}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -132,20 +137,24 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                                 <p class=" voucher-text1">{feevoucher.due_date}</p>
                             </div>
                         </div>
-                        {/* <div class="row">
-                            <div class="col-4 border border-dark">
+                        {/* <div class="row"> */}
+                            {/* <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Campus</p>
                                 <p class=" voucher-text1">1</p>
-                            </div>
-                            <div class="col-8 border border-dark">
+                            </div> */}
+                            {/* <div class="col-12 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">This slip is valid upto</p>
-                                <p class=" voucher-text1">07-02-2021</p>
-                            </div>
-                        </div> */}
+                                <p class=" voucher-text1">{feevoucher.valid_date}</p>
+                            </div> */}
+                        {/* </div> */}
                         <div class="row">
-                            <div class="col-12 border border-dark">
+                            <div class="col-8 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
                                 <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.middle_name} ${studentdata.last_name}`}</p>
+                            </div>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">valid upto</p>
+                                <p class=" voucher-text1">{feevoucher.valid_date}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
@@ -239,7 +248,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Issue Date</p>
-                                <p class=" voucher-text1">{issuedate}</p>
+                                <p class=" voucher-text1">{feevoucher.issue_date}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -258,9 +267,13 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                         </div>
 
                         <div class="row">
-                            <div class="col-12 border border-dark">
+                            <div class="col-8 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
                                 <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.middle_name} ${studentdata.last_name}`}</p>
+                            </div>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">valid upto</p>
+                                <p class=" voucher-text1">{feevoucher.valid_date}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">
@@ -354,7 +367,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                             <div class="col-4 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Issue Date</p>
-                                <p class=" voucher-text1">{issuedate}</p>
+                                <p class=" voucher-text1">{feevoucher.issue_date}</p>
                             </div>
                         </div>
                         <div class="row">
@@ -383,9 +396,13 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
                             </div>
                         </div> */}
                         <div class="row">
-                            <div class="col-12 border border-dark">
+                            <div class="col-8 border border-dark">
                                 <p class="voucher-text1 mt-3 text-bolder">Student's Name</p>
                                 <p class=" voucher-text1 text-bolder">{`${studentdata.first_name} ${studentdata.middle_name} ${studentdata.last_name}`}</p>
+                            </div>
+                            <div class="col-4 border border-dark">
+                                <p class="voucher-text1 mt-3 text-bolder">valid upto</p>
+                                <p class=" voucher-text1">{feevoucher.valid_date}</p>
                             </div>
                         </div>
                         <div class="row voucher-box border border-dark">

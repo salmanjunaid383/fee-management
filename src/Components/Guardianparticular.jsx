@@ -35,6 +35,7 @@ const Guardianparticular = () => {
     const [occupation, setOccupation] = useState('');
     const [nationality, setNationality] = useState('');
     const [religion, setReligion] = useState('');
+    const [relation, setRelation] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const form_no = localStorage.getItem("form_no")
     const guardian_id = localStorage.getItem("guardian_id")
@@ -44,11 +45,12 @@ const Guardianparticular = () => {
                 .then(response => {
                     console.log(response.data)
                     setPrevdata(response.data)
-                    setGuardianname(response.data._name);
+                    setGuardianname(response.data.name);
                     setQualification(response.data.qualification)
                     setNationality(response.data.nationality)
                     setOccupation(response.data.occupation)
                     setReligion(response.data.religion)
+                    setRelation(response.data.relation_with_student)
                     setAddressresidential(response.data.residential_address)
                     setEmail(response.data.email)
                     setCnic(response.data.CNIC)
@@ -80,7 +82,8 @@ const Guardianparticular = () => {
         cell_no: cell,
         CNIC: cnic,
         residential_address: addressresidential,
-        email: email
+        email: email,
+        relation_with_student: relation 
     }
     const sendData = () => {
         if (guardian_id == null) {
@@ -90,6 +93,10 @@ const Guardianparticular = () => {
             }
             else if (qualification == '') {
                 setMessageinfo("Enter Qualification")
+                handleMessage();
+            }
+            else if (relation == '') {
+                setMessageinfo("Enter Relation")
                 handleMessage();
             }
             else if (religion == '') {
@@ -120,6 +127,10 @@ const Guardianparticular = () => {
                 setMessageinfo("Enter Valid CNIC")
                 handleMessage();
             }
+            else if (cnic.length < 13 || cnic.length > 13) {
+                setMessageinfo("Enter Valid CNIC")
+                handleMessage();
+            }
             else if (addressresidential == '') {
                 setMessageinfo("Enter Residential Address")
                 handleMessage();
@@ -130,7 +141,7 @@ const Guardianparticular = () => {
                         .then(response => {
                             console.log(response.data);
                             localStorage.setItem("guardian_id", response.data.id)
-                            history.push("/siblings")
+                            history.push("/emergency")
                             // setStudentdata(response.data);
                         })
                         .catch((error) => {
@@ -155,6 +166,10 @@ const Guardianparticular = () => {
                 setMessageinfo("Enter Qualification")
                 handleMessage();
             }
+            else if (relation == '') {
+                setMessageinfo("Enter Relation")
+                handleMessage();
+            }
             else if (religion == '') {
                 setMessageinfo("Enter Religion")
                 handleMessage();
@@ -183,17 +198,22 @@ const Guardianparticular = () => {
                 setMessageinfo("Enter Valid CNIC")
                 handleMessage();
             }
+            else if (cnic.length < 13 || cnic.length > 13) {
+                setMessageinfo("Enter Valid CNIC")
+                handleMessage();
+            }
             else if (addressresidential == '') {
                 setMessageinfo("Enter Residential Address")
                 handleMessage();
             }
             else {
+                console.log(data)
                 if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
                     axios.put(`http://fee-management-api.nastechltd.co/api/student_guardian/${guardian_id}`, data)
                         .then(response => {
                             console.log(response.data);
                             localStorage.setItem("guardian_id", response.data.id)
-                            history.push("/siblings")
+                            history.push("/emergency")
                             // setStudentdata(response.data);
                         })
                         .catch((error) => {
@@ -219,7 +239,7 @@ const Guardianparticular = () => {
                     <h1 className="text-center text-dark">STUDENT ADMISSION FORM</h1>
                     <form onSubmit={(e) => e.preventDefault()} >
                         <fieldset className="mt-4 field_box shadow">
-                            <legend>Guardian's Particular(if any</legend>
+                            <legend>Guardian's Particular(if any)</legend>
                             <div className="row">
                                 <div className="col-4">
                                     <label for="guardname">Full Name:</label>
@@ -228,6 +248,10 @@ const Guardianparticular = () => {
                                 <div className="col-4">
                                     <label for="age">Qualification:</label>
                                     <input id="age" defaultValue={prevdata.qualification} type="text" className="form-control" placeholder="Qualification" onChange={(e) => setQualification(e.target.value)} />
+                                </div>
+                                <div className="col-4">
+                                    <label for="age">Realtion:</label>
+                                    <input id="age" defaultValue={prevdata.relation_with_student} type="text" className="form-control" placeholder="Realtion With Student" onChange={(e) => setRelation(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Tel:</label>
@@ -271,7 +295,7 @@ const Guardianparticular = () => {
                                 {cnic === '' ?
                                     <>
                                         <div className="col-6 text-right mt-3">
-                                            <button onClick={() => history.push("/siblings")} className="btn btn-success w25">Next</button>
+                                            <button onClick={() => history.push("/emergency")} className="btn btn-success w25">Next</button>
                                         </div>
                                     </>
                                     :

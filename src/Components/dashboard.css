@@ -154,6 +154,17 @@ overflow: auto;
   margin-left: 20px;
   color:grey !important;
 }
+.campus-stats{
+  height: 100vh;
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  /* flex-direction: row !important; */
+  flex-wrap: wrap;
+}
+.campus-txt-icon{
+  /* color: #71dfe3; */
+}
 .billing-box{
   display: flex;
   flex-direction: column;

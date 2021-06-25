@@ -50,6 +50,7 @@ const EmployeeCustomVoucher = () => {
     const handleShow = () => setShow(true);
     const [amount, setAmount] = useState('');
     const [dueDate, setDueDate] = useState('');
+    const [validDate, setValidDate] = useState('');
     const [sectiondata, setSectiondata] = useState([]);
     const [classdata, setClassdata] = useState([]);
     const [classid, setClassid] = useState('');
@@ -112,6 +113,13 @@ const EmployeeCustomVoucher = () => {
     var startdate = StartDate.getDate()
     var startmonth = months[StartDate.getMonth()];
     var startyear = StartDate.getFullYear().toString().substr(-2);
+
+
+    var StartValidDate = new Date(validDate);
+    var startvaliddate = StartValidDate.getDate()
+    var startvalidmonth = months[StartValidDate.getMonth()];
+    var startvalidyear = StartValidDate.getFullYear().toString().substr(-2);
+
     const generate = () => {
         if (amount === '') {
             setMessageinfo("Enter Amount")
@@ -125,12 +133,15 @@ const EmployeeCustomVoucher = () => {
             axios.post(`http://fee-management-api.nastechltd.co/api/custom_voucher`, {
                 student_id: localStorage.getItem("user_id"),
                 total_amount: amount,
-                due_date: `${startdate}-${startmonth}-${startyear}`
+                due_date: `${startdate}-${startmonth}-${startyear}`,
+                valid_date: `${startvaliddate}-${startvalidmonth}-${startvalidyear}`
+
             })
                 .then(response => {
                     console.log(response.data);
                     remove();
                     setAmount('');
+                    setValidDate('');
                     setDueDate('');
                     reload();
                 })
@@ -195,7 +206,6 @@ const EmployeeCustomVoucher = () => {
 
     return (
         <>
-
             <div class="dashboard">
                 <div class="left">
                     <div class="navigation">
@@ -210,7 +220,6 @@ const EmployeeCustomVoucher = () => {
                                 </div>
                                 <div class="icon-name1">Dashboard</div>
                             </div></Link>
-
                             <Link class="nav-link" to="/employeefeecomponents"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-money-check-alt active"></i>
@@ -235,9 +244,6 @@ const EmployeeCustomVoucher = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -249,7 +255,6 @@ const EmployeeCustomVoucher = () => {
                                     Custom Fee Voucher
                                 </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
-
                             </div>
                         </div>
                         <hr class="new-hr" />
@@ -274,9 +279,11 @@ const EmployeeCustomVoucher = () => {
                                             <TextField className="pb-3 bg-white" type="number" onChange={(e) => setAmount(e.target.value)} label="Total Amount" variant="filled" />
 
                                         </div>
-
                                         <div class="col-8 billing-box">
                                             <TextField className="pb-3 bg-white" type="date" onChange={(e) => setDueDate(e.target.value)} label="Due Date" defaultValue="2021-01-01" variant="filled" />
+                                        </div>
+                                        <div class="col-8 billing-box">
+                                            <TextField className="pb-3 bg-white" type="date" onChange={(e) => setValidDate(e.target.value)} label="Valid Date" defaultValue="2021-01-01" variant="filled" />
                                         </div>
                                     </div>
                                 </Modal.Body>
@@ -326,10 +333,8 @@ const EmployeeCustomVoucher = () => {
                                             })}
                                         </Select>
                                     </FormControl>
-
                                 </div>
                             </div>
-
                             <div class="table-responsive">
                                 <table class="table no-wrap">
                                     <thead>
@@ -339,7 +344,7 @@ const EmployeeCustomVoucher = () => {
                                             <th class="border-top-0">GENDER</th>
                                             <th class="border-top-0">Generate</th>
                                             {/* <th class="border-top-0">Details</th> */}
-                                            <th class="border-top-0">Action</th>
+                                            {/* <th class="border-top-0">Action</th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -367,8 +372,11 @@ const EmployeeCustomVoucher = () => {
                                             return (
                                                 <tr key={i}>
                                                     <td>{val.G_R_NO}</td>
-                                                    <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name} `}</td>
-                                                    <td className="print-capitalize">{val.gender}</td>
+                                                    {val.middle_name === null ?
+                                                        <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
+                                                        :
+                                                        <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</td>
+                                                    }                                                    <td className="print-capitalize">{val.gender}</td>
                                                     <td><Button onClick={() => sendNew(val.id)}><AddIcon /></Button></td>
                                                     {/* <td>
                                                         {val.paid == 1 ?
@@ -381,7 +389,7 @@ const EmployeeCustomVoucher = () => {
                                                     {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
 
 
-                                                    <td><Button onClick={() => history.push(`/feevoucher/${val.id}`)}><PrintIcon /></Button></td>
+                                                    {/* <td><Button onClick={() => history.push(`/feevoucher/${val.id}`)}><PrintIcon /></Button></td> */}
 
 
                                                 </tr>

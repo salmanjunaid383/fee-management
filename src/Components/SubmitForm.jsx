@@ -48,8 +48,19 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                 setStudent(response.data.AdmissionForm);
                 setParent(response.data.StudentParent);
                 setGuardian(response.data.StudentGuardian);
-                setSiblings(response.data.SiblingsDetail);
                 setEmergency(response.data.EmergencyContact);
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_siblings/${formNo}`)
+                    .then(response => {
+                        console.log(response.data)
+                        setSiblings(response.data);
+
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
             })
             .catch((error) => {
                 if (error.response) {
@@ -77,6 +88,10 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                         </div>
                         <div className="col-4">
                             <p>Last Name: <span className="print-capitalize">{student.last_name}</span></p>
+                        </div>
+                        <div className="col-4">
+                            <p>B-Form No.: <span className="print-capitalize">{student.b_form}</span></p>
+
                         </div>
                         <div className="col-4">
                             <p>Father Name: <span className="print-capitalize">{student.father_name}</span></p>
@@ -151,11 +166,15 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                             <p>Telephone: <span className="print-capitalize">{parent.father_tel_no}</span></p>
 
                         </div>
-
                         <div className="col-4">
-                            <p>Cellphone: <span className="print-capitalize">{parent.father_cell_no}</span></p>
-
+                            <p>Cellphone 1: <span className="print-capitalize">{parent.father_cell_1}</span></p>
                         </div>
+                        {parent.father_cell_2 === null ?
+                            null :
+                            <div className="col-4">
+                                <p>Cellphone 2: <span className="print-capitalize">{parent.father_cell_2}</span></p>
+                            </div>
+                        }
 
 
                         <div className="col-8">
@@ -198,11 +217,16 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                             <p>Telephone: <span className="print-capitalize">{parent.mother_tel_no}</span></p>
 
                         </div>
-
                         <div className="col-4">
-                            <p>Cellphone: <span className="print-capitalize">{parent.mother_cell_no}</span></p>
+                            <p>Cellphone 1: <span className="print-capitalize">{parent.mother_cell_1}</span></p>
 
                         </div>
+                        {parent.mother_cell_2 === null ?
+                            null :
+                            <div className="col-4">
+                                <p>Cellphone 2: <span className="print-capitalize">{parent.mother_cell_2}</span></p>
+                            </div>
+                        }
 
                         <div className="col-8">
                             <p>Residential Address: <span className="print-capitalize">{parent.mother_residential_address}</span></p>
@@ -223,6 +247,9 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
 
                                     <div className="col-4">
                                         <p>Guardian's Name: <span className="print-capitalize">{guardian.name}</span></p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p>Relation: <span className="print-capitalize">{guardian.relation_with_student}</span></p>
                                     </div>
                                     <div className="col-4">
                                         <p>CNIC: <span className="print-capitalize">{guardian.CNIC}</span></p>
@@ -266,7 +293,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                     }
 
 
-                    {siblings.length == 0 ?
+                    {siblings.length === 0 ?
                         null
                         :
                         <>
@@ -276,13 +303,13 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                                     return (
                                         <>
                                             <div className="col-4">
-                                                <p>Name: <span className="print-capitalize">{val.name}</span></p>
+                                                <p>GR No: <span className="print-capitalize">{val.G_R_NO}</span></p>
                                             </div>
                                             <div className="col-4">
-                                                <p>Age: <span className="print-capitalize">{val.age}</span></p>
+                                                <p>Name: <span className="print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</span></p>
                                             </div>
                                             <div className="col-4">
-                                                <p>Class: <span className="print-capitalize">{val.class}</span></p>
+                                                <p>Father Name: <span className="print-capitalize">{val.father_name}</span></p>
                                             </div>
                                         </>
 
@@ -322,7 +349,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                 </div>
                 <div className="row">
                     <div className="col-12 print-submit-btn">
-                        <button className="btn btn-warning text-white mr-2" onClick={()=>history.push('/emergency')}>Edit</button>
+                        <button className="btn btn-warning text-white mr-2" onClick={() => history.push('/emergency')}>Edit</button>
                         <button onClick={() => history.push(`/requirements/${formNo}`)} className="btn btn-success">Submit</button>
                     </div>
 

@@ -40,6 +40,7 @@ import FeeVoucherAdmin from './Components/FeeVoucherAdmin';
 import Mystudents from './Components/Mystudents';
 import BreakDown from './Components/BreakDown';
 import Finance from './Components/Finance';
+import File from './Components/File';
 import StudentLedger from './Components/StudentLedger';
 import StudentPassword from './Components/StudentPassword';
 import Ledger from './Components/Ledger';
@@ -87,6 +88,7 @@ const App = () => {
             <Route path="/ledger/:studentid" component={Ledger} />
             <Route path="/adminledger" component={AdminLedger} />
             <Route path="/finance" component={Finance} />
+            <Route path="/file" component={File}/>
             <Route path="/expense" component={MyExpense} />
             <Route path="/fee" component={Fee} />
             <Route path="/feecomponents" component={FeeComponents} />

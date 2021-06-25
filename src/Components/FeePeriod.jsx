@@ -34,12 +34,13 @@ const FeePeriod = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [billing, setBilling] = useState();
+    const [billing, setBilling] = useState('');
+    const [validDate, setValidDate] = useState('');
     const [billingperiod, setBillingperiod] = useState([]);
-    const [due, setDue] = useState();
+    const [due, setDue] = useState('');
     const [prevdata, setPrevdata] = useState('');
-    const [generate, setGenerate] = useState();
-    const [latefee, setLatefee] = useState();
+    const [generate, setGenerate] = useState('');
+    const [latefee, setLatefee] = useState('');
     const school_id = localStorage.getItem("school_id")
     const history = useHistory();
     const [show2, setShow2] = useState(false);
@@ -117,6 +118,7 @@ const FeePeriod = () => {
                 setGenerate(response.data.generation_date)
                 setBilling(response.data.phase)
                 setLatefee(response.data.late_fee_charge)
+                setValidDate(response.data.valid_date)
                 handleShow();
             })
 
@@ -131,6 +133,30 @@ const FeePeriod = () => {
     const sendUpdated = () => {
         if (billing < 0 || billing > 12) {
             setMessageinfo("Months Can Only Be From 1-12")
+            handleMessage();
+        }
+        else if (billing === '') {
+            setMessageinfo("Enter Billing Month(s)")
+            handleMessage();
+        }
+        else if (generate === '') {
+            setMessageinfo("Enter Generation date")
+            handleMessage();
+        }
+        else if (due === '') {
+            setMessageinfo("Enter Due date")
+            handleMessage();
+        }
+        else if (latefee === '') {
+            setMessageinfo("Enter Late Fee Charges")
+            handleMessage();
+        }
+        else if (validDate === '') {
+            setMessageinfo("Enter Valid Bank Date")
+            handleMessage();
+        }
+        else if (validDate < 0 || validDate > 28) {
+            setMessageinfo("Valid Bank Date can only be from 1-28")
             handleMessage();
         }
         else if (generate < 0 || generate > 28) {
@@ -150,6 +176,7 @@ const FeePeriod = () => {
                 phase: billing,
                 generation_date: generate,
                 due_date: due,
+                valid_date: validDate,
                 late_fee_charge: latefee,
                 school_id: localStorage.getItem("school_id")
 
@@ -157,10 +184,11 @@ const FeePeriod = () => {
                 .then(response => {
                     console.log(response.data);
                     setPrevdata('');
-                    setDue();
-                    setGenerate();
-                    setBilling();
-                    setLatefee();
+                    setDue('');
+                    setGenerate('');
+                    setValidDate('')
+                    setBilling('');
+                    setLatefee('');
                     handleClose();
                     reload();
                 })
@@ -179,11 +207,36 @@ const FeePeriod = () => {
         phase: billing,
         generation_date: generate,
         due_date: due,
-        late_fee_charge: latefee
+        late_fee_charge: latefee,
+        valid_date : validDate
     }
     const sendData = () => {
         if (billing < 0 || billing > 12) {
             setMessageinfo("Months Can Only Be From 1-12")
+            handleMessage();
+        }
+        else if (billing === '') {
+            setMessageinfo("Enter Billing Month(s)")
+            handleMessage();
+        }
+        else if (generate === '') {
+            setMessageinfo("Enter Generation date")
+            handleMessage();
+        }
+        else if (due === '') {
+            setMessageinfo("Enter Due date")
+            handleMessage();
+        }
+        else if (latefee === '') {
+            setMessageinfo("Enter Late Fee Charges")
+            handleMessage();
+        }
+        else if (validDate === '') {
+            setMessageinfo("Enter Valid Bank Date")
+            handleMessage();
+        }
+        else if (validDate < 0 || validDate > 28) {
+            setMessageinfo("Valid Bank Date can only be from 1-28")
             handleMessage();
         }
         else if (generate < 0 || generate > 28) {
@@ -202,10 +255,11 @@ const FeePeriod = () => {
             axios.post(`http://fee-management-api.nastechltd.co/api/billing_period`, data)
                 .then(response => {
                     console.log(response);
-                    setDue();
-                    setGenerate();
-                    setBilling();
-                    setLatefee();
+                    setDue('');
+                    setGenerate('');
+                    setBilling('');
+                    setLatefee('');
+                    setValidDate('')
                     reload();
                 })
                 .catch((error) => {
@@ -339,6 +393,7 @@ const FeePeriod = () => {
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3" type="number" defaultValue={prevdata.phase} onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
                                                 <TextField className="pb-3" type="number" defaultValue={prevdata.due_date} onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
+                                                <TextField className="pb-3" type="number" defaultValue={prevdata.valid_date} onChange={(e) => setValidDate(e.target.value)} helperText="Bank Expiry Date" label="Valid Bank Date" variant="filled" />
                                             </div>
 
                                             <div class="col-6 billing-box">
@@ -388,6 +443,7 @@ const FeePeriod = () => {
                                                     <th class="border-top-0">Phase</th>
                                                     <th class="border-top-0">Generation Date</th>
                                                     <th class="border-top-0">Due Date</th>
+                                                    <th class="border-top-0">Valid Date</th>
                                                     <th class="border-top-0">Late Charges</th>
                                                     <th class="border-top-0">Action</th>
                                                 </tr>
@@ -401,6 +457,7 @@ const FeePeriod = () => {
                                                                 <td>{val.phase}</td>
                                                                 <td>{val.generation_date}</td>
                                                                 <td class="txt-oflo">{val.due_date}</td>
+                                                                <td class="txt-oflo">{val.valid_date}</td>
                                                                 <td>{val.late_fee_charge}</td>
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary ">
@@ -429,6 +486,7 @@ const FeePeriod = () => {
                                         <div class="col-4 billing-box">
                                             <TextField className="pb-3" type="number" onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
                                             <TextField className="pb-3" type="number" onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
+                                            <TextField className="pb-3" type="number" defaultValue={prevdata.due_date} onChange={(e) => setValidDate(e.target.value)} helperText="Bank Expiry Date" label="Valid Bank Date" variant="filled" />
                                         </div>
 
                                         <div class="col-4 billing-box">

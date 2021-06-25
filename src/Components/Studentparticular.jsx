@@ -12,6 +12,7 @@ const Studentparticular = () => {
     const [fathername, setFathername] = useState('');
     const [mname, setMname] = useState('');
     const [lname, setLname] = useState('');
+    const [bform, setBform] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const [email, setEmail] = useState('');
     const [gender, setGender] = useState('');
@@ -65,6 +66,7 @@ const Studentparticular = () => {
                     setFathername(response.data.father_name);
                     setDOB(response.data.date_of_birth)
                     setEmail(response.data.email)
+                    setBform(response.data.b_form)
                     setLastschool(response.data.last_school_attended)
                     setPOB(response.data.place_of_birth)
                     setAddresspermanent(response.data.permanent_address)
@@ -108,7 +110,8 @@ const Studentparticular = () => {
         last_school_attended: lastschool,
         cell_no: cell,
         tel_no: tel,
-        class_id: classid
+        class_id: classid,
+        b_form : bform
     }
     var today = new Date();
     var birthDate = new Date(dob);
@@ -124,6 +127,14 @@ const Studentparticular = () => {
 
             else if (lname == '') {
                 setMessageinfo("Enter Last Name")
+                handleMessage();
+            }
+            else if (bform == '') {
+                setMessageinfo("Enter Bform No.")
+                handleMessage();
+            }
+            else if (bform.length < 13 || bform.length > 13) {
+                setMessageinfo("Enter Valid B-Form No.")
                 handleMessage();
             }
             else if (fathername == '') {
@@ -198,6 +209,14 @@ const Studentparticular = () => {
 
             else if (lname == '') {
                 setMessageinfo("Enter Last Name")
+                handleMessage();
+            }
+            else if (bform == '') {
+                setMessageinfo("Enter Bform No.")
+                handleMessage();
+            }
+            else if (bform.length < 13 || bform.length > 13) {
+                setMessageinfo("Enter Valid B-Form No.")
                 handleMessage();
             }
             else if (fathername == '') {
@@ -295,6 +314,10 @@ const Studentparticular = () => {
                                     <input id="lname" defaultValue={prevdata.last_name} type="text" className="form-control" placeholder="Last Name" onChange={(e) => setLname(e.target.value)} />
                                 </div>
                                 <div className="col-4">
+                                    <label for="tel">B-Form No:</label>
+                                    <input id="tel" defaultValue={prevdata.b_form} type="number" className="form-control" placeholder="without '-'" onChange={(e) => setBform(e.target.value)} />
+                                </div>
+                                <div className="col-4">
                                     <label for="class">Select Class:</label>
 
                                     <select id="class" class="form-select" aria-label="Default select example" onChange={(e) => setClassid(e.target.value)}>
@@ -317,22 +340,18 @@ const Studentparticular = () => {
                                     <input id="dob" defaultValue={prevdata.date_of_birth} type="date" className="form-control" placeholder="Date Of Birth" onChange={(e) => setDOB(e.target.value)} />
 
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col">
+                                <div className="col-4">
                                     <label for="email">Email:</label>
                                     <input id="email" defaultValue={prevdata.email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                                 </div>
-                                <div className="col">
+                                <div className="col-4">
                                     <label for="email">School Last Attended:</label>
                                     <input id="email" defaultValue={prevdata.last_school_attended} type="text" className="form-control" placeholder="School Attended" onChange={(e) => setLastschool(e.target.value)} />
                                 </div>
-                                <div className="col">
+                                <div className="col-4">
                                     <label for="email">Place Of Birth</label>
                                     <input id="email" defaultValue={prevdata.place_of_birth} type="text" className="form-control" placeholder="Place of Birth" onChange={(e) => setPOB(e.target.value)} />
                                 </div>
-                            </div>
-                            <div className="row">
                                 <div className="form-group col-8">
                                     <label for="address">Permanent Address</label>
                                     <textarea className="form-control" defaultValue={prevdata.permanent_address} id="address" rows="1" onChange={(e) => setAddresspermanent(e.target.value)}></textarea>
@@ -341,8 +360,6 @@ const Studentparticular = () => {
                                     <label for="tel">Tel:</label>
                                     <input id="tel" defaultValue={prevdata.tel_no} type="number" className="form-control" placeholder="Telephone" onChange={(e) => setTel(e.target.value)} />
                                 </div>
-                            </div>
-                            <div className="row">
                                 <div className="form-group col-8">
                                     <label for="address">Present Address</label>
                                     <textarea className="form-control" defaultValue={prevdata.address} id="address" rows="1" onChange={(e) => setAddresspresent(e.target.value)}></textarea>

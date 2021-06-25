@@ -26,6 +26,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
+
     function setPageSize(cssPageSize) {
         const style = document.createElement('style');
         style.innerHTML = `@page {size: ${cssPageSize}}`;
@@ -41,6 +42,12 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
             child.parentNode.removeChild(child);
         };
     }, [orientation]);
+
+    const cb = ()=>{
+        console.log(window.scrollY)
+    };
+    window.addEventListener('scroll',cb)
+
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/admission_form/${formNo}`)
             .then(response => {
@@ -50,6 +57,18 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                 setGuardian(response.data.StudentGuardian);
                 setSiblings(response.data.SiblingsDetail);
                 setEmergency(response.data.EmergencyContact);
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_siblings/${formNo}`)
+                    .then(response => {
+                        console.log(response.data)
+                        setSiblings(response.data);
+
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
             })
             .catch((error) => {
                 if (error.response) {
@@ -64,24 +83,27 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
             <div className="printform-main mx-auto border border-dark">
                 <div className="container">
                     <h1 className="text-center">STUDENT DATA</h1>
-                    <div className="row">
-                        <div className="col-12 text-right">
-                            {student.G_R_NO == null ?
-                                <p>GR No: <span>0000</span> </p>
+                    <div className="col-12 text-right">
+                        {student.G_R_NO == null ?
+                            <p>GR No: <span>0000</span> </p>
+                            :
+                            <p>GR No: <span>{student.G_R_NO}</span> </p>
+
+                        }
+                    </div>
+                    <div className="row border border-dark">
+                        <h2>Student's Particular</h2>
+                        <div className="col-4">
+                            {student.middle_name == null ?
+                                <p>Full Name: <span className="print-capitalize">{`${student.first_name}  ${student.last_name}`}</span></p>
                                 :
-                                <p>GR No: <span>{student.G_R_NO}</span> </p>
+                                <p>Full Name: <span className="print-capitalize">{`${student.first_name} ${student.middle_name} ${student.last_name}`}</span></p>
 
                             }
                         </div>
-                        <h2>Student's Particular</h2>
                         <div className="col-4">
-                            <p>First Name: <span className="print-capitalize">{student.first_name}</span></p>
-                        </div>
-                        <div className="col-4">
-                            <p>Middle Name: <span className="print-capitalize">{student.middle_name}</span></p>
-                        </div>
-                        <div className="col-4">
-                            <p>Last Name: <span className="print-capitalize">{student.last_name}</span></p>
+                            <p>B-Form No.: <span className="print-capitalize">{student.b_form}</span></p>
+
                         </div>
                         <div className="col-4">
                             <p>Father Name: <span className="print-capitalize">{student.father_name}</span></p>
@@ -110,21 +132,21 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                             <p>Telephone: <span className="print-capitalize">{student.tel_no}</span></p>
 
                         </div>
-                        <div className="col-8">
-                            <p>Permanent Address: <span className="print-capitalize">{student.permanent_address}</span></p>
-
-                        </div>
                         <div className="col-4">
                             <p>Cellphone: <span className="print-capitalize">{student.cell_no}</span></p>
 
                         </div>
-                        <div className="col-8">
+                        <div className="col-12">
+                            <p>Permanent Address: <span className="print-capitalize">{student.permanent_address}</span></p>
+
+                        </div>
+                        <div className="col-12">
                             <p>Present Address: <span className="print-capitalize">{student.address}</span></p>
 
                         </div>
 
                     </div>
-                    <div className="row mt-3">
+                    <div className="row border border-dark mt-3">
                         <h2>Father's Particular</h2>
 
                         <div className="col-4">
@@ -158,9 +180,15 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                         </div>
 
                         <div className="col-4">
-                            <p>Cellphone: <span className="print-capitalize">{parent.father_cell_no}</span></p>
-
+                            <p>Cellphone 1: <span className="print-capitalize">{parent.father_cell_no_1}</span></p>
                         </div>
+                        {parent.father_cell_no_2 === null ?
+                            null :
+                            <div className="col-4">
+                                <p>Cellphone 2: <span className="print-capitalize">{parent.father_cell_no_2}</span></p>
+                            </div>
+                        }
+
 
 
                         <div className="col-8">
@@ -170,7 +198,7 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
 
                     </div>
 
-                    <div className="row mt-3">
+                    <div className="row border border-dark mt-3">
                         <h2>Mother's Particular</h2>
 
                         <div className="col-4">
@@ -205,9 +233,15 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                         </div>
 
                         <div className="col-4">
-                            <p>Cellphone: <span className="print-capitalize">{parent.mother_cell_no}</span></p>
+                            <p>Cellphone 1: <span className="print-capitalize">{parent.mother_cell_no_1}</span></p>
 
                         </div>
+                        {parent.mother_cell_no_2 === null ?
+                            null :
+                            <div className="col-4">
+                                <p>Cellphone 2: <span className="print-capitalize">{parent.mother_cell_no_2}</span></p>
+                            </div>
+                        }
 
                         <div className="col-8">
                             <p>Residential Address: <span className="print-capitalize">{parent.mother_residential_address}</span></p>
@@ -222,12 +256,15 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
 
                             :
                             <>
-                                <div className="row mt-3">
+                                <div className="row border border-dark mt-3">
 
                                     <h2>Guardians's Particular</h2>
 
                                     <div className="col-4">
                                         <p>Guardian's Name: <span className="print-capitalize">{guardian.name}</span></p>
+                                    </div>
+                                    <div className="col-4">
+                                        <p>Relation: <span className="print-capitalize">{guardian.relation_with_student}</span></p>
                                     </div>
                                     <div className="col-4">
                                         <p>CNIC: <span className="print-capitalize">{guardian.CNIC}</span></p>
@@ -271,33 +308,37 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                     }
 
 
-                    {siblings.length == 0 ?
-                        null
-                        :
+                    {siblings.length !== 0 ?
                         <>
-                            <div className="row mt-3">
+                            <div className="row border border-dark mt-3">
                                 <h2>Siblings Studying</h2>
                                 {siblings.map((val, i) => {
                                     return (
                                         <>
-                                            <div className="col-4">
-                                                <p>Name: <span className="print-capitalize">{val.name}</span></p>
-                                            </div>
-                                            <div className="col-4">
-                                                <p>Age: <span className="print-capitalize">{val.age}</span></p>
-                                            </div>
-                                            <div className="col-4">
-                                                <p>Class: <span className="print-capitalize">{val.class}</span></p>
-                                            </div>
+                                            {student.G_R_NO === val.G_R_NO ?
+                                                null :
+                                                <>
+                                                    <div className="col-4">
+                                                        <p>GR No: <span className="print-capitalize">{val.G_R_NO}</span></p>
+                                                    </div>
+                                                    <div className="col-4">
+                                                        <p>Name: <span className="print-capitalize">{`${val.first_name} ${val.middle_name} ${val.last_name}`}</span></p>
+                                                    </div>
+                                                    <div className="col-4">
+                                                        <p>Father Name: <span className="print-capitalize">{val.father_name}</span></p>
+                                                    </div>
+                                                </>}
                                         </>
 
                                     )
                                 })}
                             </div>
                         </>
+                        :
+                        null
                     }
 
-                    <div className="row mt-3">
+                    <div className="row border border-dark mt-3">
                         <h2>Incase of Emergency</h2>
 
                         <div className="col-5">

@@ -53,11 +53,11 @@ const AdmissionRequest = () => {
     const [message, setMessage] = useState({
         open: false,
         vertical: 'top',
-        horizontal: 'right',
+        horizontal: 'center',
     });
     const { vertical, horizontal, open } = message;
     const handleMessage = () => {
-        setMessage({ open: true, vertical: 'top', horizontal: 'right' });
+        setMessage({ open: true, vertical: 'top', horizontal: 'center' });
     };
 
     const CloseMessage = () => {
@@ -82,6 +82,7 @@ const AdmissionRequest = () => {
     const [sectionid, setSectionid] = useState('');
     const [form_no, setForm_no] = useState();
     const [dueDate, setDueDate] = useState('');
+    const [validDate, setValidDate] = useState('');
     const [GR_no, setGR_no] = useState('');
     const history = useHistory();
     const school_id = localStorage.getItem("school_id")
@@ -92,6 +93,11 @@ const AdmissionRequest = () => {
     var startdate = StartDate.getDate()
     var startmonth = months[StartDate.getMonth()];
     var startyear = StartDate.getFullYear().toString().substr(-2);
+
+    var StartValidDate = new Date(validDate);
+    var startvaliddate = StartValidDate.getDate()
+    var startvalidmonth = months[StartValidDate.getMonth()];
+    var startvalidyear = StartValidDate.getFullYear().toString().substr(-2);
 
     // var mydata = [];
     // if ((studentdata.length > 0) && (userdata.length > 0)) {
@@ -170,9 +176,10 @@ const AdmissionRequest = () => {
     const data = {
         school_id: school_id,
         form_no: form_no,
-        G_R_NO: GR_no,
+        G_R_NO: GR_no.toUpperCase(),
         section_id: sectionid,
-        due_date: `${startdate}-${startmonth}-${startyear}`
+        due_date: `${startdate}-${startmonth}-${startyear}`,
+        valid_date: `${startvaliddate}-${startvalidmonth}-${startvalidyear}`
     };
     // console.log(contact)
     const sendData = () => {
@@ -188,20 +195,27 @@ const AdmissionRequest = () => {
             setMessageinfo("Select Due Date")
             handleMessage();
         }
+        else if (validDate === '') {
+            setMessageinfo("Select Valid Date")
+            handleMessage();
+        }
         else {
             setNotify('Please wait...')
             axios.post('http://fee-management-api.nastechltd.co/api/student', data)
                 .then(response => {
-                    handleClose();
                     reload();
                     setDueDate('');
                     setSectionid('');
                     setGR_no('');
                     localStorage.removeItem("registration_no")
                     setMessageinfo("Student Successfully Added");
+                    setNotify('Add Student')
                     handleMessage();
+                    handleClose();
+
                 })
                 .catch((error) => {
+                    setNotify('Add Student');
                     if (error.response) {
                         setMessageinfo(error.response.data.message);
                         handleMessage();
@@ -372,7 +386,7 @@ const AdmissionRequest = () => {
                                 {/* <button type="button" onClick={handleShow} class="btn btn-primary btn-lg"><AddIcon /> Add Student</button> */}
                                 <Modal show={show} onHide={handleClose}>
                                     <Modal.Header closeButton>
-                                        <Modal.Title>Add Student</Modal.Title>
+                                        <Modal.Title>Confirm Admission</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
                                         <div class="row billing-main">
@@ -386,7 +400,6 @@ const AdmissionRequest = () => {
                                                         variant="filled"
                                                         onChange={(e) => setSectionid(e.target.value)}
                                                     >
-
                                                         {sectiondata.map((val, i) => {
                                                             return (
 
@@ -397,6 +410,8 @@ const AdmissionRequest = () => {
                                                         })}
                                                     </Select>
                                                 </FormControl>
+                                                <TextField className="pb-3 mt-2" type="date" onChange={(e) => setValidDate(e.target.value)} label="Valid Date" defaultValue="2021-01-01" helperText="Valid Date for Admission Voucher" variant="filled" />
+
 
                                             </div>
 
@@ -421,6 +436,7 @@ const AdmissionRequest = () => {
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
+                                            <th class="border-top-0">Registeration NO.</th>
                                             <th class="border-top-0">NAME</th>
                                             <th class="border-top-0">GENDER</th>
                                             <th class="border-top-0">Details</th>
@@ -435,6 +451,7 @@ const AdmissionRequest = () => {
                                                         <>
                                                             <tr key={i}>
                                                                 <td>{count = 1 + count}</td>
+                                                                <td>{val.registration_no}</td>
                                                                 {val.middle_name === null ?
                                                                     <td class="txt-oflo print-capitalize">{`${val.first_name} ${val.last_name}`}</td>
                                                                     :
@@ -442,7 +459,6 @@ const AdmissionRequest = () => {
                                                                 }
                                                                 <td className="print-capitalize">{val.gender}</td>
                                                                 <td><Button onClick={() => history.push(`/printform/${val.registration_no}`)}><DescriptionIcon /></Button></td>
-
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary">
                                                                         <Button className="student-btn-up" onClick={() => add(val.registration_no)}><ThumbUpIcon className="text-white" /></Button>

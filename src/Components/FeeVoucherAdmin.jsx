@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import DescriptionIcon from '@material-ui/icons/Description';
 import logo from './jb1.png'
-// import { Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import TextField from '@material-ui/core/TextField';
 // import FormLabel from '@material-ui/core/FormLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -43,11 +43,15 @@ const useStyles = makeStyles((theme) => ({
 
 
 const FeeVoucherAdmin = () => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const classes = useStyles();
     const [studentdata, setStudentdata] = useState([]);
     const [feedata, setFeedata] = useState([]);
     const [sectiondata, setSectiondata] = useState([]);
     const [classdata, setClassdata] = useState([]);
+    const [selectedFile, setSelectedFile] = useState();
     const [classid, setClassid] = useState('');
     const [sectionid, setSectionid] = useState('');
     const history = useHistory();
@@ -66,11 +70,25 @@ const FeeVoucherAdmin = () => {
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
+    const changeHandler = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
                 console.log(response);
                 setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+        axios.get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setFeedata(response.data);
             })
             .catch((error) => {
                 if (error.response) {
@@ -90,7 +108,18 @@ const FeeVoucherAdmin = () => {
                 }
             })
     }, [])
-    useEffect(() => {
+    const reload = () => {
+        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
+            .then(response => {
+                console.log(response);
+                setStudentdata(response.data);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
         axios.get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${school_id}`)
             .then(response => {
                 console.log(response);
@@ -102,7 +131,7 @@ const FeeVoucherAdmin = () => {
                     handleMessage();
                 }
             })
-    }, [])
+    }
     console.log(sectionid)
 
     var mydata = [];
@@ -122,7 +151,7 @@ const FeeVoucherAdmin = () => {
         }
         for (var j = 0; j < studentdata.length; j++) {
             if (feedata[i].student_id == studentdata[j].id) {
-                dd.student_name = `${studentdata[j].first_name} ${studentdata[j].middle_name} ${studentdata[j].last_name}`;
+                studentdata[j].middle_name === null ? dd.student_name = `${studentdata[j].first_name} ${studentdata[j].last_name}` : dd.student_name = `${studentdata[j].first_name} ${studentdata[j].middle_name} ${studentdata[j].last_name}`;;
                 dd.G_R_NO = studentdata[j].G_R_NO;
                 dd.gender = studentdata[j].gender;
                 dd.section_id = studentdata[j].section_id;
@@ -148,6 +177,36 @@ const FeeVoucherAdmin = () => {
                 }
             })
     }
+    const handleSubmission = () => {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        if (selectedFile === undefined) {
+            setMessageinfo("Select File");
+            handleMessage();
+        }
+        else {
+            axios({
+                method: "post",
+                url: `http://fee-management-api.nastechltd.co/api/import`,
+                data: formData,
+                headers: { "Content-Type": "multipart/form-data" },
+            })
+                .then(function (response) {
+                    //handle success
+                    console.log(response);
+                    setSelectedFile();
+                    setMessageinfo("Submitted!!");
+                    reload();
+                    handleClose();
+                    handleMessage();
+
+                })
+                .catch(function (response) {
+                    //handle error
+                    console.log(response);
+                });
+        }
+    }
     const search = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/section/${classid}`)
             .then(response => {
@@ -161,44 +220,6 @@ const FeeVoucherAdmin = () => {
         setSearchTerm('');
         setSectionid('');
     }
-
-
-
-
-
-
-
-    const reload = () => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${school_id}`)
-            .then(response => {
-                console.log(response);
-                setFeedata(response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    setMessageinfo(error.response.data.message);
-                    handleMessage();
-                }
-            })
-        axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
-            .then(response => {
-                console.log(response);
-                setStudentdata(response.data);
-            })
-            .catch((error) => {
-                if (error.response) {
-                    setMessageinfo(error.response.data.message);
-                    handleMessage();
-                }
-            })
-
-    }
-
-
-
-
-
-
     const logOut = () => {
         localStorage.clear();
         history.push("/")
@@ -300,10 +321,29 @@ const FeeVoucherAdmin = () => {
                     <div class="right-body">
 
                         <div class="message">
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Add File</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <div className="row">
+                                        <div className="col-8">
+                                            <input class="form-control" name="file" type="file" onChange={(e) => changeHandler(e)} />
+                                        </div>
+                                        <div className="col-4">
+                                            <button onClick={handleSubmission} className="btn btn-success">Upload</button>
+                                        </div>
+                                    </div>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <button class="btn btn-secondary" onClick={handleClose}>Close</button>
+                                </Modal.Footer>
+                            </Modal>
                             <div className="row">
                                 <div className="col-6 text-left mt-1">
                                     <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
                                     <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
+                                    <button onClick={handleShow} className="btn btn-primary mt-3 ml-5">Upload File</button>
                                 </div>
                                 <div className="col-6 text-right">
                                     <FormControl className={classes.formControl}>
