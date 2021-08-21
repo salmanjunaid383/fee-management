@@ -15,6 +15,8 @@ const Studentparticular = () => {
     const [bform, setBform] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('');
     const [gender, setGender] = useState('');
     const [classid, setClassid] = useState('');
     const [singleclass, setSingleclass] = useState({});
@@ -27,6 +29,7 @@ const Studentparticular = () => {
     const [tel, setTel] = useState('');
     const [cell, setCell] = useState('');
     const { schoolid } = useParams();
+    const [cell2,setCell2]=useState('')
     const school_id = localStorage.getItem("school_id");
     const form_id = localStorage.getItem("form_id");
     const [messageinfo, setMessageinfo] = useState('');
@@ -111,7 +114,8 @@ const Studentparticular = () => {
         cell_no: cell,
         tel_no: tel,
         class_id: classid,
-        b_form : bform
+        b_form : bform,
+        cell_no2:cell2
     }
     var today = new Date();
     var birthDate = new Date(dob);
@@ -340,19 +344,36 @@ const Studentparticular = () => {
                                     <input id="dob" defaultValue={prevdata.date_of_birth} type="date" className="form-control" placeholder="Date Of Birth" onChange={(e) => setDOB(e.target.value)} />
 
                                 </div>
-                                <div className="col-4">
-                                    <label for="email">Email:</label>
-                                    <input id="email" defaultValue={prevdata.email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                                </div>
-                                <div className="col-4">
-                                    <label for="email">School Last Attended:</label>
-                                    <input id="email" defaultValue={prevdata.last_school_attended} type="text" className="form-control" placeholder="School Attended" onChange={(e) => setLastschool(e.target.value)} />
-                                </div>
+
                                 <div className="col-4">
                                     <label for="email">Place Of Birth</label>
                                     <input id="email" defaultValue={prevdata.place_of_birth} type="text" className="form-control" placeholder="Place of Birth" onChange={(e) => setPOB(e.target.value)} />
                                 </div>
-                                <div className="form-group col-8">
+                                
+                                <div className="col-4">
+                                    <label for="email">School Last Attended:</label>
+                                    <input id="email" defaultValue={prevdata.last_school_attended} type="text" className="form-control" placeholder="School Attended" onChange={(e) => setLastschool(e.target.value)} />
+                                </div>
+
+
+                                <div className="col-4">
+                                    <label for="email">Student's Email:</label>
+                                    <input id="email" defaultValue={prevdata.student_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+
+
+                                <div className="col-4">
+                                    <label for="email">Mother's Email:</label>
+                                    <input id="email" defaultValue={prevdata.mother_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+
+
+                                <div className="col-4">
+                                    <label for="email">Father's Email:</label>
+                                    <input id="email" defaultValue={prevdata.father_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                                
+                                <div className="form-group col-12">
                                     <label for="address">Permanent Address</label>
                                     <textarea className="form-control" defaultValue={prevdata.permanent_address} id="address" rows="1" onChange={(e) => setAddresspermanent(e.target.value)}></textarea>
                                 </div>
@@ -364,17 +385,25 @@ const Studentparticular = () => {
                                     <label for="address">Present Address</label>
                                     <textarea className="form-control" defaultValue={prevdata.address} id="address" rows="1" onChange={(e) => setAddresspresent(e.target.value)}></textarea>
                                 </div>
+
+                                <div className="col-4">
+                                    <label for="tel">Cell:</label>
+                                    <input id="tel" defaultValue={prevdata.cell_no} type="number" className="form-control" placeholder="Cellphone" onChange={(e) => setCell(e.target.value)} />
+                                </div>
+                                <div className="col-4">
+                                    <label for="tel">Cell:</label>
+                                    <input id="tel" defaultValue={prevdata.cell_no2} type="number" className="form-control" placeholder="Cellphone" onChange={(e) => setCell2(e.target.value)} />
+                                </div>
+                                
                                 {form_id === null ?
                                     <>
-                                        <div className="col-4 mt-5">
+                                        <div className="col-12 mt-5" style={{display:"flex",flexDirection:"column"}}>
                                             <label>Gender:</label>
                                             <div className="form-check form-check-inline">
                                                 <input className="form-check-input" type="radio" name="gender" id="male" value="male" onChange={(e) => setGender(e.target.value)} />
-                                                <label className="form-check-label" for="male">
+                                                <label className="form-check-label" for="male" style={{marginRight:"10px"}}>
                                                     Male
                                                 </label>
-                                            </div>
-                                            <div className="form-check form-check-inline">
                                                 <input className="form-check-input" type="radio" name="gender" id="female" value="female"
                                                     onChange={(e) => setGender(e.target.value)} />
                                                 <label className="form-check-label" for="female">
@@ -428,10 +457,7 @@ const Studentparticular = () => {
 
 
                                 }
-                                <div className="col-4">
-                                    <label for="tel">Cell:</label>
-                                    <input id="tel" defaultValue={prevdata.cell_no} type="number" className="form-control" placeholder="Cellphone" onChange={(e) => setCell(e.target.value)} />
-                                </div>
+                               
 
 
                                 <div className="col-12 text-right mt-3">

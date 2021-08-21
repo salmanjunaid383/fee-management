@@ -145,6 +145,30 @@ const CampusDashboard = () => {
         localStorage.clear();
         history.push("/")
     }
+
+    const openAdmission = () => {
+        axios.put(`http://fee-management-api.nastechltd.co/api/admission_open/${school_id}`)
+            .then(response => {
+                console.log(response);
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${school_id}`)
+                    .then(response => {
+                        console.log(response.data.is_oppend)
+                        setIsOppened(response.data.is_oppend)
+                    })
+                    .catch((error) => {
+                        if (error.response) {
+                            setMessageinfo(error.response.data.message);
+                            handleMessage();
+                        }
+                    })
+            })
+            .catch((error) => {
+                if (error.response) {
+                    setMessageinfo(error.response.data.message);
+                    handleMessage();
+                }
+            })
+    }
     return (
         <>
             <div class="dashboard">
@@ -175,6 +199,13 @@ const CampusDashboard = () => {
                                 <div class="icon-name">Class</div>
                             </div></Link>
 
+                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
+                                <div class="icon1">
+                                    <i class="fas fa-money-check-alt"></i>
+                                </div>
+                                <div class="icon-name">Fee</div>
+                            </div></Link>
+
                             <Link class="nav-link" to="/students"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-user-graduate"></i>
@@ -187,12 +218,7 @@ const CampusDashboard = () => {
                                 </div>
                                 <div class="icon-name">Finance Employee</div>
                             </div></Link>
-                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-money-check-alt"></i>
-                                </div>
-                                <div class="icon-name">Fee</div>
-                            </div></Link>
+                         
                             <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-print"></i>
@@ -233,49 +259,25 @@ const CampusDashboard = () => {
                         </div>
                         <hr class="new-hr" />
                     </div>
+                    <div className="row">
+
+<div className="col-12 text-right">
+    {isOppened == 0 ?
+        <>
+            <p className="m-0 mr-2 pb-2 d-inline-block text-primary text-bold">Are You Sure You Want To Open Admissions?</p>
+            <button type="button" onClick={openAdmission} class="btn btn-success mt-1 mb-3 d-inline-block"><i class="txt-wite-icon fas mr-1 fa-check"></i>Open Admission</button>
+        </>
+        :
+        <>
+            <p className="m-0 mr-2 pb-2 d-inline-block text-primary text-bold">Are You Sure You Want To Close Admissions?</p>
+            <button type="button" onClick={openAdmission} class="btn btn-danger mb-3 d-inline-block mt-1"><i class="fas fa-times txt-wite-icon mr-1"></i>Close Admission</button>
+        </>
+    }
+
+</div>
+</div>
                     <div class="right-body">
-                        {/* <div class="scroll-cards">
-                            <div class="card">
-                                <div class="mails">
-                                    <div class="mail-names">
-                                        Schools Active
-                                    </div>
-                                </div>
-
-                                <div class="mail-info">
-                                    {schooldata.length} Schools all over Pakistan
-
-                                </div>
-                                <div>
-                                </div>
-
-                            </div>
-                            <div class="card">
-                                <div class="mails">
-                                    <div class="mail-names">
-                                        Active Students
-                            </div>
-
-                                </div>
-                                <div class="mail-info">
-                                    {studentdata.length} Students
-                        </div>
-                                <div>
-                                </div>
-                            </div> */}
-                        {/* <div class="card">
-                                <div class="mails">
-                                    <div class="mail-names">
-                                        Visits
-                                    </div>
-                                </div>
-                                <div class="mail-info">
-                                    100K+ Visits Per Day
-                                </div>
-                                <div>
-                                </div>
-                            </div> */}
-                        {/* </div> */}
+                       
                         <div class="campus-sts">
                             <div className="show_fee p-5">
                                 <div class="card p-2 shadow" style={{ width: '19rem', height: '8rem' }}>

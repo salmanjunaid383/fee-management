@@ -242,6 +242,15 @@ const AdminLedger = () => {
                     </div>
                     <div class="right-body">
 
+                          {/* back to dashboard option*/}
+                    <a href="/campusdashboard" style={{textDecoration:"none"}}>
+                                <div className="col-xl-2 dash-button" style={{marginBottom:"10px",display:"flex",alignItems:"flex-end",justifyContent:"center",padding:"6px",color:"#fff", borderRadius:"5px",cursor:"pointer"}}>
+                                   
+                                <i class="fas fa-tachometer-alt" style={{fontSize:"25px"}}></i>
+                                <h5 style={{margin:"0px",marginLeft:"10px", fontSize:"15px", fontWeight:"bold"}}>Dashboard</h5>
+                                </div>
+                                </a>
+
                         <div class="message"><div className="row">
                             <div className="col-6 text-left mt-1">
                                 <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
