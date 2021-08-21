@@ -15,8 +15,6 @@ const Studentparticular = () => {
     const [bform, setBform] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const [email, setEmail] = useState('');
-    const [email, setEmail] = useState('');
-    const [email, setEmail] = useState('');
     const [gender, setGender] = useState('');
     const [classid, setClassid] = useState('');
     const [singleclass, setSingleclass] = useState({});
@@ -78,6 +76,7 @@ const Studentparticular = () => {
                     setClassid(response.data.class_id)
                     setGender(response.data.gender)
                     setCell(response.data.cell_no)
+                    setCell2(response.data.cell2)
                     axios.get(`http://fee-management-api.nastechltd.co/api/show_class/${response.data.class_id}`)
                         .then(response => {
                             setSingleclass(response.data)
@@ -358,20 +357,20 @@ const Studentparticular = () => {
 
                                 <div className="col-4">
                                     <label for="email">Student's Email:</label>
-                                    <input id="email" defaultValue={prevdata.student_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                                    <input id="email" defaultValue={prevdata.email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                                 </div>
 
-
+{/* 
                                 <div className="col-4">
                                     <label for="email">Mother's Email:</label>
                                     <input id="email" defaultValue={prevdata.mother_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                                </div>
+                                </div> */}
 
 
-                                <div className="col-4">
+                                {/* <div className="col-4">
                                     <label for="email">Father's Email:</label>
                                     <input id="email" defaultValue={prevdata.father_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                                </div>
+                                </div> */}
                                 
                                 <div className="form-group col-12">
                                     <label for="address">Permanent Address</label>
