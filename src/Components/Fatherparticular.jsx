@@ -58,27 +58,7 @@ const Fatherparticular = () => {
         const reg_data={
             form_no:reg_id
         }
-        axios.post(`http://fee-management-api.nastechltd.co/api/check_form`, reg_data )
-        .then(response => {
-            console.log("reg response",response)
-            // console.log('fname',response.data.form.name)
-            setGetData(response.data.form)
-            setFatherEmail(response.data.form.father_email)
-            setMotherEmail(response.data.form.mother_email)
-            setFatherCnic(response.data.form.father_normalize_CNIC)
-            console.log(response.data.form.father_CNIC)
-
-          
-        })
-
-        .catch((error) => {
-            if (error.response) {
-                console.log(error)
-                console.log(error.response.data.message)
-                setMessageinfo(error.response.data.message);
-                handleMessage();
-            }
-        })
+        
 
 
 
@@ -86,6 +66,7 @@ const Fatherparticular = () => {
 
             axios.get(`http://fee-management-api.nastechltd.co/api/student_parent/${parent_id}`)
                 .then(response => {
+                    console.log("parent id code ran")
                     console.log(response.data)
                     setPrevdata(response.data)
                     setMotherName(response.data.mother_name);
@@ -118,6 +99,31 @@ const Fatherparticular = () => {
                         handleMessage();
                     }
                 })
+
+        }
+        else{
+            console.log("use effect code ran")
+            axios.post(`http://fee-management-api.nastechltd.co/api/check_form`, reg_data )
+        .then(response => {
+            console.log("reg response",response)
+            // console.log('fname',response.data.form.name)
+            setPrevdata(response.data.form)
+            setFatherEmail(response.data.form.father_email)
+            setMotherEmail(response.data.form.mother_email)
+            setFatherCnic(response.data.form.father_normalize_CNIC)
+            console.log(response.data.form.father_CNIC)
+
+          
+        })
+
+        .catch((error) => {
+            if (error.response) {
+                console.log(error)
+                console.log(error.response.data.message)
+                setMessageinfo(error.response.data.message);
+                handleMessage();
+            }
+        })
         }
     }, [])
 
@@ -249,7 +255,7 @@ const Fatherparticular = () => {
             else {
                 console.log(data)
 
-                if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Fatheremail) && /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Motheremail)) {
+                if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(Fatheremail) && /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(Motheremail)) {
                     axios.post(`http://fee-management-api.nastechltd.co/api/student_parent`, data)
                         .then(response => {
                             localStorage.setItem('parent_id', response.data.id)
@@ -356,7 +362,7 @@ const Fatherparticular = () => {
                 handleMessage();
             }
             else {
-                if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Fatheremail) && /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(Motheremail)) {
+                if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(Fatheremail) && /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(Motheremail)) {
                     axios.put(`http://fee-management-api.nastechltd.co/api/student_parent/${parent_id}`, data)
                         .then(response => {
                             localStorage.setItem('parent_id', response.data.id)
@@ -410,12 +416,12 @@ const Fatherparticular = () => {
                                     <input id="guardPhone" defaultValue={prevdata.father_cell_2} type="number" className="form-control" placeholder="Cellphone 2" onChange={(e) => setFatherCell2(e.target.value)} />
                                 </div>
                                 <div className="col-4">
-                                    <label for="guardCnic">CNIC:</label>
-                                    <input id="guardCnic" defaultValue={getdata.father_normalize_CNIC} type="text" className="form-control" placeholder='Without "-" ' onChange={(e) => setFatherCnic(e.target.value)} />
+                                    <label for="guardFatherCnic">CNIC:</label>
+                                    <input id="guardFatherCnic" defaultValue={prevdata.father_normalize_CNIC} type="text" className="form-control" placeholder='Without "-" ' onChange={(e) => setFatherCnic(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="email">Email:</label>
-                                    <input id="email" defaultValue={getdata.father_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setFatherEmail(e.target.value)} />
+                                    <input id="email" defaultValue={prevdata.father_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setFatherEmail(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Office Address</label>
@@ -464,7 +470,7 @@ const Fatherparticular = () => {
                                 </div>
                                 <div className="col-4">
                                     <label for="email">Email:</label>
-                                    <input id="email" defaultValue={getdata.mother_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setMotherEmail(e.target.value)} />
+                                    <input id="email" defaultValue={prevdata.mother_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setMotherEmail(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Residential Address</label>

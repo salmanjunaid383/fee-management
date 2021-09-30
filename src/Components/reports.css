@@ -37,7 +37,8 @@
         border-bottom: 1px solid #000;
         outline: none;
         margin-right:10px;
-        margin-left:10px
+        margin-left:10px;
+       
  
 }
 .dash-line{
@@ -51,5 +52,19 @@
 @media print {
     #bton {
       display: none;
+    }
+    #for_input{
+        border:none;
+    }
+    #for_input_heading{
+        /* border-bottom: 1px solid #000; */
+        /* width:400px !important */
+        font-weight: 900;
+    }
+    #for_style{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
     }
   }

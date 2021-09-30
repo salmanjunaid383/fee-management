@@ -70,11 +70,15 @@ import TcPrint from './Components/TcPrint'
 import StudentsAttendance from './Components/StudentsAttendance'
 import StudentDashboard from './Components/StudentDashboard'
 import AdminAttendance from './Components/AdminAttendance';
+import MainReport from './MainReport';
+import PickupPrint from './Components/PickupPrint';
 
 
 const App = () => {
     return <>
         <Switch>
+            <Route path="/pickup-print" component={PickupPrint} />
+            <Route path="/MainReportPage" component={MainReport} />
             <Route path="/AdminAttendance" component={AdminAttendance} />
             <Route path="/studentdashboard/:studentid" component={StudentDashboard} />
             <Route path="/StudentAttendance" component={StudentsAttendance}/>

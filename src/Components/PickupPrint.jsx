@@ -1,82 +1,38 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../Components/reports.css";
-import { useHistory} from "react-router-dom";
 
+const PickupPrint = () => {
+  const TcPrintID = localStorage.getItem("tc_print_id");
+  const [AllRecord, setallrecord] = useState("");
+  const [allclass, setAllClass] = useState("");
+  const [allsection, setAllSection] = useState("");
+  const [date, setDate] = useState("");
 
+  useEffect(() => {
+    axios
+      .get(
+        `http://fee-management-api.nastechltd.co/api/pickup_slip/${TcPrintID}`
+      )
+      .then((response) => {
+        console.log(response);
+        setallrecord(response.data);
+      });
 
+    axios
+      .get(
+        `http://fee-management-api.nastechltd.co/api/gr_no/${localStorage.getItem(
+          "gr_no"
+        )}`
+      )
+      .then((response) => {
+        console.log(response);
+        setAllClass(response.data.class);
+        setAllSection(response.data.section);
+        setDate(response.data.date);
+      });
+  }, []);
 
-const Reports = () => {
-  // hooks 
-  const history = useHistory();
-  const [Gr_NO, setgr_no]=useState('')
-  const [classid, setClassID]=useState('')
-  const [sectionid, setSectionID]=useState('')
-  const [naam, setNaam]=useState('')
-  const [reasonforpickup, setReasonForPickup]=useState('')
-  const [timeofpickingup, setTimeOfPickingUp]=useState('')
-  const [nameoftheperson, setNameOfThePerson]=useState('')
-  const [relationwiththestudent, setRelationWithTheStudent]=useState('')
-  const [CNIC, setCNIC]=useState('')
-  const [address, setAddress]=useState('')
-  const [cell, setCell]=useState('')
-  const [remarks, setRemarks]=useState('')
-  const [studentid, setStudentID]=useState('')
-  const [schoolid, setSchoolID]=useState('')
-  const [date, setDate]=useState('')
-  const [AllRecord,setallRecord]=useState('')
-
-  const [allclass,setAllClass]=useState('')
-  const [allsection,setAllSection]=useState('')
-
-  function postDate(){
-    axios.post("http://fee-management-api.nastechltd.co/api/pickup_slip",data)
-    .then((response)=>{
-      console.log(response)
-      history.push("/pickup-print");
-      localStorage.setItem("pickup_print_id",response.data.id)
-    }) 
-  }
-
-
-  function getRecord(){
-  
-  axios.get(`http://fee-management-api.nastechltd.co/api/gr_no/${Gr_NO}`)
-  .then((response)=>{
-      console.log(response)
-      localStorage.setItem("gr_no",Gr_NO)
-
-      setallRecord(response.data.student)
-      setAllClass(response.data.class)
-      setAllSection(response.data.section)
-      setNaam(response.data.student.first_name)
-      setAddress(response.data.student.address)
-      setSchoolID(response.data.student.school_id)
-      setStudentID(response.data.student.id)
-      setDate(response.data.date)  
-      setClassID(response.data.class.id)
-      setSectionID(response.data.section.id)
-      
-  })}
-
-  const data={
-    class_id:classid,
-    section_id:sectionid,
-    G_R_NO:Gr_NO,
-    name:AllRecord.first_name,
-    reason_for_pickup:reasonforpickup,
-    timing_of_picking_up:timeofpickingup,
-    name_of_person:nameoftheperson,
-    realation_with_student:relationwiththestudent,
-    CNIC:CNIC,
-    address:address,
-    cell:cell,  
-    remarks:remarks,
-    student_id:3,
-    school_id:schoolid,
-    date:date
-
-  }
   return (
     <>
       <div className="container">
@@ -112,6 +68,8 @@ const Reports = () => {
             >
               <label for="fname">G.R. No:</label>
               <input
+                defaultValue={AllRecord.G_R_NO}
+                
                 style={{
                   width: "40%",
                   border: "none",
@@ -119,15 +77,10 @@ const Reports = () => {
                   borderBottom: "1px solid #000",
                   outline: "none",
                 }}
-                // id="fname"
-                // defaultValue={getdata.first_name}
                 type="text"
                 className="form-control"
                 placeholder="G.R No"
-                onChange={(e) => setgr_no(e.target.value)}
               />
-
-              <button className="btn btn-primary" type="button" onClick={getRecord}>search</button>
             </div>
 
             <div
@@ -136,6 +89,7 @@ const Reports = () => {
             >
               <label for="fname">Class:</label>
               <input
+                defaultValue={AllRecord.class_id}
                 style={{
                   width: "40%",
                   border: "none",
@@ -148,7 +102,6 @@ const Reports = () => {
                 type="text"
                 className="form-control"
                 placeholder="Class"
-                onChange={(e) => setClassID(e.target.value)}
               />
             </div>
 
@@ -166,11 +119,10 @@ const Reports = () => {
                   outline: "none",
                 }}
                 id="fname"
-               defaultValue={allsection.name}
+                defaultValue={allsection.name}
                 type="text"
                 className="form-control"
                 placeholder="Section"
-                onChange={(e) => setSectionID(e.target.value)}
               />
             </div>
 
@@ -181,7 +133,7 @@ const Reports = () => {
               <label for="fname">Date:</label>
               <input
                 style={{
-                  width: "40%",
+                  width: "55%",
                   border: "none",
                   borderRadius: "0px",
                   borderBottom: "1px solid #000",
@@ -192,133 +144,146 @@ const Reports = () => {
                 type="text"
                 className="form-control"
                 placeholder="Date"
-                // onChange={(e) => setFname(e.target.value)}
               />
             </div>
 
             <div className="row" style={{ marginTop: "30px" }}>
-              <div className="col-xl-4">
-                <label>Student Name:</label>
+              <div className="col-4">
+                <label id="for_input_heading">Student Name:</label>
                 <input
+                id="for_input"
                   type="text"
-                  defaultValue={AllRecord.first_name}
+                  defaultValue={AllRecord.name}
                   placeholder="Enter your name"
                   className="form-control"
-                  onChange={(e) => setNaam(e.target.value)}
-
                 />
               </div>
 
-              <div className="col-xl-4">
-                <label>Reason for early pickup:</label>
+              <div className="col-4">
+                <label   id="for_input_heading" >Reason for early pickup:</label>
                 <input
+                id="for_input"
+                  defaultValue={AllRecord.reason_for_pickup}
                   type="text"
                   placeholder="Reason for early pickup:"
                   className="form-control"
-                  onChange={(e) => setReasonForPickup(e.target.value)}
                 />
               </div>
 
-              <div className="col-xl-4">
-                <label>Time of picking up:</label>
+              <div className="col-4">
+                <label id="for_input_heading">Time of picking up:</label>
                 <input
+                id="for_input"
+                  defaultValue={AllRecord.timing_of_picking_up}
                   type="text"
                   placeholder="Time of picking up:"
                   className="form-control"
-                  onChange={(e) => setTimeOfPickingUp(e.target.value)}
                 />
               </div>
 
-              <div className="col-xl-4">
-                <label>Relation with the student:</label>
+              <div className="col-4">
+                <label id="for_input_heading">Relation with the student:</label>
                 <input
+                id="for_input"
+                  defaultValue={AllRecord.realation_with_student}
                   type="text"
                   placeholder="Relation with the student:"
                   className="form-control"
-                  onChange={(e) => setRelationWithTheStudent(e.target.value)}
                 />
               </div>
 
-              <div className="col-xl-4">
-                <label>Address:</label>
+              <div className="col-4">
+                <label id="for_input_heading">Address:</label>
                 <input
+                id="for_input"
+                  defaultValue={AllRecord.address}
                   type="text"
                   defaultValue={AllRecord.address}
                   placeholder="Address:"
                   className="form-control"
-                  onChange={(e) => setAddress(e.target.value)}
                 />
               </div>
 
-              <div className="col-xl-4">
-                <label>Remarks:</label>
+              <div className="col-4">
+                <label id="for_input_heading">Remarks:</label>
                 <input
+                id="for_input"
+                  defaultValue={AllRecord.remarks}
                   type="text"
                   placeholder="Remarks:"
                   className="form-control"
-                  onChange={(e) => setRemarks(e.target.value)}
-
                 />
               </div>
 
-              <div className="col-xl-4">
-                <label>Name of the person:</label>
+              <div className="col-4">
+                <label id="for_input_heading">Name of the person:</label>
                 <input
+                id="for_input"
+                  defaultValue={AllRecord.name_of_person}
                   type="text"
                   placeholder="Name of the person:"
                   className="form-control"
-                  onChange={(e) => setNameOfThePerson(e.target.value)}
                 />
               </div>
 
-              <div className="col-xl-4">
-                <label>CNIC:</label>
+              <div className="col-4">
+                <label id="for_input_heading">CNIC:</label>
                 <input
+                id="for_input"
+                  defaultValue={AllRecord.CNIC}
                   type="text"
                   placeholder="CNIC:"
                   className="form-control"
-                  onChange={(e) => setCNIC(e.target.value)}
-
                 />
               </div>
 
-              <div className="col-xl-4">
-                <label>Cell</label>
+              <div className="col-4">
+                <label id="for_input_heading">Cell</label>
                 <input
+                id="for_input"
+                  defaultValue={AllRecord.cell}
                   type="text"
                   placeholder="Cell"
                   className="form-control"
-                  onChange={(e) => setCell(e.target.value)}
-
                 />
               </div>
             </div>
-            <div className="col-xl-12" style={{ marginTop: "40px" }}>
+            <div className="col-12" style={{ marginTop: "40px" }}>
               <h5 style={{ fontWeight: "400" }}>Thank You,</h5>
             </div>
-            <div className="col-xl-5" style={{ marginTop: "30px" }}>
+            <div className="col-5" style={{ marginTop: "30px" }}>
               <input
                 type="text"
-                style={{ border: "none", borderBottom: "1px solid #000" }}/>
-                <h6 style={{fontWeight:"bold"}}>Principal's Signature</h6>
+                style={{ border: "none", borderBottom: "1px solid #000" }}
+              />
+              <h6 style={{ fontWeight: "bold" }}>Principal's Signature</h6>
             </div>
 
-            <div className="col-xl-5" style={{ marginTop: "30px" }}>
+            <div className="col-5" style={{ marginTop: "30px" }}>
               <input
                 type="text"
-                style={{ border: "none", borderBottom: "1px solid #000" }}/>
-                <h6 style={{fontWeight:"bold"}}>Signature of Parent's</h6>
+                style={{ border: "none", borderBottom: "1px solid #000" }}
+              />
+              <h6 style={{ fontWeight: "bold" }}>Signature of Parent's</h6>
             </div>
 
-            <div className="col-xl-2">
-              <button className="btn btn-primary" type="button" onClick={postDate}>Submit</button>
+            <div className="col-xl-12 text-right">
+              <button
+                className="btn btn-success"
+                id="bton"
+                onClick={() => {
+                  window.print();
+                }}
+                type="button"
+              >
+                Print
+              </button>
             </div>
-
-            
           </div>
         </fieldset>
       </form>
     </>
   );
 };
-export default Reports;
+
+export default PickupPrint;
