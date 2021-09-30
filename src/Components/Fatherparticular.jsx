@@ -107,7 +107,7 @@ const Fatherparticular = () => {
         .then(response => {
             console.log("reg response",response)
             // console.log('fname',response.data.form.name)
-            setGetData(response.data.form)
+            setPrevdata(response.data.form)
             setFatherEmail(response.data.form.father_email)
             setMotherEmail(response.data.form.mother_email)
             setFatherCnic(response.data.form.father_normalize_CNIC)
@@ -163,8 +163,8 @@ const Fatherparticular = () => {
         father_CNIC_type:"CNIC",
         mother_CNIC_type:"CNIC"
     }
- console.log(Fathercnic.length) 
- console.log(Mothercnic.length)
+//  console.log(Fathercnic.length) 
+//  console.log(Mothercnic.length)
     const sendData = () => {
         console.log(data)
         if (parent_id == null) {
