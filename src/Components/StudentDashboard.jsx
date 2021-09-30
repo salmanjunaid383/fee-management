@@ -1,12 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import "./dashboard.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
+import UpdateIcon from "@material-ui/icons/Update";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Snackbar from "@material-ui/core/Snackbar";
+import { Modal } from "react-bootstrap";
+import TextField from "@material-ui/core/TextField";
 import logo from "./jb1.png";
 import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import Snackbar from "@material-ui/core/Snackbar";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+import styleFunctionSx from "@mui/system/styleFunctionSx";
 
-const CampusDashboard = () => {
+const StudentDashboard = () => {
   const [schooldata, setSchooldata] = useState([]);
   const [isOppened, setIsOppened] = useState();
   const [totalClasses, setTotalClasses] = useState();
@@ -14,6 +27,7 @@ const CampusDashboard = () => {
   const [totalEmployees, setTotalEmployees] = useState();
   const [totalDefaulters, setTotalDefaulters] = useState();
   const [totalAdmissions, setTotalAdmissions] = useState();
+  const { studentid } = useParams();
   const school_id = localStorage.getItem("school_id");
   // const admin_id = localStorage.getItem("admin_id");
   const history = useHistory();
@@ -186,59 +200,25 @@ const CampusDashboard = () => {
               <div class="abilan">
                 <img src={logo} />
               </div>
-              <Link to="/campusdashboard" class="nav-link ">
-                <div class="folder-icons ">
+
+              <Link class="nav-link" to={`/studentdashboard/${studentid}`}>
+                <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-columns active"></i>
+                  <i class="fas fa-tachometer-alt active"></i>
                   </div>
-                  <div class="icon-name1 active">Dashboard</div>
-                </div>
-              </Link>
-              <Link to="/admissioncomponents" class="nav-link ">
-                <div class="folder-icons ">
-                  <div class="icon1">
-                    <i class="fas fa-school"></i>
-                  </div>
-                  <div class="icon-name1">Admission</div>
+                  <div class="icon-name active">Dashboard</div>
                 </div>
               </Link>
 
-              <Link class="nav-link" to="/class">
+              <Link class="nav-link" to={`/studentledger/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-users-class"></i>
+                    <i class="fas fa-calculator-alt "></i>
                   </div>
-                  <div class="icon-name">Class</div>
+                  <div class="icon-name ">Student Ledger</div>
                 </div>
               </Link>
-
-              <Link class="nav-link" to="/feecomponents">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-money-check-alt"></i>
-                  </div>
-                  <div class="icon-name">Fee</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/students">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-user-graduate"></i>
-                  </div>
-                  <div class="icon-name">Students</div>
-                </div>
-              </Link>
-              <Link class="nav-link" to="/finance">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-user-tie"></i>
-                  </div>
-                  <div class="icon-name">Finance Employee</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/feevoucheradmin">
+              <Link class="nav-link" to={`/feevoucher/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-print"></i>
@@ -246,37 +226,12 @@ const CampusDashboard = () => {
                   <div class="icon-name">Fee Voucher</div>
                 </div>
               </Link>
-              <Link class="nav-link" to="/adminledger">
+              <Link class="nav-link" to={`/studentpassword/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-calculator-alt"></i>
+                    <i class="fas fa-key"></i>
                   </div>
-                  <div class="icon-name">Student Ledger</div>
-                </div>
-              </Link>
-              <Link class="nav-link" to="/term">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-calendar-alt"></i>
-                  </div>
-                  <div class="icon-name">Term</div>
-                </div>
-              </Link>
-              <Link class="nav-link" to="/expense">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-receipt"></i>
-                  </div>
-                  <div class="icon-name">Expense Tracking</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/expense">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-receipt"></i>
-                  </div>
-                  <div class="icon-name">Reports</div>
+                  <div class="icon-name">Change Password</div>
                 </div>
               </Link>
             </div>
@@ -294,113 +249,11 @@ const CampusDashboard = () => {
             </div>
             <hr class="new-hr" />
           </div>
-          <div className="row">
-            <div className="col-12 text-right">
-              {isOppened == 1 ? (
-                <>
-                  <p className="m-0 mr-2 pb-2 d-inline-block text-primary text-bold">
-                    Are You Sure You Want To Open Admissions?
-                  </p>
-                  <button
-                    type="button"
-                    onClick={openAdmission}
-                    class="btn btn-success mt-1 mb-3 d-inline-block"
-                  >
-                    <i class="txt-wite-icon fas mr-1 fa-check"></i>Open
-                    Admission
-                  </button>
-                </>
-              ) : (
-                <>
-                  <p className="m-0 mr-2 pb-2 d-inline-block text-primary text-bold">
-                    Are You Sure You Want To Close Admissions?
-                  </p>
-                  <button
-                    type="button"
-                    onClick={openAdmission}
-                    class="btn btn-danger mb-3 d-inline-block mt-1"
-                  >
-                    <i class="fas fa-times txt-wite-icon mr-1"></i>Close
-                    Admission
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
+         
+
           <div class="right-body">
             <div class="campus-sts">
               <div className="show_fee p-5">
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Classes</h3>
-                      <p>{totalClasses}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                      {" "}
-                      <i class="fas fa-5x fa-users-class"></i>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Employees</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                      <i class="fas campus-txt-icon fa-5x fa-user-tie"></i>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3 className="text-primary">Students</h3>
-                      <p>{totalStudents}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                      <i class="fas fa-5x icon-name fa-user-graduate"></i>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    {isOppened === 1 ? (
-                      <>
-                        <div className="float-start ">
-                          <h3>Admissions</h3>
-                          <p className="text-success text-bold">Oppened</p>
-                        </div>
-                        <div className="float-end mb-2">
-                          <i class="fas fa-5x text-success fa-check"></i>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="float-start ">
-                          <h3>Admissions</h3>
-                          <p className="text-danger text-bold">Closed</p>
-                        </div>
-                        <div className="float-end mb-2">
-                          <i class="fas fa-times fa-5x text-danger"></i>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </div>
                 <div
                   class="card p-2 shadow"
                   style={{ width: "19rem", height: "8rem" }}
@@ -442,7 +295,7 @@ const CampusDashboard = () => {
                       <p>{totalEmployees}</p>
                     </div>
                     <div className="float-end mb-2">
-                    <i class="fas fa-calendar-day fa-5x "></i>
+                      <i class="fas fa-calendar-day fa-5x "></i>
                     </div>
                   </div>
                 </div>
@@ -457,7 +310,7 @@ const CampusDashboard = () => {
                       <p>{totalEmployees}</p>
                     </div>
                     <div className="float-end mb-2">
-                    <i class="fas fa-calendar-week fa-5x"></i>
+                      <i class="fas fa-calendar-week fa-5x"></i>
                     </div>
                   </div>
                 </div>
@@ -472,7 +325,7 @@ const CampusDashboard = () => {
                       <p>{totalEmployees}</p>
                     </div>
                     <div className="float-end mb-2">
-                    <i class="fas fa-calendar-alt fa-5x"></i>
+                      <i class="fas fa-calendar-alt fa-5x"></i>
                     </div>
                   </div>
                 </div>
@@ -488,12 +341,9 @@ const CampusDashboard = () => {
                     </div>
                     <div className="float-end mb-2">
                       <i class="fas fa-list-alt fa-5x "></i>
-
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
             <Snackbar
@@ -510,4 +360,4 @@ const CampusDashboard = () => {
     </>
   );
 };
-export default CampusDashboard;
+export default StudentDashboard;

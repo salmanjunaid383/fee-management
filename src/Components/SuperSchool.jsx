@@ -183,48 +183,6 @@ const SuperSchool = () => {
     }
 
 
-    // const sendData = () => {
-    //     axios.post('http://fee-management-api.nastechltd.co/api/schools', {
-    //         file: selectedFile,
-    //         admin_id: adminid,
-    //         contact: phone,
-    //         address: address,
-    //         email: email,
-    //         name: schoolName
-    //     })
-    //         .then(response => {
-    //             console.log(response)
-    //             console.log(response.data.id);
-    //             setSchoolName();
-    //             setPhone();
-    //             setAddress();
-    //             setEmail();
-    //             setAdminid()
-    //             handleClose();
-    //             // reload();
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    // etMessageinfo("Invali Field(s)")
-    // handleMessage();//         }//             s
-    //         })
-    // }
-
-
-    // useEffect(() => {
-    //     axios.get(`http://fee-management-api.nastechltd.co/api/schools`)
-    //         .then(response => {
-    //             console.log(response.data)
-    //             setSchooldata(response.data)
-    //         })
-    //         .catch((error) => {
-    //             if (error.response) {
-    // setMessageinfo(error.response.data.message);
-    //  handleMessage();    //                            
-    //             }
-    //         })
-    // }, [])
-
     var count = 0;
 
     const logOut = () => {

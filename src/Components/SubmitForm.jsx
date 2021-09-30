@@ -3,10 +3,12 @@ import axios from 'axios';
 import './PrintForm.css';
 import { useHistory, useParams } from 'react-router';
 import Snackbar from '@material-ui/core/Snackbar';
+import { Profiler } from 'react';
+const form_id = localStorage.getItem("form_id");
 // import { capitalize } from '@material-ui/core';
 
 const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
-    const { formNo } = useParams();
+    // const { formNo } = useParams();
     const [student, setStudent] = useState({});
     const [parent, setParent] = useState({});
     const [guardian, setGuardian] = useState({});
@@ -14,6 +16,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
     const [siblings, setSiblings] = useState([]);
     const history = useHistory();
     const [messageinfo, setMessageinfo] = useState('');
+    const reg_id = localStorage.getItem("reg_no")
     const [message, setMessage] = useState({
         open: false,
         vertical: 'top',
@@ -41,15 +44,32 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
             child.parentNode.removeChild(child);
         };
     }, [orientation]);
+const [ profile_pic, setProfilePic]=useState('')
+    useEffect(()=>{
+        
+            axios.get(`http://fee-management-api.nastechltd.co/api/admission_profile/${form_id}`).then((response)=>{
+               
+               localStorage.setItem("profile pic of student",response.config.url)
+               setProfilePic(response.config.url)
+               console.log("pro",profile_pic)
+              
+            
+            })
+         
+    },[])
+
+
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/admission_form/${formNo}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/admission_form/${reg_id}`)
             .then(response => {
                 console.log(response);
                 setStudent(response.data.AdmissionForm);
                 setParent(response.data.StudentParent);
                 setGuardian(response.data.StudentGuardian);
                 setEmergency(response.data.EmergencyContact);
-                axios.get(`http://fee-management-api.nastechltd.co/api/show_siblings/${formNo}`)
+                console.log("salman",response.data.StudentParent)
+                console.log(student)
+                axios.get(`http://fee-management-api.nastechltd.co/api/show_siblings/${reg_id}`)
                     .then(response => {
                         console.log(response.data)
                         setSiblings(response.data);
@@ -68,13 +88,20 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                     handleMessage();
                 }
             })
-    }, [])
+    }
+
+  
+    
+    , [])
 
     return (
         <>
-            <div className="printform-main mx-auto border border-dark">
+            <div className="printform-main mx-auto border border-dark" style={{marginTop:"20px",marginBottom:"20px"}}>
                 <div className="container">
+                <div style={{ display: "flex",alignItems:"center",gap:"20px",marginTop:"15px" }}>
+                    <img src={profile_pic} height="60px" width="60px"/>
                     <h1 className="text-center">ADMISSION FORM</h1>
+                    </div>
                     <div className="row">
                         <div className="col-12 text-right">
                             <p>GR No: <span>00000</span> </p>
@@ -120,12 +147,23 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                             <p>Telephone: <span className="print-capitalize">{student.tel_no}</span></p>
 
                         </div>
+                        <div className="col-4">
+                            <p>Cellphone: <span className="print-capitalize">{student.cell_no_1}</span></p>
+
+                        </div>
+
+                        <div className="col-12">
+                            <p>Extra Information: <span className="print-capitalize">{student.extra_comment}</span></p>
+
+                        </div>
                         <div className="col-8">
                             <p>Permanent Address: <span className="print-capitalize">{student.permanent_address}</span></p>
 
                         </div>
+                      
+
                         <div className="col-4">
-                            <p>Cellphone: <span className="print-capitalize">{student.cell_no}</span></p>
+                            <p>Cellphone2: <span className="print-capitalize">{student.cell_no_2}</span></p>
 
                         </div>
                         <div className="col-8">
@@ -311,6 +349,8 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                                             <div className="col-4">
                                                 <p>Father Name: <span className="print-capitalize">{val.father_name}</span></p>
                                             </div>
+
+                                            
                                         </>
 
                                     )
@@ -350,7 +390,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
                 <div className="row">
                     <div className="col-12 print-submit-btn">
                         <button className="btn btn-warning text-white mr-2" onClick={() => history.push('/emergency')}>Edit</button>
-                        <button onClick={() => history.push(`/requirements/${formNo}`)} className="btn btn-success">Submit</button>
+                        <button onClick={() => history.push(`/requirements/${reg_id}`)} className="btn btn-success">Submit</button>
                     </div>
 
                 </div>

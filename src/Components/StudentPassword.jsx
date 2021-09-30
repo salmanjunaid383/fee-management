@@ -111,6 +111,13 @@ const StudentPassword = () => {
                                     src={logo} />
                             </div>
 
+                            <Link class="nav-link" to={`/studentdashboard/${studentid}`}><div class="folder-icons">
+                                <div class="icon1">
+                                <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                <div class="icon-name">Dashboard</div>
+                            </div></Link>
+
 
                             <Link class="nav-link" to={`/studentledger/${studentid}`}><div class="folder-icons">
                                 <div class="icon1">

@@ -62,7 +62,7 @@ const Login = () => {
                         history.push("/employeedashboard")
                     }
                     else if (decoded.role === 'Student') {
-                        history.push(`/studentledger/${decoded.sub}`)
+                        history.push(`/studentdashboard/${decoded.sub}`)
 
                     }
                     

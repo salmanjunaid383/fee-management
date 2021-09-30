@@ -391,7 +391,7 @@ const FeePeriod = () => {
                                     <Modal.Body>
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
-                                                <TextField className="pb-3" type="number" defaultValue={prevdata.phase} onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
+                                                <TextField className="pb-3" type="number" defaultValue={prevdata.phase} onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Fee Period" variant="filled" />
                                                 <TextField className="pb-3" type="number" defaultValue={prevdata.due_date} onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
                                                 <TextField className="pb-3" type="number" defaultValue={prevdata.valid_date} onChange={(e) => setValidDate(e.target.value)} helperText="Bank Expiry Date" label="Valid Bank Date" variant="filled" />
                                             </div>
@@ -491,7 +491,7 @@ const FeePeriod = () => {
 
                                         <div class="col-4 billing-box">
                                             <TextField type="number" className="pb-3" onChange={(e) => setLatefee(e.target.value)} helperText=" " label="Late Fee Charges" variant="filled" />
-                                            <TextField className="pb-3" type="number" onChange={(e) => setGenerate(e.target.value)} helperText="The day Fee to be Generated" label="Generation Date" variant="filled" />
+                                            <TextField className="pb-3" type="number" onChange={(e) => setGenerate(e.target.value)} helperText="The day Fee to be Generated" label="Issue Date" variant="filled" />
 
                                         </div>
                                     </div>

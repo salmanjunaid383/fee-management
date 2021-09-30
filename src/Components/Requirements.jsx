@@ -91,7 +91,7 @@ const Requirements = () => {
                         setSelectedFile();
                         setDocumentid();
                         setDocument();
-                        setMessageinfo("Submitted!!")
+                        setMessageinfo("Submitted!")
                         handleMessage();
 
                     })

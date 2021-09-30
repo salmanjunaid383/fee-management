@@ -12,7 +12,6 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-// import LaunchIcon from '@material-ui/icons/Launch';
 import UpdateIcon from '@material-ui/icons/Update';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -451,7 +450,7 @@ const Discounted = () => {
                                                     </Select>
                                                 </FormControl>
                                                 <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
-                                                <FormControl className={classes.formControl}>
+                                                <FormControl style={{display:"none"}} className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Section</InputLabel>
                                                     <Select
                                                         labelId="demo-simple-select-label"

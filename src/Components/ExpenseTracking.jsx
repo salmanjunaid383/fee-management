@@ -482,8 +482,9 @@ const MyExpense = () => {
                                                         })}
                                                     </Select>
                                                 </FormControl>
+                                                
                                                 <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
-                                                <FormControl className={classes.formControl}>
+                                                <FormControl className={classes.formControl} style={{display:"none"}}>
                                                     <InputLabel id="demo-simple-select-label">Section</InputLabel>
                                                     <Select
                                                         labelId="demo-simple-select-label"
@@ -499,7 +500,7 @@ const MyExpense = () => {
                                                         })}
                                                     </Select>
                                                 </FormControl>
-                                                <button onClick={reset} className="btn btn-primary mt-3 ml-2">Reset</button>
+                                                <button style={{display:"none"}} onClick={reset} className="btn btn-primary mt-3 ml-2">Reset</button>
 
                                             </div>
                                             <div class="col-6 mt-2 billing-box">

@@ -18,7 +18,7 @@ const Emergency = () => {
     const [cell, setCell] = useState('');
     const [tel, setTel] = useState('');
     const [prevdata, setPrevdata] = useState('');
-    const form_no = localStorage.getItem("form_no")
+    const form_no = localStorage.getItem("reg_no")
     const sibling_id = localStorage.getItem("sibling_id")
     const history = useHistory();
     const emergency_id = localStorage.getItem("emergency_id");
@@ -208,9 +208,9 @@ const Emergency = () => {
                                 </div>
                             </div>
                             <div className="row">
-                                <div className="col-6 text-left mt-3">
+                                {/* <div className="col-6 text-left mt-3">
                                     <Link to="/guardianparticular"><button className="btn btn-success w25">Back</button></Link>
-                                </div>
+                                </div> */}
                                 <div className="col-6 text-right mt-3">
                                     <button onClick={sendData} className="btn btn-success w25">Next</button>
                                 </div>

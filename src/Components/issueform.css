@@ -1,0 +1,27 @@
+.background{
+    background-color: rgba(242,243,247,255);
+    height:85vh;
+    width:100%;
+}
+.form-container{
+    background-color: #fff;
+    height:80%;
+    width: 80%;
+}
+.gender{
+    display:flex !important;
+    flex-direction: row !important;
+}
+.issue-form-button{
+    padding: 6px 10px 6px 10px;
+    background-color: green;
+    color:#fff;
+    border: none;
+    outline: none;
+    border-radius: 7px;
+    font-weight: bold;
+}
+.popup-width{
+    width:100vw !important;
+
+}

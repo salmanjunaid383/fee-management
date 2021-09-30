@@ -37,7 +37,7 @@ const Guardianparticular = () => {
     const [religion, setReligion] = useState('');
     const [relation, setRelation] = useState('');
     const [prevdata, setPrevdata] = useState('');
-    const form_no = localStorage.getItem("form_no")
+    const form_no = localStorage.getItem("reg_no")
     const guardian_id = localStorage.getItem("guardian_id")
     useEffect(() => {
         if (guardian_id != null) {
@@ -250,8 +250,8 @@ const Guardianparticular = () => {
                                     <input id="age" defaultValue={prevdata.qualification} type="text" className="form-control" placeholder="Qualification" onChange={(e) => setQualification(e.target.value)} />
                                 </div>
                                 <div className="col-4">
-                                    <label for="age">Realtion:</label>
-                                    <input id="age" defaultValue={prevdata.relation_with_student} type="text" className="form-control" placeholder="Realtion With Student" onChange={(e) => setRelation(e.target.value)} />
+                                    <label for="age">Relation:</label>
+                                    <input id="age" defaultValue={prevdata.relation_with_student} type="text" className="form-control" placeholder="Relation With Student" onChange={(e) => setRelation(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Tel:</label>

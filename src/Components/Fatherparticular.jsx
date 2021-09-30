@@ -31,11 +31,13 @@ const Fatherparticular = () => {
     const [Mothercell2, setMotherCell2] = useState('');
     const [Mothertel, setMotherTel] = useState('');
     const [prevdata, setPrevdata] = useState('');
+    const [getdata, setGetData] = useState('');
     const [Motherqualification, setMotherQualification] = useState('');
     const [Motheroccupation, setMotherOccupation] = useState('');
     const [Mothernationality, setMotherNationality] = useState('');
     const [Motherreligion, setMotherReligion] = useState('');
     const { formNo } = useParams();
+    const reg_id = localStorage.getItem("reg_no");
     const parent_id = localStorage.getItem("parent_id");
     localStorage.setItem("form_no", formNo)
     const [messageinfo, setMessageinfo] = useState('');
@@ -53,7 +55,35 @@ const Fatherparticular = () => {
     };
     useEffect(() => {
 
+        const reg_data={
+            form_no:reg_id
+        }
+        axios.post(`http://fee-management-api.nastechltd.co/api/check_form`, reg_data )
+        .then(response => {
+            console.log("reg response",response)
+            // console.log('fname',response.data.form.name)
+            setGetData(response.data.form)
+            setFatherEmail(response.data.form.father_email)
+            setMotherEmail(response.data.form.mother_email)
+            setFatherCnic(response.data.form.father_normalize_CNIC)
+            console.log(response.data.form.father_CNIC)
+
+          
+        })
+
+        .catch((error) => {
+            if (error.response) {
+                console.log(error)
+                console.log(error.response.data.message)
+                setMessageinfo(error.response.data.message);
+                handleMessage();
+            }
+        })
+
+
+
         if (parent_id != null) {
+
             axios.get(`http://fee-management-api.nastechltd.co/api/student_parent/${parent_id}`)
                 .then(response => {
                     console.log(response.data)
@@ -76,7 +106,7 @@ const Fatherparticular = () => {
                     setFatherReligion(response.data.father_religion)
                     setFatherAddressoffice(response.data.father_office_address)
                     setFatherEmail(response.data.father_email)
-                    setFatherCnic(response.data.father_CNIC)
+                    setFatherCnic(response.data.father_normalize_CNIC)
                     setFatherCell(response.data.father_cell_1)
                     setFatherCell2(response.data.father_cell_2)
                     setFatherTel(response.data.father_tel_no)
@@ -101,7 +131,7 @@ const Fatherparticular = () => {
 
 
     const data = {
-        form_no: formNo,
+        form_no: reg_id,
         father_name: Fathername,
         father_qualification: Fatherqualification,
         father_religion: Fatherreligion,
@@ -123,11 +153,14 @@ const Fatherparticular = () => {
         mother_cell_2: Mothercell2,
         mother_CNIC: Mothercnic,
         mother_residential_address: Motheraddress,
-        mother_email: Motheremail
+        mother_email: Motheremail,
+        father_CNIC_type:"CNIC",
+        mother_CNIC_type:"CNIC"
     }
- console.log(Fathercnic.length)
+ console.log(Fathercnic.length) 
  console.log(Mothercnic.length)
     const sendData = () => {
+        console.log(data)
         if (parent_id == null) {
             if (Fathername === '') {
                 setMessageinfo("Enter Father Name")
@@ -346,21 +379,6 @@ const Fatherparticular = () => {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     return (
         <>
 
@@ -393,11 +411,11 @@ const Fatherparticular = () => {
                                 </div>
                                 <div className="col-4">
                                     <label for="guardCnic">CNIC:</label>
-                                    <input id="guardCnic" defaultValue={prevdata.father_CNIC} type="number" className="form-control" placeholder='Without "-" ' onChange={(e) => setFatherCnic(e.target.value)} />
+                                    <input id="guardCnic" defaultValue={getdata.father_normalize_CNIC} type="text" className="form-control" placeholder='Without "-" ' onChange={(e) => setFatherCnic(e.target.value)} />
                                 </div>
                                 <div className="col-4">
                                     <label for="email">Email:</label>
-                                    <input id="email" defaultValue={prevdata.father_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setFatherEmail(e.target.value)} />
+                                    <input id="email" defaultValue={getdata.father_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setFatherEmail(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Office Address</label>
@@ -446,7 +464,7 @@ const Fatherparticular = () => {
                                 </div>
                                 <div className="col-4">
                                     <label for="email">Email:</label>
-                                    <input id="email" defaultValue={prevdata.mother_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setMotherEmail(e.target.value)} />
+                                    <input id="email" defaultValue={getdata.mother_email} type="email" className="form-control" placeholder="Email" onChange={(e) => setMotherEmail(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Residential Address</label>
@@ -473,8 +491,6 @@ const Fatherparticular = () => {
                                         <button onClick={sendData} className="btn btn-success w25">Next</button>
                                     </div>
                                 </div>
-
-
                             </div>
                         </fieldset>
                     </form>

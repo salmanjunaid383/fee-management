@@ -17,6 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import styleFunctionSx from '@mui/system/styleFunctionSx';
 
 
 
@@ -40,9 +41,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Ledger = () => {
     const history = useHistory();
+    const stu = localStorage.getItem("response_id")
     const [studentledger, setStudentledger] = useState([]);
     const [name, setName] = useState();
     const { studentid } = useParams();
+    const [studentledgerdata, setStudentLedgerData] = useState("")
     const [messageinfo, setMessageinfo] = useState('');
     const [message, setMessage] = useState({
         open: false,
@@ -57,10 +60,12 @@ const Ledger = () => {
         setMessage({ ...message, open: false });
     };
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/user/${studentid}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/get_ledger/${studentid}`)
             .then(response => {
-                // console.log(response.data)
-                setName(`${response.data.first_name} ${response.data.middle_name} ${response.data.last_name}`);
+                console.log(response.data)
+                setStudentLedgerData(response.data)
+                
+                // setName(`${response.data.first_name} ${response.data.middle_name} ${response.data.last_name}`);
             })
             .catch((error) => {
                 if (error.response) {
@@ -68,7 +73,7 @@ const Ledger = () => {
                     handleMessage();
                 }
             })
-        axios.get(`http://fee-management-api.nastechltd.co/api/student_ledger/${studentid}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/get_ledger/${studentid}`)
             .then(response => {
                 console.log(response.data)
                 setStudentledger(response.data);
@@ -124,7 +129,8 @@ const Ledger = () => {
                         <div class="top-bar">
                             <div class="top-bar-justify">
                                 <div class="big-inbox print-capitalize">
-                                    {`${name}'s `} Ledger
+                                    {/* {`${studentledgerdata[0].name}'s `} Ledger */}
+                                    Ledger
                                 </div>
                                 <button onClick={logOut} class="btn text-bolder text-right">Log Out</button>
                             </div>
@@ -152,20 +158,20 @@ const Ledger = () => {
                                             return (
                                                 <>
                                                     <tr key={i}>
-                                                        <td>{val.term}</td>
+                                                        <td>{val.term_name}</td>
                                                         <td class="txt-oflo">{val.description}</td>
                                                         <td>{val.date}</td>
                                                         {
-                                                            val.debit == 0 ?
+                                                            val.debcred == "C" ?
                                                                 <td></td> :
 
-                                                                <td>{val.debit}</td>
+                                                                <td>{val.amount}</td>
                                                         }
                                                         {
-                                                            val.credit == 0 ?
+                                                            val.debcred == "D" ?
                                                                 <td></td> :
 
-                                                                <td>{val.credit}</td>
+                                                                <td>{val.amount}</td>
                                                         }
                                                         <td>{val.balance}</td>
 

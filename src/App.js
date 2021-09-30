@@ -1,5 +1,8 @@
 import React from 'react';
-
+import UndertakingReport from './Components/UndertakingReport'
+import Reports from './Components/reports'
+import IssuedForm from './Components/IssuedForm';
+import Termsandconditions from './Components/Termsandconditions';
 import Login from './Components/Login';
 import Studentparticular from './Components/Studentparticular';
 import Fatherparticular from './Components/Fatherparticular';
@@ -60,23 +63,29 @@ import SuperAdmin from './Components/SuperAdmin';
 import SuperSchool from './Components/SuperSchool';
 import Term from './Components/Term';
 import { Route, Switch, } from 'react-router-dom';
-// import GuardedRoute from './Components/GuardedRoute';
+import  TcReport  from './Components/TcReport'
+import WarSlip from './Components/WarSlip'
+import printUndertakin from './Components/printUndertakin';
+import TcPrint from './Components/TcPrint'
+import StudentsAttendance from './Components/StudentsAttendance'
+import StudentDashboard from './Components/StudentDashboard'
+import AdminAttendance from './Components/AdminAttendance';
+
 
 const App = () => {
     return <>
-
-
         <Switch>
-            {/* <Route  path="/dashboard" component={Dashboard} />
-            <Route path="/students" component={Student} /> */}
-            {/* <Route  path="/signup" component={Signup} /> */}
-            {/* <Route exact path="/profile" component={Paro} /> */}
-            {/* <Route path="/adminlogin" component={Superlogin} /> */}
-            {/* <Route path="/student1/:studentid" component={Student1} /> */}
-            {/* <Route path="/paro" component={Paro} /> */}
+            <Route path="/AdminAttendance" component={AdminAttendance} />
+            <Route path="/studentdashboard/:studentid" component={StudentDashboard} />
+            <Route path="/StudentAttendance" component={StudentsAttendance}/>
             <Route exact path="/" component={Login} />
-            {/* <GuardedRoute path='/school' component={Myschool} auth={isAutheticated} /> */}
+            <Route path="/printUndertakin" component={printUndertakin}/>
+            <Route path="/TcPrint" component={TcPrint}/>
             <Route path="/dashboard" component={Mydashboard} />
+            <Route path="/pickup-report" component={Reports} />
+            <Route path="/TcReport" component={TcReport}/> 
+            <Route path="/WarningSlip" component={WarSlip}/> 
+            <Route path="/undertaking-report" component={UndertakingReport} />
             <Route path="/campusdashboard" component={CampusDashboard} />
             <Route path="/school" component={Myschool} />
             <Route path="/superschool" component={SuperSchool} />
@@ -110,7 +119,7 @@ const App = () => {
             <Route path="/term" component={Term} />
             <Route path="/super" component={SuperAdmin} />
             <Route path="/studentparticular" component={Studentparticular} />
-            <Route path="/fatherparticular/:formNo" component={Fatherparticular} />
+            <Route path="/fatherparticular/:id" component={Fatherparticular} />
             <Route path="/motherparticular" component={Motherparticular} />
             <Route path="/guardianparticular" component={Guardianparticular} />
             <Route path="/siblings" component={Siblings} />
@@ -134,6 +143,8 @@ const App = () => {
             <Route path="/employeediscount" component={EmployeeDiscount} />
             <Route path="/employeeexpense" component={EmployeeExpense} />
             <Route path="/employeecustomvoucher" component={EmployeeCustomVoucher} />
+            <Route path="/terms-conditions/:school_id" component={Termsandconditions}/>
+            <Route path="/issued-form/:school_id" component={IssuedForm}/>
         </Switch>
 
     </>
