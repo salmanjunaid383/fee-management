@@ -54,6 +54,7 @@ const IssuedForm = () => {
   const [registration, setRegistration] = useState(0);
   function postFrom() {
     console.log(data);
+    
     axios
       .post(`http://fee-management-api.nastechltd.co/api/form_issue`, data)
       .then((response) => {
