@@ -379,6 +379,23 @@ const Finance = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
+                            <Link class="nav-link" to="/MainReportPage">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                   <div class="icon-name">Reports</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Voucher-List">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                  <div class="icon-name">Paid Vouchers</div>
+                </div>
+              </Link>
 
 
 
@@ -550,7 +567,7 @@ const Finance = () => {
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
-                                            <th class="border-top-0">NAME</th>
+                                            <th class="border-top-0">Name</th>
                                             <th class="border-top-0">Gender</th>
                                             <th class="border-top-0">Phone</th>
                                             <th class="border-top-0">Email</th>

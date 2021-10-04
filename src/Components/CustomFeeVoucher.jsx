@@ -52,6 +52,8 @@ const CustomFeeVoucher = () => {
     const [amount, setAmount] = useState('');
     const [dueDate, setDueDate] = useState('');
     const [validDate, setValidDate] = useState('');
+    
+    const [description, setValidDescription] = useState('');
     const [sectiondata, setSectiondata] = useState([]);
     const [classdata, setClassdata] = useState([]);
     const [classid, setClassid] = useState('');
@@ -73,6 +75,7 @@ const CustomFeeVoucher = () => {
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
+    const [start, setStartingdate] = useState("")
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/student/${school_id}`)
             .then(response => {
@@ -96,6 +99,19 @@ const CustomFeeVoucher = () => {
                     handleMessage();
                 }
             })
+
+
+           
+
+    var a = new Date();
+    var year = a.getFullYear();
+    var month = ("0" + (a.getMonth() + 1)).slice(-2);
+    var date = ("0" + a.getDate()).slice(-2);
+    setStartingdate(`${year}-${month}-${date}`)
+    console.log( `${year}-${month}-${date}`)
+
+   
+
     }, [])
     // console.log(sectionid)
 
@@ -143,7 +159,8 @@ const CustomFeeVoucher = () => {
                 student_id: localStorage.getItem("user_id"),
                 total_amount: amount,
                 due_date: `${startdate}-${startmonth}-${startyear}`,
-                valid_date: `${startvaliddate}-${startvalidmonth}-${startvalidyear}`
+                valid_date: `${startvaliddate}-${startvalidmonth}-${startvalidyear}`,
+                description:description
             })
                 .then(response => {
                     console.log(response.data);
@@ -206,6 +223,8 @@ const CustomFeeVoucher = () => {
         localStorage.clear();
         history.push("/")
     }
+
+ 
 
     return (
         <>
@@ -317,10 +336,14 @@ const CustomFeeVoucher = () => {
 
                                         </div>
                                         <div class="col-8 billing-box">
-                                            <TextField className="pb-3 bg-white" type="date" onChange={(e) => setDueDate(e.target.value)} label="Due Date" defaultValue="2021-01-01" variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="date" onChange={(e) => setDueDate(e.target.value)} label="Due Date" defaultValue={start} variant="filled" />
                                         </div>
                                         <div class="col-8 billing-box">
                                             <TextField className="pb-3 bg-white" type="date" onChange={(e) => setValidDate(e.target.value)} label="Valid Date" defaultValue="2021-01-01" variant="filled" />
+                                        </div>
+
+                                        <div class="col-8 billing-box">
+                                            <TextField className="pb-3 bg-white" type="text" onChange={(e) => setValidDescription(e.target.value)} label="Description" variant="filled" />
                                         </div>
                                     </div>
                                 </Modal.Body>
@@ -354,7 +377,7 @@ const CustomFeeVoucher = () => {
                                         </Select>
                                     </FormControl>
                                     <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
-                                    <FormControl className={classes.formControl}>
+                                    {/* <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-simple-select-label">Section</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -369,7 +392,7 @@ const CustomFeeVoucher = () => {
 
                                             })}
                                         </Select>
-                                    </FormControl>
+                                    </FormControl> */}
 
                                 </div>
                             </div>
@@ -378,8 +401,8 @@ const CustomFeeVoucher = () => {
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">G.R No</th>
-                                            <th class="border-top-0">NAME</th>
-                                            <th class="border-top-0">GENDER</th>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Gender</th>
                                             <th class="border-top-0">Generate</th>
                                             {/* <th class="border-top-0">Details</th> */}
                                             {/* <th class="border-top-0">Action</th> */}

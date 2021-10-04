@@ -163,8 +163,8 @@ const Fatherparticular = () => {
         father_CNIC_type:"CNIC",
         mother_CNIC_type:"CNIC"
     }
- console.log(Fathercnic.length) 
- console.log(Mothercnic.length)
+//  console.log(Fathercnic.length) 
+//  console.log(Mothercnic.length)
     const sendData = () => {
         console.log(data)
         if (parent_id == null) {

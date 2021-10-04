@@ -21,6 +21,8 @@ import styleFunctionSx from "@mui/system/styleFunctionSx";
 
 const StudentDashboard = () => {
   const [schooldata, setSchooldata] = useState([]);
+  const [paidamount, setPaidAmount] = useState("");
+  const [remainingbalance, setRemainingBalance] = useState("");
   const [isOppened, setIsOppened] = useState();
   const [totalClasses, setTotalClasses] = useState();
   const [totalStudents, setTotalStudents] = useState();
@@ -47,87 +49,33 @@ const StudentDashboard = () => {
   useEffect(() => {
     axios
       .get(
-        `http://fee-management-api.nastechltd.co/api/show_school/${school_id}`
+        `http://fee-management-api.nastechltd.co/api/paid_amount/${studentid}`
       )
       .then((response) => {
-        // console.log(response.data.is_oppend)
-        setSchooldata(response.data);
-        setIsOppened(response.data.is_oppend);
+        console.log(response.data)
+        setPaidAmount(response.data);
+      
       })
       .catch((error) => {
         if (error.response) {
-          setMessageinfo(error.response.data.message);
-          handleMessage();
+          // setMessageinfo(error.response.data.message);
+          // handleMessage();
         }
       });
-    axios
+
+      axios
       .get(
-        `http://fee-management-api.nastechltd.co/api/total_classes/${school_id}`
+        `http://fee-management-api.nastechltd.co/api/remaining_balance/${studentid}`
       )
       .then((response) => {
-        // console.log(response.data.is_oppend)
-        setTotalClasses(response.data);
+        console.log("sa",response.data)
+        setRemainingBalance(response.data);
+      
       })
       .catch((error) => {
         if (error.response) {
-          setMessageinfo(error.response.data.message);
-          handleMessage();
-        }
-      });
-    axios
-      .get(
-        `http://fee-management-api.nastechltd.co/api/total_defaulter/${school_id}`
-      )
-      .then((response) => {
-        console.log(response.data);
-        setTotalDefaulters(response.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          setMessageinfo(error.response.data.message);
-          handleMessage();
-        }
-      });
-    axios
-      .get(
-        `http://fee-management-api.nastechltd.co/api/total_students/${school_id}`
-      )
-      .then((response) => {
-        // console.log(response.data)
-        setTotalStudents(response.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          setMessageinfo(error.response.data.message);
-          handleMessage();
-        }
-      });
-    axios
-      .get(
-        `http://fee-management-api.nastechltd.co/api/total_employees/${school_id}`
-      )
-      .then((response) => {
-        // console.log(response.data)
-        setTotalEmployees(response.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          setMessageinfo(error.response.data.message);
-          handleMessage();
-        }
-      });
-    axios
-      .get(
-        `http://fee-management-api.nastechltd.co/api/pending_admissions/${school_id}`
-      )
-      .then((response) => {
-        // console.log(response.data)
-        setTotalAdmissions(response.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          setMessageinfo(error.response.data.message);
-          handleMessage();
+          // setMessageinfo(error.response.data.message);
+          // handleMessage();
         }
       });
   }, []);
@@ -162,35 +110,35 @@ const StudentDashboard = () => {
     history.push("/");
   };
 
-  const openAdmission = () => {
-    axios
-      .put(
-        `http://fee-management-api.nastechltd.co/api/admission_open/${school_id}`
-      )
-      .then((response) => {
-        console.log(response);
-        axios
-          .get(
-            `http://fee-management-api.nastechltd.co/api/show_school/${school_id}`
-          )
-          .then((response) => {
-            console.log(response.data.is_oppend);
-            setIsOppened(response.data.is_oppend);
-          })
-          .catch((error) => {
-            if (error.response) {
-              setMessageinfo(error.response.data.message);
-              handleMessage();
-            }
-          });
-      })
-      .catch((error) => {
-        if (error.response) {
-          setMessageinfo(error.response.data.message);
-          handleMessage();
-        }
-      });
-  };
+  // const openAdmission = () => {
+  //   axios
+  //     .put(
+  //       `http://fee-management-api.nastechltd.co/api/admission_open/${school_id}`
+  //     )
+  //     .then((response) => {
+  //       console.log(response);
+  //       axios
+  //         .get(
+  //           `http://fee-management-api.nastechltd.co/api/show_school/${school_id}`
+  //         )
+  //         .then((response) => {
+  //           console.log(response.data.is_oppend);
+  //           setIsOppened(response.data.is_oppend);
+  //         })
+  //         .catch((error) => {
+  //           if (error.response) {
+  //             setMessageinfo(error.response.data.message);
+  //             handleMessage();
+  //           }
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       if (error.response) {
+  //         setMessageinfo(error.response.data.message);
+  //         handleMessage();
+  //       }
+  //     });
+  // };
   return (
     <>
       <div class="dashboard">
@@ -207,6 +155,15 @@ const StudentDashboard = () => {
                   <i class="fas fa-tachometer-alt active"></i>
                   </div>
                   <div class="icon-name active">Dashboard</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to={`/student-profile/${studentid}`}>
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-key"></i>
+                  </div>
+                  <div class="icon-name">Profile</div>
                 </div>
               </Link>
 
@@ -234,6 +191,17 @@ const StudentDashboard = () => {
                   <div class="icon-name">Change Password</div>
                 </div>
               </Link>
+
+              <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-key "></i>
+                  </div>
+                  <div class="icon-name ">Student Vouchers</div>
+                </div>
+              </Link>
+
+             
             </div>
           </div>
         </div>
@@ -241,7 +209,7 @@ const StudentDashboard = () => {
           <div class="right-header">
             <div class="top-bar">
               <div class="top-bar-justify">
-                <div class="big-inbox print-capitalize">{schooldata.name}</div>
+              <div class="big-inbox">Dashboard</div>
                 <button onClick={logOut} class="btn text-bolder text-right">
                   Log Out
                 </button>
@@ -260,11 +228,12 @@ const StudentDashboard = () => {
                 >
                   <div class="row card-body w-100">
                     <div className="float-start col-8">
-                      <h4>Pending Admissions</h4>
-                      <p className="text-bold text-danger">{totalAdmissions}</p>
+                      <h4>Remaining Balance</h4>
+                      <p className="text-bold text-danger">{remainingbalance}</p>
                     </div>
                     <div className="float-end mb-2 col-4">
-                      <i class="txt-icon fas fa-5x fa-user-plus"></i>
+                      <i class="txt-icon  fa-5x fas fa-user-clock"></i>
+                      
                     </div>
                   </div>
                 </div>
@@ -272,78 +241,17 @@ const StudentDashboard = () => {
                   class="card p-2 shadow"
                   style={{ width: "19rem", height: "8rem" }}
                 >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Defaulters</h3>
-                      <p className="text-danger">{totalDefaulters}</p>
+                  <div class="row card-body w-100">
+                    <div className="float-start col-8">
+                      <h4>Paid Amount</h4>
+                      <p className="text-bold text-danger">{paidamount}</p>
                     </div>
-                    <div className="float-end mb-2">
-                      <i class="txt-icon fas fa-5x fa-user-slash"></i>
-                    </div>
-                  </div>
-                </div>
-
-                {/* salman changes  */}
-
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Today</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                      <i class="fas fa-calendar-day fa-5x "></i>
+                    <div className="float-end mb-2 col-4">
+                      <i class="txt-icon fas fa-5x fa-file-invoice-dollar"></i>
                     </div>
                   </div>
                 </div>
 
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Last Week</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                      <i class="fas fa-calendar-week fa-5x"></i>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>This Month</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                      <i class="fas fa-calendar-alt fa-5x"></i>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Overall</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                      <i class="fas fa-list-alt fa-5x "></i>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <Snackbar

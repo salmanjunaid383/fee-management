@@ -38,7 +38,7 @@ const Guardianparticular = () => {
     const [relation, setRelation] = useState('');
     const [prevdata, setPrevdata] = useState('');
     const form_no = localStorage.getItem("reg_no")
-    const guardian_id = localStorage.getItem("guardian_id")
+    const  guardian_id = localStorage.getItem("guardian_id")
     useEffect(() => {
         if (guardian_id != null) {
             axios.get(`http://fee-management-api.nastechltd.co/api/student_guardian/${guardian_id}`)

@@ -5,19 +5,32 @@ import "../Components/reports.css";
 const PrintUndertakin=()=>{
   const undertaking_id = localStorage.getItem("undertaking_print_id")
   const [AllRecord, setallrecord] = useState("")
+  const [date, setDate] = useState("")
+  
   useEffect(()=>{
     axios.get(`http://fee-management-api.nastechltd.co/api/student_undertaking/${undertaking_id}`)
     .then((response)=>{
       console.log(response)
       setallrecord(response.data)
     })
+
+    axios
+      .get(
+        `http://fee-management-api.nastechltd.co/api/gr_no/${localStorage.getItem(
+          "gr_no"
+        )}`
+      )
+      .then((response) => {
+        console.log(response);
+        setDate(response.data.date);
+      });
   },[])
   return(
 <>
       <div className="container">
         <div className="row">
           <div className="col-xl-6 f-sec-col">
-            <img src="" alt="logo" />
+            {/* <img src="" alt="logo" /> */}
 
             <h4>Wonderland Grammer Sec. School</h4>
           </div>
@@ -119,6 +132,7 @@ const PrintUndertakin=()=>{
             >
               <label for="fname" style={{width:"50px"}}>Date:</label>
               <input
+              defaultValue={date}
                 style={{
                   width: "100%",
                   border: "none",

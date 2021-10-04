@@ -88,12 +88,12 @@ const EmployeeDashboard = () => {
                                 </div>
                                 <div class="icon-name">Student Ledger</div>
                             </div></Link>
-                            <Link class="nav-link" to="/employeeexpense"><div class="folder-icons">
+                            {/* <Link class="nav-link" to="/employeeexpense"><div class="folder-icons">
                                 <div class="icon1">
                                     <i class="fas fa-receipt"></i>
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
-                            </div></Link>
+                            </div></Link> */}
                         </div>
                     </div>
                 </div>

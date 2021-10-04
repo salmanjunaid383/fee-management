@@ -36,7 +36,7 @@ const TcPrint = () => {
      <div className="container" style={{ width: "80%" }}>
         <div className="row">
           <div className="col-xl-6 f-sec-col">
-            <img src="" alt="logo" />
+            {/* <img src="" alt="logo" /> */}
 
             <h4>Wonderland Grammer Sec. School</h4>
           </div>

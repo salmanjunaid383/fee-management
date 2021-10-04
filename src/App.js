@@ -72,11 +72,22 @@ import StudentDashboard from './Components/StudentDashboard'
 import AdminAttendance from './Components/AdminAttendance';
 import MainReport from './MainReport';
 import PickupPrint from './Components/PickupPrint';
+import PrintWarning from './Components/PrintWarning';
+import Listofallvouchers from './Components/Listofallvouchers';
+import StudentProfile from './Components/StudentProfile';
+import StudentVoucher from './Components/studentVoucher';
+import StudentUnpaidVoucher from './Components/StudentUnpaidVoucher';
 
 
 const App = () => {
     return <>
         <Switch>
+            
+            <Route path="/studentUnpaidVoucher/:studentid" component={StudentUnpaidVoucher} />
+            <Route path="/studentVoucher/:studentid" component={StudentVoucher} />
+            <Route path="/student-profile/:studentid" component={StudentProfile} />
+            <Route path="/Voucher-List" component={Listofallvouchers}/>
+            <Route path="/warning-print" component={PrintWarning} />
             <Route path="/pickup-print" component={PickupPrint} />
             <Route path="/MainReportPage" component={MainReport} />
             <Route path="/AdminAttendance" component={AdminAttendance} />

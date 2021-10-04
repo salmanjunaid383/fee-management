@@ -321,7 +321,7 @@ const Defaulters = () => {
                                                     </Select>
                                                 </FormControl>
                                                 <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
-                                                <FormControl className={classes.formControl}>
+                                                {/* <FormControl className={classes.formControl}>
                                                     <InputLabel id="demo-simple-select-label">Section</InputLabel>
                                                     <Select
                                                         labelId="demo-simple-select-label"
@@ -336,7 +336,7 @@ const Defaulters = () => {
 
                                                         })}
                                                     </Select>
-                                                </FormControl>
+                                                </FormControl> */}
                                                 <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
                                             </div>
                                         </div>

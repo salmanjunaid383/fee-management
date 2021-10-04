@@ -271,14 +271,25 @@ const CampusDashboard = () => {
                 </div>
               </Link>
 
-              <Link class="nav-link" to="/expense">
+              <Link class="nav-link" to="/MainReportPage">
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-receipt"></i>
                   </div>
-                  <div class="icon-name">Reports</div>
+                   <div class="icon-name">Reports</div>
                 </div>
               </Link>
+
+              <Link class="nav-link" to="/Voucher-List">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                  <div class="icon-name">Paid Vouchers</div>
+                </div>
+              </Link>
+
+          
             </div>
           </div>
         </div>
@@ -382,7 +393,7 @@ const CampusDashboard = () => {
                       <>
                         <div className="float-start ">
                           <h3>Admissions</h3>
-                          <p className="text-success text-bold">Oppened</p>
+                          <p className="text-success text-bold">Opened</p>
                         </div>
                         <div className="float-end mb-2">
                           <i class="fas fa-5x text-success fa-check"></i>

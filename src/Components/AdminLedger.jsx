@@ -222,6 +222,24 @@ const AdminLedger = () => {
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
 
+                            <Link class="nav-link" to="/MainReportPage">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                     <div class="icon-name">Reports</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Voucher-List">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                  <div class="icon-name">Paid Vouchers</div>
+                </div>
+              </Link>
+
 
 
                         </div>
@@ -275,7 +293,7 @@ const AdminLedger = () => {
                                     </Select>
                                 </FormControl>
                                 <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
-                                <FormControl className={classes.formControl}>
+                                {/* <FormControl className={classes.formControl}>
                                     <InputLabel id="demo-simple-select-label">Section</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
@@ -290,7 +308,7 @@ const AdminLedger = () => {
 
                                         })}
                                     </Select>
-                                </FormControl>
+                                </FormControl> */}
 
                             </div>
 
@@ -300,8 +318,8 @@ const AdminLedger = () => {
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">G.R No</th>
-                                            <th class="border-top-0">NAME</th>
-                                            <th class="border-top-0">GENDER</th>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Gender</th>
                                             {/* <th class="border-top-0">Details</th> */}
                                             <th class="border-top-0">Action</th>
                                         </tr>

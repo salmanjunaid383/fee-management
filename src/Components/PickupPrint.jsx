@@ -3,7 +3,7 @@ import axios from "axios";
 import "../Components/reports.css";
 
 const PickupPrint = () => {
-  const TcPrintID = localStorage.getItem("tc_print_id");
+  const TcPrintID = localStorage.getItem("pickup_print_id");
   const [AllRecord, setallrecord] = useState("");
   const [allclass, setAllClass] = useState("");
   const [allsection, setAllSection] = useState("");
@@ -38,7 +38,7 @@ const PickupPrint = () => {
       <div className="container">
         <div className="row">
           <div className="col-xl-6 f-sec-col">
-            <img src="" alt="logo" />
+            {/* <img src="" alt="logo" /> */}
 
             <h4>Wonderland Grammer Sec. School</h4>
           </div>

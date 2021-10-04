@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Components/reports.css";
 import axios from "axios";
 import { useHistory} from "react-router-dom";
+import Snackbar from '@material-ui/core/Snackbar';
 
 
 const UndertakingReport = () => {
@@ -14,12 +15,27 @@ const UndertakingReport = () => {
   const [date, setDate]=useState('')
   const [schoolid,setSchoolID]=useState('')
 
+  const [messageinfo, setMessageinfo] = useState("");
+  const [message, setMessage] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "right",
+  });
+  const { vertical, horizontal, open } = message;
+  const handleMessage = () => {
+    setMessage({ open: true, vertical: "top", horizontal: "right" });
+  };
+  const CloseMessage = () => {
+    setMessage({ ...message, open: false });
+  };
+
 function getRecord() {
   
   axios
     .get(`http://fee-management-api.nastechltd.co/api/gr_no/${gr}`)
     .then((response) => {
       console.log(response);
+      localStorage.setItem("gr_no",gr)
       setallRecord(response.data.student)
 
       setName(response.data.student.first_name)
@@ -39,19 +55,41 @@ const data={
   student_id:AllRecord.id,
   school_id:schoolid
 }
+
+const tc_id = localStorage.getItem("Valid_id")
 function post(){
-   axios.post("http://fee-management-api.nastechltd.co/api/student_undertaking",data).then((response)=>{
-     console.log(response)
-     localStorage.setItem("undertaking_print_id",response.data.id)
-     history.push("/printUndertakin");
-   })
+  if (tc_id == "notvalid"){
+    if (gr == "") {
+      setMessageinfo("Enter GR No.");
+      handleMessage();
+     
+    } 
+    else if (name == "") {
+      setMessageinfo("Enter Name");
+      handleMessage();
+    }
+    else if (fatherName == "") {
+      setMessageinfo("Enter Father Name");
+      handleMessage();
+    }
+    else{
+      axios.post("http://fee-management-api.nastechltd.co/api/student_undertaking",data).then((response)=>{
+        console.log(response)
+        localStorage.setItem("undertaking_print_id",response.data.id)
+        localStorage.setItem("Valid_id","notvalid")
+        history.push("/printUndertakin");
+
+      })
+
+    }
+    }
 }
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col-xl-6 f-sec-col">
-            <img src="" alt="logo" />
+            {/* <img src="" alt="logo" /> */}
 
             <h4>Wonderland Grammer Sec. School</h4>
           </div>
@@ -179,6 +217,14 @@ function post(){
               Submit
             </button>
           </div>
+          <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
       </div>
     </>
   );

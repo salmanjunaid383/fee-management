@@ -306,7 +306,8 @@ const AdminsSchool = () => {
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">#</th>
-                                            <th class="border-top-0">NAME</th>
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Email</th>
                                             <th class="border-top-0">Address</th>
                                             <th class="border-top-0">Phone</th>
                                             {/* <th class="border-top-0">Visit</th> */}
@@ -319,6 +320,7 @@ const AdminsSchool = () => {
                                                 <tr key={i}>
                                                     <td>{count = 1 + count}</td>
                                                     <td class="txt-oflo print-capitalize">{val.name}</td>
+                                                    <td class="txt-oflo print-capitalize">{val.email}</td>
                                                     <td className="print-capitalize">{val.address}</td>
                                                     <td>{val.contact}</td>
                                                     <td>

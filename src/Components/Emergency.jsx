@@ -192,7 +192,7 @@ const Emergency = () => {
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Relation with the student</label>
-                                    <input id="email" defaultValue={prevdata.relation_student} type="text" className="form-control" placeholder="Realtion" onChange={(e) => setRelation(e.target.value)} />
+                                    <input id="email" defaultValue={prevdata.relation_student} type="text" className="form-control" placeholder="Relation" onChange={(e) => setRelation(e.target.value)} />
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Address</label>

@@ -132,6 +132,7 @@ const Studentparticular = () => {
             setCell2(response.data.AdmissionForm.cell_no_2);
             setfatherEmail(response.data.AdmissionForm.father_email);
             setmotherEmail(response.data.AdmissionForm.mother_email);
+            setIssueform(response.data.AdmissionForm.issue_form_date)
             // setSelectedFile(e.target.files[0])
             setSelectedFile(response.data.AdmissionForm.profile_image)
             console.log("previos data",setPrevdata)
@@ -155,6 +156,7 @@ const Studentparticular = () => {
               handleMessage();
             }
           });
+          
     }
   }, []);
   // function togetupdate(){
@@ -295,7 +297,10 @@ const Studentparticular = () => {
         handleMessage();
       } else if (addresspresent == "") {
         setMessageinfo("Enter Present Address");
-        handleMessage();
+        handleMessage();}
+        else if (selectedFile == "") {
+          setMessageinfo("Select a profile image");
+          handleMessage();
       } else {
         if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(email)) {
           console.log(selectedFile);

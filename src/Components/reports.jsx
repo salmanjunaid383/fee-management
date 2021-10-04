@@ -1,88 +1,147 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../Components/reports.css";
-import { useHistory} from "react-router-dom";
-
-
-
+import { useHistory } from "react-router-dom";
+import Snackbar from '@material-ui/core/Snackbar';
 
 const Reports = () => {
-  // hooks 
+  // hooks
   const history = useHistory();
-  const [Gr_NO, setgr_no]=useState('')
-  const [classid, setClassID]=useState('')
-  const [sectionid, setSectionID]=useState('')
-  const [naam, setNaam]=useState('')
-  const [reasonforpickup, setReasonForPickup]=useState('')
-  const [timeofpickingup, setTimeOfPickingUp]=useState('')
-  const [nameoftheperson, setNameOfThePerson]=useState('')
-  const [relationwiththestudent, setRelationWithTheStudent]=useState('')
-  const [CNIC, setCNIC]=useState('')
-  const [address, setAddress]=useState('')
-  const [cell, setCell]=useState('')
-  const [remarks, setRemarks]=useState('')
-  const [studentid, setStudentID]=useState('')
-  const [schoolid, setSchoolID]=useState('')
-  const [date, setDate]=useState('')
-  const [AllRecord,setallRecord]=useState('')
+  const [Gr_NO, setgr_no] = useState("");
+  const [classid, setClassID] = useState("");
+  const [sectionid, setSectionID] = useState("");
+  const [naam, setNaam] = useState("");
+  const [reasonforpickup, setReasonForPickup] = useState("");
+  const [timeofpickingup, setTimeOfPickingUp] = useState("");
+  const [nameoftheperson, setNameOfThePerson] = useState("");
+  const [relationwiththestudent, setRelationWithTheStudent] = useState("");
+  const [CNIC, setCNIC] = useState("");
+  const [address, setAddress] = useState("");
+  const [cell, setCell] = useState("");
+  const [remarks, setRemarks] = useState("");
+  const [studentid, setStudentID] = useState("");
+  const [schoolid, setSchoolID] = useState("");
+  const [date, setDate] = useState("");
+  const [AllRecord, setallRecord] = useState("");
+  const [allclass, setAllClass] = useState("");
+  const [allsection, setAllSection] = useState("");
 
-  const [allclass,setAllClass]=useState('')
-  const [allsection,setAllSection]=useState('')
+  const [messageinfo, setMessageinfo] = useState("");
+  const [message, setMessage] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "right",
+  });
+  const { vertical, horizontal, open } = message;
+  const handleMessage = () => {
+    setMessage({ open: true, vertical: "top", horizontal: "right" });
+  };
+  const CloseMessage = () => {
+    setMessage({ ...message, open: false });
+  };
 
-  function postDate(){
-    axios.post("http://fee-management-api.nastechltd.co/api/pickup_slip",data)
-    .then((response)=>{
-      console.log(response)
-      history.push("/pickup-print");
-      localStorage.setItem("pickup_print_id",response.data.id)
-    }) 
-  }
+  useEffect(() => {
+    localStorage.setItem("Valid_id", "notvalid");
+    localStorage.setItem("TcPrint", "");
+  }, []);
 
-
-  function getRecord(){
-  
-  axios.get(`http://fee-management-api.nastechltd.co/api/gr_no/${Gr_NO}`)
-  .then((response)=>{
-      console.log(response)
-      localStorage.setItem("gr_no",Gr_NO)
-
-      setallRecord(response.data.student)
-      setAllClass(response.data.class)
-      setAllSection(response.data.section)
-      setNaam(response.data.student.first_name)
-      setAddress(response.data.student.address)
-      setSchoolID(response.data.student.school_id)
-      setStudentID(response.data.student.id)
-      setDate(response.data.date)  
-      setClassID(response.data.class.id)
-      setSectionID(response.data.section.id)
+  const valid_id = localStorage.getItem("Valid_id");
+  function postDate() {
+    if (valid_id == "notvalid") {
+      if (Gr_NO == "") {
+        setMessageinfo("Enter GR No.");
+        handleMessage();
+      } else if (AllRecord.first_name == "") {
+        setMessageinfo("Enter Name");
+        handleMessage();
+      } else if (reasonforpickup == "") {
+        setMessageinfo("Enter Pickup Reason");
+        handleMessage();
+      } 
+      else if (timeofpickingup == "") {
+        setMessageinfo("Enter Pickup Time");
+        handleMessage();
+      } 
+      else if (relationwiththestudent == "") {
+        setMessageinfo("Enter Realation with the student");
+        handleMessage();
+      } 
+      else if (address == "") {
+        setMessageinfo("Enter Address");
+        handleMessage();
+      } 
+      else if (remarks == "") {
+        setMessageinfo("Enter Remarks");
+        handleMessage();
+      } 
       
-  })}
-
-  const data={
-    class_id:classid,
-    section_id:sectionid,
-    G_R_NO:Gr_NO,
-    name:AllRecord.first_name,
-    reason_for_pickup:reasonforpickup,
-    timing_of_picking_up:timeofpickingup,
-    name_of_person:nameoftheperson,
-    realation_with_student:relationwiththestudent,
-    CNIC:CNIC,
-    address:address,
-    cell:cell,  
-    remarks:remarks,
-    student_id:3,
-    school_id:schoolid,
-    date:date
-
+      else if (nameoftheperson == "") {
+        setMessageinfo("Enter Person's Name");
+        handleMessage();
+      } 
+      else if (CNIC == "") {
+        setMessageinfo("Enter CNIC");
+        handleMessage();
+      }
+      else if (cell == "") {
+        setMessageinfo("Enter Cell No.");
+        handleMessage();
+      } else {
+        axios
+          .post("http://fee-management-api.nastechltd.co/api/pickup_slip", data)
+          .then((response) => {
+            console.log(response);
+            history.push("/pickup-print");
+            localStorage.setItem("pickup_print_id", response.data.id);
+            localStorage.setItem("Valid_id", "notvalid");
+          });
+      }
+    }
   }
+
+  function getRecord() {
+    axios
+      .get(`http://fee-management-api.nastechltd.co/api/gr_no/${Gr_NO}`)
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem("gr_no", Gr_NO);
+
+        setallRecord(response.data.student);
+        setAllClass(response.data.class);
+        setAllSection(response.data.section);
+        setNaam(response.data.student.first_name);
+        setAddress(response.data.student.address);
+        setSchoolID(response.data.student.school_id);
+        setStudentID(response.data.student.id);
+        setDate(response.data.date);
+        setClassID(response.data.class.id);
+        setSectionID(response.data.section.id);
+      });
+  }
+
+  const data = {
+    class_id: classid,
+    section_id: sectionid,
+    G_R_NO: Gr_NO,
+    name: AllRecord.first_name,
+    reason_for_pickup: reasonforpickup,
+    timing_of_picking_up: timeofpickingup,
+    name_of_person: nameoftheperson,
+    realation_with_student: relationwiththestudent,
+    CNIC: CNIC,
+    address: address,
+    cell: cell,
+    remarks: remarks,
+    student_id: 3,
+    school_id: schoolid,
+    date: date,
+  };
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col-xl-6 f-sec-col">
-            <img src="" alt="logo" />
+            {/* <img src="" alt="logo" /> */}
 
             <h4>Wonderland Grammer Sec. School</h4>
           </div>
@@ -127,7 +186,13 @@ const Reports = () => {
                 onChange={(e) => setgr_no(e.target.value)}
               />
 
-              <button className="btn btn-primary" type="button" onClick={getRecord}>search</button>
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={getRecord}
+              >
+                search
+              </button>
             </div>
 
             <div
@@ -166,7 +231,7 @@ const Reports = () => {
                   outline: "none",
                 }}
                 id="fname"
-               defaultValue={allsection.name}
+                defaultValue={allsection.name}
                 type="text"
                 className="form-control"
                 placeholder="Section"
@@ -205,7 +270,6 @@ const Reports = () => {
                   placeholder="Enter your name"
                   className="form-control"
                   onChange={(e) => setNaam(e.target.value)}
-
                 />
               </div>
 
@@ -257,7 +321,6 @@ const Reports = () => {
                   placeholder="Remarks:"
                   className="form-control"
                   onChange={(e) => setRemarks(e.target.value)}
-
                 />
               </div>
 
@@ -278,7 +341,6 @@ const Reports = () => {
                   placeholder="CNIC:"
                   className="form-control"
                   onChange={(e) => setCNIC(e.target.value)}
-
                 />
               </div>
 
@@ -289,7 +351,6 @@ const Reports = () => {
                   placeholder="Cell"
                   className="form-control"
                   onChange={(e) => setCell(e.target.value)}
-
                 />
               </div>
             </div>
@@ -299,25 +360,39 @@ const Reports = () => {
             <div className="col-xl-5" style={{ marginTop: "30px" }}>
               <input
                 type="text"
-                style={{ border: "none", borderBottom: "1px solid #000" }}/>
-                <h6 style={{fontWeight:"bold"}}>Principal's Signature</h6>
+                style={{ border: "none", borderBottom: "1px solid #000" }}
+              />
+              <h6 style={{ fontWeight: "bold" }}>Principal's Signature</h6>
             </div>
 
             <div className="col-xl-5" style={{ marginTop: "30px" }}>
               <input
                 type="text"
-                style={{ border: "none", borderBottom: "1px solid #000" }}/>
-                <h6 style={{fontWeight:"bold"}}>Signature of Parent's</h6>
+                style={{ border: "none", borderBottom: "1px solid #000" }}
+              />
+              <h6 style={{ fontWeight: "bold" }}>Signature of Parent's</h6>
             </div>
 
             <div className="col-xl-2">
-              <button className="btn btn-primary" type="button" onClick={postDate}>Submit</button>
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={postDate}
+              >
+                Submit
+              </button>
             </div>
-
-            
           </div>
         </fieldset>
       </form>
+      <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
     </>
   );
 };

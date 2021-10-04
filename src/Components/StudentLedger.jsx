@@ -111,6 +111,17 @@ const StudentLedger = () => {
                 </div>
               </Link>
 
+              <Link class="nav-link" to={`/student-profile/${studentid}`}>
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-key "></i>
+                  </div>
+                  <div class="icon-name ">Profile</div>
+                </div>
+              </Link>
+
+              
+
               <Link class="nav-link" to={`/studentledger/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
@@ -133,6 +144,15 @@ const StudentLedger = () => {
                     <i class="fas fa-key"></i>
                   </div>
                   <div class="icon-name">Change Password</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-key "></i>
+                  </div>
+                  <div class="icon-name ">Student Vouchers</div>
                 </div>
               </Link>
             </div>

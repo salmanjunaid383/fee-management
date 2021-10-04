@@ -69,18 +69,7 @@ const [ profile_pic, setProfilePic]=useState('')
                 setEmergency(response.data.EmergencyContact);
                 console.log("salman",response.data.StudentParent)
                 console.log(student)
-                axios.get(`http://fee-management-api.nastechltd.co/api/show_siblings/${reg_id}`)
-                    .then(response => {
-                        console.log(response.data)
-                        setSiblings(response.data);
-
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            setMessageinfo(error.response.data.message);
-                            handleMessage();
-                        }
-                    })
+            
             })
             .catch((error) => {
                 if (error.response) {
@@ -148,7 +137,7 @@ const [ profile_pic, setProfilePic]=useState('')
 
                         </div>
                         <div className="col-4">
-                            <p>Cellphone: <span className="print-capitalize">{student.cell_no_1}</span></p>
+                            <p>Cellphone1: <span className="print-capitalize">{student.cell_no_1}</span></p>
 
                         </div>
 

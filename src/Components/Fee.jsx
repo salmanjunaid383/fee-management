@@ -109,6 +109,23 @@ const FeeComponents = () => {
                                 </div>
                                 <div class="icon-name">Expense Tracking</div>
                             </div></Link>
+                            <Link class="nav-link" to="/MainReportPage">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                   <div class="icon-name">Reports</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Voucher-List">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                  <div class="icon-name">Paid Vouchers</div>
+                </div>
+              </Link>
 
 
 

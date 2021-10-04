@@ -16,6 +16,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
+import Snackbar from '@material-ui/core/Snackbar';
 // import Placeholder from "react-select/src/components/Placeholder";
 
 const GreenRadio = withStyles({
@@ -30,6 +31,10 @@ const GreenRadio = withStyles({
 
 // Radio button
 const IssuedForm = () => {
+
+  
+
+
   const [selectedValue, setSelectedValue] = React.useState("a");
 
   const genderChange = (event) => {
@@ -37,14 +42,14 @@ const IssuedForm = () => {
   };
   // radio button
 
-  const [open, setOpen] = React.useState(false);
+  const [opened, setOpened] = React.useState(false);
   const history = useHistory();
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpened(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpened(false);
   };
   const [value, setValue] = React.useState("female");
   const nicChange = (event) => {
@@ -52,47 +57,88 @@ const IssuedForm = () => {
   };
 
   const [registration, setRegistration] = useState(0);
-  function postFrom() {
-    console.log(data);
-    axios
-      .post(`http://fee-management-api.nastechltd.co/api/form_issue`, data)
-      .then((response) => {
-        console.log("response: ", response);
-        // setRegistration(response.data.form.registration_no)
-        setRegistration(response.data.form.registration_no);
-        alert(
-          `Please note down your form number: ${response.data.form.registration_no}`
-        );
-        localStorage.setItem("reg_no", response.data.form.registration_no);
-        formbuttonchange();
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(error.message);
-      });
+  const issued_form_id = localStorage.getItem("issued_form_id")
 
-    if (form_id == null) {
+  function postFrom() {
+   
+   
+    if (issued_form_id == null) {
       if (studentname == "") {
         setMessageinfo("Enter First Name");
         handleMessage();
-      } else if (fathercnic.length < 13 || fathercnic.length > 13) {
-        setMessageinfo("Enter Valid B-Form No.");
+       
+      }
+      else if (studentlastname == "") {
+        setMessageinfo("Enter Last Name");
         handleMessage();
-      } else if (cellno1 == "") {
+      } 
+      else if (fathername == "") {
+        setMessageinfo("Enter Father Name");
+        handleMessage();
+      }
+       
+      else if (cellno1 == "") {
         setMessageinfo("Enter cell No 1");
         handleMessage();
-      } else if (cellno2 == "") {
+      } 
+     
+      
+      else if (cellno2 == "") {
         setMessageinfo("Enter cell No 2");
         handleMessage();
-      } else if (fatheremail == "") {
+      }
+      else if (dob == "") {
+        setMessageinfo("Enter Date of Birth");
+        handleMessage();
+      } 
+      else if (pob == "") {
         setMessageinfo("Enter Place of Birth");
         handleMessage();
-      } else if (studentemail == "") {
-        setMessageinfo("Enter Permanent Address");
+      } 
+      else if (studentemail == "") {
+        setMessageinfo("Enter Student Email");
         handleMessage();
-      } else if (mother == "") {
-        setMessageinfo("Enter Present Address");
+      } 
+      else if (mother == "") {
+        setMessageinfo("Enter Mother Email");
         handleMessage();
+      } 
+      else if (fatheremail == "") {
+        setMessageinfo("father Email");
+        handleMessage();
+      }
+      
+    
+      
+      else if (cnicValue == "") {
+        setMessageinfo("Please pick CNIC or NICOP");
+        handleMessage();
+      } 
+      else if (fathercnic == "") {
+        setMessageinfo("Enter Valid Cnic.");
+        handleMessage();
+        
+      }
+     
+      else{
+        axios
+        .post(`http://fee-management-api.nastechltd.co/api/form_issue`, data)
+        .then((response) => {
+          console.log("response: ", response);
+          // setRegistration(response.data.form.registration_no)
+          setRegistration(response.data.form.registration_no);
+          localStorage.setItem("issued_form_id",response.data.form.id)
+          alert(
+            `Please note down your form number: ${response.data.form.registration_no}`
+          );
+          localStorage.setItem("reg_no", response.data.form.registration_no);
+          formbuttonchange();
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error.message);
+        });
+
       }
     }
   }
@@ -109,23 +155,22 @@ const IssuedForm = () => {
   const [studentemail, setStudentEmail] = useState("");
   const [fatheremail, setFatherEmail] = useState("");
   const [mother, setMotherEmail] = useState("");
-  // const schoolid = 
-  // const { schoolid } = useParams()
   const form_id = localStorage.getItem("form_id");
-  const [messageinfo, setMessageinfo] = useState("");
   const [dob, setDOB] = useState("");
   const [pob, setPOB] = useState("");
+  
+  const [messageinfo, setMessageinfo] = useState("");
   const [message, setMessage] = useState({
-    opened: false,
+    open: false,
     vertical: "top",
     horizontal: "right",
   });
-  const { vertical, horizontal, opened } = message;
+  const { vertical, horizontal, open } = message;
   const handleMessage = () => {
-    setMessage({ opened: true, vertical: "top", horizontal: "right" });
+    setMessage({ open: true, vertical: "top", horizontal: "right" });
   };
   const CloseMessage = () => {
-    setMessage({ ...message, opened: false });
+    setMessage({ ...message, open: false });
   };
   //   const [schoolid, setSchoolID] =useState('');
   let [place, setPlaceHolder] = useState("CNIC");
@@ -256,7 +301,7 @@ const IssuedForm = () => {
                   id="fname"
                   type="text"
                   className="form-control"
-                  placeholder="First Name"
+                  placeholder="Middle Name"
                   onChange={(e) => setStudentMiddleName(e.target.value)}
                 />
               </div>
@@ -267,7 +312,7 @@ const IssuedForm = () => {
                   id="fname"
                   type="text"
                   className="form-control"
-                  placeholder="First Name"
+                  placeholder="Last Name"
                   onChange={(e) => setStudentLastName(e.target.value)}
                 />
               </div>
@@ -408,7 +453,7 @@ const IssuedForm = () => {
                 />
               </div>
 
-              <div className="col-xl-4">
+              {/* <div className="col-xl-4">
                 <FormControl component="fieldset">
                   <label component="legend">Gender</label>
 
@@ -433,8 +478,8 @@ const IssuedForm = () => {
                     />
                   </RadioGroup>
                 </FormControl>
-              </div>
-              <div className="col-xl-12 text-right">
+              </div> */}
+              <div className="col-xl-12 text-right" style={{marginTop:"20px"}}>
                 <button
                   // disabled={checkresponse == "false" ? true : false}
                   style={
@@ -465,7 +510,7 @@ const IssuedForm = () => {
                 <div>
                   <Dialog
                     // className="popup-width"
-                    open={open}
+                    open={opened}
                     onClose={handleClose}
                     aria-labelledby="form-dialog-title"
                   >
@@ -580,6 +625,15 @@ const IssuedForm = () => {
             </div>
           </div>
         </fieldset>
+
+        <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
       </div>
     </>
   );

@@ -342,7 +342,7 @@ const Documents = () => {
                                         <thead>
                                             <tr>
                                                 <th class="border-top-0">#</th>
-                                                <th class="border-top-0">Class</th>
+                                                <th class="border-top-0">Document Name</th>
                                                 <th class="border-top-0">Created At</th>
                                                 <th class="border-top-0">Action</th>
                                             </tr>

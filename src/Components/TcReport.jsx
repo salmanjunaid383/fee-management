@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "../Components/reports.css";
 import { useHistory} from "react-router-dom";
+import Snackbar from '@material-ui/core/Snackbar';
 
 const TcReport = () => {
   const history = useHistory();
@@ -20,6 +21,22 @@ const TcReport = () => {
   const [AllRecord, setallRecord]= useState("");
   const [allclass,setAllClass]=useState('')
 
+  const [messageinfo, setMessageinfo] = useState("");
+  const [message, setMessage] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "right",
+  });
+  const { vertical, horizontal, open } = message;
+  const handleMessage = () => {
+    setMessage({ open: true, vertical: "top", horizontal: "right" });
+  };
+  const CloseMessage = () => {
+    setMessage({ ...message, open: false });
+  };
+
+
+
   const data = {
     name: name,
     father_name: fathername,
@@ -35,12 +52,58 @@ const TcReport = () => {
     date: date,
   };
 
+  const tc_id = localStorage.getItem("Valid_id")
   function postData(){
-    axios.post("http://fee-management-api.nastechltd.co/api/issued_tc",data).then((response)=>{
-      console.log(response)
-      history.push("/TcPrint");
-      localStorage.setItem("TcPrint",response.data.id)
-    })
+    console.log("valid_id",tc_id)
+      if (tc_id == "notvalid"){
+        if (gr_no == "") {
+          setMessageinfo("Enter GR No.");
+          handleMessage();
+         
+        } 
+        else if (name == "") {
+          setMessageinfo("Enter Name");
+          handleMessage();
+        }
+        else if (fathername == "") {
+          setMessageinfo("Enter Father Name");
+          handleMessage();
+        }
+        else if (class_id == "") {
+          setMessageinfo("Enter Class");
+          handleMessage();
+        } 
+         
+        else if (reason == "") {
+          setMessageinfo("Enter Reason");
+          handleMessage();
+        } 
+        else if (amounts == "") {
+          setMessageinfo("Enter Amount");
+          handleMessage();
+        }
+        else if (issuedto == "") {
+          setMessageinfo("Enter Issued to");
+          handleMessage();
+        } 
+        else if (remarks == "") {
+          setMessageinfo("Enter Remarks");
+          handleMessage();
+        } 
+      
+        else{
+          axios.post("http://fee-management-api.nastechltd.co/api/issued_tc",data).then((response)=>{
+            console.log(response)
+            history.push("/TcPrint");
+            localStorage.setItem("TcPrint",response.data.id)
+            localStorage.setItem("Valid_id","notvalid")
+          })
+        }
+      }
+
+
+
+
   }
 
   function getRecord() {
@@ -60,18 +123,23 @@ const TcReport = () => {
         setSectionID(response.data.section.id)
         setClassID(response.data.class.id)
         setFatherName(response.data.student.father_name)
+        localStorage.setItem("gr_no",gr_no)
         // setSectionID(response.data.section.id)
 
-        localStorage.setItem("TcPrintID",response.data.id)
+        // localStorage.setItem("TcPrintID",response.data.id)
       });
   }
+  useEffect(() => {
+    localStorage.setItem("Valid_id","notvalid")
+    localStorage.setItem("TcPrint","")
+  }, []);
 
   return (
     <>
       <div className="container" style={{ width: "80%" }}>
         <div className="row">
           <div className="col-xl-6 f-sec-col">
-            <img src="" alt="logo" />
+            {/* <img src="" alt="logo" /> */}
 
             <h4>Wonderland Grammer Sec. School</h4>
           </div>
@@ -395,6 +463,14 @@ const TcReport = () => {
             </button>
           </div>
         </div>
+        <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    open={open}
+                    autoHideDuration={4000}
+                    onClose={CloseMessage}
+                    message={messageinfo}
+                    key={vertical + horizontal}
+                />
       </div>
     </>
   );
