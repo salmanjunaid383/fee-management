@@ -36,6 +36,7 @@ const AdminAttendance = () => {
   //   list[index][date] = value;
   //   setattendance(list);
   // };
+  
   const schoolId = localStorage.getItem("school_id");
   function submit(){
     console.log(attendances)

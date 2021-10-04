@@ -77,7 +77,7 @@ import Listofallvouchers from './Components/Listofallvouchers';
 import StudentProfile from './Components/StudentProfile';
 import StudentVoucher from './Components/studentVoucher';
 import StudentUnpaidVoucher from './Components/StudentUnpaidVoucher';
-
+import ExpenseRecord from './Components/ExpenseRecord';
 
 const App = () => {
     return <>
@@ -160,6 +160,7 @@ const App = () => {
             <Route path="/employeecustomvoucher" component={EmployeeCustomVoucher} />
             <Route path="/terms-conditions/:school_id" component={Termsandconditions}/>
             <Route path="/issued-form/:school_id" component={IssuedForm}/>
+            <Route path="/expenseRecord" component={ExpenseRecord}/>
         </Switch>
 
     </>

@@ -442,67 +442,10 @@ const CampusDashboard = () => {
                 </div>
 
                 {/* salman changes  */}
-
-                {/* <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Today</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                    <i class="fas fa-calendar-day fa-5x "></i>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Last Week</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                    <i class="fas fa-calendar-week fa-5x"></i>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>This Month</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                    <i class="fas fa-calendar-alt fa-5x"></i>
-                    </div>
-                  </div>
-                </div> */}
-
-                {/* <div
-                  class="card p-2 shadow"
-                  style={{ width: "19rem", height: "8rem" }}
-                >
-                  <div class="card-body w-100">
-                    <div className="float-start ">
-                      <h3>Overall</h3>
-                      <p>{totalEmployees}</p>
-                    </div>
-                    <div className="float-end mb-2">
-                      <i class="fas fa-list-alt fa-5x "></i>
-
-                    </div>
-                  </div>
-                </div> */}
+                
+                  <Link to="/expenseRecord" className="btn btn-primary">Expense</Link>
+                  
+                
 
 
               </div>
