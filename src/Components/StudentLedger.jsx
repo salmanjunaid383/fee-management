@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StudentLedger = () => {
+const  StudentLedger = () => {
   const history = useHistory();
   const stu = localStorage.getItem("response_id");
   const [studentledger, setStudentledger] = useState([]);
@@ -114,7 +114,7 @@ const StudentLedger = () => {
               <Link class="nav-link" to={`/student-profile/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-key "></i>
+                    <i class="fas fa-user-circle "></i>
                   </div>
                   <div class="icon-name ">Profile</div>
                 </div>
@@ -150,7 +150,7 @@ const StudentLedger = () => {
               <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-key "></i>
+                    <i class="fas fa-file-alt "></i>
                   </div>
                   <div class="icon-name ">Student Vouchers</div>
                 </div>

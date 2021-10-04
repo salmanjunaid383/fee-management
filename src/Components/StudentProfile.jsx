@@ -63,7 +63,7 @@ const StudentProfile = () => {
               <Link class="nav-link" to={`/student-profile/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-key active"></i>
+                    <i class="fas fa-user-circle active"></i>
                   </div>
                   <div class="icon-name active">Profile</div>
                 </div>
@@ -99,7 +99,7 @@ const StudentProfile = () => {
               <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-key "></i>
+                    <i class="fas fa-file-alt "></i>
                   </div>
                   <div class="icon-name ">Student Vouchers</div>
                 </div>

@@ -77,12 +77,15 @@ import Listofallvouchers from './Components/Listofallvouchers';
 import StudentProfile from './Components/StudentProfile';
 import StudentVoucher from './Components/studentVoucher';
 import StudentUnpaidVoucher from './Components/StudentUnpaidVoucher';
-
+import StudentAttendance from './Components/StudentAttendance';
+import ViewAttendance from './Components/ViewAttendance';
 
 const App = () => {
     return <>
         <Switch>
             
+            <Route path="/ViewAttendance" component={ViewAttendance} />
+            <Route path="/studentattendance" component={StudentAttendance} />
             <Route path="/studentUnpaidVoucher/:studentid" component={StudentUnpaidVoucher} />
             <Route path="/studentVoucher/:studentid" component={StudentVoucher} />
             <Route path="/student-profile/:studentid" component={StudentProfile} />

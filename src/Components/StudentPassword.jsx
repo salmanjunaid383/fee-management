@@ -143,7 +143,7 @@ const StudentPassword = () => {
               <Link class="nav-link" to={`/student-profile/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-key "></i>
+                    <i class="fas fa-user-circle "></i>
                   </div>
                   <div class="icon-name ">Profile</div>
                 </div>
@@ -177,7 +177,7 @@ const StudentPassword = () => {
               <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-key "></i>
+                    <i class="fas fa-file-alt "></i>
                   </div>
                   <div class="icon-name ">Student Vouchers</div>
                 </div>
