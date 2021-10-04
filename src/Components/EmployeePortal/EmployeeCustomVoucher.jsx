@@ -212,7 +212,7 @@ const EmployeeCustomVoucher = () => {
                         <div class="wrapper2">
                             <div class="abilan">
                                 <img
-                                    src={logo} />
+                                    alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
                             </div>
                             <Link to="/employeedashboard" class="nav-link "><div class="folder-icons ">
                                 <div class="icon1">
