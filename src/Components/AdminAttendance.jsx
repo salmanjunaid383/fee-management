@@ -29,23 +29,54 @@ const AdminAttendance = () => {
     history.push("/");
   };
 
-  const [attendance, setattendance] = useState([{ date: "" }]);
-  const handleChange = (e, index) => {
-    const { date, value } = e.target;
-    const list = [...attendance];
-    list[index][date] = value;
-    setattendance(list);
-  };
+  // const [attendance, setattendance] = useState([{ date: "" }]);
+  // const handleChange = (e, index) => {
+  //   const { date, value } = e.target;
+  //   const list = [...attendance];
+  //   list[index][date] = value;
+  //   setattendance(list);
+  // };
+  const schoolId = localStorage.getItem("school_id");
+  function submit(){
+    console.log(attendances)
+    axios
+        .post(`http://fee-management-api.nastechltd.co/api/attendance`,{
+          attendances:attendances
+        }).then((response) =>{
+          console.log(response);
+        }, (error) => {
+          console.log(error);
+        });
+  }
 
-  const handleAdd = () => {
-    setattendance([...attendance, { date: "" }]);
-    console.log(attendance);
-  };
-  const removeField = (index) => {
-    const list = [...attendance];
-    list.splice(index, 1);
-    setattendance(list);
-  };
+  const [attendances,setItemList]=useState([{date: '',school_id:schoolId }]);
+    function AddMore() {
+        setItemList([...attendances, {date: '',school_id:schoolId }])
+    }
+    function handleChange(e, index) {
+        
+        const { name,value  } = e.target;
+        const list = [...attendances];
+        list[index][name] = value;
+        setItemList(list);
+       
+    }
+    function Remove(i){
+      const list = [...attendances];
+      list.pop(i)
+      setItemList(list);
+      
+    }
+
+  // const handleAdd = () => {
+  //   setattendance([...attendance, { date: "" }]);
+  //   console.log(attendance);
+  // };
+  // const removeField = (index) => {
+  //   const list = [...attendance];
+  //   list.splice(index, 1);
+  //   setattendance(list);
+  // };
 
   return (
     <>
@@ -172,68 +203,48 @@ const AdminAttendance = () => {
             <hr class="new-hr" />
           </div>
           <div class="right-body">
-            {attendance.map((item, i) => {
-              return (
-                <>
-                  <div style={{ overflow: "hidden" }}>
-                    <Button variant="outlined" onClick={handleClickOpen}>
-                      Open form dialog
-                    </Button>
-                    <Dialog
-                      open={Clickopen}
-                      style={{ overflow: "hidden" }}
-                      onClose={handleClickClose}
-                    >
-                      <div style={{ width: "490px", overflow: "hidden"  }}>
-                        <h2 class="text-center mt-3 secondary">Select Date</h2>
-                        <hr class="new-hr1 secondary"/>
+            
+              
+                
+                  <div style={{ overflow: "hidden",padding:"10px" }}>
+                                              <div className="row mt-3">
+                                                {
+                                                       attendances.map((val , i) => {
+                                                           return (
+                                                               <>
+                                                               
+                                                                <div className="col-md-11 text-center px-2 w-100 p-0">
+                                                                    <TextField
+                                                                        onChange={(e) => handleChange(e, i)}
+                                                                        id="standard-textarea"
+                                                                        name='date'
+                                                                        label="Date"
+                                                                        placeholder="Add date"
+                                                                        type="date"
+                                                                        
+                                                                        
+                                                                        InputLabelProps={{
+                                                                            shrink: true,
+                                                                        }} />                                                
+                                                                        </div>
+                                                                <div className="col-md-1 text-center px-2 w-100 p-0">
+                                                                <i className="fa fa-minus p-2 text-center pt-1 bg-dark text-light" style={{marginTop:"10px",cursor:"pointer"}} onClick={(e) => Remove(i)} ></i>
+                                                                </div>
+                                                                
+                                                            
+                                                               </>
+                                                           )
+                                                       })
+                                                   }
+                                                   <div className="col-md-6  px-2 w-100 p-0">
+                                                   <i className="fa fa-plus p-2 text-center pt-1 bg-dark text-light" style={{marginTop:"10px",cursor:"pointer"}} onClick={AddMore} ></i>
 
-                     
-                          <div key={i} class="row mb-2 billing-main">
-                            <div class="col-6">
-                              <TextField
-                                className="pb-3 bg-white"
-                                name="date"
-                                type="text"
-                                onChange={(e) => handleChange(e, i)}
-                                label="Section"
-                                variant="filled"
-                              />
-                            </div>
-                            <div class="col-2 text-right p-0">
-                              {attendance.length - 1 === i && (
-                                <button
-                                  type="button"
-                                  onClick={handleAdd}
-                                  class="btn btn-primary mt-3"
-                                >
-                                 Add
-                                </button>
-                              )}
-                            </div>
-                            <div className="col-2 text-left p-0">
-                              {attendance.length !== 1 && (
-                                <button
-                                  type="button"
-                                  onClick={() => removeField(i)}
-                                  class="btn btn-primary mt-3"
-                                >
-                                  Remove
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                      
-                        <DialogActions>
-                          <Button onClick={handleClickClose}>Cancel</Button>
-                          <button class="btn btn-success">Submit</button>
-                        </DialogActions>
-                      </div>
-                    </Dialog>
+                                                   </div>
+                                                </div>
+                                                <button className="btn btn-primary text-center px-2 w-100 p-0" style={{marginTop:'5px'}} onClick={submit}>Submit</button>
                   </div>
-                </>
-              );
-            })}
+                
+              
           </div>
         </div>
       </div>
