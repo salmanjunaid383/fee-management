@@ -345,7 +345,7 @@ const Term = () => {
           <div class="navigation">
             <div class="wrapper2">
               <div class="abilan">
-                <img src={logo} />
+                <img alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
               </div>
 
               <Link to="/campusdashboard" class="nav-link ">
