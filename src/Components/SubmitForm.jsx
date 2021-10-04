@@ -165,7 +165,7 @@ const [ profile_pic, setProfilePic]=useState('')
                         <h2>Father's Particular</h2>
 
                         <div className="col-4">
-                            <p>Father's Name: <span className="print-capitalize">{parent.father_name}</span></p>
+                            <p>Father's Name: <span className="print-capitalize">{parent.father_name}</span></p> 
                         </div>
                         <div className="col-4">
                             <p>CNIC: <span className="print-capitalize">{parent.father_CNIC}</span></p>

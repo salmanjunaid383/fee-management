@@ -443,7 +443,7 @@ const CampusDashboard = () => {
 
                 {/* salman changes  */}
 
-                <div
+                {/* <div
                   class="card p-2 shadow"
                   style={{ width: "19rem", height: "8rem" }}
                 >
@@ -486,9 +486,9 @@ const CampusDashboard = () => {
                     <i class="fas fa-calendar-alt fa-5x"></i>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <div
+                {/* <div
                   class="card p-2 shadow"
                   style={{ width: "19rem", height: "8rem" }}
                 >
@@ -502,7 +502,7 @@ const CampusDashboard = () => {
 
                     </div>
                   </div>
-                </div>
+                </div> */}
 
 
               </div>

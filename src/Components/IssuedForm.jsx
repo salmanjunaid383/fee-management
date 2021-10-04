@@ -58,7 +58,7 @@ const IssuedForm = () => {
 
   const [registration, setRegistration] = useState(0);
   const issued_form_id = localStorage.getItem("issued_form_id")
-
+ 
   function postFrom() {
    
    

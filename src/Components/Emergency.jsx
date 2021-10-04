@@ -208,9 +208,9 @@ const Emergency = () => {
                                 </div>
                             </div>
                             <div className="row">
-                                {/* <div className="col-6 text-left mt-3">
+                                <div className="col-6 text-left mt-3">
                                     <Link to="/guardianparticular"><button className="btn btn-success w25">Back</button></Link>
-                                </div> */}
+                                </div>
                                 <div className="col-6 text-right mt-3">
                                     <button onClick={sendData} className="btn btn-success w25">Next</button>
                                 </div>
