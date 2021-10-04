@@ -10,11 +10,25 @@ import Snackbar from "@material-ui/core/Snackbar";
 const ViewAttendance = () => {
 
     const history = useHistory();
-
+    const[month,setMonth]=useState("");
+    const[studentId,setStudentId]=useState(0);
     const logOut = () => {
         localStorage.clear();
         history.push("/");
       };
+    function getAttendance(){
+      axios
+      .post(
+        "http://fee-management-api.nastechltd.co/api/attendance_report",{
+          month: month,
+	        student_id:studentId
+        }
+      ).then((response) => {
+        console.log(response)
+      },(error) => {
+        console.log(error)
+      })
+    }
 
     return(
         <>
@@ -144,7 +158,42 @@ const ViewAttendance = () => {
           </div>
           <div class="right-body">
             
+          <div className="container">
+            <div className="row">
+              <div className="col-md-3">
+              <div className="col-md-11 text-center px-2 w-100 p-0">
+                                                                    <TextField
+                                                                        onChange={(e) => setMonth(e.target.value)}
+                                                                        id="standard-textarea"
+                                                                        name='date'
+                                                                        label="Date"
+                                                                        placeholder="Add date"
+                                                                        type="date" 
+                                                                        InputLabelProps={{
+                                                                            shrink: true,
+                                                                        }} />                                                
+                                                                        </div>
+              </div>
+              <div className="col-md-3">
+              <div className="col-md-11 text-center px-2 w-100 p-0">
+                                                                    <TextField
+                                                                        onChange={(e) => setStudentId(e.target.value)}
+                                                                        id="standard-textarea"
+                                                                        name='studentId'
+                                                                        label="studentId"
+                                                                        placeholder="Student Id"
+                                                                        type="number" 
+                                                                        InputLabelProps={{
+                                                                            shrink: true,
+                                                                        }} />                                                
+                                                                        </div>
 
+              </div>
+              <div className="col-md-3">
+                <button className="btn btn-primary" onClick={getAttendance}> Submit</button>
+              </div>
+            </div>
+          </div>
 
           </div>
         </div>
