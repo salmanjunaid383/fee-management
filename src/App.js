@@ -77,8 +77,12 @@ import Listofallvouchers from './Components/Listofallvouchers';
 import StudentProfile from './Components/StudentProfile';
 import StudentVoucher from './Components/studentVoucher';
 import StudentUnpaidVoucher from './Components/StudentUnpaidVoucher';
+<<<<<<< HEAD
 import StudentAttendance from './Components/StudentAttendance';
 import ViewAttendance from './Components/ViewAttendance';
+=======
+import ExpenseRecord from './Components/ExpenseRecord';
+>>>>>>> cde108d36c58d332d7838a3938ac013e073d6a0e
 
 const App = () => {
     return <>
@@ -163,6 +167,7 @@ const App = () => {
             <Route path="/employeecustomvoucher" component={EmployeeCustomVoucher} />
             <Route path="/terms-conditions/:school_id" component={Termsandconditions}/>
             <Route path="/issued-form/:school_id" component={IssuedForm}/>
+            <Route path="/expenseRecord" component={ExpenseRecord}/>
         </Switch>
 
     </>
