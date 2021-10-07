@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../Components/reports.css";
 import { useHistory} from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
+import logo from "../Components/wonderland.jpg"
 
 const TcReport = () => {
   const history = useHistory();
@@ -138,8 +139,8 @@ const TcReport = () => {
     <>
       <div className="container" style={{ width: "80%" }}>
         <div className="row">
-          <div className="col-xl-6 f-sec-col">
-            {/* <img src="" alt="logo" /> */}
+          <div className="col-xl-8 f-sec-col">
+          <img src={logo} alt="logo" height="95px" style={{marginRight:"10px", marginLeft:"-20px"}} />
 
             <h4>Wonderland Grammer Sec. School</h4>
           </div>
@@ -148,6 +149,12 @@ const TcReport = () => {
         <div className="row">
           <div className="col-xl-12 s-sec-col">
             <h6>....a positive change towards education</h6>
+          </div>
+        </div>
+
+        <div className="row" style={{marginBottom:"20px"}}>
+          <div className="col-xl-12 s-sec-col">
+            <h2 >Campus (I)</h2>
           </div>
         </div>
 
@@ -162,9 +169,9 @@ const TcReport = () => {
           >
             <div className="">
               <h6>The Principal</h6>
-              <h6>WonderLand Grammer Secondary School</h6>
+              <h6>Wonderland Grammer Secondary School</h6>
               <h6>Campus-I</h6>
-              <h6>B-16, Block-10, F.B.Area</h6>
+              <h6>B-61, Block-10, F.B.Area</h6>
               <h6>Karachi.</h6>
               <br />
               <br />
@@ -175,7 +182,7 @@ const TcReport = () => {
               <input
                 type="text"
                 className="for-input-change"
-                placeholder="G.R No"
+                placeholder="Enter G.R No"
                 style={{ width: "50%" }}
                 onChange={(e) => setGR_NO(e.target.value)}
               />

@@ -111,7 +111,8 @@ const Fatherparticular = () => {
             setFatherEmail(response.data.form.father_email)
             setMotherEmail(response.data.form.mother_email)
             setFatherCnic(response.data.form.father_normalize_CNIC)
-            console.log(response.data.form.father_CNIC)
+            setFatherName(response.data.form.father_name)
+            console.log(response.data.form.father_name)
 
           
         })
@@ -491,7 +492,7 @@ const Fatherparticular = () => {
                                 </div>
                                 <div className="row">
                                     <div className="col-6 text-left mt-3">
-                                        <Link to="/studentparticular"><button className="btn btn-success w25">Back</button></Link>
+                                        <Link to="/studentparticular"><button className="btn btn-success w25" onClick={localStorage.setItem("pic-enter-again","enter")}>Back</button></Link>
                                     </div>
                                     <div className="col-6 text-right mt-3">
                                         <button onClick={sendData} className="btn btn-success w25">Next</button>

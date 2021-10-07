@@ -124,7 +124,7 @@ const Listofallvouchers = () => {
               <Link class="nav-link" to="/MainReportPage">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-receipt"></i>
+                    <i class="fas fa-file-medical-alt"></i>
                   </div>
                    <div class="icon-name">Reports</div>
                 </div>

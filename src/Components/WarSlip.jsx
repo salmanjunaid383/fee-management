@@ -122,9 +122,16 @@ function getRecord(){
 
         <div className="row">
           <div className="col-xl-12 s-sec-col">
-            <h6>....a positive change towards education</h6>
+             <h6>....a positive change towards education</h6>
           </div>
         </div>
+
+        <div className="row" style={{marginBottom:"20px"}}>
+          <div className="col-xl-12 s-sec-col">
+            <h2 >Campus (I)</h2>
+          </div>
+        </div>
+         
 
         <div className="row">
           <div className="col-xl-12">

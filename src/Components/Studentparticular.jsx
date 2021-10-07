@@ -158,90 +158,16 @@ const Studentparticular = () => {
           });
           
     }
+
+    const profile_pic_enter =   localStorage.getItem("pic-enter-again")
+
+    if (profile_pic_enter == "enter"){
+      setMessageinfo("Please select the profile pic again!");
+      handleMessage();
+      localStorage.setItem("pic-enter-again","do not enter")
+    }
   }, []);
-  // function togetupdate(){
-  //   axios
-  //     .get(
-  //       `http://fee-management-api.nastechltd.co/api/admission_form/${953866}`
-  //     )
-  //     .then((response) => {
-
-
-  //       setGetdata(response.data.AdmissionForm)
-
-  //       console.log(form_id);
-  //       console.log(response.data);
-  //       console.log("form api response" + response.data);
-  //       setPrevdata(response.data);
-  //       setFname(response.data.first_name);
-  //       setLname(response.data.last_name);
-  //       setMname(response.data.middle_name);
-  //       setFathername(response.data.father_name);
-  //       setDOB(response.data.date_of_birth);
-  //       setEmail(response.data.email);
-  //       setBform(response.data.b_form);
-  //       setLastschool(response.data.last_school_attended);
-  //       setPOB(response.data.place_of_birth);
-  //       setAddresspermanent(response.data.permanent_address);
-  //       setTel(response.data.tel_no);
-  //       setAddresspresent(response.data.address);
-  //       setClassid(response.data.class_id);
-  //       setGender(response.data.gender);
-  //       setCell(response.data.cell_no1);
-  //       setCell2(response.data.cell2);
-  //       setfatherEmail(response.data.father_email);
-  //       setmotherEmail(response.data.mother_email);
-  //       setSelectedFile(response.data.profile_image)
-  //       axios
-  //         .get(
-  //           `http://fee-management-api.nastechltd.co/api/show_class/${response.data.class_id}`
-  //         )
-  //         .then((response) => {
-  //           setSingleclass(response.data);
-  //         })
-  //         .catch((error) => {
-  //           if (error.response) {
-  //             setMessageinfo(error.response.data.message);
-  //             handleMessage();
-  //           }
-  //         });
-  //     })
-  //     .catch((error) => {
-  //       if (error.response) {
-  //         setMessageinfo(error.response.data.message);
-  //         handleMessage();
-  //       }
-  //     });
-  // }
-
-
-
-
-  // const data = {
-  //   school_id: school_id,
-  //   first_name: fname,
-  //   middle_name: mname,
-  //   last_name: lname,
-  //   address: addresspresent,
-  //   permanent_address: addresspermanent,
-  //   email: email,
-  //   gender: gender,
-  //   father_name: fathername,
-  //   date_of_birth: dob,
-  //   place_of_birth: pob,
-  //   last_school_attended: lastschool,
-  //   cell_no_1: cell,
-  //   tel_no: tel,
-  //   class_id: classid,
-  //   b_form: bform,
-  //   cell_no_2: cell2,
-  //   father_email: fatherEmail,
-  //   mother_email: motherEmail,
-  //   extra_comment: extracomment,
-  //   registration_no: reg_id,
-  //   issue_form_date: issueform,
-  //   profile_image: selectedFile,
-  // };
+  
 
   var today = new Date();
   var birthDate = new Date(dob);
@@ -344,8 +270,10 @@ const Studentparticular = () => {
             })
             .catch((error) => {
               if (error.response) {
-                setMessageinfo(error.response.data.message);
-                console.log(error.response.data.message);
+                // setMessageinfo(error.response.data.message);
+                // console.log(error.response.data.message);
+                setMessageinfo("Enter the profile picture");
+
                 handleMessage();
               }
             });
@@ -397,7 +325,12 @@ const Studentparticular = () => {
       } else if (addresspresent == "") {
         setMessageinfo("Enter Present Address");
         handleMessage();
-      } else {
+      } 
+      else if (selectedFile == "") {
+        setMessageinfo("Select a profile image");
+        handleMessage();
+    }
+      else {
         if (
           /^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
             email
@@ -428,6 +361,7 @@ const Studentparticular = () => {
           formData.append("school_id", school_id);
           formData.append("address", addresspresent);
           formData.append("email", email);
+          
           formData.append('_method', 'PUT')
 
           for (var value of formData.values()) {
@@ -450,7 +384,8 @@ const Studentparticular = () => {
             })
             .catch((error) => {
               if (error.response) {
-                setMessageinfo(error.response.data.message);
+                // setMessageinfo(error.response.data.message);
+                setMessageinfo("Enter Profile Picture");
                 handleMessage();
               }
             });
@@ -729,7 +664,7 @@ const Studentparticular = () => {
                   <>
                     <div
                       className="col-12 mt-5"
-                      style={{ display: "flex", flexDirection: "column" }}
+                     
                     >
                       <label>Gender:</label>
                       <div className="form-check form-check-inline">

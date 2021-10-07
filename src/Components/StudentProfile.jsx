@@ -16,7 +16,7 @@ const StudentProfile = () => {
   const { studentid } = useParams();
   useEffect(() => {
     axios
-      .get(`http://fee-management-api.nastechltd.co/api/admission_profile/${studentid}`)
+      .get(`http://fee-management-api.nastechltd.co/api/user_profile/${studentid}`)
       .then((response) => {
         localStorage.setItem("profile pic of student", response.config.url);
         setProfilePic(response.config.url);
@@ -40,6 +40,8 @@ const StudentProfile = () => {
         }
       });
   }, []);
+
+ 
 
   return (
     <>
@@ -104,6 +106,15 @@ const StudentProfile = () => {
                   <div class="icon-name ">Student Vouchers</div>
                 </div>
               </Link>
+
+              {/* <Link class="nav-link" to={`/ViewAttendance/${studentid}`}>
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt "></i>
+                  </div>
+                  <div class="icon-name ">View Attendance</div>
+                </div>
+              </Link> */}
 
              
             </div>

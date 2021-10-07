@@ -207,6 +207,12 @@ const SuperAdmin = () => {
             handleMessage();
 
         }
+        else if (password.length < 8) {
+            setMessageinfo("Password should be atleast 8 characters")
+            handleMessage();
+
+        }
+
         else {
             if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
                 axios.post('http://fee-management-api.nastechltd.co/api/administrator', data)
@@ -347,9 +353,9 @@ const SuperAdmin = () => {
                 <div class="left">
                     <div class="navigation">
                         <div class="wrapper2">
-                            <div class="abilan">
+                            {/* <div class="abilan">
                                 <img alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
-                            </div>
+                            </div> */}
 
                             <Link class="nav-link" to="/super"><div class="folder-icons ">
                                 <div class="icon1">

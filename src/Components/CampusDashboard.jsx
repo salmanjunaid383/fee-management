@@ -180,18 +180,19 @@ const CampusDashboard = () => {
   return (
     <>
       <div class="dashboard">
-        <div class="left">
+      <div class="left">
           <div class="navigation">
             <div class="wrapper2">
               <div class="abilan">
                 <img alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
               </div>
+
               <Link to="/campusdashboard" class="nav-link ">
                 <div class="folder-icons ">
                   <div class="icon1">
-                    <i class="fas fa-columns active"></i>
+                    <i class="fas  fa-columns active"></i>
                   </div>
-                  <div class="icon-name1 active">Dashboard</div>
+                  <div class="icon-name1 active ">Dashboard</div>
                 </div>
               </Link>
               <Link to="/admissioncomponents" class="nav-link ">
@@ -206,18 +207,9 @@ const CampusDashboard = () => {
               <Link class="nav-link" to="/class">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-users-class"></i>
+                    <i class="fas fa-users-class "></i>
                   </div>
-                  <div class="icon-name">Class</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/feecomponents">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-money-check-alt"></i>
-                  </div>
-                  <div class="icon-name">Fee</div>
+                  <div class="icon-name ">Class</div>
                 </div>
               </Link>
 
@@ -237,7 +229,14 @@ const CampusDashboard = () => {
                   <div class="icon-name">Finance Employee</div>
                 </div>
               </Link>
-
+              <Link class="nav-link" to="/feecomponents">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-money-check-alt"></i>
+                  </div>
+                  <div class="icon-name">Fee</div>
+                </div>
+              </Link>
               <Link class="nav-link" to="/feevoucheradmin">
                 <div class="folder-icons">
                   <div class="icon1">
@@ -270,11 +269,10 @@ const CampusDashboard = () => {
                   <div class="icon-name">Expense Tracking</div>
                 </div>
               </Link>
-
               <Link class="nav-link" to="/MainReportPage">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-receipt"></i>
+                    <i class="fas fa-file-medical-alt"></i>
                   </div>
                    <div class="icon-name">Reports</div>
                 </div>
@@ -283,13 +281,39 @@ const CampusDashboard = () => {
               <Link class="nav-link" to="/Voucher-List">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-receipt"></i>
+                    <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">Paid Vouchers</div>
                 </div>
               </Link>
 
-          
+              <Link class="nav-link" to="/AdminAttendance">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
+           
             </div>
           </div>
         </div>
@@ -442,10 +466,11 @@ const CampusDashboard = () => {
                 </div>
 
                 {/* salman changes  */}
+                <div className="col-xl-12 text-right">
                 
-                  <Link to="/expenseRecord" className="btn btn-primary">Expense</Link>
+                  <Link to="/expenseRecord" className="btn btn-primary">View Voucher Records</Link>
                   
-                
+                  </div>
 
 
               </div>

@@ -44,7 +44,7 @@ const SubmitForm = ({ teamId, orientation = 'portrait' }) => {
             child.parentNode.removeChild(child);
         };
     }, [orientation]);
-const [ profile_pic, setProfilePic]=useState('')
+    const [ profile_pic, setProfilePic]=useState('')
     useEffect(()=>{
         
             axios.get(`http://fee-management-api.nastechltd.co/api/admission_profile/${form_id}`).then((response)=>{
@@ -87,8 +87,8 @@ const [ profile_pic, setProfilePic]=useState('')
         <>
             <div className="printform-main mx-auto border border-dark" style={{marginTop:"20px",marginBottom:"20px"}}>
                 <div className="container">
-                <div style={{ display: "flex",alignItems:"center",gap:"20px",marginTop:"15px" }}>
-                    <img src={profile_pic} height="60px" width="60px"/>
+                <div style={{ display: "flex",alignItems:"center", justifyContent:"center",gap:"20px",marginTop:"15px" }}>
+                    <img src={"http://fee-management-api.nastechltd.co/api/admission_profile/"+form_id} height="60px" width="60px"/>
                     <h1 className="text-center">ADMISSION FORM</h1>
                     </div>
                     <div className="row">

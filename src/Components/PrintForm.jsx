@@ -47,8 +47,18 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
         console.log(window.scrollY)
     };
     window.addEventListener('scroll',cb)
-
+    const [ profile_pic, setProfilePic]=useState('')
     useEffect(() => {
+
+        axios.get(`http://fee-management-api.nastechltd.co/api/user_profile/${localStorage.getItem("student_id_pic")}`).then((response)=>{
+               
+            localStorage.setItem("profile pic of student",response.config.url)
+            setProfilePic(response.config.url)
+            console.log("pro",profile_pic)
+           
+         
+         })
+
         axios.get(`http://fee-management-api.nastechltd.co/api/admission_form/${formNo}`)
             .then(response => {
                 console.log(response);
@@ -65,8 +75,8 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                     })
                     .catch((error) => {
                         if (error.response) {
-                            setMessageinfo(error.response.data.message);
-                            handleMessage();
+                            // setMessageinfo(error.response.data.message);
+                            // handleMessage();
                         }
                     })
             })
@@ -76,13 +86,19 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                     handleMessage();
                 }
             })
+
+
     }, [])
 
     return (
         <>
             <div className="printform-main mx-auto border border-dark">
                 <div className="container">
+                <div style={{ display: "flex",alignItems:"center", justifyContent:"center",gap:"20px",marginTop:"15px" }}>
+                    <img src={`http://fee-management-api.nastechltd.co/api/user_profile/${localStorage.getItem("student_id_pic")}`} height="60px" width="60px"/>
                     <h1 className="text-center">STUDENT DATA</h1>
+                    </div>
+                    
                     <div className="col-12 text-right">
                         {student.G_R_NO == null ?
                             <p>GR No: <span>0000</span> </p>
@@ -180,12 +196,12 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                         </div>
 
                         <div className="col-4">
-                            <p>Cellphone 1: <span className="print-capitalize">{parent.father_cell_no_1}</span></p>
+                            <p>Cellphone 1: <span className="print-capitalize">{parent.father_cell_1}</span></p>
                         </div>
                         {parent.father_cell_no_2 === null ?
                             null :
                             <div className="col-4">
-                                <p>Cellphone 2: <span className="print-capitalize">{parent.father_cell_no_2}</span></p>
+                                <p>Cellphone 2: <span className="print-capitalize">{parent.father_cell_2}</span></p>
                             </div>
                         }
 
@@ -233,13 +249,13 @@ const PrintForm = ({ teamId, orientation = 'portrait' }) => {
                         </div>
 
                         <div className="col-4">
-                            <p>Cellphone 1: <span className="print-capitalize">{parent.mother_cell_no_1}</span></p>
+                            <p>Cellphone 1: <span className="print-capitalize">{parent.mother_cell_1}</span></p>
 
                         </div>
                         {parent.mother_cell_no_2 === null ?
                             null :
                             <div className="col-4">
-                                <p>Cellphone 2: <span className="print-capitalize">{parent.mother_cell_no_2}</span></p>
+                                <p>Cellphone 2: <span className="print-capitalize">{parent.mother_cell_2}</span></p>
                             </div>
                         }
 

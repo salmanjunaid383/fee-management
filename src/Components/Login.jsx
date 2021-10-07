@@ -55,6 +55,7 @@ const Login = () => {
                     else if (decoded.role === 'Administrator') {
                         localStorage.setItem("admin_id", decoded.sub)
                         history.push("/school")
+                        localStorage.setItem("school_id",response.data.id)
 
                     }
                     else if (decoded.role === 'Finance_employee') {

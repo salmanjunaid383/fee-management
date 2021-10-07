@@ -196,7 +196,7 @@ const Emergency = () => {
                                 </div>
                                 <div className="form-group col-4">
                                     <label for="guardAddress">Address</label>
-                                    <textarea className="form-control" defaultValue={prevdata.address} id="guardAddress" rows="1" onChange={(e) => setAddress(e.target.value)}></textarea>
+                                    <textarea className="form-control" defaultValue={prevdata.address} id="guardAddress" placeholder="Address" rows="1" onChange={(e) => setAddress(e.target.value)}></textarea>
                                 </div>
                                 <div className="col-4">
                                     <label for="guardPhone">Telephone:</label>

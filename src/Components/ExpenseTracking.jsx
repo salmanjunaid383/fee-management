@@ -70,6 +70,8 @@ const MyExpense = () => {
   const [charges, setCharges] = useState("");
   const [paid, setPaid] = useState();
   const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [inventory_id, setInventoryID] = useState("");
   const school_id = localStorage.getItem("school_id");
   const history = useHistory();
   const [show2, setShow2] = useState(false);
@@ -182,6 +184,8 @@ const MyExpense = () => {
     students: selected,
     charges: charges,
     description: description,
+    quantity: quantity,
+    inventory_id: inventory_id,
     paid: 0,
   };
   const sendData = () => {
@@ -194,7 +198,17 @@ const MyExpense = () => {
     } else if (description == "") {
       setMessageinfo("Enter Description");
       handleMessage();
-    } else if (selected.length == 0) {
+      
+    } 
+    else if (quantity == "") {
+      setMessageinfo("Enter Quantity");
+      handleMessage();
+    }
+    else if (inventory_id == "") {
+      setMessageinfo("Enter Inventory ID");
+      handleMessage();
+    }
+    else if (selected.length == 0) {
       setMessageinfo("Select Student(s)");
       handleMessage();
     } else {
@@ -208,6 +222,8 @@ const MyExpense = () => {
           setDescription("");
           setSelected([]);
           setCharges("");
+          setQuantity("");
+          setInventoryID("");
           reset();
           handleClose();
           reload();
@@ -463,9 +479,36 @@ const MyExpense = () => {
               <Link class="nav-link" to="/Voucher-List">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-receipt"></i>
+                    <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">Paid Vouchers</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/AdminAttendance">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
                 </div>
               </Link>
             </div>
@@ -613,6 +656,25 @@ const MyExpense = () => {
                       <div class="col-6 mt-2 billing-box">
                         <TextField
                           className="pb-3"
+                          type="text"
+                          label="Quantity"
+                          onChange={(e) => setQuantity(e.target.value)}
+                          variant="filled"
+                        />
+                      </div>
+
+                      <div class="col-6 mt-2 billing-box">
+                        <TextField
+                          className="pb-3"
+                          type="text"
+                          label="Inventory ID"
+                          onChange={(e) => setInventoryID(e.target.value)}
+                          variant="filled"
+                        />
+                      </div>
+                      <div class="col-6 mt-2 billing-box">
+                        <TextField
+                          className="pb-3"
                           type="number"
                           onChange={(e) => setCharges(e.target.value)}
                           label="Charges"
@@ -626,6 +688,9 @@ const MyExpense = () => {
                           labelledBy={"Select"}
                         />
                       </div>
+                     
+
+
                       <div class="col-6 mt-2 billing-box">
                         <TextField
                           className="pb-3"
@@ -635,6 +700,8 @@ const MyExpense = () => {
                           variant="filled"
                         />
                       </div>
+
+                      
                     </div>
                   </Modal.Body>
                   <Modal.Footer>

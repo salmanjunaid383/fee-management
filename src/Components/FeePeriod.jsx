@@ -67,6 +67,9 @@ const FeePeriod = () => {
     const CloseMessage = () => {
         setMessage({ ...message, open: false });
     };
+
+
+    const [start, setStartingdate] = useState("")
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_billing_period/${school_id}`)
             .then(response => {
@@ -80,6 +83,14 @@ const FeePeriod = () => {
                     handleMessage();
                 }
             })
+
+
+            var a = new Date();
+            var year = a.getFullYear();
+            var month = ("0" + (a.getMonth() + 1)).slice(-2);
+            var date = ("0" + a.getDate()).slice(-2);
+            setStartingdate(`${year}-${month}-${date}`)
+            console.log( `${year}-${month}-${date}`)
     }, [])
     const reload = () => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_billing_period/${school_id}`)
@@ -201,7 +212,10 @@ const FeePeriod = () => {
         }
 
     }
-
+    const index = 0;
+    function indexVariable(){
+        return index+1;
+    }
     const data = {
         school_id: localStorage.getItem("school_id"),
         phase: billing,
@@ -279,7 +293,7 @@ const FeePeriod = () => {
         localStorage.clear();
         history.push("/")
     }
-
+ 
 
     return (
         <>
@@ -392,7 +406,7 @@ const FeePeriod = () => {
                                         <div class="row billing-main">
                                             <div class="col-6 billing-box">
                                                 <TextField className="pb-3" type="number" defaultValue={prevdata.phase} onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Fee Period" variant="filled" />
-                                                <TextField className="pb-3" type="number" defaultValue={prevdata.due_date} onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
+                                                <TextField className="pb-3" type="text" defaultValue={prevdata.due_date} onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
                                                 <TextField className="pb-3" type="number" defaultValue={prevdata.valid_date} onChange={(e) => setValidDate(e.target.value)} helperText="Bank Expiry Date" label="Valid Bank Date" variant="filled" />
                                             </div>
 
@@ -453,7 +467,7 @@ const FeePeriod = () => {
                                                     return (
                                                         <>
                                                             <tr key={i}>
-                                                                <td>{val.id}</td>
+                                                                <td>{indexVariable()}</td>
                                                                 <td>{val.phase}</td>
                                                                 <td>{val.generation_date}</td>
                                                                 <td class="txt-oflo">{val.due_date}</td>
@@ -485,7 +499,7 @@ const FeePeriod = () => {
                                     <div class="row billing-main">
                                         <div class="col-4 billing-box">
                                             <TextField className="pb-3" type="number" onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
-                                            <TextField className="pb-3" type="number" onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
+                                            <TextField className="pb-3" type="text" onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
                                             <TextField className="pb-3" type="number" defaultValue={prevdata.due_date} onChange={(e) => setValidDate(e.target.value)} helperText="Bank Expiry Date" label="Valid Bank Date" variant="filled" />
                                         </div>
 

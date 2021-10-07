@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../Components/reports.css";
+import logo from "../Components/wonderland.jpg"
 
 const PickupPrint = () => {
   const TcPrintID = localStorage.getItem("pickup_print_id");
@@ -38,7 +39,7 @@ const PickupPrint = () => {
       <div className="container">
         <div className="row">
           <div className="col-xl-6 f-sec-col">
-            {/* <img src="" alt="logo" /> */}
+            <img src={logo} alt="logo" height="95px" style={{marginRight:"10px", marginLeft:"-20px"}} />
 
             <h4>Wonderland Grammer Sec. School</h4>
           </div>
@@ -46,9 +47,16 @@ const PickupPrint = () => {
 
         <div className="row">
           <div className="col-xl-12 s-sec-col">
-            <h6>....a positive change towards education</h6>
+             <h6>....a positive change towards education</h6>
           </div>
         </div>
+
+        <div className="row" style={{marginBottom:"20px"}}>
+          <div className="col-xl-12 s-sec-col">
+            <h2 >Campus (I)</h2>
+          </div>
+        </div>
+         
 
         <div className="row">
           <div className="col-xl-12 t-sec-col">

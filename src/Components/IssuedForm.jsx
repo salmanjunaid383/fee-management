@@ -58,6 +58,8 @@ const IssuedForm = () => {
 
   const [registration, setRegistration] = useState(0);
   const issued_form_id = localStorage.getItem("issued_form_id")
+
+  const [notify,setNotify] = useState('Submit')
  
   function postFrom() {
    
@@ -121,6 +123,7 @@ const IssuedForm = () => {
       }
      
       else{
+        setNotify('Please Wait...')
         axios
         .post(`http://fee-management-api.nastechltd.co/api/form_issue`, data)
         .then((response) => {
@@ -131,6 +134,7 @@ const IssuedForm = () => {
           alert(
             `Please note down your form number: ${response.data.form.registration_no}`
           );
+          setNotify('Submited')
           localStorage.setItem("reg_no", response.data.form.registration_no);
           formbuttonchange();
         })
@@ -504,7 +508,7 @@ const IssuedForm = () => {
                   onClick={postFrom}
                   className="issue-form-button"
                 >
-                  Submit
+                  {notify}
                 </button>
 
                 <div>

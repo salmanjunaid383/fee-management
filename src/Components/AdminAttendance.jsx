@@ -29,55 +29,40 @@ const AdminAttendance = () => {
     history.push("/");
   };
 
-  // const [attendance, setattendance] = useState([{ date: "" }]);
-  // const handleChange = (e, index) => {
-  //   const { date, value } = e.target;
-  //   const list = [...attendance];
-  //   list[index][date] = value;
-  //   setattendance(list);
-  // };
-  
   const schoolId = localStorage.getItem("school_id");
-  function submit(){
-    console.log(attendances)
+  function submit() {
+    console.log(attendances);
     axios
-        .post(`http://fee-management-api.nastechltd.co/api/attendance`,{
-          attendances:attendances
-        }).then((response) =>{
+      .post(`http://fee-management-api.nastechltd.co/api/attendance`, {
+        attendances: attendances,
+      })
+      .then(
+        (response) => {
           console.log(response);
-        }, (error) => {
+        },
+        (error) => {
           console.log(error);
-        });
+        }
+      );
   }
 
-  const [attendances,setItemList]=useState([{date: '',school_id:schoolId }]);
-    function AddMore() {
-        setItemList([...attendances, {date: '',school_id:schoolId }])
-    }
-    function handleChange(e, index) {
-        
-        const { name,value  } = e.target;
-        const list = [...attendances];
-        list[index][name] = value;
-        setItemList(list);
-       
-    }
-    function Remove(i){
-      const list = [...attendances];
-      list.pop(i)
-      setItemList(list);
-      
-    }
-
-  // const handleAdd = () => {
-  //   setattendance([...attendance, { date: "" }]);
-  //   console.log(attendance);
-  // };
-  // const removeField = (index) => {
-  //   const list = [...attendance];
-  //   list.splice(index, 1);
-  //   setattendance(list);
-  // };
+  const [attendances, setItemList] = useState([
+    { date: "", school_id: schoolId },
+  ]);
+  function AddMore() {
+    setItemList([...attendances, { date: "", school_id: schoolId }]);
+  }
+  function handleChange(e, index) {
+    const { name, value } = e.target;
+    const list = [...attendances];
+    list[index][name] = value;
+    setItemList(list);
+  }
+  function Remove(i) {
+    const list = [...attendances];
+    list.pop(i);
+    setItemList(list);
+  }
 
   return (
     <>
@@ -86,7 +71,13 @@ const AdminAttendance = () => {
           <div class="navigation">
             <div class="wrapper2">
               <div class="abilan">
-                <img alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
+                <img
+                  alt="Logo"
+                  src={
+                    "http://fee-management-api.nastechltd.co/api/school_profile/" +
+                    localStorage.getItem("school_id")
+                  }
+                />
               </div>
 
               <Link to="/campusdashboard" class="nav-link ">
@@ -183,9 +174,36 @@ const AdminAttendance = () => {
               <Link class="nav-link" to="/Voucher-List">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-receipt"></i>
+                    <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">Paid Vouchers</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/AdminAttendance">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
                 </div>
               </Link>
             </div>
@@ -204,48 +222,56 @@ const AdminAttendance = () => {
             <hr class="new-hr" />
           </div>
           <div class="right-body">
-            
-              
-                
-                  <div style={{ overflow: "hidden",padding:"10px" }}>
-                                              <div className="row mt-3">
-                                                {
-                                                       attendances.map((val , i) => {
-                                                           return (
-                                                               <>
-                                                               
-                                                                <div className="col-md-11 text-center px-2 w-100 p-0">
-                                                                    <TextField
-                                                                        onChange={(e) => handleChange(e, i)}
-                                                                        id="standard-textarea"
-                                                                        name='date'
-                                                                        label="Date"
-                                                                        placeholder="Add date"
-                                                                        type="date"
-                                                                        
-                                                                        
-                                                                        InputLabelProps={{
-                                                                            shrink: true,
-                                                                        }} />                                                
-                                                                        </div>
-                                                                <div className="col-md-1 text-center px-2 w-100 p-0">
-                                                                <i className="fa fa-minus p-2 text-center pt-1 bg-dark text-light" style={{marginTop:"10px",cursor:"pointer"}} onClick={(e) => Remove(i)} ></i>
-                                                                </div>
-                                                                
-                                                            
-                                                               </>
-                                                           )
-                                                       })
-                                                   }
-                                                   <div className="col-md-6  px-2 w-100 p-0">
-                                                   <i className="fa fa-plus p-2 text-center pt-1 bg-dark text-light" style={{marginTop:"10px",cursor:"pointer"}} onClick={AddMore} ></i>
 
-                                                   </div>
-                                                </div>
-                                                <button className="btn btn-primary text-center px-2 w-100 p-0" style={{marginTop:'5px'}} onClick={submit}>Submit</button>
-                  </div>
-                
-              
+            
+              <h5>Add Attendance Date</h5>
+            
+            <div style={{ overflow: "hidden", padding: "10px" }}>
+              <div className="row mt-3">
+                {attendances.map((val, i) => {
+                  return (
+                    <>
+                      <div className="col-md-11 text-center px-2 w-100 p-0">
+                        <TextField
+                          onChange={(e) => handleChange(e, i)}
+                          id="standard-textarea"
+                          name="date"
+                          label="Date"
+                          placeholder="Add date"
+                          type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                      </div>
+                      <div className="col-md-1 text-center px-2 w-100 p-0">
+                        <i
+                          className="fa fa-minus p-2 text-center pt-1 bg-dark text-light"
+                          style={{ marginTop: "10px", cursor: "pointer" }}
+                          onClick={(e) => Remove(i)}
+                        ></i>
+                      </div>
+                    </>
+                  );
+                })}
+                <div className="col-md-6  px-2 w-100 p-0">
+                  <i
+                    className="fa fa-plus p-2 text-center pt-1 bg-dark text-light"
+                    style={{ marginTop: "10px", cursor: "pointer" }}
+                    onClick={AddMore}
+                  ></i>
+                </div>
+              </div>
+              <div className="col-xl-12 text-right">
+                <button
+                  className="btn btn-primary  px-2  py-1"
+                  style={{ marginTop: "5px" }}
+                  onClick={submit}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

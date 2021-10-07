@@ -13,7 +13,7 @@ import { Modal } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 
-const MyClass = () => {
+const BorrowAssets = () => {
   const [schoolClass, setSchoolClass] = useState();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -29,28 +29,14 @@ const MyClass = () => {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
   const handleClick = (id) => {
-    localStorage.setItem("user_id", id);
+    localStorage.setItem("asset_id", id);
     handleShow2();
   };
   const remove = () => {
-    localStorage.removeItem("user_id");
+    localStorage.removeItem("asset_id");
     handleClose2();
   };
-  const [sections, setSections] = useState([{ name: "" }]);
-  const handleChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...sections];
-    list[index][name] = value;
-    setSections(list);
-  };
-  const handleAdd = () => {
-    setSections([...sections, { name: "" }]);
-  };
-  const removeField = (index) => {
-    const list = [...sections];
-    list.splice(index, 1);
-    setSections(list);
-  };
+
   const [messageinfo, setMessageinfo] = useState("");
   const [message, setMessage] = useState({
     open: false,
@@ -64,13 +50,29 @@ const MyClass = () => {
   const CloseMessage = () => {
     setMessage({ ...message, open: false });
   };
+
+
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [quantity, setQunatity] = useState("");
+//   const [price, setPrice] = useState("");
+
+  const data = [
+    {
+      name: name,
+      quantity: quantity,
+      description: description,
+      school_id: school_id,
+    //   price: price,
+    },
+  ];
+
   useEffect(() => {
     axios
-      .get(
-        `http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`
-      )
+      .get(`http://fee-management-api.nastechltd.co/api/assets_borrow/${school_id}`)
       .then((response) => {
-        console.log(response.data);
+        console.log("salman",response.data);
         setClassdata(response.data);
       })
       .catch((error) => {
@@ -81,28 +83,20 @@ const MyClass = () => {
       });
   }, []);
 
-  const data = {
-    name: schoolClass,
-    school_id: localStorage.getItem("school_id"),
-    sections: sections,
-  };
-  const sendData = (e) => {
-    if (schoolClass === "") {
-      setMessageinfo("Enter Class");
-      handleMessage();
-    } else if (sections[0].name === "") {
-      setMessageinfo("Enter Section(s)");
-      handleMessage();
-    } else {
-      axios
-        .post("http://fee-management-api.nastechltd.co/api/schools_class", data)
+  function sendData() {
+    console.log(name);
+    console.log(data);
+    axios
+      .post(`http://fee-management-api.nastechltd.co/api/assets_borrow`,data
+      )
+      .then((response) => {
+        console.log(response.data);
+        handleClose();
+        axios
+        .get(`http://fee-management-api.nastechltd.co/api/assets_borrow/${school_id}`)
         .then((response) => {
-          console.log(response);
-          console.log(response.data.id);
-          setSchoolClass();
-          setSections([{ name: "" }]);
-          handleClose();
-          reload();
+          console.log("salman",response.data);
+          setClassdata(response.data);
         })
         .catch((error) => {
           if (error.response) {
@@ -110,16 +104,6 @@ const MyClass = () => {
             handleMessage();
           }
         });
-    }
-  };
-  const reload = () => {
-    axios
-      .get(
-        `http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`
-      )
-      .then((response) => {
-        console.log(response.data);
-        setClassdata(response.data);
       })
       .catch((error) => {
         if (error.response) {
@@ -127,18 +111,33 @@ const MyClass = () => {
           handleMessage();
         }
       });
-  };
-  const deleteClass = (id) => {
+  }
+
+  const deleteClass = () => {
     axios
       .delete(
-        `http://fee-management-api.nastechltd.co/api/schools_class/${localStorage.getItem(
-          "user_id"
+        `http://fee-management-api.nastechltd.co/api/assets_borrow/${localStorage.getItem(
+          "asset_id"
         )}`
       )
       .then((response) => {
         console.log(response);
         remove();
-        reload();
+        axios
+        .get(`http://fee-management-api.nastechltd.co/api/assets_borrow/${school_id}`)
+        .then((response) => {
+          console.log("salman",response.data);
+          setClassdata(response.data);
+        })
+        .catch((error) => {
+          if (error.response) {
+            setMessageinfo(error.response.data.message);
+            handleMessage();
+          }
+        });
+      
+        
+       
       })
       .catch((error) => {
         if (error.response) {
@@ -148,13 +147,21 @@ const MyClass = () => {
       });
   };
 
+  const logOut = () => {
+    localStorage.clear();
+    history.push("/");
+  };
+
   const update = (id) => {
     axios
-      .get(`http://fee-management-api.nastechltd.co/api/show_class/${id}`)
+      .get(`http://fee-management-api.nastechltd.co/api/show_assets/${id}`)
       .then((response) => {
         console.log(response.data);
         setPrevdata(response.data);
-        setSchoolClass(response.data.name);
+        setName(response.data.name);
+        setDescription(response.data.description);
+        setQunatity(response.data.quantity);
+        // setPrice(response.data.price);
         handleShow1();
       })
       .catch((error) => {
@@ -164,24 +171,39 @@ const MyClass = () => {
         }
       });
   };
+
   const sendUpdated = () => {
-    if (schoolClass === "") {
-      setMessageinfo("Enter Class");
-      handleMessage();
-    } else {
+  
       axios
         .put(
-          `http://fee-management-api.nastechltd.co/api/schools_class/${prevdata.id}`,
+          `http://fee-management-api.nastechltd.co/api/assets_borrow/${prevdata.id}`,
           {
-            name: schoolClass,
+            name: name,
+            description: description,
+            quantity:quantity,
+            school_id:school_id,
+            // price:price
           }
         )
         .then((response) => {
           console.log(response);
           setPrevdata("");
           setSchoolClass();
-          reload();
           handleClose1();
+
+          axios
+        .get(`http://fee-management-api.nastechltd.co/api/assets_borrow/${school_id}`)
+        .then((response) => {
+          console.log("salman",response.data);
+          setClassdata(response.data);
+        })
+        .catch((error) => {
+          if (error.response) {
+            setMessageinfo(error.response.data.message);
+            handleMessage();
+          }
+        });
+
         })
         .catch((error) => {
           if (error.response) {
@@ -190,12 +212,7 @@ const MyClass = () => {
           }
         });
     }
-  };
-
-  const logOut = () => {
-    localStorage.clear();
-    history.push("/");
-  };
+  
 
   return (
     <>
@@ -204,7 +221,13 @@ const MyClass = () => {
           <div class="navigation">
             <div class="wrapper2">
               <div class="abilan">
-                <img alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
+                <img
+                  alt="Logo"
+                  src={
+                    "http://fee-management-api.nastechltd.co/api/school_profile/" +
+                    localStorage.getItem("school_id")
+                  }
+                />
               </div>
 
               <Link to="/campusdashboard" class="nav-link ">
@@ -292,9 +315,9 @@ const MyClass = () => {
               <Link class="nav-link" to="/MainReportPage">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-medical-alt"></i>
+                    <i class="fas fa-receipt"></i>
                   </div>
-                   <div class="icon-name">Reports</div>
+                  <div class="icon-name">Reports</div>
                 </div>
               </Link>
 
@@ -333,7 +356,6 @@ const MyClass = () => {
                   <div class="icon-name">School Assets</div>
                 </div>
               </Link>
-           
             </div>
           </div>
         </div>
@@ -341,7 +363,7 @@ const MyClass = () => {
           <div class="right-header">
             <div class="top-bar">
               <div class="top-bar-justify">
-                <div class="big-inbox">Classes</div>
+                <div class="big-inbox">Assests</div>
                 <button onClick={logOut} class="btn text-bolder text-right">
                   Log Out
                 </button>
@@ -388,72 +410,80 @@ const MyClass = () => {
                   onClick={handleShow}
                   class="btn btn-primary btn-lg"
                 >
-                  <AddIcon /> Add Class
+                  <AddIcon /> add assest
                 </button>
                 <Modal show={show} onHide={handleClose}>
                   <Modal.Header closeButton>
-                    <Modal.Title>Add Class</Modal.Title>
+                    <Modal.Title>add assest</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <div class="row billing-main">
-                      <div class="col-6 billing-box">
-                        <TextField
-                          className="pb-3 bg-white"
-                          type="text"
-                          onChange={(e) => setSchoolClass(e.target.value)}
-                          label="Class"
-                          variant="filled"
-                        />
-                      </div>
+                    <div class="col-12">
+                      <TextField
+                        style={{ width: "100%" }}
+                        className="pb-3 bg-white"
+                        name="name"
+                        type="text"
+                        label="Name"
+                        variant="filled"
+                        onChange={(e) => setName(e.target.value)}
+                      />
                     </div>
-                    {sections.map((item, i) => {
-                      return (
-                        <>
-                          <div key={i} class="row mb-2 billing-main">
-                            <div class="col-6">
-                              <TextField
-                                className="pb-3 bg-white"
-                                name="name"
-                                type="text"
-                                onChange={(e) => handleChange(e, i)}
-                                label="Section"
-                                variant="filled"
-                              />
-                            </div>
-                            <div class="col-2 text-right p-0">
-                              {sections.length - 1 === i && (
-                                <button
-                                  type="button"
-                                  onClick={handleAdd}
-                                  class="btn btn-primary mt-3"
-                                >
-                                  More
-                                </button>
-                              )}
-                            </div>
-                            <div className="col-2 text-left p-0">
-                              {sections.length !== 1 && (
-                                <button
-                                  type="button"
-                                  onClick={() => removeField(i)}
-                                  class="btn btn-primary mt-3"
-                                >
-                                  Remove
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                          <div className="row billing-main"></div>
-                        </>
-                      );
-                    })}
+
+                    <div class="col-12">
+                      <TextField
+                        style={{ width: "100%" }}
+                        className="pb-3 bg-white"
+                        name="name"
+                        type="text"
+                        label="Description"
+                        variant="filled"
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
+                    </div>
+
+                    <div class="col-12">
+                      <TextField
+                        style={{ width: "100%" }}
+                        className="pb-3 bg-white"
+                        name="name"
+                        type="number"
+                        label="Quantity"
+                        variant="filled"
+                        onChange={(e) => setQunatity(e.target.value)}
+                      />
+                    </div>
+
+                    <div class="col-12">
+                      <TextField
+                        style={{ width: "100%" }}
+                        className="pb-3 bg-white"
+                        name="name"
+                        type="number"
+                        label="Quantity"
+                        variant="filled"
+                        onChange={(e) => setQunatity(e.target.value)}
+                      />
+                    </div>
+
+                    <div class="col-12">
+                      <TextField
+                        style={{ width: "100%" }}
+                        className="pb-3 bg-white"
+                        name="name"
+                        type="number"
+                        label="Quantity"
+                        variant="filled"
+                        onChange={(e) => setQunatity(e.target.value)}
+                      />
+                    </div>
+                    
                   </Modal.Body>
                   <Modal.Footer>
                     <button class="btn btn-secondary" onClick={handleClose}>
                       Close
                     </button>
                     <button onClick={sendData} className="btn btn-primary">
-                      Create
+                      Send
                     </button>
                   </Modal.Footer>
                 </Modal>
@@ -468,12 +498,67 @@ const MyClass = () => {
                           className="pb-3 bg-white"
                           type="text"
                           defaultValue={prevdata.name}
-                          onChange={(e) => setSchoolClass(e.target.value)}
-                          label="Class"
+                          onChange={(e) => setName(e.target.value)}
+                          label="Name"
                           variant="filled"
                         />
                       </div>
                     </div>
+
+                    <div class="row billing-main">
+                      <div class="col-6 billing-box">
+                        <TextField
+                          className="pb-3 bg-white"
+                          type="text"
+                          defaultValue={prevdata.description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          label="Description"
+                          variant="filled"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row billing-main">
+                      <div class="col-6 billing-box">
+                        <TextField
+                          className="pb-3 bg-white"
+                          type="number"
+                          defaultValue={prevdata.quantity}
+                          onChange={(e) => setQunatity(e.target.value)}
+                          label="Quantity"
+                          variant="filled"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="row billing-main">
+                      <div class="col-6 billing-box">
+                        <TextField
+                          className="pb-3 bg-white"
+                          type="number"
+                          defaultValue={prevdata.quantity}
+                          onChange={(e) => setQunatity(e.target.value)}
+                          label="Quantity"
+                          variant="filled"
+                        />
+                      </div>
+                    </div>
+
+
+                    <div class="row billing-main">
+                      <div class="col-6 billing-box">
+                        <TextField
+                          className="pb-3 bg-white"
+                          type="number"
+                          defaultValue={prevdata.quantity}
+                          onChange={(e) => setQunatity(e.target.value)}
+                          label="Quantity"
+                          variant="filled"
+                        />
+                      </div>
+                    </div>
+
+                    
                   </Modal.Body>
                   <Modal.Footer>
                     <button class="btn btn-secondary" onClick={handleClose1}>
@@ -512,38 +597,26 @@ const MyClass = () => {
                   <thead>
                     <tr>
                       <th class="border-top-0">#</th>
-                      <th class="border-top-0">Class</th>
-                      <th class="border-top-0">Section</th>
-                      <th class="border-top-0">Created At</th>
+                      <th class="border-top-0">Name</th>
+                      <th class="border-top-0">Description</th>
+                      <th class="border-top-0">Quantity</th>
+                      
                       <th class="border-top-0">Action</th>
+                      
+
                     </tr>
                   </thead>
-                  <tbody>
+
+                  {/* <tbody>
                     {classdata.map((val, i) => {
                       return (
                         <>
                           <tr key={i}>
                             <td>{i + 1}</td>
                             <td class="txt-oflo">{val.name}</td>
-
-                            <td>
-                              <Link to="/section">
-                                <button
-                                  class="btn"
-                                  onClick={() => {
-                                    localStorage.setItem("class_id", val.id);
-                                    localStorage.setItem(
-                                      "class_name",
-                                      val.name
-                                    );
-                                  }}
-                                >
-                                  <LaunchIcon />
-                                </button>
-                              </Link>
-                            </td>
-
-                            <td>{val.created_at.slice(0, 10)}</td>
+                            <td class="txt-oflo">{val.description}</td>
+                            <td class="txt-oflo">{val.quantity}</td>
+                            {/* <td class="txt-oflo">{val.price}</td> 
                             <td>
                               <ButtonGroup
                                 disableElevation
@@ -564,11 +637,13 @@ const MyClass = () => {
                                 </Button>
                               </ButtonGroup>
                             </td>
+                            
                           </tr>
                         </>
                       );
                     })}
-                  </tbody>
+                  </tbody> */}
+            
                 </table>
               </div>
             </div>
@@ -587,4 +662,4 @@ const MyClass = () => {
     </>
   );
 };
-export default MyClass;
+export default BorrowAssets;

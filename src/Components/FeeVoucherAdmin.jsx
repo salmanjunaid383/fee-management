@@ -357,7 +357,7 @@ const FeeVoucherAdmin = () => {
                                         <div className="col-8">
                                             <input class="form-control" name="file" type="file" onChange={(e) => changeHandler(e)} />
                                         </div>
-                                        <div className="col-4">
+                                        <div className="col-4" >
                                             <button onClick={handleSubmission} className="btn btn-success">Upload</button>
                                         </div>
                                     </div>
@@ -370,10 +370,11 @@ const FeeVoucherAdmin = () => {
                                 <div className="col-6 text-left mt-1">
                                     <TextField className="pb-3 bg-white" value={searchTerm} type="text" helperText="By GR.No or Name" onChange={(e) => setSearchTerm(e.target.value)} label="Search Student" />
                                     <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
-                                    <button onClick={handleShow} className="btn btn-primary mt-3 ml-5">Upload File</button>
+                                    <button onClick={handleShow} className="  btn btn-primary mt-3 ml-4">Upload File</button>
                                 </div>
+                               
                                 <div className="col-6 text-right">
-                                    <FormControl className={classes.formControl}>
+                                    {/* <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-simple-select-label">Class</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -389,8 +390,8 @@ const FeeVoucherAdmin = () => {
                                             })}
                                         </Select>
                                     </FormControl>
-                                    <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
-                                    <FormControl className={classes.formControl}>
+                                    <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button> */}
+                                    {/* <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-simple-select-label">Section</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -405,7 +406,7 @@ const FeeVoucherAdmin = () => {
 
                                             })}
                                         </Select>
-                                    </FormControl>
+                                    </FormControl> */}
 
                                 </div>
                             </div>

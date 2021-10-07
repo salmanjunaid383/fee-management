@@ -119,7 +119,7 @@ const Termsandconditions = () => {
     </div>
    <Link to={`/issued-form/${localStorage.getItem("school_id")}`}>
 
-    <div className="col-xl-12" style={{display:"flex", justifyContent:"center"}}>
+    <div className="col-xl-12" style={{display:"flex", justifyContent:"center", marginBottom:"20px"}}>
     <button disabled={checkState=='' || checkState=="false"? true : false}  style={checkState=='true' ? {backgroundColor:"green", color:"#fff", border:"none",outline:"none",padding:"7px", borderRadius:"5px"} : {backgroundColor:"grey", color:"#000", border:"none",outline:"none",padding:"7px", borderRadius:"5px"}}>
         Proceed
     </button>

@@ -360,7 +360,7 @@ const CustomFeeVoucher = () => {
                                     <button onClick={reset} className="btn btn-primary mt-3 ml-5">Reset</button>
                                 </div>
                                 <div className="col-6 text-right">
-                                    <FormControl className={classes.formControl}>
+                                    {/* <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-simple-select-label">Class</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -376,7 +376,7 @@ const CustomFeeVoucher = () => {
                                             })}
                                         </Select>
                                     </FormControl>
-                                    <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button>
+                                    <button onClick={search} className="btn btn-primary mt-3 ml-1">Search</button> */}
                                     {/* <FormControl className={classes.formControl}>
                                         <InputLabel id="demo-simple-select-label">Section</InputLabel>
                                         <Select

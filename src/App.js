@@ -80,12 +80,21 @@ import StudentUnpaidVoucher from './Components/StudentUnpaidVoucher';
 import StudentAttendance from './Components/StudentAttendance';
 import ViewAttendance from './Components/ViewAttendance';
 import ExpenseRecord from './Components/ExpenseRecord';
-
+import Inventory from './Components/Inventory';
+import AssetTracking from './Components/AssetTracking';
+import StudentLeave from './Components/StudentLeave';
+import BorrowAssets from './Components/BorrowAssets';
 const App = () => {
     return <>
         <Switch>
             
-            <Route path="/ViewAttendance" component={ViewAttendance} />
+            
+            
+        <Route path="/BorrowAssets" component={BorrowAssets} />
+        <Route path="/StudentLeave" component={StudentLeave} />
+            <Route path="/Asset-Tracking" component={AssetTracking} />
+            <Route path="/Inventory" component={Inventory} />
+            <Route path="/ViewAttendance/:studentid" component={ViewAttendance} />
             <Route path="/studentattendance" component={StudentAttendance} />
             <Route path="/studentUnpaidVoucher/:studentid" component={StudentUnpaidVoucher} />
             <Route path="/studentVoucher/:studentid" component={StudentVoucher} />
