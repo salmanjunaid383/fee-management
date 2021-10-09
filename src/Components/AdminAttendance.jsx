@@ -47,10 +47,10 @@ const AdminAttendance = () => {
   }
 
   const [attendances, setItemList] = useState([
-    { date: "", school_id: schoolId },
+    { date: "", school_id: schoolId, description:"" },
   ]);
   function AddMore() {
-    setItemList([...attendances, { date: "", school_id: schoolId }]);
+    setItemList([...attendances, { date: "", school_id: schoolId , description:"" }]);
   }
   function handleChange(e, index) {
     const { name, value } = e.target;
@@ -257,6 +257,19 @@ const AdminAttendance = () => {
                           label="Date"
                           placeholder="Add date"
                           type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+
+                        <TextField
+                        style={{marginLeft:"10px"}}
+                          onChange={(e) => handleChange(e, i)}
+                          id="standard-textarea"
+                          name="description"
+                          label="Description"
+                          placeholder="Add Description"
+                         
                           InputLabelProps={{
                             shrink: true,
                           }}

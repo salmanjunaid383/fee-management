@@ -692,8 +692,8 @@ const MyExpense = () => {
                          variant="filled"
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={classid}
-                            onChange={(e) => setClassid(e.target.value)}
+                            value={inventory_id}
+                            onChange={(e) => setInventoryID(e.target.value)}
                           >
                             {inventorydata.map((val, i) => {
                               return (

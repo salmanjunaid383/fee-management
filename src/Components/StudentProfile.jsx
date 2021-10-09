@@ -221,7 +221,7 @@ const StudentProfile = () => {
                           <h4 style={{ fontSize: "20px" }}>Gender:</h4>
                         </div>
                         <div className="">
-                          <h4 style={{ fontSize: "15px" }}>
+                          <h4 style={{ fontSize: "15px", textTransform:"capitalize" }}>
                             {student_data.gender}
                           </h4>
                         </div>
