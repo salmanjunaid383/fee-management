@@ -185,6 +185,7 @@ const AdminsSchool = () => {
                                 <img
                                     alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
                             </div>
+                            
 
                             <Link class="nav-link" to="/super"><div class="folder-icons ">
                                 <div class="icon1">

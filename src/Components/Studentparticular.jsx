@@ -225,6 +225,7 @@ const Studentparticular = () => {
         setMessageinfo("Enter Present Address");
         handleMessage();}
         else if (selectedFile == "") {
+          console.log(selectedFile);
           setMessageinfo("Select a profile image");
           handleMessage();
       } else {
@@ -711,7 +712,7 @@ const Studentparticular = () => {
                               name="gender"
                               id="male"
                               value="male"
-
+                              checked
                               onChange={(e) => setGender(e.target.value)}
                             />
                             <label className="form-check-label" for="male">
@@ -757,7 +758,7 @@ const Studentparticular = () => {
                               name="gender"
                               id="female"
                               value="female"
-
+                              checked
                               onChange={(e) => setGender(e.target.value)}
                             />
                             <label className="form-check-label" for="female">

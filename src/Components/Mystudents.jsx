@@ -346,6 +346,10 @@ const Mystudents = () => {
     localStorage.clear();
     history.push("/");
   };
+  function updateStudent(id){
+    localStorage.setItem("reg_no",id);
+    history.push("/studentparticular")
+  }
 
   return (
     <>
@@ -698,6 +702,11 @@ const Mystudents = () => {
                               Female
                             </label>
                           </div>
+                          <div class="form-check form-check-inline" style={{float:'right'}}>
+                          <button onClick={(e) => updateStudent(prevdata.registration_no)} className="btn btn-primary" >
+                          Detail 
+                        </button>
+                          </div>
                         </div>
                       ) : (
                         <div className="mt-2">
@@ -728,6 +737,11 @@ const Mystudents = () => {
                             <label class="form-check-label" for="inlineRadio2">
                               Female
                             </label>
+                          </div>
+                          <div class="form-check form-check-inline" style={{float:'right'}}>
+                          <button onClick={(e) => updateStudent(prevdata.registration_no)} className="btn btn-primary" >
+                          Detail 
+                        </button>
                           </div>
                         </div>
                       )}
