@@ -475,6 +475,24 @@ const Term = () => {
                   <div class="icon-name">School Assets</div>
                 </div>
               </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -546,7 +564,7 @@ const Term = () => {
                           className="pb-3"
                           label="Starting Date"
                           onChange={(e) => setStartingdate(e.target.value)}
-                          defaultValue="2021-01-01"
+                          defaultValue={startingdate}
                           variant="filled"
                         />
                         <TextField
@@ -566,7 +584,7 @@ const Term = () => {
                           required
                           label="Ending Date"
                           onChange={(e) => setEndingdate(e.target.value)}
-                          defaultValue="2021-01-01"
+                          defaultValue={endingdate}
                           variant="filled"
                         />
                       </div>

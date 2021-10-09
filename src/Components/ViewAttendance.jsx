@@ -7,19 +7,22 @@ import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 
 const ViewAttendance = () => {
+  const { studentid } = useParams()
   const history = useHistory();
   const [alldata, setAllData] = useState("");
   const [month, setMonth] = useState("");
-  const [studentId, setStudentId] = useState(0);
+  // const [studentId, setStudentId] = useState(0);
   const logOut = () => {
     localStorage.clear();
     history.push("/");
   };
+  console.log(studentid)
   function getAttendance() {
     axios
       .post("http://fee-management-api.nastechltd.co/api/attendance_report", {
         month: month,
-        student_id: studentId,
+        student_id: studentid,
+        
       })
       .then(
         (response) => {
@@ -39,60 +42,38 @@ const ViewAttendance = () => {
           <div class="navigation">
             <div class="wrapper2">
               <div class="abilan">
-                <img src={logo} />
+              <div class="abilan">
+                <img alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
+              </div>
               </div>
 
-              <Link to="/campusdashboard" class="nav-link ">
-                <div class="folder-icons ">
+              <Link class="nav-link" to={`/studentdashboard/${studentid}`}>
+                <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas  fa-columns"></i>
+                    <i class="fas fa-tachometer-alt"></i>
                   </div>
-                  <div class="icon-name1 ">Dashboard</div>
-                </div>
-              </Link>
-              <Link to="/admissioncomponents" class="nav-link ">
-                <div class="folder-icons ">
-                  <div class="icon1">
-                    <i class="fas fa-school"></i>
-                  </div>
-                  <div class="icon-name1">Admission</div>
+                  <div class="icon-name">Dashboard</div>
                 </div>
               </Link>
 
-              <Link class="nav-link" to="/class">
+              <Link class="nav-link" to={`/student-profile/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-users-class active"></i>
+                    <i class="fas fa-user-circle "></i>
                   </div>
-                  <div class="icon-name active">Class</div>
+                  <div class="icon-name ">Profile</div>
                 </div>
               </Link>
 
-              <Link class="nav-link" to="/students">
+              <Link class="nav-link" to={`/studentledger/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-user-graduate"></i>
+                    <i class="fas fa-calculator-alt "></i>
                   </div>
-                  <div class="icon-name">Students</div>
+                  <div class="icon-name ">Student Ledger</div>
                 </div>
               </Link>
-              <Link class="nav-link" to="/finance">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-user-tie"></i>
-                  </div>
-                  <div class="icon-name">Finance Employee</div>
-                </div>
-              </Link>
-              <Link class="nav-link" to="/feecomponents">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-money-check-alt"></i>
-                  </div>
-                  <div class="icon-name">Fee</div>
-                </div>
-              </Link>
-              <Link class="nav-link" to="/feevoucheradmin">
+              <Link class="nav-link" to={`/feevoucher/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-print"></i>
@@ -100,72 +81,30 @@ const ViewAttendance = () => {
                   <div class="icon-name">Fee Voucher</div>
                 </div>
               </Link>
-              <Link class="nav-link" to="/adminledger">
+              <Link class="nav-link" to={`/studentpassword/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-calculator-alt"></i>
+                    <i class="fas fa-key"></i>
                   </div>
-                  <div class="icon-name">Student Ledger</div>
-                </div>
-              </Link>
-              <Link class="nav-link" to="/term">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-calendar-alt"></i>
-                  </div>
-                  <div class="icon-name">Term</div>
-                </div>
-              </Link>
-              <Link class="nav-link" to="/expense">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-receipt"></i>
-                  </div>
-                  <div class="icon-name">Expense Tracking</div>
-                </div>
-              </Link>
-              <Link class="nav-link" to="/MainReportPage">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-receipt"></i>
-                  </div>
-                  <div class="icon-name">Reports</div>
+                  <div class="icon-name">Change Password</div>
                 </div>
               </Link>
 
-              <Link class="nav-link" to="/Voucher-List">
+              <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-file-alt "></i>
                   </div>
-                  <div class="icon-name">Paid Vouchers</div>
+                  <div class="icon-name ">Student Vouchers</div>
                 </div>
               </Link>
 
-              <Link class="nav-link" to="/AdminAttendance">
+              <Link class="nav-link" to={`/ViewAttendance/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-clipboard-check active "></i>
                   </div>
-                  <div class="icon-name">Attendance</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Inventory">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">Inventory</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Asset-Tracking">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">School Assets</div>
+                  <div class="icon-name active">View Attendance</div>
                 </div>
               </Link>
             </div>
@@ -202,7 +141,7 @@ const ViewAttendance = () => {
                   </div>
                 </div>
                 <div className="col-md-3">
-                  <div className="col-md-11 text-center px-2 w-100 p-0">
+                  {/* <div className="col-md-11 text-center px-2 w-100 p-0">
                     <TextField
                       onChange={(e) => setStudentId(e.target.value)}
                       id="standard-textarea"
@@ -214,7 +153,7 @@ const ViewAttendance = () => {
                         shrink: true,
                       }}
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div className="col-md-3">
                   <button className="btn btn-primary" onClick={getAttendance}>
@@ -233,7 +172,7 @@ const ViewAttendance = () => {
                     <th class="border-top-0">Present</th>
                     <th class="border-top-0">Percentage</th>
                     <th class="border-top-0">Absent</th>
-                    <th class="border-top-0">Absent</th>
+                    <th class="border-top-0">Leave</th>
                   
                   </tr>
                 </thead>
@@ -245,6 +184,33 @@ const ViewAttendance = () => {
                     <td>{alldata.student.G_R_NO}</td>
                     <td>{alldata.present}</td>
                     <td>{alldata.percentage}</td>
+                   {
+                     alldata.absent.length==0 ? 
+                     <>
+                     <td>
+                          none
+                     </td>
+                     </> 
+                     :
+                     <>
+                     </>
+                   }
+
+{
+                     alldata.leave.length==0 ? 
+                     <>
+                     <td>
+                          none
+                     </td>
+                     </> 
+                     :
+                     <>
+                     <td>
+                        
+                    </td>
+                     </>
+                   }
+
                     </tr>
                     </>
                   }

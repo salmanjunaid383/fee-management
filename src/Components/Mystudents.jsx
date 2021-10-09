@@ -194,7 +194,14 @@ const Mystudents = () => {
     } else if (password === "") {
       setMessageinfo("Enter Password");
       handleMessage();
-    } else {
+    }
+    else if (password.length < 8) {
+      setMessageinfo("Password should be atleast 8 characters");
+      handleMessage();
+    } 
+    
+    
+    else {
       axios
         .put(
           `http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem(
@@ -457,6 +464,24 @@ const Mystudents = () => {
                     <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
                 </div>
               </Link>
 
@@ -909,7 +934,6 @@ const Mystudents = () => {
                                 <span>Change</span>
                               </Button>
                             </td>
-                            {/* <td><Button onClick={() => history.push(`/student1/${val.id}`)}><DescriptionIcon /></Button></td> */}
                             <td>
                               <ButtonGroup
                                 disableElevation

@@ -84,12 +84,18 @@ import Inventory from './Components/Inventory';
 import AssetTracking from './Components/AssetTracking';
 import StudentLeave from './Components/StudentLeave';
 import BorrowAssets from './Components/BorrowAssets';
+import FeeVoucherCashable from './Components/FeeVoucherCashable';
+import ExpenseForm from './Components/ExpenseForm';
+import StudentQRCode from './Components/StudentQRCode';
 const App = () => {
     return <>
         <Switch>
             
+        
             
-            
+        <Route path="/StudentQRCode" component={StudentQRCode} />
+        <Route path="/ExpenseForm" component={ExpenseForm} />
+        <Route path="/CashableFeeVoucher/:studentid" component={FeeVoucherCashable} />
         <Route path="/BorrowAssets" component={BorrowAssets} />
         <Route path="/StudentLeave" component={StudentLeave} />
             <Route path="/Asset-Tracking" component={AssetTracking} />

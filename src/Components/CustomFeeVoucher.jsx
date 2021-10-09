@@ -52,7 +52,7 @@ const CustomFeeVoucher = () => {
     const [amount, setAmount] = useState('');
     const [dueDate, setDueDate] = useState('');
     const [validDate, setValidDate] = useState('');
-    
+    const [gender, setGender] = useState("")
     const [description, setValidDescription] = useState('');
     const [sectiondata, setSectiondata] = useState([]);
     const [classdata, setClassdata] = useState([]);
@@ -160,7 +160,8 @@ const CustomFeeVoucher = () => {
                 total_amount: amount,
                 due_date: `${startdate}-${startmonth}-${startyear}`,
                 valid_date: `${startvaliddate}-${startvalidmonth}-${startvalidyear}`,
-                description:description
+                description:description,
+                type:gender
             })
                 .then(response => {
                     console.log(response.data);
@@ -294,12 +295,59 @@ const CustomFeeVoucher = () => {
                                 </div>
                                 <div class="icon-name">Term</div>
                             </div></Link>
-                            <Link class="nav-link" to="/expense"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-receipt"></i>
-                                </div>
-                                <div class="icon-name">Expense Tracking</div>
-                            </div></Link>
+                            <Link class="nav-link" to="/expense">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                  <div class="icon-name">Expense Tracking</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/MainReportPage">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-medical-alt"></i>
+                  </div>
+                   <div class="icon-name">Reports</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Voucher-List">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Paid Vouchers</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/AdminAttendance">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
                         </div>
                     </div>
                 </div>
@@ -345,7 +393,43 @@ const CustomFeeVoucher = () => {
                                         <div class="col-8 billing-box">
                                             <TextField className="pb-3 bg-white" type="text" onChange={(e) => setValidDescription(e.target.value)} label="Description" variant="filled" />
                                         </div>
-                                    </div>
+
+                                        <div class="col-8 billing-box">
+                                        <label>Voucher Type:</label>
+                      <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="voucher"
+                          
+                          value="Custom"
+                          onChange={(e) => setGender(e.target.value)}
+                        />
+                        <label
+                          className="form-check-label"
+                          for="male"
+                          style={{ marginRight: "10px" }}
+                        >
+                          Custom
+                        </label>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="voucher"
+                          
+                          value="Cashable"
+                          onChange={(e) => setGender(e.target.value)}
+                       
+                        />
+                        <label className="form-check-label" for="female">
+                          Cashable
+                        </label>
+                      </div>
+                    </div>
+                                        </div>
+
+                                        
+                                    
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <button class="btn btn-secondary" onClick={remove}>

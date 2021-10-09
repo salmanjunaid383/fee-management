@@ -147,7 +147,7 @@ const  StudentLedger = () => {
                 </div>
               </Link>
 
-              <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
+               <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-file-alt "></i>
@@ -155,6 +155,16 @@ const  StudentLedger = () => {
                   <div class="icon-name ">Student Vouchers</div>
                 </div>
               </Link>
+
+              <Link class="nav-link" to={`/ViewAttendance/${studentid}`}>
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-clipboard-check "></i>
+                  </div>
+                  <div class="icon-name ">View Attendance</div>
+                </div>
+              </Link>
+
             </div>
           </div>
         </div>

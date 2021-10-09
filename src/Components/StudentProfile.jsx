@@ -3,8 +3,11 @@ import axios from "axios";
 import { Link, useHistory,useParams } from "react-router-dom";
 import logo from "../Components/jb1.png";
 import { padding } from "@mui/system";
+import QRCode from "qrcode"
 
 const StudentProfile = () => {
+  const [src , setSRC]= useState("")
+  const [qrcode , setQRCode]= useState(0)
   const history = useHistory();
   const logOut = () => {
     localStorage.clear();
@@ -33,12 +36,24 @@ const StudentProfile = () => {
       .then((response) => {
         console.log(response.data);
         setStudentData(response.data);
+        setQRCode(response.data.id)
+        QRCode.toDataURL(response.data.id.toString()).then((res)=>{
+          console.log(typeof(qrcode))
+          setSRC(res)
+      
       })
       .catch((error) => {
         if (error.response) {
           alert(error.response.data.message);
         }
       });
+      
+      // var salman = 1;
+      // var sal = toString(qrcode)
+      // console.log(qrcode. +"qrcode")
+      
+    })
+     
   }, []);
 
  
@@ -51,7 +66,9 @@ const StudentProfile = () => {
             <div class="wrapper2">
               <div class="abilan">
                 <img alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
+                
               </div>
+              
 
               <Link class="nav-link" to={`/studentdashboard/${studentid}`}>
                 <div class="folder-icons">
@@ -98,7 +115,7 @@ const StudentProfile = () => {
                 </div>
               </Link>
 
-              <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
+               <Link class="nav-link" to={`/studentVoucher/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-file-alt "></i>
@@ -107,14 +124,17 @@ const StudentProfile = () => {
                 </div>
               </Link>
 
-              {/* <Link class="nav-link" to={`/ViewAttendance/${studentid}`}>
+              <Link class="nav-link" to={`/ViewAttendance/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt "></i>
+                    <i class="fas fa-clipboard-check "></i>
                   </div>
                   <div class="icon-name ">View Attendance</div>
                 </div>
-              </Link> */}
+              </Link>
+
+
+             
 
              
             </div>
@@ -161,6 +181,9 @@ const StudentProfile = () => {
                     <div className="">
                       <h6>{student_data.email}</h6>
                     </div>
+                  </div>
+                  <div className="col-xl-2">
+                  <img src={src} />
                   </div>
                 </div>
               </div>
@@ -248,16 +271,16 @@ const StudentProfile = () => {
                         </div>
                       </div>
 
-                      <div className="col-4">
+                      {/* <div className="col-4">
                         <div className="">
                           <h4 style={{ fontSize: "20px" }}>Cell No. :</h4>
                         </div>
                         <div className="">
                           <h4 style={{ fontSize: "15px" }}>
-                            {student_data.cell_no}
+                            {student_data.contact}
                           </h4>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="col-4">
                         <div className="">
@@ -271,7 +294,7 @@ const StudentProfile = () => {
                       </div>
                      
 
-                      <div className="col-xl-12">
+                      <div className="col-xl-8">
                         <div className="">
                           <h4 style={{ fontSize: "20px" }}>Address:</h4>
                         </div>

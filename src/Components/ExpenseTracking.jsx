@@ -115,6 +115,8 @@ const MyExpense = () => {
         }
       });
   }, []);
+
+  const [inventorydata, setInventoryData] = useState([])
   useEffect(() => {
     axios
       .get(
@@ -130,6 +132,22 @@ const MyExpense = () => {
           handleMessage();
         }
       });
+
+
+      axios
+      .get(`http://fee-management-api.nastechltd.co/api/inventory/${school_id}`)
+      .then((response) => {
+        console.log("salman",response.data);
+        setInventoryData(response.data);
+      })
+      .catch((error) => {
+        if (error.response) {
+          setMessageinfo(error.response.data.message);
+          handleMessage();
+        }
+     
+
+      })
   }, []);
   const search = () => {
     axios
@@ -511,6 +529,24 @@ const MyExpense = () => {
                   <div class="icon-name">School Assets</div>
                 </div>
               </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -595,7 +631,7 @@ const MyExpense = () => {
                   <Modal.Body>
                     <div class="row billing-main">
                       <div className="col-12">
-                        <FormControl className={classes.formControl}>
+                      <FormControl className={classes.formControl}>
                           <InputLabel id="demo-simple-select-label">
                             Class
                           </InputLabel>
@@ -621,30 +657,7 @@ const MyExpense = () => {
                         >
                           Search
                         </button>
-                        <FormControl
-                          className={classes.formControl}
-                          style={{ display: "none" }}
-                        >
-                          <InputLabel id="demo-simple-select-label">
-                            Section
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={sectionid}
-                            onChange={(e) =>
-                              setSectionid(e.target.value.toString())
-                            }
-                          >
-                            {sectiondata.map((val, i) => {
-                              return (
-                                <MenuItem
-                                  value={val.id}
-                                >{`${val.name}`}</MenuItem>
-                              );
-                            })}
-                          </Select>
-                        </FormControl>
+                       
                         <button
                           style={{ display: "none" }}
                           onClick={reset}
@@ -663,15 +676,40 @@ const MyExpense = () => {
                         />
                       </div>
 
-                      <div class="col-6 mt-2 billing-box">
-                        <TextField
+                      <div class="col-6 mt-2 billing-box" >
+                        {/* <TextField
                           className="pb-3"
                           type="text"
                           label="Inventory ID"
                           onChange={(e) => setInventoryID(e.target.value)}
                           variant="filled"
-                        />
+                        /> */}
+                         <FormControl className={classes.formControl} style={{marginTop:"-0px"}} >
+                          <InputLabel id="demo-simple-select-label">
+                            Inventory List
+                          </InputLabel>
+                          <Select
+                         variant="filled"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={classid}
+                            onChange={(e) => setClassid(e.target.value)}
+                          >
+                            {inventorydata.map((val, i) => {
+                              return (
+                                <MenuItem
+                                  value={val.id}
+                                >{`${val.name}`}</MenuItem>
+                              );
+                            })}
+                          </Select>
+                          
+                        </FormControl>
+
+                         
                       </div>
+
+
                       <div class="col-6 mt-2 billing-box">
                         <TextField
                           className="pb-3"
@@ -789,7 +827,7 @@ const MyExpense = () => {
                       <th class="border-top-0">#</th>
                       <th class="border-top-0">Name</th>
                       <th class="border-top-0">Description</th>
-                      <th class="border-top-0">Charged</th>
+                      {/* <th class="border-top-0">Charged</th> */}
                       <th class="border-top-0">Status</th>
                       <th class="border-top-0">Action</th>
                     </tr>
@@ -818,7 +856,7 @@ const MyExpense = () => {
                               <td className="print-capitalize">
                                 {val.description}
                               </td>
-                              <td>{val.charges}</td>
+                              {/* <td>{val.charges}</td> */}
                               <td>
                                 {val.paid == 1 ? (
                                   <span class="text-primary text-bolder">

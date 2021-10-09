@@ -108,6 +108,10 @@ const Finance = () => {
             setMessageinfo("Enter Password")
             handleMessage();
         } 
+        else if (password.length < 8) {
+            setMessageinfo("Password should be atleast 8 characters");
+            handleMessage();
+          } 
         else{
             axios.put(`http://fee-management-api.nastechltd.co/api/password/${localStorage.getItem("user_id")}`, { password: password })
                 .then(response => {
@@ -373,12 +377,59 @@ const Finance = () => {
                                 </div>
                                 <div class="icon-name">Term</div>
                             </div></Link>
-                            <Link class="nav-link" to="/expense"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-receipt"></i>
-                                </div>
-                                <div class="icon-name">Expense Tracking</div>
-                            </div></Link>
+                            <Link class="nav-link" to="/expense">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-receipt"></i>
+                  </div>
+                  <div class="icon-name">Expense Tracking</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/MainReportPage">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-medical-alt"></i>
+                  </div>
+                   <div class="icon-name">Reports</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Voucher-List">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Paid Vouchers</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/AdminAttendance">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
                             <Link class="nav-link" to="/MainReportPage">
                 <div class="folder-icons">
                   <div class="icon1">
@@ -403,6 +454,24 @@ const Finance = () => {
                     <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
                 </div>
               </Link>
 

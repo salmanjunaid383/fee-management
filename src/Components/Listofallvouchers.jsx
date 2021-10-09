@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import logo from "../Components/jb1.png";
 import axios from "axios";
 
 
@@ -26,6 +25,17 @@ const Listofallvouchers = () => {
       
 
   }, []);
+
+  function viewVoucher(id,type) {
+    console.log(id,type)
+    if(type == "Cashable"){
+     console.log("cashable wala page")
+     history.push(`/CashableFeeVoucher/${id}`)
+   }
+   else{
+     history.push(`/feevoucher/${id}`)
+   }
+  }
 
 
   return (
@@ -67,9 +77,9 @@ const Listofallvouchers = () => {
               <Link class="nav-link" to="/students">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-user-graduate"></i>
+                    <i class="fas fa-user-graduate active"></i>
                   </div>
-                  <div class="icon-name">Students</div>
+                  <div class="icon-name active">Students</div>
                 </div>
               </Link>
               <Link class="nav-link" to="/finance">
@@ -107,9 +117,9 @@ const Listofallvouchers = () => {
               <Link class="nav-link" to="/term">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-calendar-alt "></i>
+                    <i class="fas fa-calendar-alt"></i>
                   </div>
-                  <div class="icon-name ">Term</div>
+                  <div class="icon-name">Term</div>
                 </div>
               </Link>
               <Link class="nav-link" to="/expense">
@@ -133,11 +143,59 @@ const Listofallvouchers = () => {
               <Link class="nav-link" to="/Voucher-List">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-receipt active"></i>
+                    <i class="fas fa-file-alt"></i>
                   </div>
-                  <div class="icon-name active">Paid Vouchers</div>
+                  <div class="icon-name">Paid Vouchers</div>
                 </div>
               </Link>
+
+              <Link class="nav-link" to="/AdminAttendance">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Inventory">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">Inventory</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/Asset-Tracking">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-file-alt"></i>
+                  </div>
+                  <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
+
+
+
             </div>
           </div>
         </div>
@@ -193,6 +251,7 @@ const Listofallvouchers = () => {
                   <th class="border-top-0">Voucher No.</th>
                   <th class="border-top-0">Amount</th>
                   <th class="border-top-0">Voucher Type</th>
+                  <th class="border-top-0">View Voucher</th>
                   
                 </tr>
               </thead>
@@ -204,6 +263,9 @@ const Listofallvouchers = () => {
                             <td>{val.voucher_no}</td>
                             <td>{val.total_amount}</td>
                             <td>{val.voucher_type}</td> 
+                            <td>
+                              <button className="btn btn-primary" onClick={() => viewVoucher(val.id,val.voucher_type)}>View Voucher</button>
+                            </td>
                           </tr>
                        );
                     })}

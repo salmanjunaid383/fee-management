@@ -94,6 +94,16 @@ const StudentVoucher = () => {
                   <div class="icon-name active">Student Vouchers</div>
                 </div>
               </Link>
+
+              <Link class="nav-link" to={`/ViewAttendance/${studentid}`}>
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-clipboard-check "></i>
+                  </div>
+                  <div class="icon-name ">View Attendance</div>
+                </div>
+              </Link>
+
             </div>
           </div>
         </div>

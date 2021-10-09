@@ -320,7 +320,7 @@ const AdminsSchool = () => {
                                                 <tr key={i}>
                                                     <td>{count = 1 + count}</td>
                                                     <td class="txt-oflo print-capitalize">{val.name}</td>
-                                                    <td class="txt-oflo print-capitalize">{val.email}</td>
+                                                    <td class="txt-oflo print-capitalize" style={{textTransform:"lowercase"}}>{val.email}</td>
                                                     <td className="print-capitalize">{val.address}</td>
                                                     <td>{val.contact}</td>
                                                     <td>
