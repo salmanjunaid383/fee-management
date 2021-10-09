@@ -1,9 +1,94 @@
 import React, { useState, useEffect } from "react";
 import "../Components/expenseform.css";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory,useParams } from "react-router-dom";
 import logo from "../Components/formfrontimg.jpg";
 import TextField from "@material-ui/core/TextField";
+import { Select } from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
+import axios from "axios";
 const ExpenseForm = () => {
+  const{voucherId}=useParams();
+  
+  const schoolId=localStorage.getItem("school_id");
+  const[voucher,setVoucher]=useState([]);
+  const[expanseArry,setExpanseArray]=useState([{
+    ref_no:voucherId,
+    account_title:"",
+    paid_to:"",
+    amount:0,
+    payment_type:"Cash",
+    bank:"",
+    due_on:"",
+    description:"",
+    school_id:schoolId,
+    ledger_account_id:""
+  }])
+
+  useEffect(() => {
+    axios.get('http://fee-management-api.nastechltd.co/api/voucher/'+voucherId)
+        .then( (response) => {
+            setVoucher(response.data.FeeVoucher.final_amount);
+            console.log(response.data);
+        }, (error) => {
+            console.log(error)
+        })
+  },[voucherId])
+  function AddMore() {
+    setExpanseArray([...expanseArry, { ref_no:voucherId,
+      account_title:"",
+      paid_to:"",
+      amount:0,
+      payment_type:"Cash",
+      bank:"",
+      due_on:"",
+      description:"",
+      school_id:schoolId,
+      ledger_account_id:"" }]);
+  }
+  function handleChange(e, index) {
+    const { name, value } = e.target;
+    const list = [...expanseArry];
+    list[index][name] = value;
+    setExpanseArray(list);
+  }
+  function Remove(i) {
+    const list = [...expanseArry];
+    list.pop(i);
+    setExpanseArray(list);
+  }
+  function submit(){
+
+    var sum = 0;
+    
+    expanseArry.forEach(element => {
+      sum = sum + parseInt(element.amount);
+    });
+    console.log(sum)
+    if(voucher<sum){
+      alert("Total sum of expanse is greater then voucher amount");
+    }
+    if(voucher>sum){
+      alert("Total sum is less then voucher amount")
+    }
+    if(voucher===sum){
+      console.log(expanseArry);
+      axios
+      .post(`http://fee-management-api.nastechltd.co/api/schools_expense`, {
+        expenses: expanseArry,
+      })
+      .then(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+    else{
+      alert("Something went wrong, please try again later")
+    }
+  }
   return (
     <>
       <div className="background">
@@ -11,123 +96,177 @@ const ExpenseForm = () => {
           {/* <div className="col-xl-4" style={{height:"100%"}}>
             <img src={logo} width="100%" height="100%" />
           </div> */}
-          <div className="col-xl-8">
+          <div className="container">
+          
             <div className="content">
               <div className="col-xl-12 text-center">
                 <h4>WONDERLAND GRAMMAR SEC. SCHOOL</h4>
                 <h6 style={{fontWeight:"bold", fontSize:"15px"}}>DEBIT/CREDIT VOUCHER</h6>
               </div>
-              <div className="row" style={{ display: "flex" }}>
-                <div class="col-4 ">
-                  <TextField
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-4 ">
-                  <TextField
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-4 ">
-                  <TextField
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-xl-12 ">
-                  <TextField
-                    style={{ width: "100%" }}
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-xl-12 ">
-                  <TextField
-                    style={{ width: "100%" }}
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-xl-12 ">
-                  <TextField
-                    style={{ width: "100%" }}
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-xl-6 ">
-                  <TextField
-                    style={{ width: "100%" }}
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-xl-6 ">
-                  <TextField
-                    style={{ width: "100%" }}
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-xl-6 ">
-                  <TextField
-                    style={{ width: "100%" }}
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-
-                <div class="col-xl-6 ">
-                  <TextField
-                    style={{ width: "100%" }}
-                    className="pb-3"
-                    type="text"
-                    label="Quantity"
-                    //   onChange={(e) => setQuantity(e.target.value)}
-                    //   variant="filled"
-                  />
-                </div>
-                <div className="col-xl-12 text-right">
-                    <button className="btn btn-primary" style={{fontWeight:"bold"}}>Save</button>
-                </div>
+              <div className="col-xl-12 text-left" style={{paddingLeft:'0px'}}>
+              <h6 style={{fontWeight:"bold", fontSize:"15px"}}>Total Amount : {voucher}</h6>
               </div>
+              
+                
+                {
+                  expanseArry.map((val,i) => {
+                    return (
+                      <>
+                      <hr></hr>
+                      <div className="row" style={{ display: "flex" }}>
+                      <div className="col-md-4">
+                        <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="account_title"
+                        label="Account Title"
+                        placeholder="Add value"
+                        type="text"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        />
+                      </div>
+
+                      <div className="col-md-4">
+                        <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="paid_to"
+                        label="Paid To"
+                        placeholder="Add value"
+                        type="text"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        />
+                      </div>
+
+                      <div className="col-md-4">
+                        <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="amount"
+                        label="Amount"
+                        placeholder="Add value"
+                        type="number"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        />
+                      </div>
+                        
+                      <div className="col-md-4" style={{marginTop:'10px'}}>
+                        <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="amount_in_words"
+                        label="Amount in words"
+                        placeholder="Add value"
+                        type="text"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        />
+                      </div>
+
+                      <div className="col-md-4" style={{marginTop:'20px'}}>
+                      <Select
+                      onChange={(e) => handleChange(e, i)}
+                      id="standard-textarea"
+                      name="payment_type"
+                      label="Payment"
+                      value="Cash"
+                      placeholder="Add value"
+                      type="text"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    >
+                      <MenuItem value={"Cash"}>Cash</MenuItem>
+                      <MenuItem value={"Check"}>Check</MenuItem>
+                      <MenuItem value={"IBFT"}>IBFT</MenuItem>
+                    </Select>
+                        {/* <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="payment_type"
+                        label="Payment"
+                        placeholder="Add value"
+                        type="text"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        /> */}
+                      </div>
+
+                      <div className="col-md-4" style={{marginTop:'10px'}}>
+                        <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="bank"
+                        label="Bank Name"
+                        placeholder="Add value"
+                        type="text"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        />
+                      </div>
+                      
+
+                      <div className="col-md-4" style={{marginTop:'10px'}}>
+                        <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="due_on"
+                        label="Due on"
+                        placeholder="Add value"
+                        type="date"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        />
+                      </div>
+                        <div className="col-md-4" style={{marginTop:'10px'}}>
+                        <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="description"
+                        label="Description"
+                        placeholder="Add value"
+                        type="text"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        />
+                        </div>
+                        <div className="col-md-4" style={{marginTop:'10px'}}>
+                        <TextField
+                        onChange={(e) => handleChange(e, i)}
+                        id="standard-textarea"
+                        name="ledger_account_id"
+                        label="Ledger Account Id"
+                        placeholder="Add value"
+                        type="text"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        />
+                      </div>
+                      </div>
+                      </>
+                    )
+                  })
+                }
+
+                <br></br>
+                <div className="row">
+                <div className="col-xl-12 text-right">
+                    <button className="btn btn-primary" onClick={AddMore} style={{fontWeight:"bold",marginRight:'5px'}}>Add More</button>
+                    <button className="btn btn-success" onClick={submit} style={{fontWeight:"bold"}}>Submit</button>
+                </div>
+                </div>
             </div>
           </div>
         </div>
