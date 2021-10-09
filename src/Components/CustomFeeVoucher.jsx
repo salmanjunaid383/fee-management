@@ -103,13 +103,13 @@ const CustomFeeVoucher = () => {
 
            
 
-    var a = new Date();
-    var year = a.getFullYear();
-    var month = ("0" + (a.getMonth() + 1)).slice(-2);
-    var date = ("0" + a.getDate()).slice(-2);
-    setStartingdate(`${year}-${month}-${date}`)
-    console.log( `${year}-${month}-${date}`)
-
+            
+            var a = new Date();
+            var year = a.getFullYear();
+            var month = ("0" + (a.getMonth() + 1)).slice(-2);
+            var date = ("0" + a.getDate()).slice(-2);
+            setStartingdate(`${year}-${month}-${date}`)
+            console.log( `${year}-${month}-${date}`)
    
 
     }, [])
@@ -215,17 +215,11 @@ const CustomFeeVoucher = () => {
 
     }
 
-
-
-
-
-
     const logOut = () => {
         localStorage.clear();
         history.push("/")
     }
 
- 
 
     return (
         <>
@@ -239,63 +233,81 @@ const CustomFeeVoucher = () => {
                                     alt="Logo" src={"http://fee-management-api.nastechltd.co/api/school_profile/"+localStorage.getItem("school_id")} />
                             </div>
 
-                            <Link to="/campusdashboard" class="nav-link "><div class="folder-icons ">
-                                <div class="icon1">
-                                    <i class="fas  fa-columns"></i>
-                                </div>
-                                <div class="icon-name1">Dashboard</div>
-                            </div></Link>
-                            <Link to="/admissioncomponents" class="nav-link "><div class="folder-icons ">
-                                <div class="icon1">
-                                    <i class="fas fa-school"></i>
-                                </div>
-                                <div class="icon-name1">Admission</div>
-                            </div></Link>
+                            <Link to="/campusdashboard" class="nav-link ">
+                <div class="folder-icons ">
+                  <div class="icon1">
+                    <i class="fas  fa-columns"></i>
+                  </div>
+                  <div class="icon-name1 ">Dashboard</div>
+                </div>
+              </Link>
+              <Link to="/admissioncomponents" class="nav-link ">
+                <div class="folder-icons ">
+                  <div class="icon1">
+                    <i class="fas fa-school"></i>
+                  </div>
+                  <div class="icon-name1">Admission</div>
+                </div>
+              </Link>
 
-                            <Link class="nav-link" to="/class"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-users-class"></i>
-                                </div>
-                                <div class="icon-name">Class</div>
-                            </div></Link>
+              <Link class="nav-link" to="/class">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-users-class"></i>
+                  </div>
+                  <div class="icon-name">Class</div>
+                </div>
+              </Link>
 
-                            <Link class="nav-link" to="/students"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-graduate"></i>
-                                </div>
-                                <div class="icon-name">Students</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/finance"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-user-tie"></i>
-                                </div>
-                                <div class="icon-name">Finance Employee</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-money-check-alt active"></i>
-                                </div>
-                                <div class="icon-name active">Fee</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/feevoucheradmin"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-print"></i>
-                                </div>
-                                <div class="icon-name">Fee Voucher</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/adminledger"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-calculator-alt"></i>
-                                </div>
-                                <div class="icon-name">Student Ledger</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/term"><div class="folder-icons">
-                                <div class="icon1">
-                                    <i class="fas fa-calendar-alt"></i>
-                                </div>
-                                <div class="icon-name">Term</div>
-                            </div></Link>
-                            <Link class="nav-link" to="/expense">
+              <Link class="nav-link" to="/students">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-user-graduate active"></i>
+                  </div>
+                  <div class="icon-name active">Students</div>
+                </div>
+              </Link>
+              <Link class="nav-link" to="/finance">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-user-tie"></i>
+                  </div>
+                  <div class="icon-name">Finance Employee</div>
+                </div>
+              </Link>
+              <Link class="nav-link" to="/feecomponents">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-money-check-alt"></i>
+                  </div>
+                  <div class="icon-name">Fee</div>
+                </div>
+              </Link>
+              <Link class="nav-link" to="/feevoucheradmin">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-print"></i>
+                  </div>
+                  <div class="icon-name">Fee Voucher</div>
+                </div>
+              </Link>
+              <Link class="nav-link" to="/adminledger">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-calculator-alt"></i>
+                  </div>
+                  <div class="icon-name">Student Ledger</div>
+                </div>
+              </Link>
+              <Link class="nav-link" to="/term">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-calendar-alt"></i>
+                  </div>
+                  <div class="icon-name">Term</div>
+                </div>
+              </Link>
+              <Link class="nav-link" to="/expense">
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-receipt"></i>

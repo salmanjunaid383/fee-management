@@ -266,9 +266,9 @@ const FeeVoucherAdmin = () => {
               <Link class="nav-link" to="/students">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-user-graduate active"></i>
+                    <i class="fas fa-user-graduate "></i>
                   </div>
-                  <div class="icon-name active">Students</div>
+                  <div class="icon-name ">Students</div>
                 </div>
               </Link>
               <Link class="nav-link" to="/finance">
@@ -290,9 +290,9 @@ const FeeVoucherAdmin = () => {
               <Link class="nav-link" to="/feevoucheradmin">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-print"></i>
+                    <i class="fas fa-print active"></i>
                   </div>
-                  <div class="icon-name">Fee Voucher</div>
+                  <div class="icon-name active">Fee Voucher</div>
                 </div>
               </Link>
               <Link class="nav-link" to="/adminledger">
@@ -344,24 +344,6 @@ const FeeVoucherAdmin = () => {
                     <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">Attendance</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Inventory">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">Inventory</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Asset-Tracking">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">School Assets</div>
                 </div>
               </Link>
 

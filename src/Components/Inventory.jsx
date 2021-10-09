@@ -84,8 +84,23 @@ const Inventory = () => {
   }, []);
 
   function sendData() {
-    console.log(name);
-    console.log(data);
+   if(name == ""){
+    setMessageinfo("Enter Name");
+    handleMessage();
+  }
+  else if(description == ""){
+   setMessageinfo("Enter Description");
+   handleMessage();
+  }
+   else if(quantity == ""){
+    setMessageinfo("Enter Qunatity");
+    handleMessage();
+   }
+   else if(price == ""){
+    setMessageinfo("Enter Price");
+    handleMessage();
+   }
+else{
     axios
       .post(`http://fee-management-api.nastechltd.co/api/inventory`, {
         inventories: data,
@@ -113,6 +128,7 @@ const Inventory = () => {
         }
       });
   }
+}
 
   const deleteClass = () => {
     axios
@@ -251,9 +267,9 @@ const Inventory = () => {
               <Link class="nav-link" to="/class">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-users-class active"></i>
+                    <i class="fas fa-users-class"></i>
                   </div>
-                  <div class="icon-name active">Class</div>
+                  <div class="icon-name ">Class</div>
                 </div>
               </Link>
 
@@ -343,27 +359,9 @@ const Inventory = () => {
               <Link class="nav-link" to="/Inventory">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-file-alt active"></i>
                   </div>
-                  <div class="icon-name">Inventory</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Asset-Tracking">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">School Assets</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Inventory">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">Inventory</div>
+                  <div class="icon-name active">Inventory</div>
                 </div>
               </Link>
 

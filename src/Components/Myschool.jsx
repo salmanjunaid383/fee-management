@@ -9,7 +9,13 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
-const Myschool = () => {
+const   Myschool = () => {
+
+var sal = 0;
+function salman(){
+    return sal + 1
+}
+
   const [data, setData] = useState([]);
 const history = useHistory();
  const admin_id = localStorage.getItem("admin_id")
@@ -158,7 +164,7 @@ const history = useHistory();
                                         {data.map ((val, i) => {
                                             return(
                                                 <tr key={i}>
-                                            <td>{val.id}</td>
+                                            <td>{salman()}</td>
                                             <td class="txt-oflo print-capitalize">{val.name}</td>
                                             <td className="print-capitalize">{val.address}</td>
                                             <td>{val.contact}</td>
