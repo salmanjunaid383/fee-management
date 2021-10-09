@@ -234,7 +234,7 @@ const Defaulters = () => {
               <Link class="nav-link" to="/Voucher-List">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-file"></i>
                   </div>
                   <div class="icon-name">Paid Vouchers</div>
                 </div>
@@ -243,7 +243,7 @@ const Defaulters = () => {
               <Link class="nav-link" to="/AdminAttendance">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-user-graduate"></i>
                   </div>
                   <div class="icon-name">Attendance</div>
                 </div>
@@ -252,7 +252,8 @@ const Defaulters = () => {
               <Link class="nav-link" to="/Inventory">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="              fas fa-shuttle-van
+"></i>
                   </div>
                   <div class="icon-name">Inventory</div>
                 </div>
@@ -261,7 +262,7 @@ const Defaulters = () => {
               <Link class="nav-link" to="/Asset-Tracking">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">School Assets</div>
                 </div>
