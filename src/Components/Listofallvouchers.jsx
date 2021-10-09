@@ -32,8 +32,8 @@ const Listofallvouchers = () => {
      console.log("cashable wala page")
      history.push(`/CashableFeeVoucher/${id}`)
    }
-   else{
-     history.push(`/feevoucher/${id}`)
+   else if(type=="Custom"){
+     history.push(`/FeeVoucherCustom/${id}`)
    }
   }
 
@@ -77,9 +77,9 @@ const Listofallvouchers = () => {
               <Link class="nav-link" to="/students">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-user-graduate active"></i>
+                    <i class="fas fa-user-graduate "></i>
                   </div>
-                  <div class="icon-name active">Students</div>
+                  <div class="icon-name ">Students</div>
                 </div>
               </Link>
               <Link class="nav-link" to="/finance">
@@ -143,9 +143,9 @@ const Listofallvouchers = () => {
               <Link class="nav-link" to="/Voucher-List">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-file-alt active"></i>
                   </div>
-                  <div class="icon-name">Paid Vouchers</div>
+                  <div class="icon-name active">Paid Vouchers</div>
                 </div>
               </Link>
 
@@ -155,24 +155,6 @@ const Listofallvouchers = () => {
                     <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">Attendance</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Inventory">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">Inventory</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Asset-Tracking">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">School Assets</div>
                 </div>
               </Link>
 
@@ -212,6 +194,11 @@ const Listofallvouchers = () => {
             <hr class="new-hr" />
           </div>
           <div class="right-body">
+          <div className="row" style={{margin:"0px"}}>
+          <div className="col-xl-12" style={{display:"flex" , justifyContent:"flex-end"}}>
+                <Link to={`/unpaidfeevoucher`}>  <button className="btn btn-primary">View Unpaid Vouchers</button></Link>
+              </div>
+              </div>
             <a href="/campusdashboard" style={{ textDecoration: "none" }}>
               <div
                 className="col-xl-2 dash-button"
@@ -251,7 +238,7 @@ const Listofallvouchers = () => {
                   <th class="border-top-0">Voucher No.</th>
                   <th class="border-top-0">Amount</th>
                   <th class="border-top-0">Voucher Type</th>
-                  <th class="border-top-0">View Voucher</th>
+                  {/* <th class="border-top-0">View Voucher</th> */}
                   
                 </tr>
               </thead>
@@ -263,9 +250,9 @@ const Listofallvouchers = () => {
                             <td>{val.voucher_no}</td>
                             <td>{val.total_amount}</td>
                             <td>{val.voucher_type}</td> 
-                            <td>
+                            {/* <td>
                               <button className="btn btn-primary" onClick={() => viewVoucher(val.id,val.voucher_type)}>View Voucher</button>
-                            </td>
+                            </td> */}
                           </tr>
                        );
                     })}

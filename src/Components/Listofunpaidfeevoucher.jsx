@@ -1,30 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import UpdateIcon from "@material-ui/icons/Update";
-import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Button from "@material-ui/core/Button";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import LaunchIcon from "@material-ui/icons/Launch";
-import Snackbar from "@material-ui/core/Snackbar";
-import DescriptionIcon from "@material-ui/icons/Description";
-import logo from "./Components/jb1.png";
-import { Modal } from "react-bootstrap";
-import TextField from "@material-ui/core/TextField";
-import FormLabel from "@material-ui/core/FormLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
 
-const MainReport = () => {
+
+const Listofunpaidfeevoucher = () => {
+  const [allvoucher, setAllVoucher]=useState([])
   const history = useHistory();
   const logOut = () => {
     localStorage.clear();
     history.push("/");
   };
+
+  useEffect(() => {
+    axios
+      .get(`http://fee-management-api.nastechltd.co/api/unpaid_fee_voucher/${localStorage.getItem("school_id")}`)
+      .then((response) => {
+        console.log(response);
+        setAllVoucher(response.data)
+       
+      })
+      .catch((error) => {
+        // alert("something went wrong")
+      });
+      
+
+  }, []);
+
+  function viewVoucher(id,type) {
+    console.log(id,type)
+    if(type == "Cashable"){
+     console.log("cashable wala page")
+     history.push(`/CashableFeeVoucher/${id}`)
+   }
+   else if( type == "Custom"){
+     history.push(`/FeeVoucherCustom/${id}`)
+   }
+  }
+
+
   return (
     <>
       <div class="dashboard">
@@ -121,18 +134,18 @@ const MainReport = () => {
               <Link class="nav-link" to="/MainReportPage">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-receipt active"></i>
+                    <i class="fas fa-file-medical-alt"></i>
                   </div>
-                  <div class="icon-name active">Reports</div>
+                   <div class="icon-name">Reports</div>
                 </div>
               </Link>
 
               <Link class="nav-link" to="/Voucher-List">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-file-alt active"></i>
                   </div>
-                  <div class="icon-name">Paid Vouchers</div>
+                  <div class="icon-name active">Paid Vouchers</div>
                 </div>
               </Link>
 
@@ -162,47 +175,93 @@ const MainReport = () => {
                   <div class="icon-name">School Assets</div>
                 </div>
               </Link>
-              
+
+
+
             </div>
           </div>
         </div>
-        <div className="right-side">
-          <div>
-            <div class="right-header">
-              <div class="top-bar">
-                <div class="top-bar-justify">
-                  <div class="big-inbox">Reports</div>
-                  <button onClick={logOut} class="btn text-bolder text-right">
-                    Log Out
-                  </button>
-                </div>
+        <div class="right-side">
+          <div class="right-header">
+            <div class="top-bar">
+              <div class="top-bar-justify">
+                <div class="big-inbox">Unpaid Voucher List</div>
+                <button onClick={logOut} class="btn text-bolder text-right">
+                  Log Out
+                </button>
               </div>
-              <hr class="new-hr" />
             </div>
-            <Link to="/TcReport">
-              <button className="btn btn-primary mx-2 report_button">
-                TC Report
-              </button>
-            </Link>
-            <Link to="/pickup-report">
-              <button className="btn btn-primary mx-2 report_button">
-                PickUp Slip
-              </button>
-            </Link>
-            {/* <Link to="/WarningSlip">
-              <button className="btn btn-primary mx-2  report_button">
-                Warning Slip
-              </button>
-            </Link> */}
-            <Link to="/undertaking-report">
-              <button className="btn btn-primary mx-2 report_button">
-                Undertaking
-              </button>
-            </Link>
+            <hr class="new-hr" />
+          </div>
+          <div class="right-body">
+          <div className="row" style={{margin:"0px"}}>
+          <div className="col-xl-12" style={{display:"flex" , justifyContent:"flex-end"}}>
+                <Link to={`/Voucher-List`}>  <button className="btn btn-primary">View Paid Vouchers</button></Link>
+              </div>
+              </div>
+            <a href="/campusdashboard" style={{ textDecoration: "none" }}>
+              <div
+                className="col-xl-2 dash-button"
+                style={{
+                  marginBottom: "10px",
+                  display: "flex",
+                  alignItems: "flex-end",
+                  justifyContent: "center",
+                  padding: "6px",
+                  color: "#fff",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                <i
+                  class="fas fa-tachometer-alt"
+                  style={{ fontSize: "25px" }}
+                ></i>
+                <h5
+                  style={{
+                    margin: "0px",
+                    marginLeft: "10px",
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Dashboard
+                </h5>
+              </div>
+            </a>
+          </div>
+          <div class="table-responsive">
+            <table class="table no-wrap">
+              <thead>
+                <tr>
+                  <th class="border-top-0">#</th>
+                  <th class="border-top-0">Voucher No.</th>
+                  <th class="border-top-0">Amount</th>
+                  <th class="border-top-0">Voucher Type</th>
+                  <th class="border-top-0">View Voucher</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                    {allvoucher.map((val, i) => {
+                        return (
+                          <tr key={i}>
+                            <td>{i + 1}</td>
+                            <td>{val.voucher_no}</td>
+                            <td>{val.total_amount}</td>
+                            <td>{val.voucher_type}</td> 
+                            <td>
+                              <button className="btn btn-primary" onClick={() => viewVoucher(val.id,val.voucher_type)}>View Voucher</button>
+                            </td>
+                          </tr>
+                       );
+                    })}
+                  </tbody>
+            </table>
           </div>
         </div>
       </div>
     </>
   );
 };
-export default MainReport;
+export default Listofunpaidfeevoucher;

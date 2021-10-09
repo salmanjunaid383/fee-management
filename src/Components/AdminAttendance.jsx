@@ -47,10 +47,10 @@ const AdminAttendance = () => {
   }
 
   const [attendances, setItemList] = useState([
-    { date: "", school_id: schoolId },
+    { date: "", school_id: schoolId, description:"" },
   ]);
   function AddMore() {
-    setItemList([...attendances, { date: "", school_id: schoolId }]);
+    setItemList([...attendances, { date: "", school_id: schoolId , description:"" }]);
   }
   function handleChange(e, index) {
     const { name, value } = e.target;
@@ -206,24 +206,6 @@ const AdminAttendance = () => {
                   <div class="icon-name">School Assets</div>
                 </div>
               </Link>
-
-              <Link class="nav-link" to="/Inventory">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">Inventory</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Asset-Tracking">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">School Assets</div>
-                </div>
-              </Link>
             </div>
           </div>
         </div>
@@ -257,6 +239,19 @@ const AdminAttendance = () => {
                           label="Date"
                           placeholder="Add date"
                           type="date"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+
+                        <TextField
+                        style={{marginLeft:"10px"}}
+                          onChange={(e) => handleChange(e, i)}
+                          id="standard-textarea"
+                          name="description"
+                          label="Description"
+                          placeholder="Add Description"
+                         
                           InputLabelProps={{
                             shrink: true,
                           }}

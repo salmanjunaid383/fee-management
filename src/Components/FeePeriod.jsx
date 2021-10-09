@@ -293,7 +293,8 @@ const FeePeriod = () => {
         localStorage.clear();
         history.push("/")
     }
- 
+  
+
 
     return (
         <>
@@ -413,24 +414,6 @@ const FeePeriod = () => {
                     <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">Attendance</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Inventory">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">Inventory</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/Asset-Tracking">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
-                  </div>
-                  <div class="icon-name">School Assets</div>
                 </div>
               </Link>
 
@@ -575,21 +558,18 @@ const FeePeriod = () => {
 
                                 :
                                 <>
-
-                                    <h2 class="text-center mt-3 secondary">Billing Period</h2>
+ 
                                     <hr class="new-hr1 secondary" />
 
                                     <div class="row billing-main">
                                         <div class="col-4 billing-box">
                                             <TextField className="pb-3" type="number" onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
-                                            <TextField className="pb-3" type="text" onChange={(e) => setDue(e.target.value)} helperText="The day Fee to be expired" label="Due Date" variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="date" onChange={(e) => setDue(e.target.value)} label="Due Date" defaultValue={start} variant="filled" />
                                             <TextField className="pb-3" type="number" defaultValue={prevdata.due_date} onChange={(e) => setValidDate(e.target.value)} helperText="Bank Expiry Date" label="Valid Bank Date" variant="filled" />
                                         </div>
-
                                         <div class="col-4 billing-box">
                                             <TextField type="number" className="pb-3" onChange={(e) => setLatefee(e.target.value)} helperText=" " label="Late Fee Charges" variant="filled" />
                                             <TextField className="pb-3" type="number" onChange={(e) => setGenerate(e.target.value)} helperText="The day Fee to be Generated" label="Issue Date" variant="filled" />
-
                                         </div>
                                     </div>
 
