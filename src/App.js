@@ -90,6 +90,7 @@ import StudentQRCode from './Components/StudentQRCode';
 import ExpanseVoucher from './Components/ExpanseVoucher'
 import Listofunpaidfeevoucher from './Components/Listofunpaidfeevoucher';
 import FeeVoucherCustom from './Components/FeeVoucherCustom';
+import SchoolAccounts from './Components/SchoolAccounts';
 const App = () => {
     return <>
         <Switch>
@@ -103,6 +104,7 @@ const App = () => {
         <Route path="/CashableFeeVoucher/:studentid" component={FeeVoucherCashable} />
         <Route path="/BorrowAssets" component={BorrowAssets} />
         <Route path="/StudentLeave" component={StudentLeave} />
+            <Route path="/schoolAccounts" component={SchoolAccounts}></Route>
             <Route path="/Asset-Tracking" component={AssetTracking} />
             <Route path="/Inventory" component={Inventory} />
             <Route path="/ViewAttendance/:studentid" component={ViewAttendance} />

@@ -11,6 +11,7 @@ const ExpenseForm = () => {
   
   const schoolId=localStorage.getItem("school_id");
   const[voucher,setVoucher]=useState([]);
+  const[ledgersAccount,setLedgersAccount]=useState([]);
   const[expanseArry,setExpanseArray]=useState([{
     ref_no:voucherId,
     account_title:"",
@@ -30,10 +31,19 @@ const ExpenseForm = () => {
             setVoucher(response.data.FeeVoucher.final_amount);
             console.log(response.data);
         }, (error) => {
+          setVoucher(200)
             console.log(error)
         })
-  },[voucherId])
+    axios.get('http://fee-management-api.nastechltd.co/api/show_school_account/'+schoolId)
+        .then( (response) => {
+            setLedgersAccount(response.data);
+        }, (error) => {
+            console.log(error)
+        })
+    
+  },[voucherId,schoolId])
   function AddMore() {
+    console.log(expanseArry)
     setExpanseArray([...expanseArry, { ref_no:voucherId,
       account_title:"",
       paid_to:"",
@@ -57,7 +67,7 @@ const ExpenseForm = () => {
     setExpanseArray(list);
   }
   function submit(){
-
+    
     var sum = 0;
     
     expanseArry.forEach(element => {
@@ -170,34 +180,21 @@ const ExpenseForm = () => {
                         />
                       </div>
 
-                      <div className="col-md-4" style={{marginTop:'20px'}}>
-                      <Select
+                      <div className="col-md-4" style={{marginTop:'10px'}}>
+                    <TextField
                       onChange={(e) => handleChange(e, i)}
+                      select
                       id="standard-textarea"
                       name="payment_type"
                       label="Payment"
-                      value="Cash"
-                      placeholder="Add value"
-                      type="text"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
+                      helperText="Please select your payment method"
+                      
                     >
-                      <MenuItem value={"Cash"}>Cash</MenuItem>
-                      <MenuItem value={"Check"}>Check</MenuItem>
-                      <MenuItem value={"IBFT"}>IBFT</MenuItem>
-                    </Select>
-                        {/* <TextField
-                        onChange={(e) => handleChange(e, i)}
-                        id="standard-textarea"
-                        name="payment_type"
-                        label="Payment"
-                        placeholder="Add value"
-                        type="text"
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        /> */}
+                      <MenuItem key={"Cash"} value={"Cash"}>Cash</MenuItem>
+                      <MenuItem key={"Check"} value={"Check"}>Check</MenuItem>
+                      <MenuItem key={"IBFT"} value={"IBFT"}>IBFT</MenuItem>
+                    </TextField>
+                        
                       </div>
 
                       <div className="col-md-4" style={{marginTop:'10px'}}>
@@ -243,16 +240,21 @@ const ExpenseForm = () => {
                         </div>
                         <div className="col-md-4" style={{marginTop:'10px'}}>
                         <TextField
+                        id="filled-select-currency-native"
+                        select
                         onChange={(e) => handleChange(e, i)}
-                        id="standard-textarea"
                         name="ledger_account_id"
-                        label="Ledger Account Id"
-                        placeholder="Add value"
-                        type="text"
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        />
+                        label="Ledger Account"                        
+                        helperText="Please select your Account"
+                        >
+                        {ledgersAccount.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.name}
+                        </MenuItem>
+                        ))}
+                        </TextField>
+                        
+                        
                       </div>
                       </div>
                       </>
