@@ -49,7 +49,7 @@ const FeeVoucher = ({ teamId, orientation = 'landscape' }) => {
         };
     }, [orientation]);
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/show_fee_voucher/${studentid}`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/fee_voucher/${studentid}`)
             .then(response => {
                 console.log(response.data)
                 setDiscount(response.data.discount);

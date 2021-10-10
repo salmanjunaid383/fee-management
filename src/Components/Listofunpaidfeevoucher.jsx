@@ -17,6 +17,9 @@ const Listofunpaidfeevoucher = () => {
       .then((response) => {
         console.log(response);
         setAllVoucher(response.data)
+        if(response.data.length == 0){
+          alert("no pending vouchers")
+      }
        
       })
       .catch((error) => {
@@ -35,8 +38,10 @@ const Listofunpaidfeevoucher = () => {
    else if( type == "Custom"){
      history.push(`/FeeVoucherCustom/${id}`)
    }
+   else{
+    history.push(`/feevoucher/${id}`)
   }
-
+  }
 
   return (
     <>

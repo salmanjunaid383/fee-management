@@ -90,12 +90,12 @@ import StudentQRCode from './Components/StudentQRCode';
 import ExpanseVoucher from './Components/ExpanseVoucher'
 import Listofunpaidfeevoucher from './Components/Listofunpaidfeevoucher';
 import FeeVoucherCustom from './Components/FeeVoucherCustom';
+import AssetsBorrow from './Components/AssetsBorrow';
 const App = () => {
     return <>
         <Switch>
             
-        
-            
+        <Route path="/AssetsBorrow" component={AssetsBorrow} />
         <Route path="/FeeVoucherCustom/:studentid" component={FeeVoucherCustom} />
         <Route path="/unpaidfeevoucher" component={Listofunpaidfeevoucher} />
         <Route path="/StudentQRCode" component={StudentQRCode} />

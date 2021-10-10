@@ -11,6 +11,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const AdminAttendance = () => {
   const [Clickopen, setClickOpen] = React.useState(false);
@@ -29,6 +30,7 @@ const AdminAttendance = () => {
     history.push("/");
   };
 
+  const [alldata, setAllData] = useState([]);
   const schoolId = localStorage.getItem("school_id");
   function submit() {
     console.log(attendances);
@@ -39,18 +41,36 @@ const AdminAttendance = () => {
       .then(
         (response) => {
           console.log(response);
+          setMessageinfo("Submitted!");
+          handleMessage();
+          axios
+            .get(`http://fee-management-api.nastechltd.co/api/attendance`)
+            .then(
+              (response) => {
+                console.log(response);
+                setAllData(response.data);
+              },
+              (error) => {
+                setMessageinfo("Please fill all fields!");
+                handleMessage();
+              }
+            );
         },
         (error) => {
-          console.log(error);
+          setMessageinfo("Please fill all fields!");
+          handleMessage();
         }
       );
   }
 
   const [attendances, setItemList] = useState([
-    { date: "", school_id: schoolId, description:"" },
+    { date: "", school_id: schoolId, description: "" },
   ]);
   function AddMore() {
-    setItemList([...attendances, { date: "", school_id: schoolId , description:"" }]);
+    setItemList([
+      ...attendances,
+      { date: "", school_id: schoolId, description: "" },
+    ]);
   }
   function handleChange(e, index) {
     const { name, value } = e.target;
@@ -64,6 +84,34 @@ const AdminAttendance = () => {
     setItemList(list);
   }
 
+  const [messageinfo, setMessageinfo] = useState("");
+  const [message, setMessage] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "right",
+  });
+  const { vertical, horizontal, open } = message;
+  const handleMessage = () => {
+    setMessage({ open: true, vertical: "top", horizontal: "right" });
+  };
+  const CloseMessage = () => {
+    setMessage({ ...message, open: false });
+  };
+
+  useEffect(() => {
+    axios
+    .get(`http://fee-management-api.nastechltd.co/api/attendance`)
+    .then(
+      (response) => {
+        console.log(response);
+        setAllData(response.data);
+      },
+      (error) => {
+        setMessageinfo("Please fill all fields!");
+        handleMessage();
+      }
+    );
+  }, [])
   return (
     <>
       <div class="dashboard">
@@ -192,8 +240,9 @@ const AdminAttendance = () => {
               <Link class="nav-link" to="/Inventory">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="              fas fa-shuttle-van
-"></i>
+                    <i
+                      class="fas fa-shuttle-van"
+                    ></i>
                   </div>
                   <div class="icon-name">Inventory</div>
                 </div>
@@ -223,11 +272,9 @@ const AdminAttendance = () => {
             <hr class="new-hr" />
           </div>
           <div class="right-body">
+            <h5>Add Attendance Date</h5>
 
-            
-              <h5>Add Attendance Date</h5>
-            
-            <div style={{ overflow: "hidden", padding: "10px" }}>
+            <div style={{ overflow: "auto",overflowX:"hidden", padding: "10px" , height:"60%" }}>
               <div className="row mt-3">
                 {attendances.map((val, i) => {
                   return (
@@ -246,13 +293,12 @@ const AdminAttendance = () => {
                         />
 
                         <TextField
-                        style={{marginLeft:"10px"}}
+                          style={{ marginLeft: "10px" }}
                           onChange={(e) => handleChange(e, i)}
                           id="standard-textarea"
                           name="description"
                           label="Description"
                           placeholder="Add Description"
-                         
                           InputLabelProps={{
                             shrink: true,
                           }}
@@ -276,7 +322,7 @@ const AdminAttendance = () => {
                   ></i>
                 </div>
               </div>
-              <div className="col-xl-12 text-right">
+              <div className="col-xl-12 text-right" >
                 <button
                   className="btn btn-primary  px-2  py-1"
                   style={{ marginTop: "5px" }}
@@ -286,9 +332,45 @@ const AdminAttendance = () => {
                 </button>
               </div>
             </div>
+            
+         
+          
+          <div class="table-responsive">
+            <table class="table no-wrap">
+              <thead>
+                <tr>
+                  <th class="border-top-0">#</th>
+                  <th class="border-top-0">Date.</th>
+                  <th class="border-top-0">Description</th>
+                
+                </tr>
+              </thead>
+              <tbody>
+                {alldata.map((val, i) => {
+                  return (
+                    <tr key={i}>
+                      <td>{i + 1}</td>
+                      <td>{val.date}</td>
+                      <td>{val.description}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
+          </div>
       </div>
+
+
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={4000}
+        onClose={CloseMessage}
+        message={messageinfo}
+        key={vertical + horizontal}
+      />
     </>
   );
 };

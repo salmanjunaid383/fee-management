@@ -17,6 +17,9 @@ const Listofallvouchers = () => {
       .then((response) => {
         console.log(response);
         setAllVoucher(response.data)
+        if(response.data.length == 0){
+          alert("no pending vouchers")
+      }
        
       })
       .catch((error) => {
