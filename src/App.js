@@ -91,6 +91,9 @@ import ExpanseVoucher from './Components/ExpanseVoucher'
 import Listofunpaidfeevoucher from './Components/Listofunpaidfeevoucher';
 import FeeVoucherCustom from './Components/FeeVoucherCustom';
 import SchoolAccounts from './Components/SchoolAccounts';
+import Wizard from './Components/Wizard';
+///tmp
+import WizardAdmissionCharges from './Components/WizardAdmissionCharges';
 const App = () => {
     return <>
         <Switch>
@@ -119,7 +122,9 @@ const App = () => {
             <Route path="/AdminAttendance" component={AdminAttendance} />
             <Route path="/studentdashboard/:studentid" component={StudentDashboard} />
             <Route path="/StudentAttendance" component={StudentsAttendance}/>
+
             <Route exact path="/" component={Login} />
+
             <Route path="/printUndertakin" component={printUndertakin}/>
             <Route path="/TcPrint" component={TcPrint}/>
             <Route path="/dashboard" component={Mydashboard} />
@@ -188,6 +193,7 @@ const App = () => {
             <Route path="/issued-form/:school_id" component={IssuedForm}/>
             <Route path="/expenseRecord" component={ExpenseRecord}/>
             <Route path="/expanseVoucher" component={ExpanseVoucher}></Route>
+            <Route path="/wizard" component={Wizard}></Route>
         </Switch>
 
     </>
