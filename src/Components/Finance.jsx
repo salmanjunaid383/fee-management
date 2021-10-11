@@ -431,6 +431,33 @@ const Finance = () => {
                   <div class="icon-name">School Assets</div>
                 </div>
               </Link>
+
+             {/* <Link class="nav-link" to="/AssetsBorrow">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name">Assets Borrow</div>
+                </div>
+              </Link> */}
+
+              <Link class="nav-link" to="/ExpenseVoucher">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> Expense Voucher</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/SchoolAccounts">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> School Accounts</div>
+                </div>
+              </Link>
                             <Link class="nav-link" to="/MainReportPage">
                 <div class="folder-icons">
                   <div class="icon1">
@@ -474,6 +501,33 @@ const Finance = () => {
                     <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
+
+             {/* <Link class="nav-link" to="/AssetsBorrow">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name">Assets Borrow</div>
+                </div>
+              </Link> */}
+
+              <Link class="nav-link" to="/ExpenseVoucher">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> Expense Voucher</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/SchoolAccounts">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> School Accounts</div>
                 </div>
               </Link>
 

@@ -183,12 +183,21 @@ const StudentPassword = () => {
                 </div>
               </Link>
 
-              <Link class="nav-link" to={`/ViewAttendance/${studentid}`}>
+             <Link class="nav-link" to={`/ViewAttendance/${studentid}`}>
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-clipboard-check "></i>
                   </div>
                   <div class="icon-name ">View Attendance</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to={`/StudentLeave/${studentid}`}>
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-clipboard-check "></i>
+                  </div>
+                  <div class="icon-name ">Student Leave</div>
                 </div>
               </Link>
 

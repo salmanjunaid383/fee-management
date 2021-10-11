@@ -385,8 +385,7 @@ const Studentparticular = () => {
             })
             .catch((error) => {
               if (error.response) {
-                // setMessageinfo(error.response.data.message);
-                setMessageinfo("Enter Profile Picture");
+                setMessageinfo(error.response.data.message);
                 handleMessage();
               }
             });

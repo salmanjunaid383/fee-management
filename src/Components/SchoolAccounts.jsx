@@ -121,9 +121,9 @@ const Finance = () => {
                             </div></Link>
                             <Link class="nav-link" to="/finance"><div class="folder-icons">
                                 <div class="icon1">
-                                    <i class="fas fa-user-tie active"></i>
+                                    <i class="fas fa-user-tie "></i>
                                 </div>
-                                <div class="icon-name active">Finance Employee</div>
+                                <div class="icon-name ">Finance Employee</div>
                             </div></Link>
                             <Link class="nav-link" to="/feecomponents"><div class="folder-icons">
                                 <div class="icon1">
@@ -244,6 +244,24 @@ const Finance = () => {
                     <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/ExpenseVoucher">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> Expense Voucher</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/SchoolAccounts">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader active"></i>
+                  </div>
+                  <div class="icon-name active"> School Accounts</div>
                 </div>
               </Link>
 

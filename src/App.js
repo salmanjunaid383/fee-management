@@ -95,7 +95,9 @@ import SchoolAccounts from './Components/SchoolAccounts';
 const App = () => {
     return <>
         <Switch>
-            
+        
+        <Route path="/SchoolAccounts" component={SchoolAccounts} />
+        <Route path="/ExpenseVoucher" component={ExpanseVoucher} />
         <Route path="/AssetsBorrow" component={AssetsBorrow} />
         <Route path="/FeeVoucherCustom/:studentid" component={FeeVoucherCustom} />
         <Route path="/unpaidfeevoucher" component={Listofunpaidfeevoucher} />
@@ -103,7 +105,7 @@ const App = () => {
         <Route path="/ExpenseForm/:voucherId" component={ExpenseForm} />
         <Route path="/CashableFeeVoucher/:studentid" component={FeeVoucherCashable} />
         <Route path="/BorrowAssets" component={BorrowAssets} />
-        <Route path="/StudentLeave" component={StudentLeave} />
+        <Route path="/StudentLeave/:studentid" component={StudentLeave} />
             <Route path="/schoolAccounts" component={SchoolAccounts}></Route>
             <Route path="/Asset-Tracking" component={AssetTracking} />
             <Route path="/Inventory" component={Inventory} />

@@ -70,6 +70,8 @@ const FeePeriod = () => {
 
 
     const [start, setStartingdate] = useState("")
+    const [startmonth, setStartingMonth] = useState("")
+    const [startyear, setStartingYear] = useState("")
     useEffect(() => {
         axios.get(`http://fee-management-api.nastechltd.co/api/show_billing_period/${school_id}`)
             .then(response => {
@@ -89,7 +91,9 @@ const FeePeriod = () => {
             var year = a.getFullYear();
             var month = ("0" + (a.getMonth() + 1)).slice(-2);
             var date = ("0" + a.getDate()).slice(-2);
-            setStartingdate(`${year}-${month}-${date}`)
+            setStartingdate(`${date}`)
+            setStartingMonth(`${month}`)
+            setStartingYear(`${year}`)
             console.log( `${year}-${month}-${date}`)
     }, [])
     const reload = () => {
@@ -436,6 +440,33 @@ const FeePeriod = () => {
                 </div>
               </Link>
 
+             {/* <Link class="nav-link" to="/AssetsBorrow">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name">Assets Borrow</div>
+                </div>
+              </Link> */}
+
+              <Link class="nav-link" to="/ExpenseVoucher">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> Expense Voucher</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/SchoolAccounts">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> School Accounts</div>
+                </div>
+              </Link>
+
 
 
                         </div>
@@ -531,14 +562,16 @@ const FeePeriod = () => {
                                             </thead>
                                             <tbody>
                                                 {billingperiod.map((val, i) => {
+                                                    console.log(startmonth)
                                                     return (
                                                         <>
                                                             <tr key={i}>
                                                                 <td>{indexVariable()}</td>
                                                                 <td>{val.phase}</td>
-                                                                <td>{val.generation_date}</td>
-                                                                <td class="txt-oflo">{val.due_date}</td>
-                                                                <td class="txt-oflo">{val.valid_date}</td>
+                                                               
+                                                                <td class="txt-oflo">{startmonth}-{val.generation_date}-{startyear}</td>
+                                                                <td class="txt-oflo">{startmonth}-{ val.due_date}-{startyear}</td>
+                                                                <td class="txt-oflo">{startmonth}-{ val.valid_date}-{startyear}</td>
                                                                 <td>{val.late_fee_charge}</td>
                                                                 <td>
                                                                     <ButtonGroup disableElevation variant="contained" color="primary ">
@@ -564,13 +597,13 @@ const FeePeriod = () => {
 
                                     <div class="row billing-main">
                                         <div class="col-4 billing-box">
-                                            <TextField className="pb-3" type="number" onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
-                                            <TextField className="pb-3 bg-white" type="date" onChange={(e) => setDue(e.target.value)} label="Due Date" defaultValue={start} variant="filled" />
-                                            <TextField className="pb-3" type="number" defaultValue={prevdata.due_date} onChange={(e) => setValidDate(e.target.value)} helperText="Bank Expiry Date" label="Valid Bank Date" variant="filled" />
+                                            <TextField className="pb-3" type="text" onChange={(e) => setBilling(e.target.value)} helperText="Month" label="Billing Period" variant="filled" />
+                                            <TextField className="pb-3 bg-white" type="text" onChange={(e) => setDue(e.target.value)} label="Due Date" defaultValue={start} variant="filled" />
+                                            <TextField className="pb-3" type="text" defaultValue={prevdata.due_date} onChange={(e) => setValidDate(e.target.value)} helperText="Bank Expiry Date" label="Valid Bank Date" variant="filled" />
                                         </div>
                                         <div class="col-4 billing-box">
                                             <TextField type="number" className="pb-3" onChange={(e) => setLatefee(e.target.value)} helperText=" " label="Late Fee Charges" variant="filled" />
-                                            <TextField className="pb-3" type="number" onChange={(e) => setGenerate(e.target.value)} helperText="The day Fee to be Generated" label="Issue Date" variant="filled" />
+                                            <TextField className="pb-3" type="text" onChange={(e) => setGenerate(e.target.value)} helperText="The day Fee to be Generated" label="Issue Date" variant="filled" />
                                         </div>
                                     </div>
 

@@ -70,9 +70,9 @@ const ExpanseVoucher = () => {
               <Link class="nav-link" to="/class">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-users-class active"></i>
+                    <i class="fas fa-users-class "></i>
                   </div>
-                  <div class="icon-name active">Class</div>
+                  <div class="icon-name ">Class</div>
                 </div>
               </Link>
 
@@ -192,6 +192,24 @@ const ExpanseVoucher = () => {
                     <i class="fas fa-file-alt"></i>
                   </div>
                   <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
+
+              {/* <Link class="nav-link" to="/AssetsBorrow">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name">Assets Borrow</div>
+                </div>
+              </Link> */}
+
+              <Link class="nav-link" to="/ExpenseVoucher">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader active"></i>
+                  </div>
+                  <div class="icon-name active"> Expense Voucher</div>
                 </div>
               </Link>
             </div>
