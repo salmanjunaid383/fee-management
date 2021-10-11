@@ -31,7 +31,6 @@ const ExpenseForm = () => {
             setVoucher(response.data.FeeVoucher.final_amount);
             console.log(response.data);
         }, (error) => {
-          setVoucher(200)
             console.log(error)
         })
     axios.get('http://fee-management-api.nastechltd.co/api/show_school_account/'+schoolId)

@@ -1,0 +1,55 @@
+.wizard-container{
+    padding-top: 100px;
+    z-index: 3;
+    margin-left: 5%;
+}
+.wizard-card{
+    width: 600px;
+    margin-right: 20%;
+    min-height: 410px;
+    box-shadow: 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%);
+}
+.wizard-card .wizard-header {
+    text-align: center;
+    padding: 25px 0 35px;
+}
+.wizard-card .wizard-title {
+    margin: 0;
+}
+
+.title, .title a, .card-title, .card-title a, .wizard-title, .wizard-title a {
+    color: #3C4858;
+    text-decoration: none;
+}
+.title, .card-title, .wizard-title {
+    font-weight: 700;
+}
+.wizard-container .wizard-navigation {
+    position: relative;
+}
+.nav-pills {
+    background-color: rgba(200, 200, 200, 0.2);
+}
+.wizard-card[data-color="red"] .moving-tab {
+    background-color: #f44336;
+    box-shadow: 0 16px 26px -10px rgb(244 67 54 / 56%), 0 4px 25px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(244 67 54 / 20%);
+}
+.moving-tab{
+    width: 250px;
+    transform: translate3d(-8px, 0px, 0px);
+    transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
+}
+.wizard-card .moving-tab {
+    position: absolute;
+    text-align: center;
+    padding: 12px;
+    font-size: 12px;
+    text-transform: uppercase;
+    -webkit-font-smoothing: subpixel-antialiased;
+    top: -4px;
+    left: 0px;
+    border-radius: 4px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-weight: 500;
+}
