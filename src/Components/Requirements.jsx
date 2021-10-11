@@ -40,46 +40,7 @@ const Requirements = () => {
             .then(response => {
                 console.log(response.data)
                 setDocumentdata(response.data)
-                response.data.forEach(element => {
-                    console.log(element.id+"document id is")
-                    axios.get(`http://fee-management-api.nastechltd.co/api/document/${element.id}`)
-                    .then(response => {
-                        const formData = new FormData();
-                        formData.append('document_id', element.id);
-                        formData.append('document', response.data.required_document);
-                        formData.append('form_no', formNo);
-                        formData.append('school_id', school_id); var mydata = [];
-                        for (var i = 0; i < documentdata.length; i++) {
-                            mydata.push(documentdata[i].id)
-                        }
-                        axios({
-                            method: "post",
-                            url: "http://fee-management-api.nastechltd.co/api/student_document",
-                            data: formData,
-                            headers: { "Content-Type": "multipart/form-data" },
-                        })
-                            .then(function (response) {
-                                //handle success
-                                setSent([...sent, parseInt(response.data.document_id)])
-                                console.log(response.data.document_id);
-                                setSelectedFile();
-                                setDocumentid();
-                                setDocument();
-        
-                            })
-                            .catch(function (response) {
-                                //handle error
-                                console.log(response);
-                            });
-        
-                    })
-                    .catch((error) => {
-                        if (error.response) {
-                            setMessageinfo(error.response.data.message);
-                            handleMessage();
-                        }
-                    })
-                })
+
             })
             .catch((error) => {
                 if (error.response) {
@@ -88,7 +49,7 @@ const Requirements = () => {
                 }
             })
 
-    }, [school_id])
+    }, [])
     const changeHandler = (e) => {
         setSelectedFile(e.target.files[0]);
 
@@ -117,7 +78,6 @@ const Requirements = () => {
                     mydata.push(documentdata[i].id)
                 }
                 console.log(mydata)
-                console.log(formData.values )
                 axios({
                     method: "post",
                     url: "http://fee-management-api.nastechltd.co/api/student_document",
@@ -240,10 +200,7 @@ const Requirements = () => {
     }
     console.log(mydata)
 
-    const defaultSubmit = () => {
-        
-        
-    }
+
 
 
 
