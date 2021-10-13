@@ -59,28 +59,27 @@ const WizardClasses = ({state,triggerParentUpdate}) => {
           setMessageinfo("Enter atleast one section for class");
           handleMessage();
         } else {
-
+          axios
+          .post("http://fee-management-api.nastechltd.co/api/schools_class", data)
+          .then((response) => {
+            console.log(response);
+            console.log(response.data.id);
+            setSchoolClass();
+            setSections([{ name: "" }]);
+            handleClose();
+          })
+          .catch((error) => {
+            if (error.response) {
+              setMessageinfo(error.response.data.message);
+              handleMessage();
+            }
+          });
         }
-        //   axios
-        //     .post("http://fee-management-api.nastechltd.co/api/schools_class", data)
-        //     .then((response) => {
-        //       console.log(response);
-        //       console.log(response.data.id);
-        //       setSchoolClass();
-        //       setSections([{ name: "" }]);
-        //       handleClose();
-        //     })
-        //     .catch((error) => {
-        //       if (error.response) {
-        //         setMessageinfo(error.response.data.message);
-        //         handleMessage();
-        //       }
-        //     });
-        // }
-      };
-      const onTrigger = (event) => {
-        triggerParentUpdate();
-    }
+          
+        }
+      
+      
+    
 
     return(
         <>

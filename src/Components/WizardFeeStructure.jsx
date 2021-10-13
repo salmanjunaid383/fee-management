@@ -34,7 +34,7 @@ const WizardFeeStructure = ({state,triggerParentUpdate}) => {
     const[classData,setClassData]=useState([]);
 
     useEffect(() => {
-        axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/1`)
+        axios.get(`http://fee-management-api.nastechltd.co/api/schools_class/${school_id}`)
             .then(response => {
                 console.log(response.data)
                 setClassData(response.data)
@@ -46,7 +46,7 @@ const WizardFeeStructure = ({state,triggerParentUpdate}) => {
                     handleMessage();
                 }
             })
-    }, [])
+    }, [school_id])
 
     const [inputList, setInputList] = useState([
         { description: "", charges: "" }
@@ -170,9 +170,7 @@ const WizardFeeStructure = ({state,triggerParentUpdate}) => {
 
     }
     
-    const onTrigger = (event) => {
-        triggerParentUpdate();
-    }
+    
 
     return(
         <>
@@ -188,6 +186,7 @@ const WizardFeeStructure = ({state,triggerParentUpdate}) => {
                                             <div className="col-md-4">
                                             <TextField
                                             select
+                                            onChange={(e) => setClassid(e.target.value)}
                                             id="standard-textarea"
                                             label="Class"
                                             placeholder="Select class"
@@ -204,6 +203,7 @@ const WizardFeeStructure = ({state,triggerParentUpdate}) => {
                                             <TextField
                                             id="standard-textarea"
                                             label="Description"
+                                            onChange={(e) => setDescription(e.target.value)}
                                             placeholder="Add description"
                                             type="text"
                                             fullWidth
@@ -213,6 +213,7 @@ const WizardFeeStructure = ({state,triggerParentUpdate}) => {
                                             <TextField
                                             id="standard-textarea"
                                             label="Tax"
+                                            onChange={(e) => setTax(e.target.value)}
                                             placeholder="Add Tax"
                                             type="text"
                                             fullWidth
@@ -333,7 +334,7 @@ const WizardFeeStructure = ({state,triggerParentUpdate}) => {
                                         
                                         
                                         <div style={{textAlign:'center'}}>
-                                        <button class="btn btn-success"  style={{marginTop:'5px',width:'100px'}} >Submit</button>
+                                        <button class="btn btn-success"  style={{marginTop:'5px',width:'100px'}} onClick={sendCharges}>Submit</button>
                                         </div>
                                         
 									</div> 

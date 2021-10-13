@@ -33,16 +33,68 @@ function WizardTerm({state,triggerParentUpdate}) {
       setMessage({ ...message, open: false });
     };
   
-    const onTrigger = (event) => {
-        triggerParentUpdate();
-    }
+    var months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    var StartDate = new Date(startingdate);
+    // var startdate = StartDate.getDate()
+    var startmonth = months[StartDate.getMonth()];
+    var startyear = StartDate.getFullYear().toString().substr(-2);
+    var EndDate = new Date(endingdate);
+  
+    const data = {
+      start_date: `${StartDate.getTime() / 1000}`,
+      end_date: `${EndDate.getTime() / 1000}`,
+      term_name: term,
+      school_id: school_id,
+      month_or_year: `${startmonth}-${startyear}`,
+    };
+    const sendData = () => {
+      if (startingdate === "") {
+        setMessageinfo("Select Starting Date");
+        handleMessage();
+      } else if (endingdate === "") {
+        setMessageinfo("Select Ending Date");
+        handleMessage();
+      } else if (term === "") {
+        setMessageinfo("Enter Term Name");
+        handleMessage();
+      } else {
+        axios
+          .post(`http://fee-management-api.nastechltd.co/api/term`, data)
+          .then((response) => {
+            console.log(response);
+            setStartingdate("");
+            setEndingdate("");
+            setTerm("");
+            
+          })
+          .catch((error) => {
+            if (error.response) {
+              setMessageinfo(error.response.data.message);
+              handleMessage();
+            }
+          });
+      }
+    };
 
     return(
         <>
         <div class="form-card">
 								<div class="row">
 										<div class="col-7">
-											<h2 class="fs-title">Fee Period:</h2>
+											<h2 class="fs-title">Term:</h2>
 										</div>
 										<div class="col-5">
 											<h2 class="steps">Step 5 - 5</h2>
@@ -71,7 +123,9 @@ function WizardTerm({state,triggerParentUpdate}) {
 
                                       </div>
                                         
-                                        
+                                      <div style={{textAlign:'center'}}>
+                                        <button class="btn btn-success"  style={{marginTop:'5px',width:'100px'}} onClick={sendData}>Submit</button>
+                                        </div>   
                                         
                                        
 									</div> 

@@ -13,18 +13,39 @@ import FeePeriod from './WizardFeePeriod'
 import WizardTerm from './WizardTerm'
 const Wizard = () => {
 	const[stepCount,setStepCount]=useState(0);
-	
+	const[school_id]=localStorage.getItem("school_id")
+	const[phase,setPhase]=useState([])
 	useEffect(() => {
-		console.log(stepCount)
-	},[stepCount])
-    function getStepContent(stepIndex){
-        
-    }
+		axios.get(`http://fee-management-api.nastechltd.co/api/schools_phase/${school_id}`)
+            .then(response => {
+				setPhase(response.data)
+				var i = 0;
+				response.data.forEach(element => {
+					if(element.confirm===0){
+						setStepCount(i)
+						
+						
+						return;
+					}
+					i = 1 + parseInt(i);
+				});
+               
+
+            })
+            
+	},[school_id])
+    
 	
 	const updatePageState = (state) => {
+		axios.put(`http://fee-management-api.nastechltd.co/api/schools_phase/${phase[stepCount].id}`,null)
+            
 		setStepCount(stepCount + 1);
-	  }
+               
+
+	  
+	}
 	const prevPageState = () => {
+		// axios.put(`http://fee-management-api.nastechltd.co/api/schools_phase/${phase[stepCount].id}`,null)
 		setStepCount(stepCount -1);
 	}
     return (
