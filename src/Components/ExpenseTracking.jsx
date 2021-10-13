@@ -280,9 +280,10 @@ const MyExpense = () => {
             `http://fee-management-api.nastechltd.co/api/expense_tracking/${id}`,
             {
               description: response.data.description,
-              charges: response.data.charges,
+              // charges: response.data.charges,
               student_id: response.data.student_id,
               name: response.data.name,
+              quantity:response.data.quantity,
               paid: 1,
             }
           )
@@ -299,6 +300,9 @@ const MyExpense = () => {
       })
       .catch((error) => console.log(error));
   };
+
+  const [alldata ,  setAllData] = useState("")
+  const [updatechages ,  setUpadateCharges] = useState("")
   const update = (id) => {
     axios
       .get(
@@ -306,13 +310,17 @@ const MyExpense = () => {
       )
       .then((response) => {
         console.log(response.data);
-        localStorage.setItem("id", response.data.id);
-        localStorage.setItem("charges", response.data.charges);
-        localStorage.setItem("description", response.data.description);
-        localStorage.setItem("name", response.data.name);
+       
         setCharges(response.data.charges);
+    
+        setAllData(response.data)
+        setStudentname(response.data.name);
+        setQuantity(response.data.quantity)
         setDescription(response.data.description);
+        setUpadateCharges(response.data.charges)
+        
         localStorage.getItem("student_id", response.data.student_id);
+        localStorage.setItem("student_update_id", response.data.id);
         setPaid(response.data.paid);
         handleShow1();
         //   setSection(response.data.name)
@@ -335,15 +343,16 @@ const MyExpense = () => {
       axios
         .put(
           `http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem(
-            "id"
+            "student_update_id"
           )}`,
           {
           
             description: description,
-            name: localStorage.getItem("name"),
+            name: studentname,
             paid: paid,
             student_id: localStorage.getItem("student_id"),
-          }
+            charges:updatechages,
+            quantity: quantity          }
         )
         .then((response) => {
           console.log(response);
@@ -766,12 +775,33 @@ const MyExpense = () => {
                         <TextField
                           className="pb-3"
                           type="text"
-                          defaultValue={localStorage.getItem("description")}
+                          defaultValue={alldata.name}
+                          label="Name"
+                          onChange={(e) => setStudentname(e.target.value)}
+                          variant="filled"
+                        />
+                      </div>
+                      <div class="col-6 billing-box">
+                        <TextField
+                          className="pb-3"
+                          type="text"
+                          defaultValue={alldata.quantity}
+                          label="Quantity"
+                          onChange={(e) => setQuantity(e.target.value)}
+                          variant="filled"
+                        />
+                      </div>
+                      <div class="col-6 billing-box">
+                        <TextField
+                          className="pb-3"
+                          type="text"
+                          defaultValue={alldata.description}
                           label="Description"
                           onChange={(e) => setDescription(e.target.value)}
                           variant="filled"
                         />
                       </div>
+                     
                     </div>
                   </Modal.Body>
                   <Modal.Footer>
