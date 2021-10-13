@@ -45,7 +45,7 @@ const Wizard = () => {
 	  
 	}
 	const prevPageState = () => {
-		// axios.put(`http://fee-management-api.nastechltd.co/api/schools_phase/${phase[stepCount].id}`,null)
+		axios.put(`http://fee-management-api.nastechltd.co/api/schools_phase/${phase[stepCount-1].id}`,null)
 		setStepCount(stepCount -1);
 	}
     return (
