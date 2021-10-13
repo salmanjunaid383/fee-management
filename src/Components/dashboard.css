@@ -329,7 +329,7 @@ transform: scale(0.96);
 .active{
 /* width: 100%; */
 /* color: #0062cc; */
-color:white !important;
+color:white;
 }
 .table-responsive {
 display: block;
