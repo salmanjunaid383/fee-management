@@ -31,6 +31,7 @@ const ExpenseForm = () => {
             setVoucher(response.data.FeeVoucher.final_amount);
             console.log(response.data);
         }, (error) => {
+            alert("No voucher found with that specific id.")
             console.log(error)
         })
     axios.get('http://fee-management-api.nastechltd.co/api/show_school_account/'+schoolId)

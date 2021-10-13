@@ -1,10 +1,19 @@
+html, body {
+    height: 100%;
+  }
+.wrapper{
+    width:100%;
+    min-height:100vh;
+    height:100%;
+    background-color:#007bff;
+}
 .wizard-container{
-    padding-top: 100px;
+    padding-top: 50px;
     z-index: 3;
-    margin-left: 5%;
+    
 }
 .wizard-card{
-    width: 600px;
+    min-width: 750px;
     margin-right: 20%;
     min-height: 410px;
     box-shadow: 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(0 0 0 / 20%);
@@ -24,21 +33,7 @@
 .title, .card-title, .wizard-title {
     font-weight: 700;
 }
-.wizard-container .wizard-navigation {
-    position: relative;
-}
-.nav-pills {
-    background-color: rgba(200, 200, 200, 0.2);
-}
-.wizard-card[data-color="red"] .moving-tab {
-    background-color: #f44336;
-    box-shadow: 0 16px 26px -10px rgb(244 67 54 / 56%), 0 4px 25px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(244 67 54 / 20%);
-}
-.moving-tab{
-    width: 250px;
-    transform: translate3d(-8px, 0px, 0px);
-    transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s;
-}
+
 .wizard-card .moving-tab {
     position: absolute;
     text-align: center;
@@ -49,7 +44,145 @@
     top: -4px;
     left: 0px;
     border-radius: 4px;
-    color: #FFFFFF;
+    /* color: #FFFFFF; */
     cursor: pointer;
     font-weight: 500;
+}
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+}
+
+#progressbar .active {
+    color: #007bff;
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 15px;
+    width: 20%;
+    float: left;
+    position: relative;
+    font-weight: 400;
+    text-align: center;
+    padding-left: 0px;
+}
+
+#progressbar #admission:before {
+    font-family: FontAwesome;
+    content: "\f13e"
+}
+
+#progressbar #classes:before {
+    font-family: FontAwesome;
+    content: "\f007"
+}
+
+#progressbar #structure:before {
+    font-family: FontAwesome;
+    content: "\f0c9"
+}
+#progressbar #period:before{
+    font-family: FontAwesome;
+    content: "\F02D";
+}
+
+#progressbar #term:before {
+    font-family: FontAwesome;
+    content: "\f073"
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #007bff;
+}
+
+.progress {
+    height: 20px
+}
+
+.progress-bar {
+    width:20%;
+    background-color: #007bff;
+}
+
+.form-card {
+    text-align: left
+}
+.fs-title {
+    font-size: 25px;
+    color: #767577;
+    margin-bottom: 15px;
+    font-weight: normal;
+    text-align: left
+}
+.steps {
+    font-size: 25px;
+    color: gray;
+    margin-bottom: 10px;
+    font-weight: normal;
+    text-align: right
+}
+
+
+ .action-button {
+    width: 100px;
+    background: #007bff;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 0px 10px 5px;
+    float: right
+}
+
+ .action-button:hover,
+ .action-button:focus {
+    background-color: #007bff;
+}
+
+
+ .action-button-previous {
+    width: 100px;
+    background: #007bff;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px 10px 0px;
+    float: left
+}
+
+ .action-button-previous:hover,
+#msform .action-button-previous:focus {
+    background-color: #007bff
 }
