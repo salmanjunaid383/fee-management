@@ -210,10 +210,7 @@ const MyExpense = () => {
     if (charges < 0) {
       setMessageinfo("charges can't be Negative");
       handleMessage();
-    } else if (charges == "") {
-      setMessageinfo("Enter Charges");
-      handleMessage();
-    } else if (description == "") {
+    }else if (description == "") {
       setMessageinfo("Enter Description");
       handleMessage();
       
@@ -331,10 +328,7 @@ const MyExpense = () => {
     if (charges < 0) {
       setMessageinfo("charges can't be Negative");
       handleMessage();
-    } else if (charges == "") {
-      setMessageinfo("Enter Charges");
-      handleMessage();
-    } else if (description == "") {
+    }  else if (description == "") {
       setMessageinfo("Enter Description");
       handleMessage();
     } else {
@@ -344,7 +338,7 @@ const MyExpense = () => {
             "id"
           )}`,
           {
-            charges: charges,
+          
             description: description,
             name: localStorage.getItem("name"),
             paid: paid,
@@ -531,14 +525,14 @@ const MyExpense = () => {
                 </div>
               </Link>
 
-             {/* <Link class="nav-link" to="/AssetsBorrow">
+             <Link class="nav-link" to="/AssetsBorrow">
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">Assets Borrow</div>
                 </div>
-              </Link> */}
+              </Link> 
 
               <Link class="nav-link" to="/ExpenseVoucher">
                 <div class="folder-icons">
@@ -714,22 +708,7 @@ const MyExpense = () => {
                       </div>
 
 
-                      <div class="col-6 mt-2 billing-box">
-                        <TextField
-                          className="pb-3"
-                          type="number"
-                          onChange={(e) => setCharges(e.target.value)}
-                          label="Charges"
-                          variant="filled"
-                        />
-                        <MultiSelect
-                          className="mb-1"
-                          options={options}
-                          value={selected}
-                          onChange={setSelected}
-                          labelledBy={"Select"}
-                        />
-                      </div>
+                      
                      
 
 
@@ -740,6 +719,18 @@ const MyExpense = () => {
                           label="Description"
                           onChange={(e) => setDescription(e.target.value)}
                           variant="filled"
+                        />
+                      </div>
+
+                      <div class="col-6 mt-2 billing-box" >
+                     
+                        <MultiSelect
+                        
+                          className="mb-1"
+                          options={options}
+                          value={selected}
+                          onChange={setSelected}
+                          labelledBy={"Select"}
                         />
                       </div>
 
@@ -769,16 +760,7 @@ const MyExpense = () => {
                   </Modal.Header>
                   <Modal.Body>
                     <div class="row billing-main">
-                      <div class="col-6 billing-box">
-                        <TextField
-                          className="pb-3"
-                          type="number"
-                          defaultValue={localStorage.getItem("charges")}
-                          onChange={(e) => setCharges(e.target.value)}
-                          label="Charges"
-                          variant="filled"
-                        />
-                      </div>
+                      
 
                       <div class="col-6 billing-box">
                         <TextField
@@ -832,7 +814,7 @@ const MyExpense = () => {
                       <th class="border-top-0">Name</th>
                       <th class="border-top-0">Description</th>
                       <th class="border-top-0">Quantity</th>
-                      {/* <th class="border-top-0">Charged</th> */}
+                      <th class="border-top-0">Charged</th>
                       <th class="border-top-0">Status</th>
                       <th class="border-top-0">Action</th>
                     </tr>
@@ -862,6 +844,7 @@ const MyExpense = () => {
                                 {val.description}
                               </td>
                               <td>{val.quantity}</td>
+                              <td>{val.charges}</td>
                               <td>
                                 {val.paid == 1 ? (
                                   <span class="text-primary text-bolder">

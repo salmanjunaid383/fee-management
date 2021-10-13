@@ -158,14 +158,14 @@ const FeeComponents = () => {
                 </div>
               </Link>
 
-             {/* <Link class="nav-link" to="/AssetsBorrow">
+             <Link class="nav-link" to="/AssetsBorrow">
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">Assets Borrow</div>
                 </div>
-              </Link> */}
+              </Link> 
 
               <Link class="nav-link" to="/ExpenseVoucher">
                 <div class="folder-icons">
@@ -230,14 +230,14 @@ const FeeComponents = () => {
                 </div>
               </Link>
 
-             {/* <Link class="nav-link" to="/AssetsBorrow">
+             <Link class="nav-link" to="/AssetsBorrow">
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">Assets Borrow</div>
                 </div>
-              </Link> */}
+              </Link> 
 
               <Link class="nav-link" to="/ExpenseVoucher">
                 <div class="folder-icons">

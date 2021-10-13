@@ -342,8 +342,7 @@ const BorrowAssets = () => {
               <Link class="nav-link" to="/Inventory">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="              fas fa-shuttle-van
-"></i>
+                    <i class="fas fa-shuttle-van"></i>
                   </div>
                   <div class="icon-name">Inventory</div>
                 </div>
@@ -358,14 +357,14 @@ const BorrowAssets = () => {
                 </div>
               </Link>
 
-             {/* <Link class="nav-link" to="/AssetsBorrow">
+             <Link class="nav-link" to="/AssetsBorrow">
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">Assets Borrow</div>
                 </div>
-              </Link> */}
+              </Link> 
 
               <Link class="nav-link" to="/ExpenseVoucher">
                 <div class="folder-icons">

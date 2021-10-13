@@ -190,17 +190,17 @@ const AdmissionCharges = () => {
                             <Link to="/campusdashboard" class="nav-link ">
                 <div class="folder-icons ">
                   <div class="icon1">
-                    <i class="fas  fa-columns active"></i>
+                    <i class="fas  fa-columns "></i>
                   </div>
-                  <div class="icon-name1 active ">Dashboard</div>
+                  <div class="icon-name1  ">Dashboard</div>
                 </div>
               </Link>
               <Link to="/admissioncomponents" class="nav-link ">
                 <div class="folder-icons ">
                   <div class="icon1">
-                    <i class="fas fa-school"></i>
+                    <i class="fas fa-school  active"></i>
                   </div>
-                  <div class="icon-name1">Admission</div>
+                  <div class="icon-name1 active">Admission</div>
                 </div>
               </Link>
 
@@ -315,14 +315,14 @@ const AdmissionCharges = () => {
                 </div>
               </Link>
 
-             {/* <Link class="nav-link" to="/AssetsBorrow">
+             <Link class="nav-link" to="/AssetsBorrow">
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">Assets Borrow</div>
                 </div>
-              </Link> */}
+              </Link> 
 
               <Link class="nav-link" to="/ExpenseVoucher">
                 <div class="folder-icons">

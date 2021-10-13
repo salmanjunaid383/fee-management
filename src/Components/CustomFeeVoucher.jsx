@@ -153,6 +153,13 @@ const CustomFeeVoucher = () => {
             setMessageinfo("Enter Valid Date")
             handleMessage();
         }
+        else if (description === '') {
+          setMessageinfo("Enter Description")
+          handleMessage();
+      }
+      
+
+
         else {
             console.log(validDate)
             axios.post(`http://fee-management-api.nastechltd.co/api/custom_voucher`, {
@@ -362,14 +369,14 @@ const CustomFeeVoucher = () => {
                 </div>
               </Link>
 
-             {/* <Link class="nav-link" to="/AssetsBorrow">
+             <Link class="nav-link" to="/AssetsBorrow">
                 <div class="folder-icons">
                   <div class="icon1">
                     <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">Assets Borrow</div>
                 </div>
-              </Link> */}
+              </Link> 
 
               <Link class="nav-link" to="/ExpenseVoucher">
                 <div class="folder-icons">
@@ -444,6 +451,7 @@ const CustomFeeVoucher = () => {
                           
                           value="Custom"
                           onChange={(e) => setGender(e.target.value)}
+                          defaultChecked
                         />
                         <label
                           className="form-check-label"
