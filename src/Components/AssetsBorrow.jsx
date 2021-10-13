@@ -1,19 +1,41 @@
 import { React, useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import axios from "axios";
-import logo from "./jb1.png";
 import "./dashboard.css";
+import { Link, useHistory } from "react-router-dom";
 import UpdateIcon from "@material-ui/icons/Update";
-import LaunchIcon from "@material-ui/icons/Launch";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal } from "react-bootstrap";
 import TextField from "@material-ui/core/TextField";
+import logo from "./jb1.png";
+import axios from "axios";
+import MultiSelect from "react-multi-select-component";
+import { makeStyles } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
 import Snackbar from "@material-ui/core/Snackbar";
 
-const Inventory = () => {
+const useStyles = makeStyles((theme) => ({
+    root: {
+      "& > *": {
+        margin: theme.spacing(1),
+        width: "30ch",
+      },
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
+const AssetsBorrow = () => {
   const [schoolClass, setSchoolClass] = useState();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -28,12 +50,16 @@ const Inventory = () => {
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+  const [givenby, setGIVENBY] = useState("")
+  const [description, setDescription] = useState("")
+  const [inventory_id, setInventoryID] = useState("")
+  const classes = useStyles();
   const handleClick = (id) => {
-    localStorage.setItem("inventory_id", id);
+    localStorage.setItem("asset_id", id);
     handleShow2();
   };
   const remove = () => {
-    localStorage.removeItem("inventory_id");
+    localStorage.removeItem("asset_id");
     handleClose2();
   };
 
@@ -54,23 +80,25 @@ const Inventory = () => {
 
 
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [quantity, setQunatity] = useState("");
-  const [price, setPrice] = useState("");
 
-  const data = [
+  const [quantity, setQunatity] = useState("");
+  const [inventorydata, setInventoryData] = useState([])
+//   const [price, setPrice] = useState("");
+
+  const data = 
     {
-      name: name,
+      given_by:givenby ,
       quantity: quantity,
-      description: description,
+      user_id:4,
       school_id: school_id,
-      price: price,
-    },
-  ];
+      assets_id:inventory_id,
+      description : description
+    }
+  
 
   useEffect(() => {
     axios
-      .get(`http://fee-management-api.nastechltd.co/api/inventory/${school_id}`)
+      .get(`http://fee-management-api.nastechltd.co/api/assets_borrow/${school_id}`)
       .then((response) => {
         console.log("salman",response.data);
         setClassdata(response.data);
@@ -81,35 +109,35 @@ const Inventory = () => {
           handleMessage();
         }
       });
+
+
+      axios
+      .get(`http://fee-management-api.nastechltd.co/api/assets/${school_id}`)
+      .then((response) => {
+        console.log("salman",response.data);
+        setInventoryData(response.data);
+      })
+      .catch((error) => {
+        if (error.response) {
+          setMessageinfo(error.response.data.message);
+          handleMessage();
+        }
+     
+
+      })
   }, []);
 
   function sendData() {
-   if(name == ""){
-    setMessageinfo("Enter Name");
-    handleMessage();
-  }
-  else if(description == ""){
-   setMessageinfo("Enter Description");
-   handleMessage();
-  }
-   else if(quantity == ""){
-    setMessageinfo("Enter Qunatity");
-    handleMessage();
-   }
-   else if(price == ""){
-    setMessageinfo("Enter Price");
-    handleMessage();
-   }
-else{
+    
+    console.log(data);
+ 
     axios
-      .post(`http://fee-management-api.nastechltd.co/api/inventory`, {
-        inventories: data,
-      })
+      .post(`http://fee-management-api.nastechltd.co/api/assets_borrow`, data)
       .then((response) => {
         console.log(response.data);
         handleClose();
         axios
-        .get(`http://fee-management-api.nastechltd.co/api/inventory/${school_id}`)
+        .get(`http://fee-management-api.nastechltd.co/api/assets_borrow/${school_id}`)
         .then((response) => {
           console.log("salman",response.data);
           setClassdata(response.data);
@@ -128,20 +156,20 @@ else{
         }
       });
   }
-}
+// }
 
   const deleteClass = () => {
     axios
       .delete(
-        `http://fee-management-api.nastechltd.co/api/inventory/${localStorage.getItem(
-          "inventory_id"
+        `http://fee-management-api.nastechltd.co/api/assets/${localStorage.getItem(
+          "asset_id"
         )}`
       )
       .then((response) => {
         console.log(response);
         remove();
         axios
-        .get(`http://fee-management-api.nastechltd.co/api/inventory/${school_id}`)
+        .get(`http://fee-management-api.nastechltd.co/api/assets/${school_id}`)
         .then((response) => {
           console.log("salman",response.data);
           setClassdata(response.data);
@@ -171,14 +199,14 @@ else{
 
   const update = (id) => {
     axios
-      .get(`http://fee-management-api.nastechltd.co/api/show_inventory/${id}`)
+      .get(`http://fee-management-api.nastechltd.co/api/show_assets/${id}`)
       .then((response) => {
         console.log(response.data);
         setPrevdata(response.data);
         setName(response.data.name);
-        setDescription(response.data.description);
+        
         setQunatity(response.data.quantity);
-        setPrice(response.data.price);
+        // setPrice(response.data.price);
         handleShow1();
       })
       .catch((error) => {
@@ -193,13 +221,13 @@ else{
   
       axios
         .put(
-          `http://fee-management-api.nastechltd.co/api/inventory/${prevdata.id}`,
+          `http://fee-management-api.nastechltd.co/api/assets/${prevdata.id}`,
           {
             name: name,
-            description: description,
+           
             quantity:quantity,
             school_id:school_id,
-            price:price
+            // price:price
           }
         )
         .then((response) => {
@@ -209,7 +237,7 @@ else{
           handleClose1();
 
           axios
-        .get(`http://fee-management-api.nastechltd.co/api/inventory/${school_id}`)
+        .get(`http://fee-management-api.nastechltd.co/api/assets/${school_id}`)
         .then((response) => {
           console.log("salman",response.data);
           setClassdata(response.data);
@@ -267,7 +295,7 @@ else{
               <Link class="nav-link" to="/class">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-users-class"></i>
+                    <i class="fas fa-users-class "></i>
                   </div>
                   <div class="icon-name ">Class</div>
                 </div>
@@ -359,9 +387,9 @@ else{
               <Link class="nav-link" to="/Inventory">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt active"></i>
+                    <i class="fas fa-shuttle-van"></i>
                   </div>
-                  <div class="icon-name active">Inventory</div>
+                  <div class="icon-name">Inventory</div>
                 </div>
               </Link>
 
@@ -374,30 +402,12 @@ else{
                 </div>
               </Link>
 
-             <Link class="nav-link" to="/AssetsBorrow">
+              <Link class="nav-link" to="/AssetsBorrow">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-book-reader"></i>
+                    <i class="fas fa-book-reader active"></i>
                   </div>
-                  <div class="icon-name">Assets Borrow</div>
-                </div>
-              </Link> 
-
-              <Link class="nav-link" to="/ExpenseVoucher">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-book-reader"></i>
-                  </div>
-                  <div class="icon-name"> Expense Voucher</div>
-                </div>
-              </Link>
-
-              <Link class="nav-link" to="/SchoolAccounts">
-                <div class="folder-icons">
-                  <div class="icon1">
-                    <i class="fas fa-book-reader"></i>
-                  </div>
-                  <div class="icon-name"> School Accounts</div>
+                  <div class="icon-name active">Assets Borrow</div>
                 </div>
               </Link>
             </div>
@@ -407,7 +417,7 @@ else{
           <div class="right-header">
             <div class="top-bar">
               <div class="top-bar-justify">
-                <div class="big-inbox">Inventory</div>
+                <div class="big-inbox">Assests Borrow</div>
                 <button onClick={logOut} class="btn text-bolder text-right">
                   Log Out
                 </button>
@@ -454,11 +464,11 @@ else{
                   onClick={handleShow}
                   class="btn btn-primary btn-lg"
                 >
-                  <AddIcon /> Add Inventory
+                  <AddIcon /> add 
                 </button>
                 <Modal show={show} onHide={handleClose}>
                   <Modal.Header closeButton>
-                    <Modal.Title>Add Inventory</Modal.Title>
+                    <Modal.Title>add assest</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                     <div class="col-12">
@@ -467,9 +477,9 @@ else{
                         className="pb-3 bg-white"
                         name="name"
                         type="text"
-                        label="Name"
+                        label="Given By"
                         variant="filled"
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => setGIVENBY(e.target.value)}
                       />
                     </div>
 
@@ -479,7 +489,7 @@ else{
                         className="pb-3 bg-white"
                         name="name"
                         type="text"
-                        label="Description"
+                        label="description"
                         variant="filled"
                         onChange={(e) => setDescription(e.target.value)}
                       />
@@ -489,7 +499,7 @@ else{
                       <TextField
                         style={{ width: "100%" }}
                         className="pb-3 bg-white"
-                        name="name"
+                        name="quantity"
                         type="number"
                         label="Quantity"
                         variant="filled"
@@ -497,17 +507,34 @@ else{
                       />
                     </div>
 
-                    <div class="col-12">
-                      <TextField
-                        style={{ width: "100%" }}
-                        className="pb-3 bg-white"
-                        name="name"
-                        type="number"
-                        label="Price"
-                        variant="filled"
-                        onChange={(e) => setPrice(e.target.value)}
-                      />
-                    </div>
+                    <div class="col-6 mt-2 billing-box" >
+                      
+                      <FormControl className={classes.formControl} style={{marginTop:"-0px"}} >
+                       <InputLabel id="demo-simple-select-label">
+                         Assets List
+                       </InputLabel>
+                       <Select
+                      variant="filled"
+                         labelId="demo-simple-select-label"
+                         id="demo-simple-select"
+                         value={inventory_id}
+                         onChange={(e) => setInventoryID(e.target.value)}
+                       >
+                         {inventorydata.map((val, i) => {
+                           return (
+                             <MenuItem
+                               value={val.id}
+                             >{`${val.name}`}</MenuItem>
+                           );
+                         })}
+                       </Select>
+                       
+                     </FormControl>
+
+                      
+                   </div>
+
+                   
                   </Modal.Body>
                   <Modal.Footer>
                     <button class="btn btn-secondary" onClick={handleClose}>
@@ -520,7 +547,7 @@ else{
                 </Modal>
                 <Modal show={show1} onHide={handleClose1}>
                   <Modal.Header closeButton>
-                    <Modal.Title>update Inventory</Modal.Title>
+                    <Modal.Title>Update Class</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                     <div class="row billing-main">
@@ -536,7 +563,7 @@ else{
                       </div>
                     </div>
 
-                    <div class="row billing-main">
+                    {/* <div class="row billing-main">
                       <div class="col-6 billing-box">
                         <TextField
                           className="pb-3 bg-white"
@@ -547,7 +574,7 @@ else{
                           variant="filled"
                         />
                       </div>
-                    </div>
+                    </div> */}
 
                     <div class="row billing-main">
                       <div class="col-6 billing-box">
@@ -562,18 +589,6 @@ else{
                       </div>
                     </div>
 
-                    <div class="row billing-main">
-                      <div class="col-6 billing-box">
-                        <TextField
-                          className="pb-3 bg-white"
-                          type="number"
-                          defaultValue={prevdata.price}
-                          onChange={(e) => setPrice(e.target.value)}
-                          label="Price"
-                          variant="filled"
-                        />
-                      </div>
-                    </div>
                   </Modal.Body>
                   <Modal.Footer>
                     <button class="btn btn-secondary" onClick={handleClose1}>
@@ -612,26 +627,28 @@ else{
                   <thead>
                     <tr>
                       <th class="border-top-0">#</th>
-                      <th class="border-top-0">Name</th>
-                      <th class="border-top-0">Description</th>
+                      <th class="border-top-0">Given By</th>
+                   
                       <th class="border-top-0">Quantity</th>
-                      <th class="border-top-0">Price</th>
+                      <th class="border-top-0">Description</th>
+                      <th class="border-top-0">Borrowed Assets</th>
+                      
                       <th class="border-top-0">Action</th>
                       
 
                     </tr>
                   </thead>
 
-                  <tbody>
+                  {/* <tbody>
                     {classdata.map((val, i) => {
                       return (
                         <>
                           <tr key={i}>
                             <td>{i + 1}</td>
                             <td class="txt-oflo">{val.name}</td>
-                            <td class="txt-oflo">{val.description}</td>
+                           
                             <td class="txt-oflo">{val.quantity}</td>
-                            <td class="txt-oflo">{val.price}</td>
+                            {/* <td class="txt-oflo">{val.price}</td> 
                             <td>
                               <ButtonGroup
                                 disableElevation
@@ -652,18 +669,13 @@ else{
                                 </Button>
                               </ButtonGroup>
                             </td>
-                            
-
-
-                           
-
-                            {/* <td>{val.created_at.slice(0, 10)}</td> */}
+                        
                             
                           </tr>
                         </>
                       );
                     })}
-                  </tbody>
+                  </tbody> */}
             
                 </table>
               </div>
@@ -683,4 +695,4 @@ else{
     </>
   );
 };
-export default Inventory;
+export default AssetsBorrow;

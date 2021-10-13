@@ -90,6 +90,7 @@ import StudentQRCode from './Components/StudentQRCode';
 import ExpanseVoucher from './Components/ExpanseVoucher'
 import Listofunpaidfeevoucher from './Components/Listofunpaidfeevoucher';
 import FeeVoucherCustom from './Components/FeeVoucherCustom';
+import AssetsBorrow from './Components/AssetsBorrow';
 import SchoolAccounts from './Components/SchoolAccounts';
 import Wizard from './Components/Wizard';
 ///tmp
@@ -97,16 +98,17 @@ import WizardAdmissionCharges from './Components/WizardAdmissionCharges';
 const App = () => {
     return <>
         <Switch>
-            
         
-            
+        <Route path="/SchoolAccounts" component={SchoolAccounts} />
+        <Route path="/ExpenseVoucher" component={ExpanseVoucher} />
+        <Route path="/AssetsBorrow" component={AssetsBorrow} />
         <Route path="/FeeVoucherCustom/:studentid" component={FeeVoucherCustom} />
         <Route path="/unpaidfeevoucher" component={Listofunpaidfeevoucher} />
         <Route path="/StudentQRCode" component={StudentQRCode} />
         <Route path="/ExpenseForm/:voucherId" component={ExpenseForm} />
         <Route path="/CashableFeeVoucher/:studentid" component={FeeVoucherCashable} />
         <Route path="/BorrowAssets" component={BorrowAssets} />
-        <Route path="/StudentLeave" component={StudentLeave} />
+        <Route path="/StudentLeave/:studentid" component={StudentLeave} />
             <Route path="/schoolAccounts" component={SchoolAccounts}></Route>
             <Route path="/Asset-Tracking" component={AssetTracking} />
             <Route path="/Inventory" component={Inventory} />

@@ -210,10 +210,7 @@ const MyExpense = () => {
     if (charges < 0) {
       setMessageinfo("charges can't be Negative");
       handleMessage();
-    } else if (charges == "") {
-      setMessageinfo("Enter Charges");
-      handleMessage();
-    } else if (description == "") {
+    }else if (description == "") {
       setMessageinfo("Enter Description");
       handleMessage();
       
@@ -283,9 +280,10 @@ const MyExpense = () => {
             `http://fee-management-api.nastechltd.co/api/expense_tracking/${id}`,
             {
               description: response.data.description,
-              charges: response.data.charges,
+              // charges: response.data.charges,
               student_id: response.data.student_id,
               name: response.data.name,
+              quantity:response.data.quantity,
               paid: 1,
             }
           )
@@ -302,6 +300,9 @@ const MyExpense = () => {
       })
       .catch((error) => console.log(error));
   };
+
+  const [alldata ,  setAllData] = useState("")
+  const [updatechages ,  setUpadateCharges] = useState("")
   const update = (id) => {
     axios
       .get(
@@ -309,13 +310,17 @@ const MyExpense = () => {
       )
       .then((response) => {
         console.log(response.data);
-        localStorage.setItem("id", response.data.id);
-        localStorage.setItem("charges", response.data.charges);
-        localStorage.setItem("description", response.data.description);
-        localStorage.setItem("name", response.data.name);
+       
         setCharges(response.data.charges);
+    
+        setAllData(response.data)
+        setStudentname(response.data.name);
+        setQuantity(response.data.quantity)
         setDescription(response.data.description);
+        setUpadateCharges(response.data.charges)
+        
         localStorage.getItem("student_id", response.data.student_id);
+        localStorage.setItem("student_update_id", response.data.id);
         setPaid(response.data.paid);
         handleShow1();
         //   setSection(response.data.name)
@@ -331,25 +336,23 @@ const MyExpense = () => {
     if (charges < 0) {
       setMessageinfo("charges can't be Negative");
       handleMessage();
-    } else if (charges == "") {
-      setMessageinfo("Enter Charges");
-      handleMessage();
-    } else if (description == "") {
+    }  else if (description == "") {
       setMessageinfo("Enter Description");
       handleMessage();
     } else {
       axios
         .put(
           `http://fee-management-api.nastechltd.co/api/expense_tracking/${localStorage.getItem(
-            "id"
+            "student_update_id"
           )}`,
           {
-            charges: charges,
+          
             description: description,
-            name: localStorage.getItem("name"),
+            name: studentname,
             paid: paid,
             student_id: localStorage.getItem("student_id"),
-          }
+            charges:updatechages,
+            quantity: quantity          }
         )
         .then((response) => {
           console.log(response);
@@ -497,7 +500,7 @@ const MyExpense = () => {
               <Link class="nav-link" to="/Voucher-List">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-file"></i>
                   </div>
                   <div class="icon-name">Paid Vouchers</div>
                 </div>
@@ -506,7 +509,7 @@ const MyExpense = () => {
               <Link class="nav-link" to="/AdminAttendance">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-user-graduate"></i>
                   </div>
                   <div class="icon-name">Attendance</div>
                 </div>
@@ -515,7 +518,8 @@ const MyExpense = () => {
               <Link class="nav-link" to="/Inventory">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="              fas fa-shuttle-van
+"></i>
                   </div>
                   <div class="icon-name">Inventory</div>
                 </div>
@@ -524,9 +528,36 @@ const MyExpense = () => {
               <Link class="nav-link" to="/Asset-Tracking">
                 <div class="folder-icons">
                   <div class="icon1">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-book-reader"></i>
                   </div>
                   <div class="icon-name">School Assets</div>
+                </div>
+              </Link>
+
+             <Link class="nav-link" to="/AssetsBorrow">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name">Assets Borrow</div>
+                </div>
+              </Link> 
+
+              <Link class="nav-link" to="/ExpenseVoucher">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> Expense Voucher</div>
+                </div>
+              </Link>
+
+              <Link class="nav-link" to="/SchoolAccounts">
+                <div class="folder-icons">
+                  <div class="icon1">
+                    <i class="fas fa-book-reader"></i>
+                  </div>
+                  <div class="icon-name"> School Accounts</div>
                 </div>
               </Link>
             </div>
@@ -659,13 +690,7 @@ const MyExpense = () => {
                       </div>
 
                       <div class="col-6 mt-2 billing-box" >
-                        {/* <TextField
-                          className="pb-3"
-                          type="text"
-                          label="Inventory ID"
-                          onChange={(e) => setInventoryID(e.target.value)}
-                          variant="filled"
-                        /> */}
+                      
                          <FormControl className={classes.formControl} style={{marginTop:"-0px"}} >
                           <InputLabel id="demo-simple-select-label">
                             Inventory List
@@ -692,22 +717,7 @@ const MyExpense = () => {
                       </div>
 
 
-                      <div class="col-6 mt-2 billing-box">
-                        <TextField
-                          className="pb-3"
-                          type="number"
-                          onChange={(e) => setCharges(e.target.value)}
-                          label="Charges"
-                          variant="filled"
-                        />
-                        <MultiSelect
-                          className="mb-1"
-                          options={options}
-                          value={selected}
-                          onChange={setSelected}
-                          labelledBy={"Select"}
-                        />
-                      </div>
+                      
                      
 
 
@@ -718,6 +728,18 @@ const MyExpense = () => {
                           label="Description"
                           onChange={(e) => setDescription(e.target.value)}
                           variant="filled"
+                        />
+                      </div>
+
+                      <div class="col-6 mt-2 billing-box" >
+                     
+                        <MultiSelect
+                        
+                          className="mb-1"
+                          options={options}
+                          value={selected}
+                          onChange={setSelected}
+                          labelledBy={"Select"}
                         />
                       </div>
 
@@ -747,27 +769,39 @@ const MyExpense = () => {
                   </Modal.Header>
                   <Modal.Body>
                     <div class="row billing-main">
-                      <div class="col-6 billing-box">
-                        <TextField
-                          className="pb-3"
-                          type="number"
-                          defaultValue={localStorage.getItem("charges")}
-                          onChange={(e) => setCharges(e.target.value)}
-                          label="Charges"
-                          variant="filled"
-                        />
-                      </div>
+                      
 
                       <div class="col-6 billing-box">
                         <TextField
                           className="pb-3"
                           type="text"
-                          defaultValue={localStorage.getItem("description")}
+                          defaultValue={alldata.name}
+                          label="Name"
+                          onChange={(e) => setStudentname(e.target.value)}
+                          variant="filled"
+                        />
+                      </div>
+                      <div class="col-6 billing-box">
+                        <TextField
+                          className="pb-3"
+                          type="text"
+                          defaultValue={alldata.quantity}
+                          label="Quantity"
+                          onChange={(e) => setQuantity(e.target.value)}
+                          variant="filled"
+                        />
+                      </div>
+                      <div class="col-6 billing-box">
+                        <TextField
+                          className="pb-3"
+                          type="text"
+                          defaultValue={alldata.description}
                           label="Description"
                           onChange={(e) => setDescription(e.target.value)}
                           variant="filled"
                         />
                       </div>
+                     
                     </div>
                   </Modal.Body>
                   <Modal.Footer>
@@ -810,7 +844,7 @@ const MyExpense = () => {
                       <th class="border-top-0">Name</th>
                       <th class="border-top-0">Description</th>
                       <th class="border-top-0">Quantity</th>
-                      {/* <th class="border-top-0">Charged</th> */}
+                      <th class="border-top-0">Charged</th>
                       <th class="border-top-0">Status</th>
                       <th class="border-top-0">Action</th>
                     </tr>
@@ -840,6 +874,7 @@ const MyExpense = () => {
                                 {val.description}
                               </td>
                               <td>{val.quantity}</td>
+                              <td>{val.charges}</td>
                               <td>
                                 {val.paid == 1 ? (
                                   <span class="text-primary text-bolder">

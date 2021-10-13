@@ -4,9 +4,11 @@ import axios from 'axios';
 import { useHistory, useParams } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import QRCode from "qrcode"
 
 
 const FeeVoucherCashable = ({ teamId, orientation = 'landscape' }) => {
+    const [src, setSRC] = useState("")
     const [messageinfo, setMessageinfo] = useState('');
     const [message, setMessage] = useState({
         open: false,
@@ -60,6 +62,11 @@ const FeeVoucherCashable = ({ teamId, orientation = 'landscape' }) => {
                 setRemainingbalance(response.data.remainingBalance);
                 setFeevoucherbreak(response.data.feeVoucherBreakDown);
                 setLatefee(response.data.fee_after_due_date)
+
+                QRCode.toDataURL(response.data.FeeVoucher.voucher_no.toString()).then((res)=>{
+                    console.log(typeof(qrcode))
+                    setSRC(res)})
+                
                 axios.get(`http://fee-management-api.nastechltd.co/api/show_school/${response.data.Student.school_id}`)
                     .then(response => {
                         console.log(response.data);
@@ -209,10 +216,13 @@ const FeeVoucherCashable = ({ teamId, orientation = 'landscape' }) => {
                         </div>
                         <div className="col-12">
                             <p class="voucher-box-inline text-bolder voucher-box-left">{`Cell:${schooldata.contact}`}</p>
-                            <p class="voucher-box-inline text-bolder voucher-box-right">Bank Copy</p>
+                            <p class="voucher-box-inline text-bolder voucher-box-right m-0">Bank Copy</p>
                         </div>
 
                     </div>
+                        <div className="col-12 mt-4 text-right">
+                            <img src={src} width="70px" height="70px" />
+                        </div>
                 </div>
               
                 <div class="fee-voucher-left">
@@ -339,8 +349,11 @@ const FeeVoucherCashable = ({ teamId, orientation = 'landscape' }) => {
                         </div>
                         <div className="col-12">
                             <p class="voucher-box-inline text-bolder voucher-box-left">{`Cell:${schooldata.contact}`}</p>
-                            <p class="voucher-box-inline text-bolder voucher-box-right">Student Copy</p>
+                            <p class="voucher-box-inline text-bolder voucher-box-right m-0">Student Copy</p>
                         </div>
+                        {/* <div className="col-12 mt-4 text-right">
+                            <img src={src} width="70px" height="70px" />
+                        </div> */}
 
                     </div>
                 </div>

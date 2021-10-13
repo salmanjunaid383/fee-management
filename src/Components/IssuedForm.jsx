@@ -61,6 +61,7 @@ const IssuedForm = () => {
 
   const [notify,setNotify] = useState('Submit')
  
+  
   function postFrom() {
    
    
@@ -130,10 +131,12 @@ const IssuedForm = () => {
           console.log("response: ", response);
           // setRegistration(response.data.form.registration_no)
           setRegistration(response.data.form.registration_no);
+          
           localStorage.setItem("issued_form_id",response.data.form.id)
           alert(
             `Please note down your form number: ${response.data.form.registration_no}`
           );
+
           setNotify('Submited')
           localStorage.setItem("reg_no", response.data.form.registration_no);
           formbuttonchange();
@@ -146,6 +149,8 @@ const IssuedForm = () => {
       }
     }
   }
+
+
   const [cnicValue, setCnicValue] = React.useState("CNIC");
   const { testschoolid } = useParams();
   const [studentname, setStudentName] = useState("");
@@ -206,12 +211,17 @@ const IssuedForm = () => {
       .then((response) => {
         // console.log("response: ", response);
         setRegistration(response.data.form.registration_no);
-        // history.push("/studentparticular/"+response.data.form.registration_no)
+        history.push("/studentparticular/")
       })
       .catch((error) => {
-        console.log(error);
-        alert(error.message);
+        if (error.response) {
+          console.log(error);
+          console.log(error.response.data.message);
+          setMessageinfo(error.response.data.message);
+          handleMessage();
+        }
       });
+    
     console.log(registration);
   };
 
@@ -613,7 +623,7 @@ const IssuedForm = () => {
                       <Button onClick={handleClose} color="primary">
                         Cancel
                       </Button>
-                      <Link to={"/studentparticular"}>
+                     
                         <Button
                           onClick={handleClose}
                           onClick={postReg}
@@ -621,7 +631,7 @@ const IssuedForm = () => {
                         >
                           submit
                         </Button>
-                      </Link>
+                     
                     </DialogActions>
                   </Dialog>
                 </div>
