@@ -451,7 +451,7 @@ const CustomFeeVoucher = () => {
                           
                           value="Custom"
                           onChange={(e) => setGender(e.target.value)}
-                          defaultChecked
+                          // defaultChecked
                         />
                         <label
                           className="form-check-label"

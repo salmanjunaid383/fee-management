@@ -53,6 +53,7 @@ const AssetsBorrow = () => {
   const [givenby, setGIVENBY] = useState("")
   const [description, setDescription] = useState("")
   const [inventory_id, setInventoryID] = useState("")
+  const [user_id, setUserID] = useState("")
   const classes = useStyles();
   const handleClick = (id) => {
     localStorage.setItem("asset_id", id);
@@ -83,18 +84,20 @@ const AssetsBorrow = () => {
 
   const [quantity, setQunatity] = useState("");
   const [inventorydata, setInventoryData] = useState([])
+  const [userdata, setUserData] = useState([])
 //   const [price, setPrice] = useState("");
 
   const data = 
     {
       given_by:givenby ,
       quantity: quantity,
-      user_id:4,
+      user_id:user_id,
       school_id: school_id,
       assets_id:inventory_id,
       description : description
     }
   
+    const [feildvalue, setFieldValue] = useState("student")
 
   useEffect(() => {
     axios
@@ -122,10 +125,29 @@ const AssetsBorrow = () => {
           setMessageinfo(error.response.data.message);
           handleMessage();
         }
-     
-
       })
+
+      
   }, []);
+
+  function userid(field){
+    console.log(field)
+    axios
+    .post(`http://fee-management-api.nastechltd.co/api/assets_user/${school_id}`,{
+      value:field
+    })
+    .then((response) => {
+      console.log("salman",response.data);
+      setUserData(response.data);
+      console.log(userdata)
+    })
+    .catch((error) => {
+      if (error.response) {
+        setMessageinfo(error.response.data.message);
+        handleMessage();
+      }
+    })
+  }
 
   function sendData() {
     
@@ -468,7 +490,7 @@ const AssetsBorrow = () => {
                 </button>
                 <Modal show={show} onHide={handleClose}>
                   <Modal.Header closeButton>
-                    <Modal.Title>add assest</Modal.Title>
+                    <Modal.Title>Add Assets</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                     <div class="col-12">
@@ -489,7 +511,7 @@ const AssetsBorrow = () => {
                         className="pb-3 bg-white"
                         name="name"
                         type="text"
-                        label="description"
+                        label="Description"
                         variant="filled"
                         onChange={(e) => setDescription(e.target.value)}
                       />
@@ -506,6 +528,36 @@ const AssetsBorrow = () => {
                         onChange={(e) => setQunatity(e.target.value)}
                       />
                     </div>
+
+                    <div className="form-check form-check-inline">
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="voucher"
+                          value="student"
+                          onChange={(e) => {setFieldValue(e.target.value); userid("student")}}
+                         
+                        />
+                        <label
+                          className="form-check-label"
+                          for="male"
+                          style={{ marginRight: "10px" }}
+                        >
+                          Student
+                        </label>
+                        <input
+                          className="form-check-input"
+                          type="radio"
+                          name="voucher"
+                          
+                          value="finance"
+                          onChange={(e) => {setFieldValue(e.target.value); userid("finance")}}
+                       
+                        />
+                        <label className="form-check-label" for="female">
+                          Finance
+                        </label>
+                      </div>
 
                     <div class="col-6 mt-2 billing-box" >
                       
@@ -525,6 +577,33 @@ const AssetsBorrow = () => {
                              <MenuItem
                                value={val.id}
                              >{`${val.name}`}</MenuItem>
+                           );
+                         })}
+                       </Select>
+                       
+                     </FormControl>
+
+                      
+                   </div>
+
+                   <div class="col-6 mt-2 billing-box" >
+                      
+                      <FormControl className={classes.formControl} style={{marginTop:"-0px"}} >
+                       <InputLabel id="demo-simple-select-label">
+                         Assets List
+                       </InputLabel>
+                       <Select
+                      variant="filled"
+                         labelId="demo-simple-select-label"
+                         id="demo-simple-select"
+                         value={user_id}
+                         onChange={(e) => setUserID(e.target.value)}
+                       >
+                         {userdata.map((val, i) => {
+                           return (
+                             <MenuItem
+                               value={val.id}
+                             >{`${val.first_name}`}</MenuItem>
                            );
                          })}
                        </Select>
@@ -639,16 +718,16 @@ const AssetsBorrow = () => {
                     </tr>
                   </thead>
 
-                  {/* <tbody>
+                   {/* <tbody>
                     {classdata.map((val, i) => {
                       return (
                         <>
                           <tr key={i}>
                             <td>{i + 1}</td>
-                            <td class="txt-oflo">{val.name}</td>
+                            <td class="txt-oflo">{val.given_by}</td>
                            
                             <td class="txt-oflo">{val.quantity}</td>
-                            {/* <td class="txt-oflo">{val.price}</td> 
+                            <td class="txt-oflo">{val.price}</td> 
                             <td>
                               <ButtonGroup
                                 disableElevation

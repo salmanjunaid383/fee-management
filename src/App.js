@@ -93,12 +93,14 @@ import FeeVoucherCustom from './Components/FeeVoucherCustom';
 import AssetsBorrow from './Components/AssetsBorrow';
 import SchoolAccounts from './Components/SchoolAccounts';
 import Wizard from './Components/Wizard';
+import StudentBorrowPage from './Components/studentborrowpage';
 ///tmp
 import WizardAdmissionCharges from './Components/WizardAdmissionCharges';
 const App = () => {
     return <>
         <Switch>
         
+        <Route path="/StudentBorrowPage/:studentid" component={StudentBorrowPage} />
         <Route path="/SchoolAccounts" component={SchoolAccounts} />
         <Route path="/ExpenseVoucher" component={ExpanseVoucher} />
         <Route path="/AssetsBorrow" component={AssetsBorrow} />

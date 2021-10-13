@@ -18,10 +18,12 @@ const ViewAttendance = () => {
   };
   console.log(studentid)
   function getAttendance() {
+  
     axios
       .post("http://fee-management-api.nastechltd.co/api/attendance_report", {
         month: month,
         student_id: studentid,
+        
         
       })
       .then(
@@ -34,6 +36,18 @@ const ViewAttendance = () => {
         }
       );
   }
+
+  // function addmonth(date, months){
+  //   var d = month;
+  //   date.setMonth(date.getMonth() + + months)
+  // }
+
+//   const monthNames = ["January", "February", "March", "April", "May", "June",
+//   "July", "August", "September", "October", "November", "December"
+// ];
+
+// const d = month;
+// console.log("The current month is " + monthNames[d.getMonth()]);
 
   return (
     <>
@@ -131,9 +145,9 @@ const ViewAttendance = () => {
                       onChange={(e) => setMonth(e.target.value)}
                       id="standard-textarea"
                       name="date"
-                      label="Date"
-                      placeholder="Add date"
-                      type="date"
+                      label="Date" 
+                      placeholder="jan-2021"
+                      type="text"
                       InputLabelProps={{
                         shrink: true,
                       }}

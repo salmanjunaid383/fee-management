@@ -303,6 +303,7 @@ const MyExpense = () => {
 
   const [alldata ,  setAllData] = useState("")
   const [updatechages ,  setUpadateCharges] = useState("")
+  const [updateinventories ,  setUpadateInventories] = useState("")
   const update = (id) => {
     axios
       .get(
@@ -317,9 +318,9 @@ const MyExpense = () => {
         setStudentname(response.data.name);
         setQuantity(response.data.quantity)
         setDescription(response.data.description);
-        setUpadateCharges(response.data.charges)
-        
-        localStorage.getItem("student_id", response.data.student_id);
+        setUpadateCharges(response.data.charges);
+        setUpadateInventories(response.data.inventory_id)
+        localStorage.setItem("student_id", response.data.student_id);
         localStorage.setItem("student_update_id", response.data.id);
         setPaid(response.data.paid);
         handleShow1();
@@ -352,7 +353,11 @@ const MyExpense = () => {
             paid: paid,
             student_id: localStorage.getItem("student_id"),
             charges:updatechages,
-            quantity: quantity          }
+            quantity: quantity,
+            school_id: school_id,
+            inventory_id: updateinventories
+          
+          }
         )
         .then((response) => {
           console.log(response);

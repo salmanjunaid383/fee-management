@@ -55,7 +55,7 @@ html, body {
 }
 
 #progressbar .active {
-    color: #007bff;
+    color: #007bff !important;
 }
 
 #progressbar li {
