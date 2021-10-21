@@ -101,9 +101,9 @@ const AssetsBorrow = () => {
 
   useEffect(() => {
     axios
-      .get(`http://fee-management-api.nastechltd.co/api/assets_borrow/${school_id}`)
+      .get(`http://fee-management-api.nastechltd.co/api/show_assets_borrow/${school_id}`)
       .then((response) => {
-        console.log("salman",response.data);
+        console.log("all assets",response.data);
         setClassdata(response.data);
       })
       .catch((error) => {
@@ -718,7 +718,7 @@ const AssetsBorrow = () => {
                     </tr>
                   </thead>
 
-                   {/* <tbody>
+                   <tbody>
                     {classdata.map((val, i) => {
                       return (
                         <>
@@ -726,35 +726,16 @@ const AssetsBorrow = () => {
                             <td>{i + 1}</td>
                             <td class="txt-oflo">{val.given_by}</td>
                            
-                            <td class="txt-oflo">{val.quantity}</td>
-                            <td class="txt-oflo">{val.price}</td> 
-                            <td>
-                              <ButtonGroup
-                                disableElevation
-                                variant="contained"
-                                color="primary"
-                              >
-                                <Button
-                                  className="student-btn-up"
-                                  onClick={() => update(val.id)}
-                                >
-                                  <UpdateIcon className="text-white" />
-                                </Button>
-                                <Button
-                                  className="student-btn-del"
-                                  onClick={() => handleClick(val.id)}
-                                >
-                                  <DeleteIcon className="text-white" />
-                                </Button>
-                              </ButtonGroup>
-                            </td>
+                            {/* <td class="txt-oflo">{val.quantity}</td>
+                            <td class="txt-oflo">{val.price}</td>  */}
+                            
                         
                             
                           </tr>
                         </>
                       );
                     })}
-                  </tbody> */}
+                  </tbody>
             
                 </table>
               </div>
